@@ -1,0 +1,25 @@
+[project]
+name = "quant-rapper"
+version = "0.1.0"
+description = "Causal-graph-driven quant research workspace"
+requires-python = ">=3.12"
+dependencies = [
+    "quant-contracts",
+    "quant-pit-data",
+    "quant-causal-graph",
+    "quant-evaluator",
+    "quant-loop",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = ["packages/*"]
+
+[tool.uv.sources]
+quant-contracts = { workspace = true }
+quant-pit-data = { workspace = true }
+quant-causal-graph = { workspace = true }
+quant-evaluator = { workspace = true }
+quant-loop = { workspace = true }

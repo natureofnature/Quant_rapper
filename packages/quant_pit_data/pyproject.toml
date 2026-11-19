@@ -1,0 +1,18 @@
+[project]
+name = "quant-pit-data"
+version = "0.1.0"
+description = "Point-in-time data layer: connectors, release-date alignment, snapshots, panel builder."
+requires-python = ">=3.12"
+dependencies = [
+    "quant-contracts",
+]
+
+[tool.uv.sources]
+quant-contracts = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/quant_pit_data"]
