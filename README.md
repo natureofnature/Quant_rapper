@@ -102,6 +102,21 @@ apps/               cli/  workbench/
 tests/              unit/  invariants/  integration/
 artifacts/          snapshots/  ablations/  prospective/   (contents git-ignored)
 docs/rfcs/          design documents
+knowledge_base/     curated research maps and company profiles
+```
+
+The prior knowledge currently has two broad research groups:
+
+- [Semiconductors](knowledge_base/prior_knowledge/Relationships/semiconductor/semiconductor.json): MU, TSM, and sector funds.
+- [Technology platforms](knowledge_base/prior_knowledge/Relationships/technology_platforms/technology_platforms.json): Alphabet (GOOGL), Microsoft (MSFT), and Apple (AAPL). Cloud, advertising, software, AI and device ecosystems are business roles within this group, not separate sectors.
+
+These are research groupings; technology platforms is not an official securities-sector classification.
+Each company has one profile with candidate links and separate evidence references.
+The institution registry links research topics and company disclosures to their sources.
+Generate all maps and switch between them using the page's map selector:
+
+```bash
+python3 knowledge_base/prior_knowledge/Relationships/relationship_visualizer.py
 ```
 
 `tests/invariants/` holds the rules that must never break, such as "an edge first known after the decision date cannot guide historical discovery" and "labels never cross into the held-out window".

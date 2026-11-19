@@ -1,26 +1,36 @@
 """Draw a sector folder as one interactive HTML page with a tab per stock.
 
     python relationship_visualizer.py semiconductor     # a sector folder
-    python relationship_visualizer.py                   # every sector folder beside this script
+    python relationship_visualizer.py Institutions      # the institution registry
+    python relationship_visualizer.py                   # every sector folder and the registry
 
-A sector folder holds <sector>/<sector>.json and one <sector>/<SYMBOL>/company.json per
+Sector folders live beside this script. A sector folder holds <sector>/<sector>.json and one <sector>/<SYMBOL>/company.json per
 stock. The page is written to <sector>/<sector>.html and has:
 
   Sector tab   a radial tree: the sector in the centre, then its branches, then each
-               branch's concepts, then any named leads. Relations are hidden until you
+               branch's concepts. Named source leads appear in the details panel. Relations are hidden until you
                click a branch or concept, or tick "Show all relations".
 
-  Stock tabs   one per company.json. The stock is in the centre. It takes relations
+  Stock tabs   one per company.json or fund.json. A fund has no business role: it stands
+               in for the sector node, so it takes the sector-wide links and its own
+               exposures only. The stock is in the centre. It takes relations
                from three places:
-                 - the sector concepts listed in its "instance_of" (solid arrows);
+                 - candidate links through its "business_roles" (solid arrows);
                  - the sector as a whole: edges in the sector map whose "to" is the
-                   sector node "sector:<sector_id>" reach every stock (dashed arrows);
+                   sector node "sector:<sector_id>" suggest sector exposure (dashed arrows);
                  - its own "exposures" list in company.json (solid arrows).
                The inner ring holds every concept with a direct relation to the stock;
                the outer ring holds the concepts one step further upstream. So every
-               arrow is a path of at most two hops that ends at the stock.
+               incoming path is at most two hops. Outgoing leads are also shown.
+               Projected links are candidates, never confirmed company relationships.
+
+The institution registry gets its own page, <folder>/<name>.html: institutions in the
+centre, then the three kinds, then each institution. Its publications and the sector
+concepts and companies it is linked to are in the details panel. Sector pages also list, on each concept and stock, the
+institutions that act for it or publish about it.
 
 Click anything to read its details in the side panel. Needs only the standard library.
+Loading, validation and company projection live in utils/research_map.py; this file only draws.
 """
 
 import html
@@ -29,96 +39,22 @@ import math
 import re
 import sys
 from pathlib import Path
+from urllib.parse import quote
+
+from utils.research_map import CENTRE, company_graph, content_hash, find_maps, load, load_registry, pretty, profile_id, profile_paths, require
 
 PALETTE = ["#c0392b", "#2166ac", "#3a8a2e", "#c9730a", "#7b3fa8", "#16877d", "#8a6d1c", "#b0457a"]
 
 # Sector tab.
-R_BRANCH = 178  # ring 1
-R_ENTITY = 330  # ring 2: dot, with the label written outward from it
-R_LEAD = 522  # ring 3: bracket, with lead names written outward from it
+R_BRANCH = 230  # ring 1
+R_ENTITY = 390  # ring 2: dot, with the label written outward from it
 HALF = 650  # half the canvas size
 BRANCH_GAP = 0.6  # empty space between branches, in entity slots
 
 # Stock tabs.
-CENTRE = "@company"  # node id of the stock itself
-R_CENTRE = 80
-
-
-# ---------------------------------------------------------------- loading
-
-
-def load(path: Path) -> tuple[dict, dict, list]:
-    """Return a sector as (view, nodes, relations).
-
-    ``view`` has root, reviewed_on, notice, Level_1 (branch order) and one
-    {"question": ...} per branch. ``nodes`` maps a node id to its branch, name, role,
-    watch list and optional leads. ``relations`` hold from, to, type and mechanism.
-    """
-    data = json.loads(path.read_text(encoding="utf-8"))
-    if data.get("kind") == "industry_research_map":
-        return load_research_map(path, data)
-    nodes, relations = {}, []
-    for branch in data["Level_1"]:
-        for name, info in data[branch].get("Entities", {}).items():
-            nodes[f"{branch}.{name}"] = {"branch": branch, "name": name, **info}
-    for branch in data["Level_1"]:
-        for relation in data[branch].get("Relations", []):
-            ends = {}
-            for side in ("from", "to"):
-                end = relation[side]
-                ends[side] = end if "." in end else f"{branch}.{end}"
-                if ends[side] not in nodes:
-                    raise SystemExit(f"{path}: {branch} relation points at unknown entity {end!r}")
-            relations.append({**relation, **ends})
-    return data, nodes, relations
-
-
-def load_research_map(path: Path, data: dict) -> tuple[dict, dict, list]:
-    """Read the "industry_research_map" schema: flat concepts and concept_edges with ids."""
-    level_of = {b: level["label"] for level in data.get("levels", {}).values() for b in level["branch_ids"]}
-    usage = data.get("usage", {})
-    view = {
-        "root": data.get("label", data.get("sector_id", path.stem)),
-        "reviewed_on": data.get("compiled_on"),
-        "notice": " ".join(filter(None, [usage.get("describe"), f"Status: {pretty(usage['status'])}." if usage.get("status") else None])),
-        "Level_1": [b["id"] for b in data["branches"]],
-        # Edges may point at the sector itself; such an edge reaches every stock in it.
-        "root_id": f"sector:{data['sector_id']}" if data.get("sector_id") else None,
-    }
-    concepts = {c["id"]: c for c in data["concepts"]}
-    nodes, relations = {}, []
-    for branch in data["branches"]:
-        question = branch.get("question", "")
-        if branch["id"] in level_of:
-            question = f"[{level_of[branch['id']]}] {question}"
-        view[branch["id"]] = {"question": question}
-        for concept_id in branch["concept_ids"]:
-            if concept_id not in concepts:
-                raise SystemExit(f"{path}: branch {branch['id']} lists unknown concept {concept_id!r}")
-            concept = concepts[concept_id]
-            nodes[concept_id] = {
-                "branch": branch["id"],
-                "name": concept.get("label", concept_id),
-                "role": concept.get("description_lead", ""),
-                "watch": concept.get("observables_to_research", []),
-                **({"leads": concept["source_leads"]} if concept.get("source_leads") else {}),
-            }
-    for edge in data.get("concept_edges", []):
-        if edge["from"] not in nodes:
-            raise SystemExit(f"{path}: edge {edge.get('id')} starts at unknown concept {edge['from']!r}")
-        if edge["to"] not in nodes and edge["to"] != view["root_id"]:
-            raise SystemExit(f"{path}: edge {edge.get('id')} points at unknown concept {edge['to']!r}")
-        relations.append(
-            {"from": edge["from"], "to": edge["to"], "type": edge.get("type", ""), "mechanism": edge.get("mechanism_hypothesis", "")}
-        )
-    return view, nodes, relations
-
+R_CENTRE = 100
 
 # ---------------------------------------------------------------- drawing helpers
-
-
-def pretty(name: str) -> str:
-    return name.replace("_", " ")
 
 
 def polar(radius: float, angle: float) -> tuple[float, float]:
@@ -133,11 +69,6 @@ def radial_text(text: str, radius: float, angle: float, css: str) -> str:
     else:
         transform, anchor = f"rotate({degrees:.2f}) translate({radius},0) rotate(180)", "end"
     return f'<text class="{css}" transform="{transform}" text-anchor="{anchor}" dy="0.35em">{html.escape(text)}</text>'
-
-
-def arc(radius: float, start: float, end: float) -> str:
-    (x1, y1), (x2, y2) = polar(radius, start), polar(radius, end)
-    return f"M{x1:.1f},{y1:.1f} A{radius},{radius} 0 {int(end - start > math.pi)} 1 {x2:.1f},{y2:.1f}"
 
 
 def svg_open(key: str, half: float, branches: list, colour: dict, css: str = "") -> list[str]:
@@ -176,11 +107,9 @@ def sector_svg(key: str, view: dict, nodes: dict, relations: list, colour: dict)
     root_id = view.get("root_id")
     root = pretty(str(view.get("root", "")))
     root_r = max(52, 5.8 * len(root) + 14)
-    # A concept with many leads gets a wider slot so its ring-3 names have room.
-    weight = {i: max(1.0, 0.5 * len(n.get("leads", []))) for i, n in nodes.items()}
-    unit = 2 * math.pi / (sum(weight.values()) + BRANCH_GAP * len(branches))
+    unit = 2 * math.pi / (len(nodes) + BRANCH_GAP * len(branches))
 
-    angle, span, branch_angle = {}, {}, {}
+    angle, branch_angle = {}, {}
     cursor = -math.pi / 2  # start at the top, go clockwise
     wedges = []
     for branch in branches:
@@ -188,9 +117,8 @@ def sector_svg(key: str, view: dict, nodes: dict, relations: list, colour: dict)
         cursor = start
         for node_id, node in nodes.items():
             if node["branch"] == branch:
-                span[node_id] = (cursor, cursor + weight[node_id] * unit)
-                angle[node_id] = cursor + weight[node_id] * unit / 2
-                cursor += weight[node_id] * unit
+                angle[node_id] = cursor + unit / 2
+                cursor += unit
         branch_angle[branch] = (start + cursor) / 2
         outer, inner = HALF - 6, R_BRANCH + 34
         (ax, ay), (bx, by), (cx, cy), (dx, dy) = polar(outer, start), polar(outer, cursor), polar(inner, cursor), polar(inner, start)
@@ -233,7 +161,7 @@ def sector_svg(key: str, view: dict, nodes: dict, relations: list, colour: dict)
         out.append(relation_svg(index, key, branches, colour, source, "cross" if crosses else "",
                                 (x1, y1), (pull * (x1 + x2) / 2, pull * (y1 + y2) / 2), (x2, y2), relation.get("type", "")))
 
-    # Ring 2 concepts, each with its ring 3 leads.
+    # Keep the graph focused on concepts; source leads remain in the details panel.
     for node_id, node in nodes.items():
         x, y = polar(R_ENTITY, angle[node_id])
         parts = [
@@ -241,22 +169,16 @@ def sector_svg(key: str, view: dict, nodes: dict, relations: list, colour: dict)
             f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="{colour[node["branch"]]}"/>',
             radial_text(pretty(node["name"]), R_ENTITY + 13, angle[node_id], "entity"),
         ]
-        leads = node.get("leads", [])
-        if leads:
-            start, end = span[node_id]
-            pad = (end - start) / len(leads) / 2
-            parts.append(f'<path class="bracket" stroke="{colour[node["branch"]]}" d="{arc(R_LEAD - 8, start + pad * 0.5, end - pad * 0.5)}"/>')
-            parts.extend(radial_text(lead, R_LEAD, start + (2 * j + 1) * pad, "lead") for j, lead in enumerate(leads))
         out.append("".join(parts) + "</g>")
 
     # Ring 1 branches and the root, drawn last so they sit on top of the curves.
     for branch in branches:
         x, y = polar(R_BRANCH, branch_angle[branch])
         label = pretty(branch)
-        width = 9.2 * len(label) + 26
+        width = 15 * len(label) + 36
         out.append(
             f'<g class="branch" data-b="{html.escape(branch)}">'
-            f'<rect x="{x - width / 2:.1f}" y="{y - 17:.1f}" width="{width:.1f}" height="34" rx="17" fill="{colour[branch]}"/>'
+            f'<rect x="{x - width / 2:.1f}" y="{y - 25:.1f}" width="{width:.1f}" height="50" rx="25" fill="{colour[branch]}"/>'
             f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="middle" dy="0.35em">{html.escape(label)}</text></g>'
         )
     out.append(
@@ -268,65 +190,6 @@ def sector_svg(key: str, view: dict, nodes: dict, relations: list, colour: dict)
 
 
 # ---------------------------------------------------------------- stock tabs
-
-
-def company_graph(profile: dict, nodes: dict, relations: list, source: Path,
-                  root_id: str | None, sector_label: str) -> tuple[dict, list, list, list]:
-    """Cut the sector map down to the paths of at most two hops that touch one stock.
-
-    Returns (nodes, relations, direct ids, second-hop ids). The stock replaces the
-    concepts it is an instance of, and the sector node, and gets the node id CENTRE.
-    Each relation records its "scope": "concept" (through instance_of), "sector"
-    (sector-wide) or "company" (from the profile's own exposures).
-    """
-    own = list(profile.get("instance_of", []))
-    for concept in own:
-        if concept not in nodes:
-            raise SystemExit(f"{source}: instance_of names unknown concept {concept!r}")
-    if not own:
-        raise SystemExit(f"{source}: instance_of is empty, so the stock has no place in the sector map")
-
-    def end(node_id: str) -> str:
-        return CENTRE if node_id in own or node_id == root_id else node_id
-
-    moved = []
-    for relation in relations:
-        start, stop = end(relation["from"]), end(relation["to"])
-        if start != stop:
-            scope = "sector" if relation["to"] == root_id else "concept"
-            moved.append({**relation, "from": start, "to": stop, "scope": scope,
-                          "source_branch": nodes[relation["from"]]["branch"]})
-    for exposure in profile.get("exposures", []):
-        concept = exposure.get("concept")
-        if concept not in nodes:
-            raise SystemExit(f"{source}: exposure names unknown concept {concept!r}")
-        if concept in own:
-            raise SystemExit(f"{source}: exposure to {concept!r}, which the stock is already an instance of")
-        moved.append({"from": concept, "to": CENTRE, "type": exposure.get("type", ""), "scope": "company",
-                      "mechanism": exposure.get("mechanism_hypothesis", ""), "source_branch": nodes[concept]["branch"]})
-
-    inbound = list(dict.fromkeys(r["from"] for r in moved if r["to"] == CENTRE))
-    outbound = list(dict.fromkeys(r["to"] for r in moved if r["from"] == CENTRE))
-    direct = list(dict.fromkeys(inbound + outbound))
-    second = list(dict.fromkeys(r["from"] for r in moved if r["to"] in inbound and r["from"] != CENTRE and r["from"] not in direct))
-    placed = {CENTRE, *direct, *second}
-    kept = [r for r in moved if CENTRE in (r["from"], r["to"]) or (r["to"] in inbound and r["from"] in placed)]
-
-    labels = ", ".join(pretty(nodes[c]["name"]) for c in own)
-    picked = {
-        CENTRE: {
-            "branch": nodes[own[0]]["branch"],
-            "name": profile.get("symbol", source.parent.name),
-            "role": profile.get("name", ""),
-            "tag": f"Instance of {labels} · member of {sector_label}",
-            "kind": labels,
-            "sector": sector_label,
-            "watch": profile.get("observables_to_research", []),
-            **({"leads": profile["source_leads"]} if profile.get("source_leads") else {}),
-        }
-    }
-    picked.update({i: nodes[i] for i in direct + second})
-    return picked, kept, direct, second
 
 
 def spread(wanted: dict[str, float], gap: float) -> dict[str, float]:
@@ -365,7 +228,7 @@ def company_svg(key: str, profile: dict, branches: list, colour: dict, nodes: di
     centre_xy = {CENTRE: (0.0, 0.0)}
     centre_xy.update({i: polar(r_direct, a) for i, a in angle.items()})
     centre_xy.update({i: polar(r_second, a) for i, a in second_angle.items()})
-    size = {i: (7.8 * len(pretty(nodes[i]["name"])) + 26, 32) for i in direct}
+    size = {i: (17.8 * len(pretty(nodes[i]["name"])) + 40, 62) for i in direct}
 
     def anchor(node_id: str, towards: tuple[float, float]) -> tuple[float, float]:
         """Where an arrow meets a node's edge on the side facing ``towards``."""
@@ -382,7 +245,7 @@ def company_svg(key: str, profile: dict, branches: list, colour: dict, nodes: di
             reach = 12
         return cx + ux * reach, cy + uy * reach
 
-    out = svg_open(key, half, branches, colour)
+    out = svg_open(key, half, branches, colour, "company-map")
     out.append(f'<circle class="guide" r="{r_direct}"/><circle class="guide" r="{r_second}"/>')
 
     between: dict[frozenset, list[int]] = {}
@@ -423,47 +286,46 @@ def company_svg(key: str, profile: dict, branches: list, colour: dict, nodes: di
             f'<rect x="{x - width / 2:.1f}" y="{y - height / 2:.1f}" width="{width:.1f}" height="{height}" rx="{height / 2}" fill="{colour[nodes[node_id]["branch"]]}"/>'
             f'<text x="{x:.1f}" y="{y:.1f}" text-anchor="middle" dy="0.35em">{html.escape(pretty(nodes[node_id]["name"]))}</text></g>'
         )
+    role_count = len(profile.get("business_roles", []))
+    centre_caption = nodes[CENTRE]["kind"]
+    if role_count > 1 or len(centre_caption) > 14:
+        centre_caption = f"{role_count} role{'s' if role_count != 1 else ''}"
     out.append(
         f'<g class="node centre" data-n="{CENTRE}"><circle r="{R_CENTRE}"/>'
-f'<text class="symbol" text-anchor="middle" dy="-0.45em">{html.escape(nodes[CENTRE]["name"])}</text>'
-        f'<text class="kind" text-anchor="middle" dy="1.1em">{html.escape(nodes[CENTRE]["kind"])}</text>'
-        f'<text class="kind" text-anchor="middle" dy="2.4em">in {html.escape(nodes[CENTRE]["sector"])}</text></g>'
+        f'<text class="symbol" text-anchor="middle" dy="-0.25em">{html.escape(nodes[CENTRE]["name"])}</text>'
+        f'<text class="kind" text-anchor="middle" dy="1.1em">{html.escape(centre_caption)}</text>'
+        '</g>'
     )
 
-    used = [b for b in branches if any(n["branch"] == b for i, n in nodes.items() if i != CENTRE)]
-    for row, branch in enumerate(used):
-        y = -half + 26 + 24 * row
-        out.append(
-            f'<rect x="{-half + 16}" y="{y - 8}" width="16" height="16" rx="4" fill="{colour[branch]}"/>'
-            f'<text class="legend" x="{-half + 40}" y="{y}" dy="0.35em">{html.escape(pretty(branch))}</text>'
-        )
     out.append("</svg>")
     return "\n".join(out)
 
 
 def company_overview(profile: dict, nodes: dict, relations: list) -> dict:
     listing = [f"{pretty(k)}: {v}" for k, v in profile.get("listing", {}).items()]
-    sourced = [json.dumps(r, ensure_ascii=False) for r in profile.get("relationships", [])]
+    sourced = [f"{r['assessment']}: {r['summary']} — {r['citation']['url']} ({r['citation']['locator']})"
+               for r in profile["evidence"]]
     touching = [r for r in relations if CENTRE in (r["from"], r["to"])]
     count = {scope: sum(1 for r in touching if r["scope"] == scope) for scope in ("concept", "sector", "company")}
     return {
         "title": f"{nodes[CENTRE]['name']} — {profile.get('name', '')}".rstrip(" —"),
         "tag": nodes[CENTRE]["tag"],
         "notice": (
-            "Inner ring: concepts with a direct relation to this stock. Outer ring: concepts one step further "
-            "upstream. Solid arrows come through the concept this stock is an instance of, or from its own "
-            "exposures. Dashed arrows are sector-wide and reach every stock in the sector. Links between two "
-            "inner-ring concepts appear when you click one of them. All are leads to research, not sourced "
-            "company relationships."
+            "Inner ring: direct candidate links and company research leads. Outer ring: one step further upstream. "
+            "Solid arrows follow business roles or company exposures; dashed arrows suggest sector exposure. "
+            "Company applicability must be checked. Paths can mix mechanism hypotheses and observations; "
+            "they are not causal conclusions. Evidence assessments remain separate from the leads."
         ),
         "sections": [
-            {"h": "Direct relations", "items": [{"node": CENTRE, "text": (
-                f"{count['concept']} as {nodes[CENTRE]['kind']}, {count['sector']} sector-wide, "
-                f"{count['company']} company-specific; {len(relations) - len(touching)} second-hop"
+            {"h": "Research links", "items": [{"node": CENTRE, "text": (
+                f"{count['concept']} role candidates, {count['sector']} sector candidates, "
+                f"{count['company']} company leads; {len(relations) - len(touching)} upstream links"
             )}]},
+            {"h": "Applicability", "items": [r["scope_note"] for r in profile["business_roles"]]
+                + list(profile["projection"]["edge_conditions"].values())},
             {"h": "Listing", "items": listing + ([f"fiscal calendar: {profile['fiscal_calendar']}"] if profile.get("fiscal_calendar") else [])},
             {"h": "What to watch", "items": list(profile.get("observables_to_research", []))},
-            {"h": "Sourced company relationships", "items": sourced or ["None recorded yet."]},
+            {"h": "Evidence assessments", "items": sourced or ["None recorded yet."]},
         ],
     }
 
@@ -481,100 +343,134 @@ PAGE = """<!doctype html>
   :root { --bg:#15181c; --fg:#e6e8eb; --muted:#a0a8b2; --panel:#1e2227; --line:#3a4048; }
 }
 * { box-sizing:border-box; }
-body { margin:0; font:15px/1.5 system-ui, sans-serif; background:var(--bg); color:var(--fg);
-       display:grid; grid-template-columns:minmax(0,1fr) 360px; grid-template-rows:auto minmax(0,1fr); height:100vh; }
-header { grid-column:1/-1; padding:8px 16px; border-bottom:1px solid var(--line); display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
-header h1 { font-size:18px; margin:0; }
-header label { font-size:13px; }
-header button { font:inherit; padding:2px 10px; border:1px solid var(--line); border-radius:6px; background:var(--panel); color:var(--fg); cursor:pointer; }
+body { margin:0; font:17px/1.6 system-ui, sans-serif; background:var(--bg); color:var(--fg);
+       display:grid; grid-template-columns:minmax(0,1fr) clamp(360px,30vw,460px); grid-template-rows:auto minmax(0,1fr); height:100vh; }
+header { grid-column:1/-1; padding:12px 20px; border-bottom:1px solid var(--line); display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+header h1 { font-size:21px; margin:0; }
+header select { font:inherit; max-width:100%; min-height:40px; padding:4px 10px; border:1px solid var(--line); border-radius:8px; background:var(--panel); color:var(--fg); }
+header label { font-size:15px; }
+header button { font:inherit; min-height:40px; padding:4px 12px; border:1px solid var(--line); border-radius:8px; background:var(--panel); color:var(--fg); cursor:pointer; }
+header button:hover, aside a:hover { background:var(--line); }
+button:focus-visible, a:focus-visible { outline:3px solid #418ad6; outline-offset:3px; }
 nav { display:flex; gap:4px; flex:1; flex-wrap:wrap; }
 nav button { padding:4px 14px; border-radius:999px; }
 nav button.on { background:var(--fg); color:var(--bg); border-color:var(--fg); font-weight:600; }
-#map { overflow:auto; padding:8px; }
+.graph-area { min-width:0; min-height:0; display:flex; flex-direction:column; }
+.map-guide { padding:12px 20px; border-bottom:1px solid var(--line); font-size:14px; }
+#legend { display:flex; gap:8px 18px; flex-wrap:wrap; }
+.legend-item { display:inline-flex; align-items:center; gap:7px; }
+.legend-item i { width:10px; height:10px; border-radius:3px; }
+.map-guide p { margin:6px 0 0; color:var(--muted); }
+#map { overflow:auto; padding:8px; flex:1; min-height:0; }
 #map svg { display:block; margin:0 auto; font-family:system-ui, sans-serif; }
 svg .wedge { opacity:.07; }
 svg .guide { fill:none; stroke:var(--line); stroke-dasharray:3 6; }
 svg .tree { fill:none; stroke-width:1.2; opacity:.4; }
-svg .entity { font-size:15px; fill:var(--fg); }
-svg .lead { font-size:12px; fill:var(--muted); }
-svg .legend { font-size:14px; fill:var(--fg); }
-svg .bracket { fill:none; stroke-width:1.5; opacity:.6; }
+svg .entity { font-size:26px; fill:var(--fg); }
+svg.company-map .entity { font-size:30px; }
 svg .branch text, svg .pill text { font-weight:600; fill:#fff; }
-svg .branch text { font-size:16px; }
-svg .pill text { font-size:14px; }
+svg .branch text { font-size:26px; }
+svg .pill text { font-size:32px; }
 svg .root circle, svg .centre circle { fill:var(--fg); }
 svg .root text { font-size:19px; font-weight:700; fill:var(--bg); }
-svg .centre .symbol { font-size:26px; font-weight:700; fill:var(--bg); }
-svg .centre .kind { font-size:13px; fill:var(--bg); }
+svg .centre .symbol { font-size:40px; font-weight:700; fill:var(--bg); }
+svg .centre .kind { font-size:26px; fill:var(--bg); }
 svg .rel .line { fill:none; stroke-width:1.6; opacity:.55; }
 svg .rel.primary .line { stroke-width:2.2; opacity:.9; }
 svg .rel.cross .line { stroke-dasharray:6 4; }
-svg .rel .hit { fill:none; stroke:transparent; stroke-width:12; }
-svg .rel text { display:none; font-size:13px; font-weight:600; paint-order:stroke; stroke:var(--bg); stroke-width:4px; }
-svg .rel.primary text { display:block; }
+svg .rel .hit { fill:none; stroke:transparent; stroke-width:24; }
+svg .rel text { display:none; font-size:28px; font-weight:600; paint-order:stroke; stroke:var(--bg); stroke-width:6px; }
+svg .rel:hover text { display:block; }
 svg.norel .rel:not(.lit), svg .rel.side:not(.lit) { display:none; }
 svg .node, svg .branch, svg .rel { cursor:pointer; transition:opacity .15s; }
 svg.focus .node:not(.lit), svg.focus .branch:not(.lit), svg.focus .rel:not(.lit), svg.focus .tree { opacity:.13; }
 svg .rel.lit .line { opacity:1; stroke-width:2.6; }
-svg .rel.lit text { display:block; }
+svg .rel.picked text { display:block; }
 svg .node.picked circle, svg .node.picked rect, svg .branch.picked rect { stroke:var(--fg); stroke-width:3; }
 svg .centre.picked circle, svg .root.picked circle { stroke:var(--muted); }
 svg .node.picked .entity { font-weight:700; }
-aside { border-left:1px solid var(--line); background:var(--panel); padding:16px; overflow:auto; }
-aside h2 { font-size:17px; margin:0 0 2px; }
-aside .tag { color:var(--muted); font-size:13px; margin-bottom:10px; }
-aside h3 { font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin:16px 0 4px; }
-aside ul { margin:0; padding-left:18px; }
-aside li { margin-bottom:6px; overflow-wrap:anywhere; }
+aside { border-left:1px solid var(--line); background:var(--panel); padding:24px; overflow:auto; overflow-wrap:anywhere; font-size:18px; line-height:1.65; }
+aside h2 { font-size:24px; line-height:1.35; margin:0 0 10px; }
+aside .tag { color:var(--muted); font-size:16px; margin-bottom:16px; }
+aside h3 { font-size:15px; text-transform:uppercase; letter-spacing:.04em; color:var(--muted); margin:24px 0 8px; }
+aside ul { margin:0; padding-left:22px; }
+aside li { margin-bottom:12px; overflow-wrap:anywhere; }
 aside a { color:inherit; text-decoration:underline dotted; cursor:pointer; }
-aside .notice { color:var(--muted); font-size:13px; }
-@media (max-width: 800px) {
-  body { grid-template-columns:1fr; grid-template-rows:auto 70vh auto; height:auto; }
-  aside { border-left:0; border-top:1px solid var(--line); }
+aside .edge-link { display:inline-block; padding:3px 10px; margin:4px 0; border:1px solid var(--line); border-radius:6px; text-decoration:none; font-weight:600; }
+aside .notice { color:var(--muted); font-size:16px; }
+@media (max-width: 1000px) {
+  body { grid-template-columns:1fr; grid-template-rows:auto 65vh auto; height:auto; }
+  aside { border-left:0; border-top:1px solid var(--line); padding:20px; }
+  header { padding:12px; gap:8px; }
+  header h1 { width:100%; }
+  nav { flex-basis:100%; }
 }
 </style></head><body>
-<header><h1>__TITLE__</h1><nav id="tabs"></nav>
+<header><select id="maps" aria-label="知识地图"></select><h1>__TITLE__</h1><nav id="tabs"></nav>
 <label id="relsBox"><input type="checkbox" id="rels"> Show all relations</label>
-<button id="out">−</button><button id="fit">Fit</button><button id="in">+</button></header>
-<div id="map">__SECTIONS__</div>
+<button id="out" aria-label="Zoom out">−</button><button id="fit">全图</button><button id="read">阅读大小</button><button id="in" aria-label="Zoom in">+</button></header>
+<main class="graph-area"><div class="map-guide"><div id="legend"></div><p>点击节点查看研究内容 · 点击连线或右侧关系按钮查看适用条件 · 可滚动查看画布</p></div>
+<div id="map">__SECTIONS__</div></main>
 <aside id="panel"></aside>
 <script>
 const PAGE = __DATA__;
+const maps = document.getElementById('maps');
+for (const entry of PAGE.maps || []) {
+  const option = new Option(entry.label, entry.href, entry.current, entry.current);
+  maps.add(option);
+}
+maps.hidden = maps.options.length < 2;
+maps.onchange = () => { location.href = maps.value; };
 const map = document.getElementById('map'), panel = document.getElementById('panel'), tabs = document.getElementById('tabs');
-let V, svg, key, zoom = 1;
+let V, svg, key, zoom = 1, zoomMode = 'read';
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const nice = s => String(s).replace(/_/g, ' ');
 const find = (attr, value) => svg.querySelector(`[data-${attr}="${CSS.escape(value)}"]`);
 const nodeLink = id => `<a data-node="${esc(id)}">${esc(nice(V.nodes[id].name))}</a>`;
 const list = items => items.length ? '<ul>' + items.map(i => `<li>${i}</li>`).join('') + '</ul>' : '<p class="notice">None.</p>';
 const scope = r => r.scope === 'sector' ? ' <span class="notice">[sector-wide]</span>' : r.scope === 'company' ? ' <span class="notice">[company-specific]</span>' : '';
-const relLine = (r, other) => `<a data-edge="${r.i}">${esc(nice(r.type || 'relation'))}</a> ${other}${scope(r)} <br><span class="notice">${esc(r.mechanism || '')}</span>`;
+const relLine = (r, other) => `<a class="edge-link" tabindex="0" role="button" data-edge="${r.i}" title="查看关系详情">${esc(nice(r.type || 'relation'))} ↗</a> ${other}${scope(r)} <br><span class="notice">${esc(r.mechanism || '')}</span>`;
 const item = i => typeof i === 'string' ? esc(i)
   : i.branch ? `<a data-branch="${esc(i.branch)}"><b>${esc(nice(i.branch))}</b></a><br>${esc(i.text)}`
   : i.view ? `<a data-view="${esc(i.view)}"><b>${esc(i.view)}</b></a> ${esc(i.text)}`
   : `<a data-node="${esc(i.node)}">${esc(i.text)}</a>`;
 
+const fitSide = () => Math.max(1, Math.min(map.clientWidth, map.clientHeight) - 16);
 const setZoom = z => {
   zoom = Math.max(0.4, Math.min(5, z));
-  const side = Math.min(map.clientWidth, map.clientHeight) - 16;
+  const side = fitSide();
   svg.style.width = svg.style.height = side * zoom + 'px';
+  map.scrollLeft = Math.max(0, (svg.clientWidth + 16 - map.clientWidth) / 2);
+  map.scrollTop = Math.max(0, (svg.clientHeight + 16 - map.clientHeight) / 2);
 };
-addEventListener('resize', () => setZoom(zoom));
-document.getElementById('in').onclick = () => setZoom(zoom * 1.25);
-document.getElementById('out').onclick = () => setZoom(zoom / 1.25);
-document.getElementById('fit').onclick = () => setZoom(1);
+const readingSize = () => {
+  zoomMode = 'read';
+  setZoom(Math.max(1, 960 / fitSide(), svg.viewBox.baseVal.width * 0.56 / fitSide()));
+};
+addEventListener('resize', () => zoomMode === 'read' ? readingSize() : setZoom(zoomMode === 'fit' ? 1 : zoom));
+document.getElementById('in').onclick = () => { zoomMode = 'manual'; setZoom(zoom * 1.25); };
+document.getElementById('out').onclick = () => { zoomMode = 'manual'; setZoom(zoom / 1.25); };
+document.getElementById('fit').onclick = () => { zoomMode = 'fit'; setZoom(1); };
+document.getElementById('read').onclick = readingSize;
 document.getElementById('rels').onchange = e => svg.classList.toggle('norel', !e.target.checked);
 
-function openView(name) {
+function openView(name, node = '') {
   key = PAGE.views[name] ? name : PAGE.order[0];
   V = PAGE.views[key];
+  document.getElementById('legend').innerHTML = V.branches.map(b => `<span class="legend-item"><i style="background:${esc(b.colour)}"></i>${esc(nice(b.name))}</span>`).join('');
   map.querySelectorAll('section').forEach(s => s.hidden = s.dataset.view !== key);
   svg = map.querySelector(`section[data-view="${CSS.escape(key)}"] svg`);
+  // Enlarged labels need space beyond the original drawing bounds.
+  const bounds = svg.getBBox();
+  const half = Math.max(Math.abs(bounds.x), Math.abs(bounds.y), Math.abs(bounds.x + bounds.width), Math.abs(bounds.y + bounds.height)) + 24;
+  svg.setAttribute('viewBox', `${-half} ${-half} ${2 * half} ${2 * half}`);
   tabs.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.tab === key));
-  document.getElementById('relsBox').hidden = key !== PAGE.order[0];
+  document.getElementById('relsBox').hidden = key !== PAGE.order[0] || !V.relations.length;
   document.getElementById('rels').checked = !svg.classList.contains('norel');
-  history.replaceState(null, '', '#' + encodeURIComponent(key));
-  setZoom(1); showOverview();
+  const focusNode = Object.hasOwn(V.nodes, node) && node !== '';
+  history.replaceState(null, '', '#' + encodeURIComponent(key) + (focusNode ? '?node=' + encodeURIComponent(node) : ''));
+  readingSize(); showOverview();
+  if (focusNode) showNode(node);
 }
 function clear() { svg.querySelectorAll('.lit,.picked').forEach(e => e.classList.remove('lit', 'picked')); }
 function light(nodeIds, edgeIds, branchNames, picked) {
@@ -590,11 +486,15 @@ function showNode(id) {
   light([id, ...outgoing.map(r => r.to), ...incoming.map(r => r.from)], [...outgoing, ...incoming].map(r => r.i), [n.branch], find('n', id));
   const tag = n.tag ? esc(n.tag) : `<a data-branch="${esc(n.branch)}">${esc(nice(n.branch))}</a>`;
   panel.innerHTML = `<h2>${esc(nice(n.name))}</h2><div class="tag">${tag}</div>
-    <p>${esc(n.role || '')}</p>
-    ${n.leads ? '<h3>Leads</h3><p>' + n.leads.map(esc).join(', ') + '</p>' : ''}
-    <h3>What to watch</h3>${list((n.watch || []).map(esc))}
-    <h3>Affects</h3>${list(outgoing.map(r => relLine(r, '→ ' + nodeLink(r.to))))}
-    <h3>Affected by</h3>${list(incoming.map(r => relLine(r, '← ' + nodeLink(r.from))))}`;
+    <p>${esc(n.role || '')}</p><p class="notice">${esc(nice(n.node_kind || ''))}</p>
+    ${n.facts ? '<h3>Profile</h3>' + list(n.facts.map(esc)) : ''}
+    ${n.leads ? `<h3>${esc(n.leads_heading || 'Leads')}</h3><p>` + n.leads.map(esc).join(', ') + '</p>' : ''}
+    <h3>${esc(n.watch_heading || 'What to watch')}</h3>${list((n.watch || []).map(esc))}
+    ${n.institutions ? '<h3>Institutions</h3>' + list(n.institutions.map(esc)) : ''}
+    ${n.related_concepts ? '<h3>Related research maps</h3>' + list(n.related_concepts.map(link =>
+      `<a href="${esc(link.href)}">${esc(link.label)}</a><br>${esc(link.question)}`)) : ''}
+    ${V.relations.length ? `<h3>Outgoing research links</h3>${list(outgoing.map(r => relLine(r, '→ ' + nodeLink(r.to))))}
+    <h3>Incoming research links</h3>${list(incoming.map(r => relLine(r, '← ' + nodeLink(r.from))))}` : ''}`;
 }
 function showBranch(name) {
   const b = V.branches.find(x => x.name === name);
@@ -611,7 +511,12 @@ function showEdge(i) {
   const r = V.relations[i];
   light([r.from, r.to], [i], [], find('e', String(i)));
   panel.innerHTML = `<h2>${nodeLink(r.from)} → ${nodeLink(r.to)}</h2><div class="tag">${esc(nice(r.type || 'relation'))}${scope(r)}</div>
-    <h3>Mechanism</h3><p>${esc(r.mechanism || 'Not recorded.')}</p>`;
+    <p class="notice">${esc(nice(r.status))} · ${esc(nice(r.relation_kind))}. This link is not a confirmed company fact.</p>
+    <h3>Hypothesis / observation</h3><p>${esc(r.mechanism || 'Not recorded.')}</p>
+    <h3>Applicability</h3>${list((r.applicability_notes || []).map(esc))}
+    <h3>Original research link</h3><p>${esc(r.origin_from)} → ${esc(r.origin_to)}</p>
+    <p class="notice">${esc(r.origin_edge_id)}<br>Revision ${esc(r.origin_content_revision)}</p>
+    <h3>Evidence assessments</h3>${list((r.evidence || []).map(e => esc(e.assessment + ': ' + e.summary + ' — ' + e.citation.url + ' (' + e.citation.locator + ')')))}`;
 }
 function showOverview() {
   clear(); svg.classList.remove('focus');
@@ -619,7 +524,7 @@ function showOverview() {
   panel.innerHTML = `<h2>${esc(o.title)}</h2><div class="tag">${esc(o.tag || '')}</div><p class="notice">${esc(o.notice || '')}</p>` +
     o.sections.filter(s => s.items.length).map(s => `<h3>${esc(s.h)}</h3>${list(s.items.map(item))}`).join('');
 }
-tabs.innerHTML = PAGE.order.map((k, i) => `<button data-tab="${esc(k)}">${i ? esc(k) : 'Sector'}</button>`).join('');
+tabs.innerHTML = PAGE.order.map((k, i) => `<button data-tab="${esc(k)}">${i ? esc(k) : esc(PAGE.home || 'Sector')}</button>`).join('');
 document.addEventListener('click', e => {
   const tab = e.target.closest('[data-tab],[data-view]');
   if (tab && !tab.matches('section')) return openView(tab.dataset.tab || tab.dataset.view);
@@ -629,16 +534,56 @@ document.addEventListener('click', e => {
   if (g) return g.dataset.n ? showNode(g.dataset.n) : g.dataset.b ? showBranch(g.dataset.b) : showEdge(+g.dataset.e);
   if (e.target.closest('#map')) showOverview();
 });
-openView(decodeURIComponent(location.hash.slice(1)));
+document.addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.edge-link')) {
+    e.preventDefault(); e.target.click();
+  }
+});
+const [initialView, query] = location.hash.slice(1).split('?');
+openView(decodeURIComponent(initialView), new URLSearchParams(query).get('node') || '');
 </script></body></html>
 """
 
 
+def map_links(current: Path) -> list[dict]:
+    """Navigation between the generated sector and institution pages."""
+    sectors, registry = find_maps(current.parent.parent)
+    return [{"label": json.loads(path.read_text(encoding="utf-8")).get("label", path.stem),
+             "href": f"../{path.parent.name}/{path.stem}.html", "current": path.resolve() == current.resolve()}
+            for path in [*sectors, *([registry] if registry else [])]]
+
+
+def resolve_related_concepts(source: Path, nodes: dict) -> list[dict]:
+    """Resolve curated references and record the target map versions used for their labels."""
+    links = [link for node in nodes.values() for link in node.get("related_concepts", [])]
+    if not links:
+        return []
+    by_sector = {}
+    for path in find_maps(source.parent.parent)[0]:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        by_sector[data["sector_id"]] = (path, data)
+    inputs = {}
+    for link in links:
+        sector, concept = link["sector_id"], link["concept_id"]
+        require(sector in by_sector, source, f"unknown related sector {sector}")
+        path, data = by_sector[sector]
+        target = next((c for c in data["concepts"] if c["id"] == concept), None)
+        require(target is not None, source, f"unknown related concept {sector}/{concept}")
+        link["label"] = f"{data['label']} → {target['label']}"
+        link["href"] = (f"../{quote(path.parent.name)}/{quote(path.stem)}.html"
+                        f"#{quote(path.stem)}?node={quote(concept, safe='')}")
+        if sector not in inputs:
+            inputs[sector] = {"id": sector, "content_revision": data["content_revision"],
+                              "content_sha256": content_hash(data)}
+    return list(inputs.values())
+
+
 def render(sector_file: Path) -> Path:
     view, nodes, relations = load(sector_file)
+    related_inputs = resolve_related_concepts(sector_file, nodes)
     branches = view["Level_1"]
     colour = {b: PALETTE[i % len(PALETTE)] for i, b in enumerate(branches)}
-    branch_info = [{"name": b, "question": view[b].get("question")} for b in branches]
+    branch_info = [{"name": b, "question": view[b].get("question"), "colour": colour[b]} for b in branches]
     title = str(view.get("root", sector_file.stem))
     sector_key = sector_file.stem
     root_id = view.get("root_id")
@@ -646,13 +591,30 @@ def render(sector_file: Path) -> Path:
     if root_id:
         sector_nodes[root_id] = {
             "branch": "", "name": title, "tag": "Sector", "watch": [],
-            "role": "The sector as a whole. Arrows into it are sector-wide drivers that reach every stock in it.",
+            "node_kind": "sector",
+            "role": "Sector research leads suggest candidate company exposures, subject to applicability review.",
         }
 
+    institutions, _, registry = load_registry(sector_file.parent.parent)
+    registry_input = {}
+    if registry is not None:
+        data = json.loads(registry.read_text(encoding="utf-8"))
+        registry_input["registry"] = {"id": data["registry_id"], "content_revision": data["content_revision"],
+                                      "content_sha256": content_hash(data)}
+    for institution in institutions.values():
+        for link in institution["concept_links"]:
+            if link["sector_id"] == view["sector_id"]:
+                nodes[link["concept_id"]].setdefault("institutions", []).append(institution_line(institution, link["link_kind"]))
+
     profiles = []
-    for path in sorted(sector_file.parent.glob("*/company.json")):
+    for path in profile_paths(sector_file.parent):
         profile = json.loads(path.read_text(encoding="utf-8"))
+        issuer = profile.get("issuer_institution_id")
+        require(issuer is None or not institutions or issuer in institutions, path, f"unknown issuer institution {issuer!r}")
         profiles.append((profile.get("symbol", path.parent.name), profile, path))
+    symbols = [symbol for symbol, _, _ in profiles]
+    require(len(symbols) == len(set(symbols)) and sector_key not in symbols,
+            sector_file, "company tab symbols must be unique and distinct from the sector tab")
 
     views = {
         sector_key: {
@@ -661,7 +623,7 @@ def render(sector_file: Path) -> Path:
             "branches": branch_info,
             "overview": {
                 "title": title,
-                "tag": f"Reviewed {view.get('reviewed_on') or 'n/a'}",
+                "tag": f"Compiled {view.get('reviewed_on') or 'n/a'} · revision {view['content_revision']}",
                 "notice": view.get("notice") or "",
                 "sections": [
                     {"h": "Branches and their questions", "items": [{"branch": b["name"], "text": b["question"] or ""} for b in branch_info]},
@@ -672,7 +634,17 @@ def render(sector_file: Path) -> Path:
     }
     sections = [f'<section data-view="{html.escape(sector_key)}">{sector_svg("s", view, nodes, relations, colour)}</section>']
     for symbol, profile, path in profiles:
-        picked, kept, direct, second = company_graph(profile, nodes, relations, path, root_id, title)
+        picked, kept, direct, second = company_graph(profile, nodes, relations, path, view)
+        venues = [institution_line(i, link["link_kind"]) for i in institutions.values()
+                  for link in i["company_links"] if link["company_id"] == profile_id(profile)]
+        issuer = institutions.get(profile.get("issuer_institution_id"))
+        if issuer:
+            venues.insert(0, institution_line(issuer, "issuer"))
+        if venues:
+            picked[CENTRE]["institutions"] = venues
+        if profile.get("index_tracked"):
+            picked[CENTRE]["facts"] = [f"index tracked: {profile['index_tracked']}"] + [
+                f"member to check: {m['symbol']} — {m['note']}" for m in profile.get("member_leads", [])]
         marker_key = "c" + re.sub(r"\W", "", symbol)
         views[symbol] = {
             "nodes": picked,
@@ -685,7 +657,17 @@ def render(sector_file: Path) -> Path:
             f"{company_svg(marker_key, profile, branches, colour, picked, kept, direct, second)}</section>"
         )
 
-    payload = {"title": title, "order": list(views), "views": views}
+    payload = {
+        "title": title, "order": list(views), "views": views, "maps": map_links(sector_file),
+        "inputs": {
+            **registry_input,
+            "related_sectors": related_inputs,
+            "sector": {"id": view["sector_id"], "content_revision": view["content_revision"], "content_sha256": view["content_sha256"]},
+            "companies": [{"id": profile_id(profile), "content_revision": profile["content_revision"],
+                           "content_sha256": content_hash(profile)} for _, profile, _ in profiles],
+        },
+        "usage": view["usage"],
+    }
     page = (
         PAGE.replace("__TITLE__", html.escape(title))
         .replace("__SECTIONS__", "\n".join(sections))
@@ -696,25 +678,99 @@ def render(sector_file: Path) -> Path:
     return target
 
 
+def institution_line(institution: dict, link_kind: str) -> str:
+    """One panel line: who, how they relate, and what they publish."""
+    publications = "; ".join(p["name"] for p in institution["publications"])
+    return f"{institution['label']} ({pretty(link_kind)}): {publications}"
+
+
+def render_institutions(registry: Path) -> Path:
+    """Draw the registry: institutions -> kind -> institution. Links and publications go in the panel."""
+    institutions, labels, _ = load_registry(registry.parent.parent)
+    data = json.loads(registry.read_text(encoding="utf-8"))
+    kinds = [k for k in data.get("institution_kinds", {}) if any(i["institution_kind"] == k for i in institutions.values())]
+    title = data.get("label", "Institutions")
+    view = {"root": title, "root_id": None, "Level_1": kinds,
+            **{k: {"question": data["institution_kinds"][k]} for k in kinds}}
+    nodes = {}
+    for key, item in institutions.items():
+        kind = item["institution_kind"]
+        linked = [f"{labels[l['concept_id']]} ({pretty(l['link_kind'])})" for l in item["concept_links"]]
+        linked += [f"{labels[l['company_id']]} ({pretty(l['link_kind'])})" for l in item["company_links"]]
+        nodes[key] = {
+            "branch": kind, "node_kind": kind,
+            "name": item.get("short_label", item["label"]),
+            "role": f"{item['label']} · {item['jurisdiction']}. {item['description_lead']}.",
+            "facts": [f"{pretty(k)}: {', '.join(v) if isinstance(v, list) else v}" for k, v in item[kind].items()]
+                     + [f"source: {url}" for url in item["source_leads"]],
+            "watch_heading": "Publications",
+            "watch": [f"{p['name']} — {p['cadence']}; lag: {p['typical_lag']}; dated by: {pretty(p['availability'])}"
+                      + (f". {p['note']}" if p.get("note") else "") for p in item["publications"]],
+            "leads_heading": "Linked to",
+            **({"leads": linked} if linked else {}),
+        }
+    colour = {b: PALETTE[i % len(PALETTE)] for i, b in enumerate(kinds)}
+    branch_info = [{"name": k, "question": view[k]["question"], "colour": colour[k]} for k in kinds]
+    usage = data.get("usage", {})
+    key = registry.stem
+    payload = {
+        "title": title, "home": title, "order": [key], "maps": map_links(registry),
+        "views": {key: {
+            "nodes": nodes, "relations": [], "branches": branch_info,
+            "overview": {
+                "title": title,
+                "tag": f"Compiled {data.get('compiled_on') or 'n/a'} · revision {data['content_revision']}",
+                "notice": " ".join(filter(None, [usage.get("describe"), usage.get("time_varying_data_note")])),
+                "sections": [{"h": "Kinds", "items": [{"branch": b["name"], "text": b["question"]} for b in branch_info]}],
+            },
+        }},
+        "inputs": {"registry": {"id": data.get("registry_id"), "content_revision": data["content_revision"],
+                                "content_sha256": content_hash(data)}},
+        "usage": usage,
+    }
+    page = (
+        PAGE.replace("__TITLE__", html.escape(title))
+        .replace("__SECTIONS__", f'<section data-view="{html.escape(key)}">{sector_svg("s", view, nodes, [], colour)}</section>')
+        .replace("__DATA__", json.dumps(payload, ensure_ascii=False).replace("</", "<\\/"))
+    )
+    target = registry.with_suffix(".html")
+    target.write_text(page, encoding="utf-8")
+    return target
+
+
 def sector_file(argument: str, here: Path) -> Path:
-    """Accept a sector folder (by path or by name beside this script) or its JSON file."""
+    """Accept a sector folder (by path, or by name beside this script) or its JSON file."""
     path = Path(argument)
     if not path.exists() and (here / argument).exists():
         path = here / argument
-    if path.is_dir():
-        path = path / f"{path.resolve().name}.json"
+    if path.is_dir():  # the folder's own map, whatever the letter case of its name
+        named = [p for p in path.glob("*.json") if p.stem.lower() == path.resolve().name.lower()]
+        path = named[0] if named else path / f"{path.resolve().name}.json"
     if not path.is_file():
-        raise SystemExit(f"No sector map at {path}")
+        raise SystemExit(f"No map at {path}")
     return path
 
 
 def main(arguments: list[str]) -> None:
-    here = Path(__file__).parent
-    paths = [sector_file(a, here) for a in arguments] or sorted(p for p in here.glob("*/*.json") if p.stem == p.parent.name)
+    here = Path(__file__).parent  # the sector folders live beside this script
+    sectors, registry = find_maps(here)
+    paths = [sector_file(a, here) for a in arguments] or [*sectors, *([registry] if registry else [])]
+    if arguments:
+        # A first single-map build must also materialise its navigation targets.
+        for root in {p.resolve().parent.parent for p in paths}:
+            siblings, sibling_registry = find_maps(root)
+            if sibling_registry:
+                siblings.append(sibling_registry)
+            paths.extend(p for p in siblings if not p.with_suffix(".html").exists())
+        paths = list(dict.fromkeys(p.resolve() for p in paths))
     if not paths:
         raise SystemExit(f"No sector folders found under {here}")
     for path in paths:
-        print(f"wrote {render(path)}")
+        try:
+            is_registry = json.loads(path.read_text(encoding="utf-8")).get("kind") == "institution_registry"
+            print(f"wrote {render_institutions(path) if is_registry else render(path)}")
+        except ValueError as problem:  # a validation failure: report it without a traceback
+            raise SystemExit(f"error: {problem}") from None
 
 
 if __name__ == "__main__":

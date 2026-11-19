@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "company_research_profile",
+  "company_id": "company:microsoft",
+  "symbol": "MSFT",
+  "name": "Microsoft",
+  "compiled_on": "2026-11-19",
+  "content_revision": "2026-11-19.2",
+  "status": "exploratory_leads",
+  "sector": {
+    "id": "technology_platforms",
+    "schema_version": "2.0.0",
+    "content_revision": "2026-11-19.2",
+    "content_sha256": "305c75859076a59373b85ed0cf1ca4abbb2caba3132a7294394a4dd027386fa6"
+  },
+  "business_roles": [
+    {
+      "concept_id": "concept:technology_platforms:cloud",
+      "scope_note": "Research Azure and related services; distinguish consumption, committed demand and capacity constraints."
+    },
+    {
+      "concept_id": "concept:technology_platforms:software",
+      "scope_note": "Research enterprise subscriptions, seats, pricing and renewals rather than treating all IT spending as equivalent."
+    },
+    {
+      "concept_id": "concept:technology_platforms:ai",
+      "scope_note": "Research AI platform and application adoption alongside computing costs and monetisation."
+    }
+  ],
+  "listing": {
+    "exchange": "NASDAQ",
+    "security_type": "common_stock"
+  },
+  "observables_to_research": [
+    "Azure and cloud-service growth",
+    "Microsoft 365 subscriptions and paid AI adoption",
+    "commercial bookings and remaining performance obligations",
+    "cloud margins",
+    "capital expenditure and depreciation"
+  ],
+  "source_leads": [
+    "https://www.microsoft.com/investor/",
+    "https://www.microsoft.com/investor/reports/ar26/"
+  ],
+  "exposures": [],
+  "projection": {
+    "excluded_edge_ids": [],
+    "edge_conditions": {}
+  },
+  "evidence": []
+}

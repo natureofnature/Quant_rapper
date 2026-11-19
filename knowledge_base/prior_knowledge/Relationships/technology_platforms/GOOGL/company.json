@@ -1,0 +1,59 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "company_research_profile",
+  "company_id": "company:alphabet",
+  "symbol": "GOOGL",
+  "name": "Alphabet (Google)",
+  "compiled_on": "2026-11-19",
+  "content_revision": "2026-11-19.2",
+  "status": "exploratory_leads",
+  "sector": {
+    "id": "technology_platforms",
+    "schema_version": "2.0.0",
+    "content_revision": "2026-11-19.2",
+    "content_sha256": "305c75859076a59373b85ed0cf1ca4abbb2caba3132a7294394a4dd027386fa6"
+  },
+  "business_roles": [
+    {
+      "concept_id": "concept:technology_platforms:advertising",
+      "scope_note": "Research Google Search and YouTube advertising separately; check traffic acquisition and monetisation."
+    },
+    {
+      "concept_id": "concept:technology_platforms:cloud",
+      "scope_note": "Research Google Cloud separately from advertising; check contracted demand, capacity and margins."
+    },
+    {
+      "concept_id": "concept:technology_platforms:ai",
+      "scope_note": "Research model and product adoption, serving costs and effects on existing services."
+    }
+  ],
+  "listing": {
+    "exchange": "NASDAQ",
+    "security_type": "class_a_common_stock"
+  },
+  "observables_to_research": [
+    "Search and YouTube advertising revenue and monetisation",
+    "traffic acquisition costs",
+    "Google Cloud revenue and margins",
+    "capital expenditure and depreciation",
+    "AI product adoption and monetisation"
+  ],
+  "source_leads": [
+    "https://abc.xyz/investor/",
+    "https://abc.xyz/investor/faqs-and-general-information/"
+  ],
+  "exposures": [
+    {
+      "id": "lead:company:alphabet:consumer_devices:distribution",
+      "concept": "concept:technology_platforms:consumer_devices",
+      "relation_kind": "mechanism_hypothesis",
+      "type": "distribution",
+      "mechanism_hypothesis": "Device ecosystems may affect service distribution and traffic; investigate contractual and user-behaviour channels rather than assuming device sales directly translate into advertising growth."
+    }
+  ],
+  "projection": {
+    "excluded_edge_ids": [],
+    "edge_conditions": {}
+  },
+  "evidence": []
+}

@@ -1,0 +1,481 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "industry_research_map",
+  "sector_id": "technology_platforms",
+  "label": "Technology Platforms",
+  "compiled_on": "2026-11-19",
+  "content_revision": "2026-11-19.2",
+  "levels": {
+    "L1": {
+      "label": "Macro and policy",
+      "branch_ids": [
+        "policy",
+        "economy"
+      ]
+    },
+    "L2": {
+      "label": "Business and demand",
+      "branch_ids": [
+        "resources",
+        "business",
+        "demand"
+      ]
+    }
+  },
+  "usage": {
+    "describe": "A broad research grouping for technology platforms spanning cloud, advertising, software, AI and consumer-device ecosystems. Business roles distinguish companies within this map; this is not an official securities-sector classification. All links are hypotheses to investigate.",
+    "status": "exploratory_leads",
+    "may_create_company_relationships_from_concept_links": false,
+    "edges_are_evidence": false,
+    "historical_use_before_version_is_available": {
+      "eligible_for_strict_point_in_time_selection": false,
+      "required_retrospective_label": "post_period_knowledge"
+    },
+    "sector_node": {
+      "id": "sector:technology_platforms",
+      "describe": "Sector-wide links generate candidate exposures only; verify company applicability and materiality."
+    }
+  },
+  "branches": [
+    {
+      "id": "policy",
+      "level": "L1",
+      "question": "Which rules could change distribution, access to data or supply availability?",
+      "concept_ids": [
+        "concept:technology_platforms:competition",
+        "concept:technology_platforms:data_rules",
+        "concept:technology_platforms:trade_rules"
+      ]
+    },
+    {
+      "id": "economy",
+      "level": "L1",
+      "question": "Which macro conditions affect valuation and reported results?",
+      "concept_ids": [
+        "concept:technology_platforms:rates",
+        "concept:technology_platforms:fx"
+      ]
+    },
+    {
+      "id": "resources",
+      "level": "L2",
+      "question": "Could capacity, chip supply or production cost constrain delivery?",
+      "concept_ids": [
+        "concept:technology_platforms:chips",
+        "concept:technology_platforms:data_centres",
+        "concept:technology_platforms:power",
+        "concept:technology_platforms:manufacturing"
+      ]
+    },
+    {
+      "id": "business",
+      "level": "L2",
+      "question": "How does each business role turn usage into revenue and margin?",
+      "concept_ids": [
+        "concept:technology_platforms:advertising",
+        "concept:technology_platforms:cloud",
+        "concept:technology_platforms:software",
+        "concept:technology_platforms:devices",
+        "concept:technology_platforms:ai"
+      ]
+    },
+    {
+      "id": "demand",
+      "level": "L2",
+      "question": "Which customer budgets and adoption patterns drive demand?",
+      "concept_ids": [
+        "concept:technology_platforms:ad_spending",
+        "concept:technology_platforms:enterprise_it",
+        "concept:technology_platforms:consumer_devices",
+        "concept:technology_platforms:ai_adoption"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "concept:technology_platforms:competition",
+      "label": "Competition rules",
+      "node_kind": "variable",
+      "description_lead": "Rules affecting platform distribution, market access and business practices",
+      "observables_to_research": [
+        "competition decisions and remedies",
+        "distribution and default-placement terms"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:data_rules",
+      "label": "Data rules",
+      "node_kind": "variable",
+      "description_lead": "Privacy, data location and AI governance constraints",
+      "observables_to_research": [
+        "privacy and AI rule changes",
+        "regional service restrictions"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:trade_rules",
+      "label": "Trade rules",
+      "node_kind": "variable",
+      "description_lead": "Trade restrictions affecting chips, infrastructure and consumer devices",
+      "observables_to_research": [
+        "export-control changes",
+        "tariff announcements"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:rates",
+      "label": "Rates",
+      "node_kind": "variable",
+      "description_lead": "Financing and valuation backdrop",
+      "observables_to_research": [
+        "real yields",
+        "financing conditions"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:fx",
+      "label": "FX",
+      "node_kind": "variable",
+      "description_lead": "Translation of international revenue and costs",
+      "observables_to_research": [
+        "constant-currency growth",
+        "currency sensitivity disclosures"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:chips",
+      "label": "Chips",
+      "node_kind": "resource",
+      "description_lead": "Compute and device chips connect platform research to semiconductor supply",
+      "observables_to_research": [
+        "accelerator availability",
+        "memory and chip cost trends",
+        "custom-chip deployment commentary"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:data_centres",
+      "label": "Data centres",
+      "node_kind": "resource",
+      "description_lead": "Capacity available for cloud services and AI workloads",
+      "observables_to_research": [
+        "capacity additions",
+        "capex and depreciation",
+        "utilisation and delivery constraints"
+      ],
+      "related_concepts": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:demand:hyperscalers",
+          "question": "Do disclosed data-centre investments translate into accelerator and server-memory orders?"
+        }
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:power",
+      "label": "Power",
+      "node_kind": "resource",
+      "description_lead": "Power supply and grid access for computing infrastructure",
+      "observables_to_research": [
+        "power availability",
+        "connection lead times",
+        "electricity costs"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:manufacturing",
+      "label": "Manufacturing",
+      "node_kind": "resource",
+      "description_lead": "Device production, component supply and assembly capacity",
+      "observables_to_research": [
+        "production capacity",
+        "component lead times",
+        "inventory and shipment commentary"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:advertising",
+      "label": "Advertising",
+      "node_kind": "business_role",
+      "description_lead": "Platforms monetising user attention and commercial intent",
+      "observables_to_research": [
+        "advertising revenue",
+        "engagement and monetisation",
+        "distribution costs"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:cloud",
+      "label": "Cloud",
+      "node_kind": "business_role",
+      "description_lead": "Providers of cloud infrastructure, platforms and services",
+      "observables_to_research": [
+        "cloud revenue",
+        "contracted backlog",
+        "capacity and margins"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:software",
+      "label": "Software",
+      "node_kind": "business_role",
+      "description_lead": "Enterprise software and subscription providers",
+      "observables_to_research": [
+        "paid seats and pricing",
+        "renewals and remaining obligations",
+        "AI product adoption"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:devices",
+      "label": "Device ecosystem",
+      "node_kind": "business_role",
+      "description_lead": "Consumer devices, operating systems and associated services",
+      "observables_to_research": [
+        "device revenue",
+        "installed base and services",
+        "product mix and inventory"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:ai",
+      "label": "AI platforms",
+      "node_kind": "business_role",
+      "description_lead": "Providers of AI models, developer platforms and applications",
+      "observables_to_research": [
+        "paid adoption",
+        "usage and pricing",
+        "serving costs and model releases"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:ad_spending",
+      "label": "Ad spending",
+      "node_kind": "market_segment",
+      "description_lead": "Digital advertising budgets",
+      "observables_to_research": [
+        "advertiser budgets",
+        "conversion and pricing commentary"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:enterprise_it",
+      "label": "Enterprise IT",
+      "node_kind": "market_segment",
+      "description_lead": "Enterprise spending on software and computing",
+      "observables_to_research": [
+        "IT budgets",
+        "contract commitments",
+        "migration and renewal commentary"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:consumer_devices",
+      "label": "Consumer devices",
+      "node_kind": "market_segment",
+      "description_lead": "Consumer device demand and replacement cycles",
+      "observables_to_research": [
+        "device demand",
+        "replacement cycles",
+        "channel inventory"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:ai_adoption",
+      "label": "AI adoption",
+      "node_kind": "variable",
+      "description_lead": "Conversion of AI use into durable paid demand",
+      "observables_to_research": [
+        "paid usage",
+        "retention and deployments",
+        "customer return-on-investment commentary"
+      ]
+    }
+  ],
+  "concept_edges": [
+    {
+      "id": "lead:technology_platforms:rates:valuation:sector",
+      "from": "concept:technology_platforms:rates",
+      "to": "sector:technology_platforms",
+      "type": "valuation",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Changes in financing conditions may alter valuation and investment budgets."
+    },
+    {
+      "id": "lead:technology_platforms:fx:translation:sector",
+      "from": "concept:technology_platforms:fx",
+      "to": "sector:technology_platforms",
+      "type": "translation",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Currency movements can change reported international revenue and costs."
+    },
+    {
+      "id": "lead:technology_platforms:competition:distribution:advertising",
+      "from": "concept:technology_platforms:competition",
+      "to": "concept:technology_platforms:advertising",
+      "type": "distribution",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Changes to distribution or default-placement rules may alter traffic acquisition and monetisation."
+    },
+    {
+      "id": "lead:technology_platforms:competition:ecosystem_rules:devices",
+      "from": "concept:technology_platforms:competition",
+      "to": "concept:technology_platforms:devices",
+      "type": "ecosystem_rules",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Changes to app distribution or platform terms may affect services economics; assess each jurisdiction separately."
+    },
+    {
+      "id": "lead:technology_platforms:data_rules:measurement:advertising",
+      "from": "concept:technology_platforms:data_rules",
+      "to": "concept:technology_platforms:advertising",
+      "type": "measurement",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Privacy constraints may change targeting, measurement and advertising economics."
+    },
+    {
+      "id": "lead:technology_platforms:data_rules:compliance:cloud",
+      "from": "concept:technology_platforms:data_rules",
+      "to": "concept:technology_platforms:cloud",
+      "type": "compliance",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Data-location and compliance requirements may change where capacity is needed and what it costs."
+    },
+    {
+      "id": "lead:technology_platforms:data_rules:deployment:ai",
+      "from": "concept:technology_platforms:data_rules",
+      "to": "concept:technology_platforms:ai",
+      "type": "deployment",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Governance requirements may change model availability, deployment timing and operating cost."
+    },
+    {
+      "id": "lead:technology_platforms:trade_rules:supply_access:chips",
+      "from": "concept:technology_platforms:trade_rules",
+      "to": "concept:technology_platforms:chips",
+      "type": "supply_access",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Changes to export permissions may affect access to computing components."
+    },
+    {
+      "id": "lead:technology_platforms:trade_rules:production_cost:manufacturing",
+      "from": "concept:technology_platforms:trade_rules",
+      "to": "concept:technology_platforms:manufacturing",
+      "type": "production_cost",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Tariffs or supply restrictions may change device production cost and sourcing."
+    },
+    {
+      "id": "lead:technology_platforms:chips:capacity:cloud",
+      "from": "concept:technology_platforms:chips",
+      "to": "concept:technology_platforms:cloud",
+      "type": "capacity",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Component availability and cost may constrain cloud capacity or change margins."
+    },
+    {
+      "id": "lead:technology_platforms:chips:compute_cost:ai",
+      "from": "concept:technology_platforms:chips",
+      "to": "concept:technology_platforms:ai",
+      "type": "compute_cost",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Chip performance, availability and cost may change AI training and serving economics."
+    },
+    {
+      "id": "lead:technology_platforms:chips:product_capability:devices",
+      "from": "concept:technology_platforms:chips",
+      "to": "concept:technology_platforms:devices",
+      "type": "product_capability",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Device-chip availability and capabilities may affect product timing, mix and cost."
+    },
+    {
+      "id": "lead:technology_platforms:power:capacity_constraint:data_centres",
+      "from": "concept:technology_platforms:power",
+      "to": "concept:technology_platforms:data_centres",
+      "type": "capacity_constraint",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Power availability and grid connections may limit when computing capacity can become usable."
+    },
+    {
+      "id": "lead:technology_platforms:data_centres:delivery:cloud",
+      "from": "concept:technology_platforms:data_centres",
+      "to": "concept:technology_platforms:cloud",
+      "type": "delivery",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Capacity additions and utilisation may affect cloud delivery and depreciation costs."
+    },
+    {
+      "id": "lead:technology_platforms:data_centres:serving_capacity:ai",
+      "from": "concept:technology_platforms:data_centres",
+      "to": "concept:technology_platforms:ai",
+      "type": "serving_capacity",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Usable computing capacity may constrain AI service delivery and unit economics."
+    },
+    {
+      "id": "lead:technology_platforms:manufacturing:shipments:devices",
+      "from": "concept:technology_platforms:manufacturing",
+      "to": "concept:technology_platforms:devices",
+      "type": "shipments",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Production constraints and inventories may affect device shipments and gross margins."
+    },
+    {
+      "id": "lead:technology_platforms:ad_spending:demand:advertising",
+      "from": "concept:technology_platforms:ad_spending",
+      "to": "concept:technology_platforms:advertising",
+      "type": "demand",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Advertiser budgets and conversion economics may drive advertising demand."
+    },
+    {
+      "id": "lead:technology_platforms:enterprise_it:consumption:cloud",
+      "from": "concept:technology_platforms:enterprise_it",
+      "to": "concept:technology_platforms:cloud",
+      "type": "consumption",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Enterprise budgets and workload migrations may change cloud consumption."
+    },
+    {
+      "id": "lead:technology_platforms:enterprise_it:subscriptions:software",
+      "from": "concept:technology_platforms:enterprise_it",
+      "to": "concept:technology_platforms:software",
+      "type": "subscriptions",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Enterprise budgets, seat counts and pricing may change subscription revenue."
+    },
+    {
+      "id": "lead:technology_platforms:consumer_devices:replacement_cycle:devices",
+      "from": "concept:technology_platforms:consumer_devices",
+      "to": "concept:technology_platforms:devices",
+      "type": "replacement_cycle",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Replacement cycles and consumer budgets may change device demand and mix."
+    },
+    {
+      "id": "lead:technology_platforms:ai_adoption:monetisation:ai",
+      "from": "concept:technology_platforms:ai_adoption",
+      "to": "concept:technology_platforms:ai",
+      "type": "monetisation",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Paid adoption and retention may determine whether AI usage produces sustainable revenue."
+    },
+    {
+      "id": "lead:technology_platforms:ai_adoption:compute_demand:cloud",
+      "from": "concept:technology_platforms:ai_adoption",
+      "to": "concept:technology_platforms:cloud",
+      "type": "compute_demand",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Deployment of AI workloads may raise cloud demand; check monetisation and capacity costs together."
+    },
+    {
+      "id": "lead:technology_platforms:ai_adoption:product_adoption:software",
+      "from": "concept:technology_platforms:ai_adoption",
+      "to": "concept:technology_platforms:software",
+      "type": "product_adoption",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Paid AI features may change subscription value, pricing and usage; verify adoption rather than assuming uplift."
+    }
+  ]
+}

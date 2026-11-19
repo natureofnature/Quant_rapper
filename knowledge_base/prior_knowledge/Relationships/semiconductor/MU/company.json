@@ -1,16 +1,23 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "2.0.0",
   "kind": "company_research_profile",
+  "company_id": "company:micron",
   "symbol": "MU",
   "name": "Micron Technology",
   "compiled_on": "2026-11-19",
+  "content_revision": "2026-11-19.2",
   "status": "exploratory_leads",
   "sector": {
     "id": "semiconductors",
-    "schema_version": "1.0.0"
+    "schema_version": "2.0.0",
+    "content_revision": "2026-11-19.2",
+    "content_sha256": "b042ecbeb2ef18c6bc26d3f06f2dbeeea7b9cf18249d45c1f257d8bdf13772bb"
   },
-  "instance_of": [
-    "concept:supply_chain:memory"
+  "business_roles": [
+    {
+      "concept_id": "concept:supply_chain:memory",
+      "scope_note": "Research routing only. Verify the affected product segment, geographic exposure and materiality for this company."
+    }
   ],
   "listing": {
     "exchange": "NASDAQ",
@@ -29,20 +36,30 @@
   ],
   "exposures": [
     {
+      "id": "lead:company:micron:concept:politics:us:subsidy",
       "concept": "concept:politics:us",
+      "relation_kind": "mechanism_hypothesis",
       "type": "subsidy",
       "mechanism_hypothesis": "US chip subsidies support its domestic fab build-out and its timing"
     },
     {
+      "id": "lead:company:micron:concept:politics:japan:fab_subsidy",
       "concept": "concept:politics:japan",
+      "relation_kind": "mechanism_hypothesis",
       "type": "fab_subsidy",
       "mechanism_hypothesis": "Japanese subsidies support its fab in Japan"
     },
     {
+      "id": "lead:company:micron:concept:politics:taiwan:manufacturing_base",
       "concept": "concept:politics:taiwan",
+      "relation_kind": "mechanism_hypothesis",
       "type": "manufacturing_base",
       "mechanism_hypothesis": "A large share of its DRAM output is made in Taiwan, so Taiwan disruption hits its supply directly"
     }
   ],
-  "relationships": []
+  "projection": {
+    "excluded_edge_ids": [],
+    "edge_conditions": {}
+  },
+  "evidence": []
 }

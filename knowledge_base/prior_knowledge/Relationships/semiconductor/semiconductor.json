@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "2.0.0",
   "kind": "industry_research_map",
   "sector_id": "semiconductors",
   "label": "Semiconductors",
@@ -32,7 +32,7 @@
     },
     "sector_node": {
       "id": "sector:semiconductors",
-      "describe": "An edge whose 'to' is this id acts on the sector as a whole and is inherited by every stock in it."
+      "describe": "An edge targeting the sector suggests a candidate exposure for its members. Company applicability and materiality must be reviewed; projection does not create a sourced company relationship."
     }
   },
   "benchmark_candidates": {
@@ -127,7 +127,8 @@
         "chip and equipment tariff actions",
         "CHIPS Act awards",
         "AI-chip export licences"
-      ]
+      ],
+      "node_kind": "jurisdiction"
     },
     {
       "id": "concept:politics:china",
@@ -138,7 +139,8 @@
         "state chip-fund rounds",
         "domestic substitution mandates",
         "customs and antitrust actions against foreign chipmakers"
-      ]
+      ],
+      "node_kind": "jurisdiction"
     },
     {
       "id": "concept:politics:taiwan",
@@ -149,7 +151,8 @@
         "overseas-fab investment rules",
         "power and water policy",
         "trade terms with the US"
-      ]
+      ],
+      "node_kind": "jurisdiction"
     },
     {
       "id": "concept:politics:europe",
@@ -159,7 +162,8 @@
         "Dutch and EU export-licence rules",
         "EU Chips Act funding",
         "trade measures with the US and China"
-      ]
+      ],
+      "node_kind": "jurisdiction"
     },
     {
       "id": "concept:politics:japan",
@@ -169,7 +173,8 @@
         "export-control alignment",
         "fab subsidies",
         "yen policy"
-      ]
+      ],
+      "node_kind": "jurisdiction"
     },
     {
       "id": "concept:politics:south_korea",
@@ -179,7 +184,8 @@
         "US licence waivers for China fabs",
         "domestic chip-cluster support",
         "export data"
-      ]
+      ],
+      "node_kind": "jurisdiction"
     },
     {
       "id": "concept:politics:mid_east",
@@ -190,7 +196,8 @@
         "US chip-export approvals for Gulf states",
         "sovereign-fund investments in AI",
         "conflict affecting energy or shipping routes"
-      ]
+      ],
+      "node_kind": "jurisdiction"
     },
     {
       "id": "concept:economy:frb",
@@ -200,7 +207,8 @@
         "FOMC decisions and projections",
         "balance-sheet runoff",
         "speeches that shift rate expectations"
-      ]
+      ],
+      "node_kind": "institution"
     },
     {
       "id": "concept:economy:inflation",
@@ -211,7 +219,8 @@
         "PCE",
         "wage growth",
         "inflation expectations"
-      ]
+      ],
+      "node_kind": "variable"
     },
     {
       "id": "concept:economy:yields",
@@ -221,7 +230,8 @@
         "10-year Treasury yield",
         "real yields",
         "curve shape"
-      ]
+      ],
+      "node_kind": "variable"
     },
     {
       "id": "concept:economy:growth",
@@ -232,7 +242,8 @@
         "employment",
         "GDP revisions",
         "Korea and Taiwan export data"
-      ]
+      ],
+      "node_kind": "variable"
     },
     {
       "id": "concept:economy:fx",
@@ -244,7 +255,8 @@
         "JPY",
         "KRW",
         "ADR premium to local shares"
-      ]
+      ],
+      "node_kind": "variable"
     },
     {
       "id": "concept:economy:credit",
@@ -254,7 +266,8 @@
         "credit spreads",
         "data-center and AI debt issuance",
         "private-credit and vendor-financing deals"
-      ]
+      ],
+      "node_kind": "variable"
     },
     {
       "id": "concept:economy:risk_appetite",
@@ -265,7 +278,8 @@
         "sector ETF flows",
         "margin debt",
         "breadth and correlation among sector members"
-      ]
+      ],
+      "node_kind": "variable"
     },
     {
       "id": "concept:resources:electricity",
@@ -276,7 +290,8 @@
         "power prices",
         "Taiwan reserve margin",
         "data-center power contracts"
-      ]
+      ],
+      "node_kind": "resource"
     },
     {
       "id": "concept:resources:water",
@@ -285,7 +300,8 @@
       "observables_to_research": [
         "Taiwan reservoir levels",
         "rationing notices"
-      ]
+      ],
+      "node_kind": "resource"
     },
     {
       "id": "concept:resources:critical_minerals",
@@ -295,7 +311,8 @@
         "export-licence rules",
         "spot prices",
         "non-China refining projects"
-      ]
+      ],
+      "node_kind": "resource"
     },
     {
       "id": "concept:resources:specialty_gases",
@@ -304,7 +321,8 @@
       "observables_to_research": [
         "supply disruptions",
         "price spikes"
-      ]
+      ],
+      "node_kind": "resource"
     },
     {
       "id": "concept:resources:wafers_and_chemicals",
@@ -313,7 +331,8 @@
       "observables_to_research": [
         "supplier shipment and pricing commentary",
         "plant outages"
-      ]
+      ],
+      "node_kind": "resource"
     },
     {
       "id": "concept:resources:talent",
@@ -322,7 +341,8 @@
       "observables_to_research": [
         "visa policy",
         "overseas-fab staffing delays"
-      ]
+      ],
+      "node_kind": "resource"
     },
     {
       "id": "concept:resources:logistics",
@@ -331,7 +351,8 @@
       "observables_to_research": [
         "shipping-lane disruptions",
         "earthquakes and typhoons in Taiwan and Japan"
-      ]
+      ],
+      "node_kind": "resource"
     },
     {
       "id": "concept:supply_chain:design_tools",
@@ -340,7 +361,8 @@
       "observables_to_research": [
         "design-start and backlog commentary",
         "China licence restrictions"
-      ]
+      ],
+      "node_kind": "business_role"
     },
     {
       "id": "concept:supply_chain:equipment",
@@ -350,7 +372,8 @@
         "bookings and backlog",
         "China share of revenue",
         "lead times"
-      ]
+      ],
+      "node_kind": "business_role"
     },
     {
       "id": "concept:supply_chain:materials",
@@ -359,7 +382,8 @@
       "observables_to_research": [
         "wafer shipments",
         "contract pricing"
-      ]
+      ],
+      "node_kind": "business_role"
     },
     {
       "id": "concept:supply_chain:foundry",
@@ -371,7 +395,8 @@
         "utilisation",
         "node ramp and yield",
         "pricing"
-      ]
+      ],
+      "node_kind": "business_role"
     },
     {
       "id": "concept:supply_chain:memory",
@@ -382,7 +407,8 @@
         "HBM allocation",
         "inventory days",
         "capex cuts or increases"
-      ]
+      ],
+      "node_kind": "business_role"
     },
     {
       "id": "concept:supply_chain:designers",
@@ -392,7 +418,8 @@
         "revenue guidance",
         "inventory and purchase commitments",
         "product-cycle timing"
-      ]
+      ],
+      "node_kind": "business_role"
     },
     {
       "id": "concept:supply_chain:packaging_and_test",
@@ -401,7 +428,8 @@
       "observables_to_research": [
         "advanced-packaging capacity additions",
         "lead times"
-      ]
+      ],
+      "node_kind": "business_role"
     },
     {
       "id": "concept:supply_chain:system_builders",
@@ -411,7 +439,8 @@
         "monthly revenue",
         "AI-server shipment commentary",
         "component shortages"
-      ]
+      ],
+      "node_kind": "business_role"
     },
     {
       "id": "concept:supply_chain:industry_statistics",
@@ -426,7 +455,8 @@
         "SIA",
         "WSTS",
         "SEMI"
-      ]
+      ],
+      "node_kind": "observation"
     },
     {
       "id": "concept:demand:hyperscalers",
@@ -437,7 +467,8 @@
         "cloud revenue growth",
         "depreciation and free cash flow",
         "in-house chip programmes"
-      ]
+      ],
+      "node_kind": "business_role"
     },
     {
       "id": "concept:demand:ai_labs",
@@ -447,7 +478,8 @@
         "funding rounds",
         "compute commitments",
         "revenue disclosures by counterparties"
-      ]
+      ],
+      "node_kind": "business_role"
     },
     {
       "id": "concept:demand:sovereign_ai",
@@ -456,7 +488,8 @@
       "observables_to_research": [
         "announced national programmes",
         "export approvals"
-      ]
+      ],
+      "node_kind": "market_segment"
     },
     {
       "id": "concept:demand:smartphones",
@@ -466,7 +499,8 @@
         "shipment estimates",
         "flagship launch timing",
         "channel inventory"
-      ]
+      ],
+      "node_kind": "market_segment"
     },
     {
       "id": "concept:demand:pcs_and_servers",
@@ -475,7 +509,8 @@
       "observables_to_research": [
         "shipment estimates",
         "enterprise refresh commentary"
-      ]
+      ],
+      "node_kind": "market_segment"
     },
     {
       "id": "concept:demand:auto_and_industrial",
@@ -485,7 +520,8 @@
         "auto production",
         "distributor inventory",
         "analog chipmaker guidance"
-      ]
+      ],
+      "node_kind": "market_segment"
     }
   ],
   "concept_edges": [
@@ -494,364 +530,417 @@
       "from": "concept:politics:us",
       "to": "concept:politics:china",
       "type": "export_control",
-      "mechanism_hypothesis": "Limits on advanced chips and equipment cut vendors' China revenue and redirect demand"
+      "mechanism_hypothesis": "Limits on advanced chips and equipment cut vendors' China revenue and redirect demand",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:china:retaliation:politics:us",
       "from": "concept:politics:china",
       "to": "concept:politics:us",
       "type": "retaliation",
-      "mechanism_hypothesis": "Mineral export limits and actions against US firms raise input cost and revenue risk"
+      "mechanism_hypothesis": "Mineral export limits and actions against US firms raise input cost and revenue risk",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:us:alignment:politics:europe",
       "from": "concept:politics:us",
       "to": "concept:politics:europe",
       "type": "alignment",
-      "mechanism_hypothesis": "Pressure to match export controls decides which lithography tools can ship to China"
+      "mechanism_hypothesis": "Pressure to match export controls decides which lithography tools can ship to China",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:us:alignment:politics:japan",
       "from": "concept:politics:us",
       "to": "concept:politics:japan",
       "type": "alignment",
-      "mechanism_hypothesis": "Matched controls on equipment and materials"
+      "mechanism_hypothesis": "Matched controls on equipment and materials",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:us:licence:politics:south_korea",
       "from": "concept:politics:us",
       "to": "concept:politics:south_korea",
       "type": "licence",
-      "mechanism_hypothesis": "Waivers decide whether memory makers can keep upgrading China fabs"
+      "mechanism_hypothesis": "Waivers decide whether memory makers can keep upgrading China fabs",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:us:trade_and_security:politics:taiwan",
       "from": "concept:politics:us",
       "to": "concept:politics:taiwan",
       "type": "trade_and_security",
-      "mechanism_hypothesis": "Tariffs and onshoring demands change foundry cost and capex location; security posture changes risk premium"
+      "mechanism_hypothesis": "Tariffs and onshoring demands change foundry cost and capex location; security posture changes risk premium",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:china:geopolitical_risk:politics:taiwan",
       "from": "concept:politics:china",
       "to": "concept:politics:taiwan",
       "type": "geopolitical_risk",
-      "mechanism_hypothesis": "Cross-strait tension raises the risk premium on the whole sector"
+      "mechanism_hypothesis": "Cross-strait tension raises the risk premium on the whole sector",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:us:licence:politics:mid_east",
       "from": "concept:politics:us",
       "to": "concept:politics:mid_east",
       "type": "licence",
-      "mechanism_hypothesis": "Approvals gate sovereign AI purchases of accelerators"
+      "mechanism_hypothesis": "Approvals gate sovereign AI purchases of accelerators",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:inflation:policy_reaction:economy:frb",
       "from": "concept:economy:inflation",
       "to": "concept:economy:frb",
       "type": "policy_reaction",
-      "mechanism_hypothesis": "Inflation surprises move the expected rate path"
+      "mechanism_hypothesis": "Inflation surprises move the expected rate path",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:frb:rate_transmission:economy:yields",
       "from": "concept:economy:frb",
       "to": "concept:economy:yields",
       "type": "rate_transmission",
-      "mechanism_hypothesis": "Policy expectations set the short end and move real yields"
+      "mechanism_hypothesis": "Policy expectations set the short end and move real yields",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:yields:valuation:economy:risk_appetite",
       "from": "concept:economy:yields",
       "to": "concept:economy:risk_appetite",
       "type": "valuation",
-      "mechanism_hypothesis": "Higher real yields compress multiples of high-growth sectors"
+      "mechanism_hypothesis": "Higher real yields compress multiples of high-growth sectors",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:frb:liquidity:economy:credit",
       "from": "concept:economy:frb",
       "to": "concept:economy:credit",
       "type": "liquidity",
-      "mechanism_hypothesis": "Tighter policy widens spreads and slows debt-funded capex"
+      "mechanism_hypothesis": "Tighter policy widens spreads and slows debt-funded capex",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:frb:rate_differential:economy:fx",
       "from": "concept:economy:frb",
       "to": "concept:economy:fx",
       "type": "rate_differential",
-      "mechanism_hypothesis": "Rate gaps move the dollar against Asian currencies"
+      "mechanism_hypothesis": "Rate gaps move the dollar against Asian currencies",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:growth:cycle:economy:risk_appetite",
       "from": "concept:economy:growth",
       "to": "concept:economy:risk_appetite",
       "type": "cycle",
-      "mechanism_hypothesis": "Weakening orders reduce tolerance for cyclical exposure"
+      "mechanism_hypothesis": "Weakening orders reduce tolerance for cyclical exposure",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:resources:electricity:constraint:demand:hyperscalers",
       "from": "concept:resources:electricity",
       "to": "concept:demand:hyperscalers",
       "type": "constraint",
-      "mechanism_hypothesis": "Power availability paces how fast ordered accelerators can be deployed"
+      "mechanism_hypothesis": "Power availability paces how fast ordered accelerators can be deployed",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:resources:electricity:constraint:supply_chain:foundry",
       "from": "concept:resources:electricity",
       "to": "concept:supply_chain:foundry",
       "type": "constraint",
-      "mechanism_hypothesis": "Shortages or price rises hit fab output and margins"
+      "mechanism_hypothesis": "Shortages or price rises hit fab output and margins",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:resources:water:constraint:supply_chain:foundry",
       "from": "concept:resources:water",
       "to": "concept:supply_chain:foundry",
       "type": "constraint",
-      "mechanism_hypothesis": "Drought forces rationing or trucking cost"
+      "mechanism_hypothesis": "Drought forces rationing or trucking cost",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:china:control:resources:critical_minerals",
       "from": "concept:politics:china",
       "to": "concept:resources:critical_minerals",
       "type": "control",
-      "mechanism_hypothesis": "Export limits are used as retaliation"
+      "mechanism_hypothesis": "Export limits are used as retaliation",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:resources:critical_minerals:input_cost:supply_chain:materials",
       "from": "concept:resources:critical_minerals",
       "to": "concept:supply_chain:materials",
       "type": "input_cost",
-      "mechanism_hypothesis": "Shortage raises compound-semiconductor and magnet cost"
+      "mechanism_hypothesis": "Shortage raises compound-semiconductor and magnet cost",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:resources:logistics:disruption:supply_chain:foundry",
       "from": "concept:resources:logistics",
       "to": "concept:supply_chain:foundry",
       "type": "disruption",
-      "mechanism_hypothesis": "Natural disasters or route closures delay shipments"
+      "mechanism_hypothesis": "Natural disasters or route closures delay shipments",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:supply_chain:designers:orders:supply_chain:foundry",
       "from": "concept:supply_chain:designers",
       "to": "concept:supply_chain:foundry",
       "type": "orders",
-      "mechanism_hypothesis": "Designer guidance and purchase commitments lead foundry wafer demand"
+      "mechanism_hypothesis": "Designer guidance and purchase commitments lead foundry wafer demand",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:supply_chain:foundry:capex:supply_chain:equipment",
       "from": "concept:supply_chain:foundry",
       "to": "concept:supply_chain:equipment",
       "type": "capex",
-      "mechanism_hypothesis": "Foundry capex guidance leads equipment bookings"
+      "mechanism_hypothesis": "Foundry capex guidance leads equipment bookings",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:supply_chain:memory:capex:supply_chain:equipment",
       "from": "concept:supply_chain:memory",
       "to": "concept:supply_chain:equipment",
       "type": "capex",
-      "mechanism_hypothesis": "Memory capex swings with the price cycle"
+      "mechanism_hypothesis": "Memory capex swings with the price cycle",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:supply_chain:design_tools:enabler:supply_chain:designers",
       "from": "concept:supply_chain:design_tools",
       "to": "concept:supply_chain:designers",
       "type": "enabler",
-      "mechanism_hypothesis": "Design starts hint at tape-outs several quarters ahead"
+      "mechanism_hypothesis": "Design starts hint at tape-outs several quarters ahead",
+      "relation_kind": "observation_lead"
     },
     {
       "id": "lead:supply_chain:materials:input:supply_chain:foundry",
       "from": "concept:supply_chain:materials",
       "to": "concept:supply_chain:foundry",
       "type": "input",
-      "mechanism_hypothesis": "Wafer shipments track wafer starts"
+      "mechanism_hypothesis": "Wafer shipments track wafer starts",
+      "relation_kind": "observation_lead"
     },
     {
       "id": "lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers",
       "from": "concept:supply_chain:packaging_and_test",
       "to": "concept:supply_chain:designers",
       "type": "bottleneck",
-      "mechanism_hypothesis": "Packaging capacity caps accelerator shipments"
+      "mechanism_hypothesis": "Packaging capacity caps accelerator shipments",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:supply_chain:memory:bottleneck:supply_chain:designers",
       "from": "concept:supply_chain:memory",
       "to": "concept:supply_chain:designers",
       "type": "bottleneck",
-      "mechanism_hypothesis": "HBM supply caps accelerator shipments"
+      "mechanism_hypothesis": "HBM supply caps accelerator shipments",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:supply_chain:system_builders:sell_through:supply_chain:designers",
       "from": "concept:supply_chain:system_builders",
       "to": "concept:supply_chain:designers",
       "type": "sell_through",
-      "mechanism_hypothesis": "Server-builder revenue shows whether chips are being deployed or stocked"
+      "mechanism_hypothesis": "Server-builder revenue shows whether chips are being deployed or stocked",
+      "relation_kind": "observation_lead"
     },
     {
       "id": "lead:politics:us:export_control:supply_chain:equipment",
       "from": "concept:politics:us",
       "to": "concept:supply_chain:equipment",
       "type": "export_control",
-      "mechanism_hypothesis": "Controls remove China orders"
+      "mechanism_hypothesis": "Controls remove China orders",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:us:export_control:supply_chain:designers",
       "from": "concept:politics:us",
       "to": "concept:supply_chain:designers",
       "type": "export_control",
-      "mechanism_hypothesis": "Controls remove China accelerator sales"
+      "mechanism_hypothesis": "Controls remove China accelerator sales",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:demand:hyperscalers:capex:supply_chain:designers",
       "from": "concept:demand:hyperscalers",
       "to": "concept:supply_chain:designers",
       "type": "capex",
-      "mechanism_hypothesis": "Capex revisions lead accelerator and networking orders"
+      "mechanism_hypothesis": "Capex revisions lead accelerator and networking orders",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:demand:ai_labs:compute_contract:demand:hyperscalers",
       "from": "concept:demand:ai_labs",
       "to": "concept:demand:hyperscalers",
       "type": "compute_contract",
-      "mechanism_hypothesis": "Lab commitments underpin cloud capex; funding stress would unwind them"
+      "mechanism_hypothesis": "Lab commitments underpin cloud capex; funding stress would unwind them",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:credit:funding:demand:ai_labs",
       "from": "concept:economy:credit",
       "to": "concept:demand:ai_labs",
       "type": "funding",
-      "mechanism_hypothesis": "External capital availability sets how long spending can outrun revenue"
+      "mechanism_hypothesis": "External capital availability sets how long spending can outrun revenue",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:credit:funding:demand:hyperscalers",
       "from": "concept:economy:credit",
       "to": "concept:demand:hyperscalers",
       "type": "funding",
-      "mechanism_hypothesis": "Debt-funded capex is sensitive to spreads"
+      "mechanism_hypothesis": "Debt-funded capex is sensitive to spreads",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:demand:sovereign_ai:orders:supply_chain:designers",
       "from": "concept:demand:sovereign_ai",
       "to": "concept:supply_chain:designers",
       "type": "orders",
-      "mechanism_hypothesis": "Approved programmes add demand outside the hyperscalers"
+      "mechanism_hypothesis": "Approved programmes add demand outside the hyperscalers",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:demand:smartphones:orders:supply_chain:designers",
       "from": "concept:demand:smartphones",
       "to": "concept:supply_chain:designers",
       "type": "orders",
-      "mechanism_hypothesis": "Handset cycle drives mobile-chip wafer demand"
+      "mechanism_hypothesis": "Handset cycle drives mobile-chip wafer demand",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:demand:auto_and_industrial:orders:supply_chain:foundry",
       "from": "concept:demand:auto_and_industrial",
       "to": "concept:supply_chain:foundry",
       "type": "orders",
-      "mechanism_hypothesis": "Inventory correction lowers mature-node utilisation"
+      "mechanism_hypothesis": "Inventory correction lowers mature-node utilisation",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:demand:hyperscalers:in_house_chips:supply_chain:foundry",
       "from": "concept:demand:hyperscalers",
       "to": "concept:supply_chain:foundry",
       "type": "in_house_chips",
-      "mechanism_hypothesis": "Custom chip programmes shift wafer demand between designers"
+      "mechanism_hypothesis": "Custom chip programmes shift wafer demand between designers",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:demand:hyperscalers:orders:supply_chain:memory",
       "from": "concept:demand:hyperscalers",
       "to": "concept:supply_chain:memory",
       "type": "orders",
-      "mechanism_hypothesis": "AI-server build-outs drive server DRAM and high-bandwidth memory demand"
+      "mechanism_hypothesis": "AI-server build-outs drive server DRAM and high-bandwidth memory demand",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:demand:smartphones:orders:supply_chain:memory",
       "from": "concept:demand:smartphones",
       "to": "concept:supply_chain:memory",
       "type": "orders",
-      "mechanism_hypothesis": "Handset volumes and memory content per phone drive mobile DRAM and NAND demand"
+      "mechanism_hypothesis": "Handset volumes and memory content per phone drive mobile DRAM and NAND demand",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:demand:pcs_and_servers:orders:supply_chain:memory",
       "from": "concept:demand:pcs_and_servers",
       "to": "concept:supply_chain:memory",
       "type": "orders",
-      "mechanism_hypothesis": "PC and server shipments and refresh cycles drive DRAM and NAND demand"
+      "mechanism_hypothesis": "PC and server shipments and refresh cycles drive DRAM and NAND demand",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:supply_chain:designers:orders:supply_chain:memory",
       "from": "concept:supply_chain:designers",
       "to": "concept:supply_chain:memory",
       "type": "orders",
-      "mechanism_hypothesis": "Accelerator roadmaps and volumes set how much high-bandwidth memory is needed and to what specification"
+      "mechanism_hypothesis": "Accelerator roadmaps and volumes set how much high-bandwidth memory is needed and to what specification",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:supply_chain:system_builders:sell_through:supply_chain:memory",
       "from": "concept:supply_chain:system_builders",
       "to": "concept:supply_chain:memory",
       "type": "sell_through",
-      "mechanism_hypothesis": "Builder shipments and component inventory show whether memory is being consumed or stocked"
+      "mechanism_hypothesis": "Builder shipments and component inventory show whether memory is being consumed or stocked",
+      "relation_kind": "observation_lead"
     },
     {
       "id": "lead:supply_chain:materials:input:supply_chain:memory",
       "from": "concept:supply_chain:materials",
       "to": "concept:supply_chain:memory",
       "type": "input",
-      "mechanism_hypothesis": "Wafer shipments track memory wafer starts"
+      "mechanism_hypothesis": "Wafer shipments track memory wafer starts",
+      "relation_kind": "observation_lead"
     },
     {
       "id": "lead:politics:us:export_control:supply_chain:memory",
       "from": "concept:politics:us",
       "to": "concept:supply_chain:memory",
       "type": "export_control",
-      "mechanism_hypothesis": "Controls on advanced memory sales and on equipment for China fabs remove revenue and limit capacity upgrades"
+      "mechanism_hypothesis": "Controls on advanced memory sales and on equipment for China fabs remove revenue and limit capacity upgrades",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:china:retaliation:supply_chain:memory",
       "from": "concept:politics:china",
       "to": "concept:supply_chain:memory",
       "type": "retaliation",
-      "mechanism_hypothesis": "Restrictions on foreign memory and support for domestic makers shift share in the China market"
+      "mechanism_hypothesis": "Restrictions on foreign memory and support for domestic makers shift share in the China market",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:yields:valuation:sector",
       "from": "concept:economy:yields",
       "to": "sector:semiconductors",
       "type": "valuation",
-      "mechanism_hypothesis": "Real-yield moves reprice long-duration growth multiples across the whole sector"
+      "mechanism_hypothesis": "Real-yield moves reprice long-duration growth multiples across the whole sector",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:risk_appetite:sector_beta:sector",
       "from": "concept:economy:risk_appetite",
       "to": "sector:semiconductors",
       "type": "sector_beta",
-      "mechanism_hypothesis": "Risk-on or risk-off positioning moves sector members together regardless of company news"
+      "mechanism_hypothesis": "Risk-on or risk-off positioning moves sector members together regardless of company news",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:economy:growth:cycle:sector",
       "from": "concept:economy:growth",
       "to": "sector:semiconductors",
       "type": "cycle",
-      "mechanism_hypothesis": "Global growth sets end demand for chips across every market"
+      "mechanism_hypothesis": "Global growth sets end demand for chips across every market",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:taiwan:concentration_risk:sector",
       "from": "concept:politics:taiwan",
       "to": "sector:semiconductors",
       "type": "concentration_risk",
-      "mechanism_hypothesis": "Leading-edge manufacturing is concentrated in Taiwan, so a cross-strait or domestic disruption is a sector-wide supply shock"
+      "mechanism_hypothesis": "Leading-edge manufacturing is concentrated in Taiwan, so a cross-strait or domestic disruption is a sector-wide supply shock",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:us:tariffs_and_subsidies:sector",
       "from": "concept:politics:us",
       "to": "sector:semiconductors",
       "type": "tariffs_and_subsidies",
-      "mechanism_hypothesis": "Chip tariffs and subsidies change cost and where capacity is built across the sector"
+      "mechanism_hypothesis": "Chip tariffs and subsidies change cost and where capacity is built across the sector",
+      "relation_kind": "mechanism_hypothesis"
     },
     {
       "id": "lead:politics:china:market_and_restriction:sector",
       "from": "concept:politics:china",
       "to": "sector:semiconductors",
       "type": "market_and_restriction",
-      "mechanism_hypothesis": "China is both a major end market and the target of restrictions, so policy shifts move sector revenue expectations"
+      "mechanism_hypothesis": "China is both a major end market and the target of restrictions, so policy shifts move sector revenue expectations",
+      "relation_kind": "mechanism_hypothesis"
     }
-  ]
+  ],
+  "content_revision": "2026-11-19.2"
 }

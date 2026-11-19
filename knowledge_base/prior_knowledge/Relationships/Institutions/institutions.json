@@ -1,0 +1,754 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "institution_registry",
+  "registry_id": "institutions",
+  "label": "Institutions",
+  "compiled_on": "2026-11-19",
+  "content_revision": "2026-11-19.2",
+  "usage": {
+    "describe": "Stable profiles of institutions that set policy, publish data or hold positions: who they are, what they publish, how often and how late. Guides where to look and how to date what is found.",
+    "status": "exploratory_leads",
+    "holds_time_varying_data": false,
+    "time_varying_data_note": "Holdings, decisions and published values belong in the dated data layer with their own availability times, not in this registry.",
+    "links_are_evidence": false,
+    "historical_use_before_version_is_available": {
+      "eligible_for_strict_point_in_time_selection": false,
+      "required_retrospective_label": "post_period_knowledge"
+    }
+  },
+  "institution_kinds": {
+    "policy": "Central banks, regulators and government agencies",
+    "research_data": "Industry associations, data providers and official disclosure systems",
+    "investor": "Asset managers, hedge funds and sovereign funds"
+  },
+  "institutions": [
+    {
+      "id": "institution:federal_reserve",
+      "institution_kind": "policy",
+      "label": "Federal Reserve",
+      "jurisdiction": "US",
+      "description_lead": "Sets US monetary policy through the Federal Open Market Committee",
+      "policy": {
+        "mandate": "Maximum employment and stable prices",
+        "decision_body": "Federal Open Market Committee"
+      },
+      "publications": [
+        {
+          "name": "FOMC statement and rate decision",
+          "cadence": "8 scheduled meetings a year",
+          "typical_lag": "same day",
+          "availability": "official_archive"
+        },
+        {
+          "name": "Summary of Economic Projections",
+          "cadence": "4 times a year",
+          "typical_lag": "same day as the meeting",
+          "availability": "official_archive"
+        },
+        {
+          "name": "FOMC minutes",
+          "cadence": "8 times a year",
+          "typical_lag": "about 3 weeks after the meeting",
+          "availability": "official_archive"
+        },
+        {
+          "name": "H.4.1 balance sheet",
+          "cadence": "weekly",
+          "typical_lag": "days",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:economy:frb",
+          "link_kind": "represents"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:economy:yields",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "technology_platforms",
+          "concept_id": "concept:technology_platforms:rates",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.federalreserve.gov/"
+      ]
+    },
+    {
+      "id": "institution:us_bis",
+      "institution_kind": "policy",
+      "label": "US Bureau of Industry and Security",
+      "short_label": "US BIS",
+      "jurisdiction": "US",
+      "description_lead": "Writes and enforces US export controls, including the Entity List",
+      "policy": {
+        "mandate": "Export administration and enforcement",
+        "decision_body": "US Department of Commerce"
+      },
+      "publications": [
+        {
+          "name": "Export-control rules",
+          "cadence": "irregular",
+          "typical_lag": "effective dates vary by rule",
+          "availability": "official_archive",
+          "note": "Published in the Federal Register"
+        },
+        {
+          "name": "Entity List additions and removals",
+          "cadence": "irregular",
+          "typical_lag": "effective dates vary",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:politics:us",
+          "link_kind": "represents"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:equipment",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:designers",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:memory",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.bis.gov/",
+        "https://www.federalregister.gov/"
+      ]
+    },
+    {
+      "id": "institution:us_chips_program_office",
+      "institution_kind": "policy",
+      "label": "CHIPS Program Office",
+      "jurisdiction": "US",
+      "description_lead": "Awards US semiconductor manufacturing incentives",
+      "policy": {
+        "mandate": "Implement CHIPS Act manufacturing incentives",
+        "decision_body": "US Department of Commerce"
+      },
+      "publications": [
+        {
+          "name": "Award and preliminary-terms announcements",
+          "cadence": "irregular",
+          "typical_lag": "none",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:politics:us",
+          "link_kind": "represents"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:foundry",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:memory",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.nist.gov/chips"
+      ]
+    },
+    {
+      "id": "institution:china_mofcom",
+      "institution_kind": "policy",
+      "label": "China Ministry of Commerce",
+      "short_label": "China MOFCOM",
+      "jurisdiction": "China",
+      "description_lead": "Announces Chinese export controls and trade countermeasures",
+      "policy": {
+        "mandate": "Trade policy and export administration",
+        "decision_body": "State Council ministry"
+      },
+      "publications": [
+        {
+          "name": "Export-control and countermeasure announcements",
+          "cadence": "irregular",
+          "typical_lag": "effective dates vary",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:politics:china",
+          "link_kind": "represents"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:resources:critical_minerals",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.mofcom.gov.cn/"
+      ]
+    },
+    {
+      "id": "institution:taiwan_mof",
+      "institution_kind": "policy",
+      "label": "Taiwan Ministry of Finance",
+      "short_label": "Taiwan MOF",
+      "jurisdiction": "Taiwan",
+      "description_lead": "Publishes Taiwan's monthly trade statistics",
+      "policy": {
+        "mandate": "Public finance and customs statistics",
+        "decision_body": "Executive Yuan ministry"
+      },
+      "publications": [
+        {
+          "name": "Monthly export and import statistics",
+          "cadence": "monthly",
+          "typical_lag": "about one to two weeks after month end",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:politics:taiwan",
+          "link_kind": "represents"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:economy:growth",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.mof.gov.tw/"
+      ]
+    },
+    {
+      "id": "institution:taiwan_central_bank",
+      "institution_kind": "policy",
+      "label": "Central Bank of the Republic of China (Taiwan)",
+      "short_label": "Taiwan central bank",
+      "jurisdiction": "Taiwan",
+      "description_lead": "Sets Taiwan's policy rate and manages the Taiwan dollar",
+      "policy": {
+        "mandate": "Monetary and exchange-rate policy",
+        "decision_body": "Board of Directors"
+      },
+      "publications": [
+        {
+          "name": "Board meeting decision",
+          "cadence": "quarterly",
+          "typical_lag": "same day",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:economy:fx",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:politics:taiwan",
+          "link_kind": "represents"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.cbc.gov.tw/"
+      ]
+    },
+    {
+      "id": "institution:sia",
+      "institution_kind": "research_data",
+      "label": "Semiconductor Industry Association",
+      "short_label": "SIA",
+      "jurisdiction": "US",
+      "description_lead": "US industry association that publishes monthly global chip sales",
+      "research_data": {
+        "coverage": "Global chip sales by region",
+        "method_note": "Republishes WSTS statistics; not an independent survey"
+      },
+      "publications": [
+        {
+          "name": "Global semiconductor sales release",
+          "cadence": "monthly",
+          "typical_lag": "about 5 weeks",
+          "availability": "official_archive",
+          "note": "Three-month moving average compiled from WSTS data"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:industry_statistics",
+          "link_kind": "represents"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.semiconductors.org/"
+      ]
+    },
+    {
+      "id": "institution:wsts",
+      "institution_kind": "research_data",
+      "label": "World Semiconductor Trade Statistics",
+      "short_label": "WSTS",
+      "jurisdiction": "Global",
+      "description_lead": "Member-reported industry sales statistics and forecasts",
+      "research_data": {
+        "coverage": "Chip sales by product and region",
+        "method_note": "Compiled from member companies' reported shipments"
+      },
+      "publications": [
+        {
+          "name": "Market forecast",
+          "cadence": "twice a year, spring and autumn",
+          "typical_lag": "none",
+          "availability": "official_archive"
+        },
+        {
+          "name": "Monthly sales data",
+          "cadence": "monthly",
+          "typical_lag": "weeks",
+          "availability": "members_only",
+          "note": "Headline figures reach the public through SIA"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:industry_statistics",
+          "link_kind": "represents"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.wsts.org/"
+      ]
+    },
+    {
+      "id": "institution:semi",
+      "institution_kind": "research_data",
+      "label": "SEMI",
+      "jurisdiction": "Global",
+      "description_lead": "Industry association for equipment and materials makers",
+      "research_data": {
+        "coverage": "Equipment billings, wafer shipments, fab forecasts",
+        "method_note": "Member-reported data"
+      },
+      "publications": [
+        {
+          "name": "Equipment billings and market statistics",
+          "cadence": "quarterly",
+          "typical_lag": "weeks",
+          "availability": "official_archive",
+          "note": "Headlines are public; detail is by subscription"
+        },
+        {
+          "name": "Silicon wafer shipment statistics",
+          "cadence": "quarterly",
+          "typical_lag": "weeks",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:industry_statistics",
+          "link_kind": "represents"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:equipment",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:materials",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.semi.org/"
+      ]
+    },
+    {
+      "id": "institution:trendforce",
+      "institution_kind": "research_data",
+      "label": "TrendForce",
+      "jurisdiction": "Taiwan",
+      "description_lead": "Commercial research firm tracking memory contract and spot prices",
+      "research_data": {
+        "coverage": "Memory pricing and supply",
+        "method_note": "Proprietary channel checks; treat as an estimate"
+      },
+      "publications": [
+        {
+          "name": "DRAM and NAND contract and spot price commentary",
+          "cadence": "periodic",
+          "typical_lag": "none",
+          "availability": "news_only",
+          "note": "Full data is by subscription; press releases have no archive that proves publication time"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:memory",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.trendforce.com/"
+      ]
+    },
+    {
+      "id": "institution:twse_mops",
+      "institution_kind": "research_data",
+      "label": "Taiwan Market Observation Post System",
+      "short_label": "Taiwan MOPS",
+      "jurisdiction": "Taiwan",
+      "description_lead": "Official disclosure system for Taiwan-listed companies",
+      "research_data": {
+        "coverage": "Filings of Taiwan-listed companies",
+        "method_note": "Issuer filings with official timestamps"
+      },
+      "publications": [
+        {
+          "name": "Monthly revenue filings",
+          "cadence": "monthly",
+          "typical_lag": "by the 10th of the following month",
+          "availability": "filing"
+        },
+        {
+          "name": "Material information announcements",
+          "cadence": "irregular",
+          "typical_lag": "same day",
+          "availability": "filing"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:foundry",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:system_builders",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:supply_chain:packaging_and_test",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [
+        {
+          "company_id": "company:tsmc",
+          "link_kind": "disclosure_venue"
+        }
+      ],
+      "source_leads": [
+        "https://mops.twse.com.tw/"
+      ]
+    },
+    {
+      "id": "institution:sec_edgar",
+      "institution_kind": "research_data",
+      "label": "SEC EDGAR",
+      "jurisdiction": "US",
+      "description_lead": "Official filing system for US-registered issuers and investment managers",
+      "research_data": {
+        "coverage": "US-registered issuers and institutional managers",
+        "method_note": "Filings with official acceptance timestamps"
+      },
+      "publications": [
+        {
+          "name": "Periodic and current reports (10-K, 10-Q, 8-K, 6-K)",
+          "cadence": "irregular and quarterly",
+          "typical_lag": "timestamped on acceptance",
+          "availability": "filing"
+        },
+        {
+          "name": "Form 13F holdings reports",
+          "cadence": "quarterly",
+          "typical_lag": "up to 45 days after quarter end",
+          "availability": "filing"
+        }
+      ],
+      "concept_links": [],
+      "company_links": [
+        {
+          "company_id": "company:micron",
+          "link_kind": "disclosure_venue"
+        },
+        {
+          "company_id": "company:tsmc",
+          "link_kind": "disclosure_venue"
+        },
+        {
+          "company_id": "company:alphabet",
+          "link_kind": "disclosure_venue"
+        },
+        {
+          "company_id": "company:microsoft",
+          "link_kind": "disclosure_venue"
+        },
+        {
+          "company_id": "company:apple",
+          "link_kind": "disclosure_venue"
+        }
+      ],
+      "source_leads": [
+        "https://www.sec.gov/edgar"
+      ]
+    },
+    {
+      "id": "institution:vanguard",
+      "institution_kind": "investor",
+      "label": "Vanguard",
+      "jurisdiction": "US",
+      "description_lead": "Asset manager dominated by index funds",
+      "investor": {
+        "style": "passive_index",
+        "disclosures": [
+          "13F"
+        ],
+        "reading_note": "Position changes mostly follow index weights and fund flows, not views on a company"
+      },
+      "publications": [
+        {
+          "name": "Form 13F",
+          "cadence": "quarterly",
+          "typical_lag": "up to 45 days after quarter end",
+          "availability": "filing"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:economy:risk_appetite",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.sec.gov/edgar"
+      ]
+    },
+    {
+      "id": "institution:blackrock",
+      "institution_kind": "investor",
+      "label": "BlackRock",
+      "jurisdiction": "US",
+      "description_lead": "Asset manager with large index and ETF businesses, including the iShares sector ETFs",
+      "investor": {
+        "style": "passive_index",
+        "disclosures": [
+          "13F",
+          "ETF holdings"
+        ],
+        "reading_note": "ETF creations and redemptions show sector-level flows faster than 13F"
+      },
+      "publications": [
+        {
+          "name": "Form 13F",
+          "cadence": "quarterly",
+          "typical_lag": "up to 45 days after quarter end",
+          "availability": "filing"
+        },
+        {
+          "name": "iShares ETF holdings and flows",
+          "cadence": "daily",
+          "typical_lag": "one day",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:economy:risk_appetite",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.sec.gov/edgar",
+        "https://www.ishares.com/"
+      ]
+    },
+    {
+      "id": "institution:vaneck",
+      "institution_kind": "investor",
+      "label": "VanEck",
+      "jurisdiction": "US",
+      "description_lead": "Asset manager and ETF issuer, including the SMH semiconductor ETF",
+      "investor": {
+        "style": "passive_index",
+        "disclosures": [
+          "13F",
+          "ETF holdings"
+        ],
+        "reading_note": "ETF creations and redemptions show sector-level flows faster than 13F"
+      },
+      "publications": [
+        {
+          "name": "Form 13F",
+          "cadence": "quarterly",
+          "typical_lag": "up to 45 days after quarter end",
+          "availability": "filing"
+        },
+        {
+          "name": "ETF holdings and flows",
+          "cadence": "daily",
+          "typical_lag": "one day",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:economy:risk_appetite",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.sec.gov/edgar",
+        "https://www.vaneck.com/"
+      ]
+    },
+    {
+      "id": "institution:norges_bank_im",
+      "institution_kind": "investor",
+      "label": "Norges Bank Investment Management",
+      "short_label": "NBIM",
+      "jurisdiction": "Norway",
+      "description_lead": "Manages Norway's sovereign wealth fund",
+      "investor": {
+        "style": "sovereign_fund",
+        "disclosures": [
+          "own holdings reports",
+          "13F"
+        ],
+        "reading_note": "Long-horizon holder; changes are slow and reported with a long lag"
+      },
+      "publications": [
+        {
+          "name": "Full holdings disclosure",
+          "cadence": "periodic",
+          "typical_lag": "months",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:economy:risk_appetite",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.nbim.no/"
+      ]
+    },
+    {
+      "id": "institution:citadel_advisors",
+      "institution_kind": "investor",
+      "label": "Citadel Advisors",
+      "jurisdiction": "US",
+      "description_lead": "Multi-manager hedge fund",
+      "investor": {
+        "style": "multi_manager_hedge_fund",
+        "disclosures": [
+          "13F"
+        ],
+        "reading_note": "13F shows long US equities and listed options only, not shorts or swaps, so it misstates net exposure"
+      },
+      "publications": [
+        {
+          "name": "Form 13F",
+          "cadence": "quarterly",
+          "typical_lag": "up to 45 days after quarter end",
+          "availability": "filing"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:economy:risk_appetite",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.sec.gov/edgar"
+      ]
+    },
+    {
+      "id": "institution:millennium_management",
+      "institution_kind": "investor",
+      "label": "Millennium Management",
+      "short_label": "Millennium",
+      "jurisdiction": "US",
+      "description_lead": "Multi-manager hedge fund",
+      "investor": {
+        "style": "multi_manager_hedge_fund",
+        "disclosures": [
+          "13F"
+        ],
+        "reading_note": "13F shows long US equities and listed options only, not shorts or swaps, so it misstates net exposure"
+      },
+      "publications": [
+        {
+          "name": "Form 13F",
+          "cadence": "quarterly",
+          "typical_lag": "up to 45 days after quarter end",
+          "availability": "filing"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "semiconductors",
+          "concept_id": "concept:economy:risk_appetite",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.sec.gov/edgar"
+      ]
+    }
+  ]
+}

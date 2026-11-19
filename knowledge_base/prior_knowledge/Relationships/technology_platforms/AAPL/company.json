@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "company_research_profile",
+  "company_id": "company:apple",
+  "symbol": "AAPL",
+  "name": "Apple",
+  "compiled_on": "2026-11-19",
+  "content_revision": "2026-11-19.2",
+  "status": "exploratory_leads",
+  "sector": {
+    "id": "technology_platforms",
+    "schema_version": "2.0.0",
+    "content_revision": "2026-11-19.2",
+    "content_sha256": "305c75859076a59373b85ed0cf1ca4abbb2caba3132a7294394a4dd027386fa6"
+  },
+  "business_roles": [
+    {
+      "concept_id": "concept:technology_platforms:devices",
+      "scope_note": "Research devices, operating systems and services together, while checking product and regional differences."
+    }
+  ],
+  "listing": {
+    "exchange": "NASDAQ",
+    "security_type": "common_stock"
+  },
+  "observables_to_research": [
+    "iPhone and other product revenue",
+    "Services revenue and margins",
+    "installed-base commentary",
+    "product mix and channel inventory",
+    "regional revenue and currency effects"
+  ],
+  "source_leads": [
+    "https://investor.apple.com/investor-relations/default.aspx",
+    "https://www.apple.com/newsroom/2026/11/apple-reports-fourth-quarter-results/"
+  ],
+  "exposures": [
+    {
+      "id": "lead:company:apple:ai_adoption:replacement_and_services",
+      "concept": "concept:technology_platforms:ai_adoption",
+      "relation_kind": "mechanism_hypothesis",
+      "type": "replacement_and_services",
+      "mechanism_hypothesis": "AI features may affect device replacement or service use; verify paid demand and product-specific adoption before applying this lead."
+    }
+  ],
+  "projection": {
+    "excluded_edge_ids": [],
+    "edge_conditions": {}
+  },
+  "evidence": []
+}

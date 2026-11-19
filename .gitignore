@@ -3,7 +3,11 @@ __pycache__/
 *.egg-info/
 dist/
 
+# Generated research-map previews
+/knowledge_base/prior_knowledge/Relationships/**/*.html
+
 # run outputs: keep the folders, ignore their contents
+run/**
 artifacts/**
 !artifacts/**/
 !artifacts/**/.gitkeep

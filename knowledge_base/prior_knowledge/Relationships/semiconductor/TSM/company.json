@@ -1,16 +1,23 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "2.0.0",
   "kind": "company_research_profile",
+  "company_id": "company:tsmc",
   "symbol": "TSM",
   "name": "Taiwan Semiconductor Manufacturing Company",
   "compiled_on": "2026-11-19",
+  "content_revision": "2026-11-19.2",
   "status": "exploratory_leads",
   "sector": {
     "id": "semiconductors",
-    "schema_version": "1.0.0"
+    "schema_version": "2.0.0",
+    "content_revision": "2026-11-19.2",
+    "content_sha256": "b042ecbeb2ef18c6bc26d3f06f2dbeeea7b9cf18249d45c1f257d8bdf13772bb"
   },
-  "instance_of": [
-    "concept:supply_chain:foundry"
+  "business_roles": [
+    {
+      "concept_id": "concept:supply_chain:foundry",
+      "scope_note": "Research routing only. Verify the affected product segment, geographic exposure and materiality for this company."
+    }
   ],
   "listing": {
     "exchange": "NYSE",
@@ -33,25 +40,39 @@
   ],
   "exposures": [
     {
+      "id": "lead:company:tsmc:concept:economy:fx:adr_translation",
       "concept": "concept:economy:fx",
+      "relation_kind": "mechanism_hypothesis",
       "type": "adr_translation",
       "mechanism_hypothesis": "Revenue is mostly in US dollars and costs in Taiwan dollars, and the ADR is priced off the Taiwan line, so TWD moves change margins and the ADR premium"
     },
     {
+      "id": "lead:company:tsmc:concept:politics:taiwan:domicile",
       "concept": "concept:politics:taiwan",
+      "relation_kind": "mechanism_hypothesis",
       "type": "domicile",
       "mechanism_hypothesis": "Taiwan power, water and overseas-investment policy apply to it directly, and cross-strait risk is priced into it first"
     },
     {
+      "id": "lead:company:tsmc:concept:politics:us:overseas_fabs",
       "concept": "concept:politics:us",
+      "relation_kind": "mechanism_hypothesis",
       "type": "overseas_fabs",
       "mechanism_hypothesis": "US subsidy terms and tariff treatment of Taiwan-made chips change the cost of its US build-out"
     },
     {
+      "id": "lead:company:tsmc:concept:politics:china:customer_restriction",
       "concept": "concept:politics:china",
+      "relation_kind": "mechanism_hypothesis",
       "type": "customer_restriction",
       "mechanism_hypothesis": "Export rules decide which China customers it may serve and at which nodes"
     }
   ],
-  "relationships": []
+  "projection": {
+    "excluded_edge_ids": [],
+    "edge_conditions": {
+      "lead:demand:auto_and_industrial:orders:supply_chain:foundry": "Check mature-node revenue exposure and utilisation before applying this lead to the company."
+    }
+  },
+  "evidence": []
 }

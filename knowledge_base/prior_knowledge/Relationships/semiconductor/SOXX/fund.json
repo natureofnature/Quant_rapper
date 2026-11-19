@@ -1,0 +1,66 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "fund_research_profile",
+  "fund_id": "fund:soxx",
+  "symbol": "SOXX",
+  "name": "iShares Semiconductor ETF",
+  "compiled_on": "2026-11-19",
+  "content_revision": "2026-11-19.1",
+  "status": "exploratory_leads",
+  "sector": {
+    "id": "semiconductors",
+    "schema_version": "2.0.0",
+    "content_revision": "2026-11-19.2",
+    "content_sha256": "b042ecbeb2ef18c6bc26d3f06f2dbeeea7b9cf18249d45c1f257d8bdf13772bb"
+  },
+  "issuer_institution_id": "institution:blackrock",
+  "index_tracked": "NYSE Semiconductor Index",
+  "business_roles": [],
+  "listing": {
+    "exchange": "NASDAQ",
+    "security_type": "etf"
+  },
+  "observables_to_research": [
+    "daily holdings and weights",
+    "shares outstanding, creations and redemptions",
+    "premium or discount to net asset value",
+    "index reconstitution and rebalance announcements",
+    "option implied volatility and skew"
+  ],
+  "source_leads": [
+    "https://www.ishares.com/us/products/239705/ishares-phlx-semiconductor-etf"
+  ],
+  "member_leads": [
+    {
+      "company_id": "company:tsmc",
+      "symbol": "TSM",
+      "note": "Check its current weight in the daily holdings file; held as a US-listed ADR"
+    },
+    {
+      "company_id": "company:micron",
+      "symbol": "MU",
+      "note": "Check its current weight in the daily holdings file"
+    }
+  ],
+  "exposures": [
+    {
+      "id": "lead:fund:soxx:concept:supply_chain:designers:weight_concentration",
+      "concept": "concept:supply_chain:designers",
+      "relation_kind": "mechanism_hypothesis",
+      "type": "weight_concentration",
+      "mechanism_hypothesis": "The largest chip designers carry the biggest index weights, so their results move the fund more than a count of holdings suggests"
+    },
+    {
+      "id": "lead:fund:soxx:concept:economy:risk_appetite:fund_flows",
+      "concept": "concept:economy:risk_appetite",
+      "relation_kind": "observation_lead",
+      "type": "fund_flows",
+      "mechanism_hypothesis": "Creations and redemptions show money entering or leaving the sector through this fund"
+    }
+  ],
+  "projection": {
+    "excluded_edge_ids": [],
+    "edge_conditions": {}
+  },
+  "evidence": []
+}
