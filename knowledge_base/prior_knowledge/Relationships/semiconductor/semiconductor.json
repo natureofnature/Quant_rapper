@@ -731,7 +731,14 @@
       "to": "concept:supply_chain:designers",
       "type": "bottleneck",
       "mechanism_hypothesis": "Packaging capacity caps accelerator shipments",
-      "relation_kind": "mechanism_hypothesis"
+      "relation_kind": "mechanism_hypothesis",
+      "test_criteria": {
+        "trigger": "Confirmed orders for a named accelerator require more advanced packaging capacity than is available by its shipment deadline.",
+        "observable": "Units shipped or delivery dates for that accelerator against the designer’s original shipment plan.",
+        "window": "The shipment quarter covered by the original plan.",
+        "supports_if": "The designer or its supplier attributes a shipment shortfall or delay against the plan to unavailable packaging capacity.",
+        "contradicts_if": "The packaging constraint is documented, yet the designer delivers the full planned quantity on time, for example by securing alternative packaging capacity."
+      }
     },
     {
       "id": "lead:supply_chain:memory:bottleneck:supply_chain:designers",
@@ -819,7 +826,14 @@
       "to": "concept:supply_chain:foundry",
       "type": "orders",
       "mechanism_hypothesis": "Inventory correction lowers mature-node utilisation",
-      "relation_kind": "mechanism_hypothesis"
+      "relation_kind": "mechanism_hypothesis",
+      "test_criteria": {
+        "trigger": "Automotive or industrial customers cut orders for a named mature process node to draw down inventories.",
+        "observable": "Quarterly utilisation of the affected foundry capacity compared with the quarter before the order cuts.",
+        "window": "The quarter of the cuts and the following quarter.",
+        "supports_if": "Utilisation falls and the foundry attributes the decline at least in part to those order cuts.",
+        "contradicts_if": "The cuts occur, but utilisation holds or rises through the window and the foundry reports no utilisation loss from the cuts, for example because replacement orders filled the capacity."
+      }
     },
     {
       "id": "lead:demand:hyperscalers:in_house_chips:supply_chain:foundry",
@@ -942,5 +956,5 @@
       "relation_kind": "mechanism_hypothesis"
     }
   ],
-  "content_revision": "2026-11-19.2"
+  "content_revision": "2026-11-19.3"
 }

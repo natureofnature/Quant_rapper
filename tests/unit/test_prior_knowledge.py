@@ -60,6 +60,19 @@ class ResearchMapTests(unittest.TestCase):
         self.assertIn(condition, projected["applicability_notes"])
         self.assertEqual(projected["to"], "@company")
 
+    def test_tsm_pilot_leads_in_company_projection(self):
+        edges = {e["origin_edge_id"]: e for e in self.project()[1]}
+        auto = edges["lead:demand:auto_and_industrial:orders:supply_chain:foundry"]
+        packaging = edges["lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers"]
+        self.assertEqual(auto["to"], "@company")
+        self.assertEqual((packaging["from"], packaging["to"]), ("@company", "concept:supply_chain:designers"))
+        self.assertTrue(any("CoWoS" in note for note in packaging["applicability_notes"]))
+        for edge in (auto, packaging):
+            self.assertTrue(edge["test_criteria"]["contradicts_if"])
+        restriction = edges["lead:company:tsmc:concept:politics:china:customer_restriction"]
+        self.assertEqual((restriction["from"], restriction["to"]), ("concept:politics:us", "@company"))
+        self.assertIn("China", restriction["mechanism"])
+
     def test_excluded_edge_does_not_reappear_as_upstream_link(self):
         edge_id = next(iter(self.profile["projection"]["edge_conditions"]))
         self.profile["projection"]["edge_conditions"] = {}
@@ -99,6 +112,16 @@ class ResearchMapTests(unittest.TestCase):
     def test_non_business_role_cannot_trigger_role_projection(self):
         self.profile["business_roles"][0]["concept_id"] = "concept:politics:us"
         with self.assertRaisesRegex(ValueError, "invalid business role"):
+            self.project()
+
+    def test_incomplete_criteria_rejected_on_sector_edges_and_exposures(self):
+        criteria = {"trigger": "Order cuts", "observable": "Utilisation",
+                    "window": "One quarter", "supports_if": "Utilisation falls"}
+        self.data["concept_edges"][0]["test_criteria"] = criteria
+        with self.assertRaisesRegex(ValueError, "contradicts_if"):
+            API["load_research_map"](self.path, self.data)
+        self.profile["exposures"][0]["test_criteria"] = criteria
+        with self.assertRaisesRegex(ValueError, "contradicts_if"):
             self.project()
 
     def test_observation_links_do_not_become_mechanism_claims(self):

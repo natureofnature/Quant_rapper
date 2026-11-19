@@ -5,13 +5,13 @@
   "symbol": "MU",
   "name": "Micron Technology",
   "compiled_on": "2026-11-19",
-  "content_revision": "2026-11-19.2",
+  "content_revision": "2026-11-19.3",
   "status": "exploratory_leads",
   "sector": {
     "id": "semiconductors",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-19.2",
-    "content_sha256": "b042ecbeb2ef18c6bc26d3f06f2dbeeea7b9cf18249d45c1f257d8bdf13772bb"
+    "content_revision": "2026-11-19.3",
+    "content_sha256": "77eca9396185f5dd0ec9f56e974a08ab73efa284691107d7c66ccf1e766ad55e"
   },
   "business_roles": [
     {

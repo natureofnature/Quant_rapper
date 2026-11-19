@@ -5,18 +5,22 @@
   "symbol": "TSM",
   "name": "Taiwan Semiconductor Manufacturing Company",
   "compiled_on": "2026-11-19",
-  "content_revision": "2026-11-19.2",
+  "content_revision": "2026-11-19.3",
   "status": "exploratory_leads",
   "sector": {
     "id": "semiconductors",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-19.2",
-    "content_sha256": "b042ecbeb2ef18c6bc26d3f06f2dbeeea7b9cf18249d45c1f257d8bdf13772bb"
+    "content_revision": "2026-11-19.3",
+    "content_sha256": "77eca9396185f5dd0ec9f56e974a08ab73efa284691107d7c66ccf1e766ad55e"
   },
   "business_roles": [
     {
       "concept_id": "concept:supply_chain:foundry",
       "scope_note": "Research routing only. Verify the affected product segment, geographic exposure and materiality for this company."
+    },
+    {
+      "concept_id": "concept:supply_chain:packaging_and_test",
+      "scope_note": "Applies to TSMC-operated advanced packaging capacity such as CoWoS. Check which packaging step TSMC performs for the named accelerator. Outsourced assembly and testing fall outside this role."
     }
   ],
   "listing": {
@@ -62,10 +66,10 @@
     },
     {
       "id": "lead:company:tsmc:concept:politics:china:customer_restriction",
-      "concept": "concept:politics:china",
+      "concept": "concept:politics:us",
       "relation_kind": "mechanism_hypothesis",
       "type": "customer_restriction",
-      "mechanism_hypothesis": "Export rules decide which China customers it may serve and at which nodes"
+      "mechanism_hypothesis": "US export controls administered by BIS may restrict which customers in China TSMC can supply and which chips it can manufacture for them."
     }
   ],
   "projection": {

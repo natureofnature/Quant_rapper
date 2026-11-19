@@ -513,6 +513,8 @@ function showEdge(i) {
   panel.innerHTML = `<h2>${nodeLink(r.from)} → ${nodeLink(r.to)}</h2><div class="tag">${esc(nice(r.type || 'relation'))}${scope(r)}</div>
     <p class="notice">${esc(nice(r.status))} · ${esc(nice(r.relation_kind))}. This link is not a confirmed company fact.</p>
     <h3>Hypothesis / observation</h3><p>${esc(r.mechanism || 'Not recorded.')}</p>
+    ${r.test_criteria ? '<h3>How to test this link</h3>' + list(Object.entries(r.test_criteria).map(
+      ([key, value]) => `<strong>${esc(nice(key))}</strong><br>${esc(value)}`)) : ''}
     <h3>Applicability</h3>${list((r.applicability_notes || []).map(esc))}
     <h3>Original research link</h3><p>${esc(r.origin_from)} → ${esc(r.origin_to)}</p>
     <p class="notice">${esc(r.origin_edge_id)}<br>Revision ${esc(r.origin_content_revision)}</p>

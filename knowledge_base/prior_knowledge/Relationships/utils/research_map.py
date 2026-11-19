@@ -5,7 +5,7 @@ A sector map is <sector>/<sector>.json; a company profile is <sector>/<SYMBOL>/c
 sector onto one company: links touching its business roles or the sector node become
 candidate links to the company, subject to the profile's exclusions and conditions.
 
-Validation failures raise ValueError. See README.md for the schema.
+Validation failures raise ValueError.
 """
 
 import hashlib
@@ -59,6 +59,16 @@ def pretty(name: str) -> str:
     return name.replace("_", " ")
 
 
+def validate_test_criteria(edge: dict, source: Path) -> None:
+    if "test_criteria" not in edge:
+        return
+    criteria = edge["test_criteria"]
+    fields = ("trigger", "observable", "window", "supports_if", "contradicts_if")
+    require(isinstance(criteria, dict) and
+            all(isinstance(criteria.get(key), str) and criteria[key].strip() for key in fields),
+            source, f"test_criteria on {edge['id']} requires {', '.join(fields)}")
+
+
 def validate_sector(data: dict, source: Path) -> None:
     require(data.get("schema_version") == SCHEMA_VERSION, source, "expected schema_version 2.0.0")
     require(bool(data.get("content_revision")), source, "missing content_revision")
@@ -79,6 +89,7 @@ def validate_sector(data: dict, source: Path) -> None:
         require(edge.get("from") in concepts and edge.get("to") in {*concepts, root},
                 source, f"unknown endpoint on {edge['id']}")
         require(edge.get("relation_kind") in RELATION_KINDS, source, f"invalid relation_kind on {edge['id']}")
+        validate_test_criteria(edge, source)
 
 
 def validate_company(profile: dict, view: dict, nodes: dict, relations: list, source: Path) -> None:
@@ -119,6 +130,7 @@ def validate_company(profile: dict, view: dict, nodes: dict, relations: list, so
         require(exposure.get("concept") in nodes and exposure["concept"] not in role_ids,
                 source, f"invalid exposure concept on {exposure['id']}")
         require(exposure.get("relation_kind") in RELATION_KINDS, source, f"invalid relation_kind on {exposure['id']}")
+        validate_test_criteria(exposure, source)
     for record in indexed(profile["evidence"], source, "evidence").values():
         require(record.get("lead_id") in {*edges, *exposures}, source, "evidence refers to an unknown lead")
         require(record.get("assessment") in {"supports", "contradicts", "inconclusive"}, source, "invalid evidence assessment")
