@@ -14,27 +14,56 @@ A mid/low-frequency quant research workspace built around a point-in-time causal
 
 ## Architecture
 
-```mermaid
-flowchart TD
-    C[quant_contracts<br/>schemas only]
-    D[quant_pit_data<br/>PIT panels and snapshots]
-    G[quant_causal_graph<br/>hypotheses, dated graph, LLM]
-    E[quant_evaluator<br/>pure math: alpha and beta tracks]
-    L[quant_loop<br/>orchestration]
-    A[apps<br/>CLI and read-only workbench]
+System topology: alpha / beta dual track plus the post-market closed loop.
 
-    D --> C
-    G --> C
-    G --> D
-    E --> C
-    L --> C
-    L --> D
-    L --> G
-    L --> E
-    A --> L
+```
+              ┌──────────────────────────────────────────────────────┐
+              │       quant_contracts  (single contract layer)       │
+              │ PIT panel / versioned graph / eval report / forecast │
+              └──────────────────────────┬───────────────────────────┘
+                                         │  (every package depends on it, one way)
+                                         ▼
+              ┌──────────────────────────────────────────────────────┐
+              │           quant_pit_data  (PIT data base)            │
+              │  prices (stocks + ETFs) │ release-date financials    │
+              │  macro / volatility     │ news archive               │
+              └────────────┬─────────────────────────────┬───────────┘
+                           │ immutable PIT snapshots     │ (date, ticker) panel
+                           ▼                             ▼
+┌───────────────────────────────────────┐   ┌───────────────────────────────────────┐
+│          quant_causal_graph           │   │            quant_evaluator            │
+│ [only place allowed to call an LLM]   │   │ [pure math: no LLM / network / UI]    │
+│                                       │   │                                       │
+│ • 3-layer economic hypothesis tree    │   │ ┌─ Alpha track (beta-removed) ──────┐ │
+│   (macro / industry / company)        │   │ │ • beta_neutralizer (SOXX / QQQ)   │ │
+│ • dated relationship graph            │   │ │ • event_car / directional (no MAE)│ │
+│   (2-hop paths)                       │   │ │ • cross_section (phase 3 RankIC)  │ │
+│ • evidence mapping                    │   │ └───────────────────────────────────┘ │
+│   (direct / proxy / data gap)         │   │ ┌─ Beta track (sector early warning)┐ │
+│ • replay of historical decision       │   │ │ • breadth / correlation (crowding)│ │
+│   points                              │   │ │ • volatility / macro_slope        │ │
+│                                       │   │ │ • regime_gate (red/yellow/green)  │ │
+│                                       │   │ └───────────────────────────────────┘ │
+│                                       │   │ • splitters (purge + embargo), ledger │
+└───────────────────┬───────────────────┘   └───────────────────┬───────────────────┘
+                    │  candidate factor recipes  ──────────────▶│
+                    └─────────────────────┬─────────────────────┘
+                                          ▼
+              ┌──────────────────────────────────────────────────────┐
+              │      quant_loop  (thin orchestration, closed loop)   │
+              │ 1. historical_ablation : fixed-budget flat vs graph  │
+              │ 2. post_market_runner  : update → regime light       │
+              │ 3. maturity_grader     : grade after 5 / 21 sessions │
+              │ 4. feedback_store      : write results back to graph │
+              └──────────────────────────┬───────────────────────────┘
+                                         │  reads artifacts/ JSON only
+                                         ▼
+              ┌──────────────────────────────────────────────────────┐
+              │        apps/  (CLI and frozen read-only workbench)   │
+              └──────────────────────────────────────────────────────┘
 ```
 
-Arrows mean "depends on". Dependencies only point downward to `quant_contracts`; nothing imports from `apps`.
+Dependencies are one-way: everything depends on `quant_contracts`, and no core package imports from `apps`.
 
 | Package | Role | May depend on |
 | --- | --- | --- |
