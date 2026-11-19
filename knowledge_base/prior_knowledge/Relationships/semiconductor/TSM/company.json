@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "company_research_profile",
+  "symbol": "TSM",
+  "name": "Taiwan Semiconductor Manufacturing Company",
+  "compiled_on": "2026-11-19",
+  "status": "exploratory_leads",
+  "sector": {
+    "id": "semiconductors",
+    "schema_version": "1.0.0"
+  },
+  "instance_of": [
+    "concept:supply_chain:foundry"
+  ],
+  "listing": {
+    "exchange": "NYSE",
+    "security_type": "adr",
+    "ordinary": "2330.TW",
+    "adr_ratio": 5,
+    "fx_pair": "TWD/USD"
+  },
+  "fiscal_calendar": "Calendar year",
+  "observables_to_research": [
+    "monthly revenue release",
+    "quarterly revenue and gross-margin guidance against the prior guide",
+    "annual capex guidance and revisions",
+    "revenue share by technology node and by platform",
+    "advanced-packaging capacity commentary",
+    "ADR premium to the ordinary shares"
+  ],
+  "source_leads": [
+    "https://investor.tsmc.com/"
+  ],
+  "exposures": [
+    {
+      "concept": "concept:economy:fx",
+      "type": "adr_translation",
+      "mechanism_hypothesis": "Revenue is mostly in US dollars and costs in Taiwan dollars, and the ADR is priced off the Taiwan line, so TWD moves change margins and the ADR premium"
+    },
+    {
+      "concept": "concept:politics:taiwan",
+      "type": "domicile",
+      "mechanism_hypothesis": "Taiwan power, water and overseas-investment policy apply to it directly, and cross-strait risk is priced into it first"
+    },
+    {
+      "concept": "concept:politics:us",
+      "type": "overseas_fabs",
+      "mechanism_hypothesis": "US subsidy terms and tariff treatment of Taiwan-made chips change the cost of its US build-out"
+    },
+    {
+      "concept": "concept:politics:china",
+      "type": "customer_restriction",
+      "mechanism_hypothesis": "Export rules decide which China customers it may serve and at which nodes"
+    }
+  ],
+  "relationships": []
+}

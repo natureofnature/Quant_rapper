@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "company_research_profile",
+  "symbol": "MU",
+  "name": "Micron Technology",
+  "compiled_on": "2026-11-19",
+  "status": "exploratory_leads",
+  "sector": {
+    "id": "semiconductors",
+    "schema_version": "1.0.0"
+  },
+  "instance_of": [
+    "concept:supply_chain:memory"
+  ],
+  "listing": {
+    "exchange": "NASDAQ",
+    "security_type": "common_stock"
+  },
+  "fiscal_calendar": "52- or 53-week year ending on the Thursday closest to August 31",
+  "observables_to_research": [
+    "quarterly revenue and gross-margin guidance against the prior guide",
+    "DRAM and NAND bit-shipment and average-selling-price changes",
+    "inventory days",
+    "capex guidance and revisions",
+    "high-bandwidth memory revenue and allocation commentary"
+  ],
+  "source_leads": [
+    "https://investors.micron.com/"
+  ],
+  "exposures": [
+    {
+      "concept": "concept:politics:us",
+      "type": "subsidy",
+      "mechanism_hypothesis": "US chip subsidies support its domestic fab build-out and its timing"
+    },
+    {
+      "concept": "concept:politics:japan",
+      "type": "fab_subsidy",
+      "mechanism_hypothesis": "Japanese subsidies support its fab in Japan"
+    },
+    {
+      "concept": "concept:politics:taiwan",
+      "type": "manufacturing_base",
+      "mechanism_hypothesis": "A large share of its DRAM output is made in Taiwan, so Taiwan disruption hits its supply directly"
+    }
+  ],
+  "relationships": []
+}
