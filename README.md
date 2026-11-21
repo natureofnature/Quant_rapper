@@ -107,12 +107,16 @@ docs/rfcs/          design documents
 knowledge_base/     curated research maps and company profiles
 ```
 
-The prior knowledge currently has two broad research groups:
+The prior knowledge currently has two broad research groups and one shared layer:
 
 - [Semiconductors](knowledge_base/prior_knowledge/Relationships/semiconductor/semiconductor.json): MU, TSM, and sector funds.
 - [Technology platforms](knowledge_base/prior_knowledge/Relationships/technology_platforms/technology_platforms.json): Alphabet (GOOGL), Microsoft (MSFT), and Apple (AAPL). Cloud, advertising, software, AI and device ecosystems are business roles within this group, not separate sectors.
 
+- [Market structure](knowledge_base/prior_knowledge/Relationships/market_structure/market_structure.json): market-wide discount-rate, liquidity and forced-flow mechanisms, with SPY and QQQ as benchmarks. The sector maps refer to these concepts instead of repeating them.
+
 These are research groupings; technology platforms is not an official securities-sector classification.
+
+Each market-structure concept states its observability: `direct` (a public series measures it), `proxy` (a public series needs a stated assumption) or `none`. Concepts that cannot be measured, such as volatility-control flows, are kept so that mechanical causes stay in view. They are never scored as supported or contradicted, and a result conditioned on a proxy is a finding about the proxy. Price-derived indicators such as RSI are not concepts; they belong to the evaluator.
 Each company has one profile with candidate links and separate evidence references.
 The institution registry links research topics and company disclosures to their sources.
 Generate all maps and switch between them using the page's map selector:

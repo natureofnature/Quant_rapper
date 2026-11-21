@@ -1,0 +1,308 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "industry_research_map",
+  "sector_id": "market_structure",
+  "label": "Market Structure",
+  "compiled_on": "2026-11-21",
+  "content_revision": "2026-11-21.2",
+  "levels": {
+    "L1": {
+      "label": "Macro discounting and liquidity",
+      "branch_ids": [
+        "macro_liquidity"
+      ]
+    },
+    "L2": {
+      "label": "Derivatives and mechanical flows",
+      "branch_ids": [
+        "derivatives_flows",
+        "systematic_positioning"
+      ]
+    }
+  },
+  "usage": {
+    "describe": "Market-wide mechanisms that can move every sector: discount rates, liquidity, and flows from participants who are forced to buy or sell. Sector maps refer to these concepts instead of repeating them. All links are hypotheses to investigate.",
+    "status": "exploratory_leads",
+    "may_create_company_relationships_from_concept_links": false,
+    "edges_are_evidence": false,
+    "scope_rule": "A concept belongs here when it explains who is forced to buy or sell, and why. Mathematical transforms of price history, such as RSI or moving-average crossovers, are not concepts; they belong to the evaluator.",
+    "unobservable_concepts": {
+      "purpose": "Concepts with observability proxy or none are kept so that mechanical causes stay in view when a fundamental lead fails.",
+      "never_scored": "A concept with observability none is never assessed as supported or contradicted. A report may only say it was not ruled out.",
+      "not_a_default_explanation": "Naming such a concept as the cause of a move requires stating what observation would have distinguished it from the alternatives.",
+      "proxies_stay_named": "A result conditioned on a proxy is a finding about the proxy. A trend-break result is about trend state, not trend-follower flows; a VIX/VIX3M result is about the term structure, not dealer gamma."
+    },
+    "historical_use_before_version_is_available": {
+      "eligible_for_strict_point_in_time_selection": false,
+      "required_retrospective_label": "post_period_knowledge"
+    },
+    "sector_node": {
+      "id": "sector:market_structure",
+      "describe": "Stands for the broad US equity market. An edge targeting it suggests a market-wide exposure; whether it applies to a given sector or company must be reviewed."
+    }
+  },
+  "branches": [
+    {
+      "id": "macro_liquidity",
+      "level": "L1",
+      "question": "Are discount rates, real yields or system liquidity repricing all risk assets?",
+      "concept_ids": [
+        "concept:macro_liquidity:frb_policy",
+        "concept:macro_liquidity:real_yields",
+        "concept:macro_liquidity:credit_spreads",
+        "concept:macro_liquidity:usd_liquidity"
+      ]
+    },
+    {
+      "id": "derivatives_flows",
+      "level": "L2",
+      "question": "Are option dealers and volatility structures dampening moves or amplifying them?",
+      "concept_ids": [
+        "concept:derivatives_flows:vol_term_structure",
+        "concept:derivatives_flows:dealer_gamma",
+        "concept:derivatives_flows:opex_calendar"
+      ]
+    },
+    {
+      "id": "systematic_positioning",
+      "level": "L2",
+      "question": "Are trend-following, volatility-control or leveraged books near thresholds that force them to sell?",
+      "concept_ids": [
+        "concept:systematic_positioning:cta_trend_flows",
+        "concept:systematic_positioning:vol_control_flows",
+        "concept:systematic_positioning:market_breadth",
+        "concept:systematic_positioning:margin_and_etf_flows"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "concept:macro_liquidity:frb_policy",
+      "label": "Fed Policy",
+      "node_kind": "institution",
+      "description_lead": "Sets the policy rate path and the size of the balance sheet",
+      "observables_to_research": [
+        "FOMC decisions and projections",
+        "balance-sheet runoff pace",
+        "market-implied rate path"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:macro_liquidity:real_yields",
+      "label": "Real Yields",
+      "node_kind": "variable",
+      "description_lead": "Discount rate applied to long-duration equity cash flows",
+      "observables_to_research": [
+        "10-year real yield level and rate of change",
+        "curve slope"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:macro_liquidity:credit_spreads",
+      "label": "Credit Spreads",
+      "node_kind": "variable",
+      "description_lead": "Price of corporate credit risk and a gauge of funding conditions",
+      "observables_to_research": [
+        "high-yield and investment-grade option-adjusted spreads",
+        "spread rate of change"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:macro_liquidity:usd_liquidity",
+      "label": "USD Liquidity",
+      "node_kind": "variable",
+      "description_lead": "Availability and cost of dollar funding",
+      "observables_to_research": [
+        "broad dollar index",
+        "cross-currency basis",
+        "money-market funding rates"
+      ],
+      "observability": "proxy",
+      "observable_with": "No single series measures dollar funding stress. The dollar index, cross-currency basis and funding-rate spreads each capture part of it; reading any one as funding stress assumes the move is not driven by trade or rate differentials."
+    },
+    {
+      "id": "concept:derivatives_flows:vol_term_structure",
+      "label": "Volatility Term Structure",
+      "node_kind": "variable",
+      "description_lead": "Shape of implied volatility across maturities",
+      "observables_to_research": [
+        "VIX/VIX3M ratio",
+        "term-structure inversion",
+        "index option skew"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:derivatives_flows:dealer_gamma",
+      "label": "Dealer Gamma",
+      "node_kind": "variable",
+      "description_lead": "Net option gamma held by dealers, which sets whether their hedging dampens or amplifies moves",
+      "observables_to_research": [
+        "estimated net dealer gamma by strike",
+        "index level against the estimated gamma-flip level"
+      ],
+      "observability": "proxy",
+      "observable_with": "Dealer positions are not published. Daily option open interest by strike is public, and a gamma estimate can be built from it only by assuming which side dealers hold. Vendor estimates rest on the same assumption. The VIX/VIX3M ratio is not a measurement of dealer gamma."
+    },
+    {
+      "id": "concept:derivatives_flows:opex_calendar",
+      "label": "Options Expiry Calendar",
+      "node_kind": "observation",
+      "description_lead": "Scheduled dates on which option positions and their hedges roll off",
+      "observables_to_research": [
+        "monthly and quarterly expiry dates",
+        "open interest expiring on each date",
+        "share of volume in same-day-expiry options"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:systematic_positioning:cta_trend_flows",
+      "label": "Trend-Following Flows",
+      "node_kind": "variable",
+      "description_lead": "Systematic funds that cut or add exposure when medium-term price trends break",
+      "observables_to_research": [
+        "leveraged-fund net positions in equity index futures",
+        "index level against medium-term trend levels"
+      ],
+      "observability": "proxy",
+      "observable_with": "Fund positions are not published. The CFTC's weekly Commitments of Traders report gives leveraged-fund positions in equity index futures, a wider group than trend followers, published with a lag of several days. A price crossing a moving average is the trigger these funds respond to, not a measurement of their selling."
+    },
+    {
+      "id": "concept:systematic_positioning:vol_control_flows",
+      "label": "Volatility-Control Flows",
+      "node_kind": "variable",
+      "description_lead": "Funds that scale equity exposure down as realised volatility rises",
+      "observables_to_research": [
+        "realised volatility of the equity index, as the input these funds respond to"
+      ],
+      "observability": "none",
+      "observable_with": "No public data shows the positions or trades of volatility-targeting funds. Realised volatility is the input to their rule, not a measurement of their flows. This would need fund-level exposure disclosures or a prime-broker dataset."
+    },
+    {
+      "id": "concept:systematic_positioning:market_breadth",
+      "label": "Market Breadth",
+      "node_kind": "variable",
+      "description_lead": "How widely an index move is shared across its members",
+      "observables_to_research": [
+        "share of index members above their 50-day and 200-day averages",
+        "equal-weight against cap-weight index return",
+        "rolling pairwise correlation of members"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:systematic_positioning:margin_and_etf_flows",
+      "label": "Margin and ETF Flows",
+      "node_kind": "variable",
+      "description_lead": "Leverage in brokerage accounts and money moving through index funds",
+      "observables_to_research": [
+        "margin debt balances",
+        "ETF shares outstanding, creations and redemptions"
+      ],
+      "observability": "proxy",
+      "observable_with": "Margin debt is published monthly with a lag, too slowly to date a liquidation. ETF creations and redemptions are inferred from changes in shares outstanding. Neither shows forced selling directly; reading them that way assumes the change was involuntary."
+    }
+  ],
+  "concept_edges": [
+    {
+      "id": "lead:macro_liquidity:frb_policy:rate_path:macro_liquidity:real_yields",
+      "from": "concept:macro_liquidity:frb_policy",
+      "to": "concept:macro_liquidity:real_yields",
+      "type": "rate_path",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Changes in the expected policy path may move real yields."
+    },
+    {
+      "id": "lead:macro_liquidity:real_yields:valuation:sector",
+      "from": "concept:macro_liquidity:real_yields",
+      "to": "sector:market_structure",
+      "type": "valuation",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Rapid rises in real yields may compress the valuation multiples of long-duration equities."
+    },
+    {
+      "id": "lead:macro_liquidity:credit_spreads:funding:systematic_positioning:market_breadth",
+      "from": "concept:macro_liquidity:credit_spreads",
+      "to": "concept:systematic_positioning:market_breadth",
+      "type": "funding",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Widening credit spreads may tighten funding and pull money out of higher-beta stocks first, narrowing breadth."
+    },
+    {
+      "id": "lead:macro_liquidity:usd_liquidity:funding_stress:sector",
+      "from": "concept:macro_liquidity:usd_liquidity",
+      "to": "sector:market_structure",
+      "type": "funding_stress",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Dollar funding stress may force holders of dollar-funded positions to sell risk assets."
+    },
+    {
+      "id": "lead:derivatives_flows:vol_term_structure:stress_signal:sector",
+      "from": "concept:derivatives_flows:vol_term_structure",
+      "to": "sector:market_structure",
+      "type": "stress_signal",
+      "relation_kind": "observation_lead",
+      "mechanism_hypothesis": "Near-term implied volatility above three-month implied volatility indicates strong demand for short-dated protection."
+    },
+    {
+      "id": "lead:derivatives_flows:vol_term_structure:regime:derivatives_flows:dealer_gamma",
+      "from": "concept:derivatives_flows:vol_term_structure",
+      "to": "concept:derivatives_flows:dealer_gamma",
+      "type": "regime",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Volatility spikes and term-structure inversion may coincide with dealers holding negative gamma. This needs independent positioning evidence; the term structure does not measure it."
+    },
+    {
+      "id": "lead:derivatives_flows:opex_calendar:hedge_roll_off:derivatives_flows:dealer_gamma",
+      "from": "concept:derivatives_flows:opex_calendar",
+      "to": "concept:derivatives_flows:dealer_gamma",
+      "type": "hedge_roll_off",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Expiry removes option positions and their hedges, which may change the dealer gamma regime around those dates."
+    },
+    {
+      "id": "lead:derivatives_flows:dealer_gamma:hedging_feedback:sector",
+      "from": "concept:derivatives_flows:dealer_gamma",
+      "to": "sector:market_structure",
+      "type": "hedging_feedback",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "When dealers hold negative gamma, their delta hedging may sell into falls and buy into rises, amplifying moves."
+    },
+    {
+      "id": "lead:systematic_positioning:cta_trend_flows:deleveraging:sector",
+      "from": "concept:systematic_positioning:cta_trend_flows",
+      "to": "sector:market_structure",
+      "type": "deleveraging",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Breaks of medium-term trends may trigger mechanical selling by trend-following funds."
+    },
+    {
+      "id": "lead:systematic_positioning:vol_control_flows:deleveraging:sector",
+      "from": "concept:systematic_positioning:vol_control_flows",
+      "to": "sector:market_structure",
+      "type": "deleveraging",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "A jump in realised volatility may force volatility-targeting funds to cut equity exposure."
+    },
+    {
+      "id": "lead:systematic_positioning:market_breadth:participation:sector",
+      "from": "concept:systematic_positioning:market_breadth",
+      "to": "sector:market_structure",
+      "type": "participation",
+      "relation_kind": "observation_lead",
+      "mechanism_hypothesis": "An index move carried by few members, or a spike in correlation among members, indicates a fragile or crowded market."
+    },
+    {
+      "id": "lead:systematic_positioning:margin_and_etf_flows:forced_selling:sector",
+      "from": "concept:systematic_positioning:margin_and_etf_flows",
+      "to": "sector:market_structure",
+      "type": "forced_selling",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Margin calls and fund redemptions may force selling that is unrelated to company fundamentals."
+    }
+  ]
+}

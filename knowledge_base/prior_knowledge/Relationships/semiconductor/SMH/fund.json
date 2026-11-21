@@ -5,13 +5,13 @@
   "symbol": "SMH",
   "name": "VanEck Semiconductor ETF",
   "compiled_on": "2026-11-21",
-  "content_revision": "2026-11-21.1",
+  "content_revision": "2026-11-21.2",
   "status": "exploratory_leads",
   "sector": {
     "id": "semiconductors",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-21.1",
-    "content_sha256": "c7896e841d425f8df75af104964286e6070bb3dbffe370d3b75ef9c1639d4f14"
+    "content_revision": "2026-11-21.2",
+    "content_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f"
   },
   "issuer_institution_id": "institution:vaneck",
   "index_tracked": "MVIS US Listed Semiconductor 25 Index",
@@ -62,7 +62,7 @@
       "concept": "concept:economy:risk_appetite",
       "relation_kind": "observation_lead",
       "type": "fund_flows",
-      "mechanism_hypothesis": "Creations and redemptions show money entering or leaving the sector through this fund"
+      "mechanism_hypothesis": "Creations and redemptions are primary-market activity in this fund; they do not by themselves establish net flows into the sector"
     }
   ],
   "projection": {

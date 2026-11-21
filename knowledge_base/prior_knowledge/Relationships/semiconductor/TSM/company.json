@@ -5,13 +5,13 @@
   "symbol": "TSM",
   "name": "Taiwan Semiconductor Manufacturing Company",
   "compiled_on": "2026-11-21",
-  "content_revision": "2026-11-21.1",
+  "content_revision": "2026-11-21.2",
   "status": "exploratory_leads",
   "sector": {
     "id": "semiconductors",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-21.1",
-    "content_sha256": "c7896e841d425f8df75af104964286e6070bb3dbffe370d3b75ef9c1639d4f14"
+    "content_revision": "2026-11-21.2",
+    "content_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f"
   },
   "business_roles": [
     {
@@ -38,7 +38,8 @@
     "revenue share by technology node and by platform",
     "management commentary on advanced-packaging capacity in the earnings transcript linked from each quarterly results page",
     "ADR premium to the ordinary shares",
-    "TSM ADR price return minus SOXX ETF price return over the same US trading dates, in percentage points. Use regular-session closes on a consistent split basis. This spread excludes dividends and uses no beta adjustment."
+    "TSM ADR price return minus SOXX ETF price return over the same US trading dates, in percentage points. Use regular-session closes on a consistent split basis. This spread excludes dividends and uses no beta adjustment.",
+    "2330.TW margin financing balance and maintenance stress on the Taiwan market"
   ],
   "source_leads": [
     "https://investor.tsmc.com/english/quarterly-results",
@@ -69,7 +70,7 @@
       "mechanism_hypothesis": "US subsidy terms and tariff treatment of Taiwan-made chips change the cost of its US build-out"
     },
     {
-      "id": "lead:company:tsmc:concept:politics:china:customer_restriction",
+      "id": "lead:company:tsmc:concept:politics:us:china_customer_restriction",
       "concept": "concept:politics:us",
       "relation_kind": "mechanism_hypothesis",
       "type": "customer_restriction",
@@ -83,5 +84,13 @@
       "lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers": "A general statement that CoWoS constraints limit customer growth is context only. Apply the sector shipment criteria to a named accelerator using its original shipment plan."
     }
   },
-  "evidence": []
+  "evidence": [],
+  "retired_ids": [
+    {
+      "id": "lead:company:tsmc:concept:politics:china:customer_restriction",
+      "replaced_by": "lead:company:tsmc:concept:politics:us:china_customer_restriction",
+      "retired_on": "2026-11-21",
+      "reason": "The id named China while the lead's concept is the US, which administers the export controls."
+    }
+  ]
 }

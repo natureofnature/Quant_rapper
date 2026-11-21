@@ -1,0 +1,49 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "fund_research_profile",
+  "fund_id": "fund:spy",
+  "symbol": "SPY",
+  "name": "SPDR S&P 500 ETF Trust",
+  "compiled_on": "2026-11-21",
+  "content_revision": "2026-11-21.2",
+  "status": "exploratory_leads",
+  "sector": {
+    "id": "market_structure",
+    "schema_version": "2.0.0",
+    "content_revision": "2026-11-21.2",
+    "content_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5"
+  },
+  "issuer_institution_id": "institution:state_street",
+  "index_tracked": "S&P 500 Index",
+  "benchmark_note": "Benchmark for the broad US equity market, which this map's sector node stands for.",
+  "business_roles": [],
+  "listing": {
+    "exchange": "NYSE Arca",
+    "security_type": "etf"
+  },
+  "observables_to_research": [
+    "daily holdings and weights",
+    "shares outstanding, creations and redemptions",
+    "premium or discount to net asset value",
+    "share of index members above their 50-day and 200-day averages",
+    "S&P 500 option implied volatility, skew and open interest by expiry"
+  ],
+  "source_leads": [
+    "https://www.ssga.com/us/en/intermediary/etfs/spdr-sp-500-etf-trust-spy"
+  ],
+  "member_leads": [],
+  "exposures": [
+    {
+      "id": "lead:fund:spy:concept:systematic_positioning:margin_and_etf_flows:fund_flows",
+      "concept": "concept:systematic_positioning:margin_and_etf_flows",
+      "relation_kind": "observation_lead",
+      "type": "fund_flows",
+      "mechanism_hypothesis": "Creations and redemptions are primary-market activity in this fund; they do not by themselves establish net flows into US equities"
+    }
+  ],
+  "projection": {
+    "excluded_edge_ids": [],
+    "edge_conditions": {}
+  },
+  "evidence": []
+}

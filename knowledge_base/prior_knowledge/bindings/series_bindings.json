@@ -2,14 +2,14 @@
   "schema_version": "2.0.0",
   "kind": "series_bindings",
   "compiled_on": "2026-11-21",
-  "content_revision": "2026-11-21.2",
+  "content_revision": "2026-11-21.3",
   "describe": "Machine-readable sources and availability rules for observables named in the research maps. A binding says when a value became knowable; it makes no claim about what the value means.",
   "series": [
     {
       "series_id": "cboe:vix",
       "label": "Cboe Volatility Index (VIX), daily close",
       "anchors": [
-        "concept:economy:risk_appetite"
+        "concept:derivatives_flows:vol_term_structure"
       ],
       "source_url": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
       "availability": "official_archive",
@@ -25,7 +25,7 @@
       "series_id": "cboe:vix3m",
       "label": "Cboe 3-Month Volatility Index (VIX3M), daily close",
       "anchors": [
-        "concept:economy:risk_appetite"
+        "concept:derivatives_flows:vol_term_structure"
       ],
       "source_url": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX3M_History.csv",
       "availability": "official_archive",

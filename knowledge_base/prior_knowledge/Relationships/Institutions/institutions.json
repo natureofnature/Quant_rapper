@@ -4,7 +4,7 @@
   "registry_id": "institutions",
   "label": "Institutions",
   "compiled_on": "2026-11-21",
-  "content_revision": "2026-11-21.1",
+  "content_revision": "2026-11-21.2",
   "usage": {
     "describe": "Stable profiles of institutions that set policy, publish data or hold positions: who they are, what they publish, how often and how late. Guides where to look and how to date what is found.",
     "status": "exploratory_leads",
@@ -72,6 +72,16 @@
         {
           "sector_id": "technology_platforms",
           "concept_id": "concept:technology_platforms:rates",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:macro_liquidity:frb_policy",
+          "link_kind": "represents"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:macro_liquidity:real_yields",
           "link_kind": "informs"
         }
       ],
@@ -578,7 +588,7 @@
           "13F",
           "ETF holdings"
         ],
-        "reading_note": "ETF creations and redemptions show sector-level flows faster than 13F"
+        "reading_note": "ETF creations and redemptions are fund-level primary-market activity, not net flows into the sector; confirm the source and timing of flow data before relying on it"
       },
       "publications": [
         {
@@ -619,7 +629,7 @@
           "13F",
           "ETF holdings"
         ],
-        "reading_note": "ETF creations and redemptions show sector-level flows faster than 13F"
+        "reading_note": "ETF creations and redemptions are fund-level primary-market activity, not net flows into the sector; confirm the source and timing of flow data before relying on it"
       },
       "publications": [
         {
@@ -660,7 +670,7 @@
           "13F",
           "ETF holdings"
         ],
-        "reading_note": "QQQ creations and redemptions are fund-level flows, not flows into this research group; confirm the source and timing of flow data before relying on it"
+        "reading_note": "QQQ creations and redemptions are fund-level primary-market activity, not net flows into large technology stocks; confirm the source and timing of flow data before relying on it"
       },
       "publications": [
         {
@@ -680,6 +690,11 @@
         {
           "sector_id": "technology_platforms",
           "concept_id": "concept:technology_platforms:risk_appetite",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:systematic_positioning:margin_and_etf_flows",
           "link_kind": "informs"
         }
       ],
@@ -789,6 +804,220 @@
       "company_links": [],
       "source_leads": [
         "https://www.sec.gov/edgar"
+      ]
+    },
+    {
+      "id": "institution:cboe",
+      "institution_kind": "research_data",
+      "label": "Cboe Global Markets",
+      "short_label": "Cboe",
+      "jurisdiction": "US",
+      "description_lead": "Options exchange that calculates and publishes the VIX family of volatility indices",
+      "research_data": {
+        "coverage": "Implied-volatility indices and listed option volume",
+        "method_note": "Index values are calculated from S&P 500 option quotes; they measure option prices, not positions"
+      },
+      "publications": [
+        {
+          "name": "VIX and VIX3M daily history",
+          "cadence": "daily",
+          "typical_lag": "after the session close",
+          "availability": "official_archive",
+          "note": "The publication delay after the close is not documented here"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:derivatives_flows:vol_term_structure",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:derivatives_flows:opex_calendar",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.cboe.com/"
+      ]
+    },
+    {
+      "id": "institution:occ",
+      "institution_kind": "research_data",
+      "label": "Options Clearing Corporation",
+      "short_label": "OCC",
+      "jurisdiction": "US",
+      "description_lead": "Clears US listed options and publishes open interest",
+      "research_data": {
+        "coverage": "Open interest and cleared volume for US listed options",
+        "method_note": "Open interest does not show which side dealers hold"
+      },
+      "publications": [
+        {
+          "name": "Open interest by series",
+          "cadence": "daily",
+          "typical_lag": "next morning",
+          "availability": "official_archive",
+          "note": "Lag stated from general knowledge; confirm before use"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:derivatives_flows:dealer_gamma",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:derivatives_flows:opex_calendar",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.theocc.com/"
+      ]
+    },
+    {
+      "id": "institution:cftc",
+      "institution_kind": "policy",
+      "label": "Commodity Futures Trading Commission",
+      "short_label": "CFTC",
+      "jurisdiction": "US",
+      "description_lead": "US derivatives regulator that publishes weekly trader positioning in futures",
+      "policy": {
+        "mandate": "Oversight of US derivatives markets",
+        "decision_body": "The Commission"
+      },
+      "publications": [
+        {
+          "name": "Commitments of Traders, Traders in Financial Futures",
+          "cadence": "weekly",
+          "typical_lag": "published Friday for positions as of the preceding Tuesday",
+          "availability": "official_archive",
+          "note": "Leveraged funds are a wider group than trend followers"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:systematic_positioning:cta_trend_flows",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.cftc.gov/MarketReports/CommitmentsofTraders/index.htm"
+      ]
+    },
+    {
+      "id": "institution:finra",
+      "institution_kind": "policy",
+      "label": "Financial Industry Regulatory Authority",
+      "short_label": "FINRA",
+      "jurisdiction": "US",
+      "description_lead": "US broker-dealer regulator that publishes aggregate margin balances",
+      "policy": {
+        "mandate": "Regulation of US broker-dealers",
+        "decision_body": "Board of Governors"
+      },
+      "publications": [
+        {
+          "name": "Margin statistics",
+          "cadence": "monthly",
+          "typical_lag": "about three weeks after month end",
+          "availability": "official_archive",
+          "note": "Lag stated from general knowledge; confirm before use"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:systematic_positioning:margin_and_etf_flows",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.finra.org/rules-guidance/key-topics/margin-accounts/margin-statistics"
+      ]
+    },
+    {
+      "id": "institution:fred",
+      "institution_kind": "research_data",
+      "label": "Federal Reserve Bank of St. Louis (FRED)",
+      "short_label": "FRED",
+      "jurisdiction": "US",
+      "description_lead": "Public database republishing rates, yields and spreads from their original publishers",
+      "research_data": {
+        "coverage": "US Treasury real yields, corporate credit spreads, dollar indices",
+        "method_note": "A republisher. Use the availability time of the source and vintage actually read: a value's original release time applies only when the value is traced to that release, and it does not show when FRED carried it. Check how much history each licensed series offers before planning a long study"
+      },
+      "publications": [
+        {
+          "name": "Daily market yields and spreads",
+          "cadence": "daily",
+          "typical_lag": "one business day",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:macro_liquidity:real_yields",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:macro_liquidity:credit_spreads",
+          "link_kind": "informs"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:macro_liquidity:usd_liquidity",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://fred.stlouisfed.org/"
+      ]
+    },
+    {
+      "id": "institution:state_street",
+      "institution_kind": "investor",
+      "label": "State Street Global Advisors",
+      "jurisdiction": "US",
+      "description_lead": "Asset manager and ETF issuer, including the SPY fund that tracks the S&P 500",
+      "investor": {
+        "style": "passive_index",
+        "disclosures": [
+          "13F",
+          "ETF holdings"
+        ],
+        "reading_note": "SPY creations and redemptions are fund-level primary-market activity, not net flows into US equities; confirm the source and timing of flow data before relying on it"
+      },
+      "publications": [
+        {
+          "name": "ETF holdings",
+          "cadence": "daily",
+          "typical_lag": "one day",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:systematic_positioning:margin_and_etf_flows",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.sec.gov/edgar",
+        "https://www.ssga.com/"
       ]
     }
   ]

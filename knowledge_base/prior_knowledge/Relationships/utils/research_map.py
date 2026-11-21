@@ -9,7 +9,13 @@ Each projected link carries ``hop`` ("direct", "second_hop" or "lateral") and ``
 ``lead_id`` is the id of the sector edge or company exposure the link came from, and it is
 the id an evidence record must cite; the projected ``id`` is for display only. Evidence
 about one of the profile's own ``observables_to_research`` cites that text as
-``observable`` instead of a ``lead_id``.
+``observable`` instead of a ``lead_id``. A profile may list ``retired_ids``; evidence that
+cites a retired id is attached to the lead that replaced it.
+
+A concept may declare ``observability`` (direct, proxy or none). A proxy or none concept
+must say in ``observable_with`` what data would measure it. Only ``none`` restricts
+evidence: a lead that starts or ends at such a concept may be recorded as inconclusive,
+never as supports or contradicts. A proxy concept stays assessable.
 
 Validation failures raise ValueError.
 """
@@ -26,6 +32,11 @@ RELATION_KINDS = {"mechanism_hypothesis", "observation_lead"}
 INSTITUTION_KINDS = {"policy", "research_data", "investor"}  # each has a section of the same name
 AVAILABILITY = {"filing", "official_archive", "news_only", "members_only"}
 CONCEPT_LINK_KINDS = {"represents", "informs"}
+# How well a concept can be measured from public, dated data.
+#   direct: a public series measures it.
+#   proxy:  a public series is related, but reading it needs a stated assumption.
+#   none:   nothing public; the concept documents a mechanism and can never be scored.
+OBSERVABILITY = {"direct", "proxy", "none"}
 # A profile is a company or a fund. Each kind has its own file name and identity field.
 PROFILE_KINDS = {"company_research_profile": "company_id", "fund_research_profile": "fund_id"}
 PROFILE_FILES = ("company.json", "fund.json")
@@ -53,6 +64,11 @@ def profile_id(profile: dict) -> str:
 def profile_paths(sector_dir: Path) -> list[Path]:
     """Every company and fund profile in a sector folder, ordered by folder name."""
     return sorted(p for name in PROFILE_FILES for p in sector_dir.glob(f"*/{name}"))
+
+
+def retired_ids(profile: dict) -> dict[str, str]:
+    """Map each retired lead id of a profile to the id that replaced it."""
+    return {item["id"]: item["replaced_by"] for item in profile.get("retired_ids", [])}
 
 
 def content_hash(data: dict) -> str:
@@ -89,6 +105,11 @@ def validate_sector(data: dict, source: Path) -> None:
             source, "each branch must appear in exactly one level")
     for concept in concepts.values():
         require(concept.get("node_kind") in NODE_KINDS, source, f"invalid node_kind on {concept['id']}")
+        if "observability" in concept or "observable_with" in concept:
+            level, note = concept.get("observability"), concept.get("observable_with")
+            require(level in OBSERVABILITY, source, f"invalid observability on {concept['id']}")
+            require(level == "direct" or (isinstance(note, str) and bool(note.strip())), source,
+                    f"{concept['id']} is not directly observable, so observable_with must say what data would measure it")
     root = f"sector:{data['sector_id']}"
     require(data["usage"]["sector_node"]["id"] == root, source, "sector node id mismatch")
     for edge in indexed(data["concept_edges"], source, "edge").values():
@@ -137,12 +158,23 @@ def validate_company(profile: dict, view: dict, nodes: dict, relations: list, so
                 source, f"invalid exposure concept on {exposure['id']}")
         require(exposure.get("relation_kind") in RELATION_KINDS, source, f"invalid relation_kind on {exposure['id']}")
         validate_test_criteria(exposure, source)
+    leads = {**edges, **exposures}
+    for item in indexed(profile.get("retired_ids", []), source, "retired id").values():
+        require(item["id"] not in leads, source, f"retired id {item['id']!r} is still in use")
+        require(item.get("replaced_by") in leads, source, f"retired id {item['id']!r} is replaced by an unknown lead")
+    aliases = retired_ids(profile)
     observables = profile.get("observables_to_research", [])
     for record in indexed(profile["evidence"], source, "evidence").values():
         require(("lead_id" in record) != ("observable" in record), source,
                 "evidence cites either lead_id or observable, not both")
         if "lead_id" in record:
-            require(record["lead_id"] in {*edges, *exposures}, source, "evidence refers to an unknown lead")
+            lead = leads.get(aliases.get(record["lead_id"], record["lead_id"]))
+            require(lead is not None, source, "evidence refers to an unknown lead")
+            # A lead about a concept nothing can measure may be discussed, never scored.
+            ends = [lead[k] for k in ("from", "to", "concept") if k in lead]
+            unmeasured = [n for n in ends if nodes.get(n, {}).get("observability") == "none"]
+            require(not unmeasured or record.get("assessment") == "inconclusive", source,
+                    f"evidence cannot score a lead about {unmeasured[0] if unmeasured else ''}, which has observability none")
         else:
             require(record["observable"] in observables, source, "evidence refers to an unknown observable")
         require(record.get("assessment") in {"supports", "contradicts", "inconclusive"}, source, "invalid evidence assessment")
@@ -196,6 +228,7 @@ def load_research_map(path: Path, data: dict) -> tuple[dict, dict, list]:
                 "role": concept.get("description_lead", ""),
                 "watch": concept.get("observables_to_research", []),
                 **({"related_concepts": concept["related_concepts"]} if concept.get("related_concepts") else {}),
+                **{k: concept[k] for k in ("observability", "observable_with") if k in concept},
                 **({"leads": concept["source_leads"]} if concept.get("source_leads") else {}),
             }
     for edge in data.get("concept_edges", []):
@@ -254,9 +287,10 @@ def company_graph(profile: dict, nodes: dict, relations: list, source: Path,
                       "projection_basis": [], "applicability_notes": [],
                       "mechanism": exposure.get("mechanism_hypothesis", ""), "source_branch": nodes[concept]["branch"]})
 
+    aliases = retired_ids(profile)
     for relation in moved:
-        relation["evidence"] = [record for record in profile["evidence"]
-                                if record.get("lead_id") == relation["origin_edge_id"]]
+        relation["evidence"] = [record for record in profile["evidence"] if "lead_id" in record
+                                and aliases.get(record["lead_id"], record["lead_id"]) == relation["origin_edge_id"]]
         relation["lead_id"] = relation["origin_edge_id"]  # what an evidence record cites
 
     inbound = list(dict.fromkeys(r["from"] for r in moved if r["to"] == CENTRE))

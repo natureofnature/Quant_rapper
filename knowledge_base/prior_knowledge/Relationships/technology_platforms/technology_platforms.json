@@ -4,7 +4,7 @@
   "sector_id": "technology_platforms",
   "label": "Technology Platforms",
   "compiled_on": "2026-11-21",
-  "content_revision": "2026-11-21.1",
+  "content_revision": "2026-11-21.2",
   "levels": {
     "L1": {
       "label": "Macro and policy",
@@ -131,6 +131,13 @@
       "observables_to_research": [
         "real yields",
         "financing conditions"
+      ],
+      "related_concepts": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:macro_liquidity:real_yields",
+          "question": "Is the group's move in line with a market-wide repricing from real yields?"
+        }
       ]
     },
     {
@@ -153,6 +160,23 @@
         "QQQ fund flows",
         "breadth and correlation among group members",
         "each company's return against QQQ over the same US sessions"
+      ],
+      "related_concepts": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:derivatives_flows:vol_term_structure",
+          "question": "Was the volatility term structure signalling market-wide stress when the sector moved?"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:derivatives_flows:dealer_gamma",
+          "question": "Could dealer hedging have amplified the move, and what would distinguish that from a sector cause?"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:systematic_positioning:cta_trend_flows",
+          "question": "Had index trends broken in a way that could trigger systematic selling?"
+        }
       ]
     },
     {

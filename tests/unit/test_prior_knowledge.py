@@ -69,7 +69,7 @@ class ResearchMapTests(unittest.TestCase):
         self.assertTrue(any("CoWoS" in note for note in packaging["applicability_notes"]))
         for edge in (auto, packaging):
             self.assertTrue(edge["test_criteria"]["contradicts_if"])
-        restriction = edges["lead:company:tsmc:concept:politics:china:customer_restriction"]
+        restriction = edges["lead:company:tsmc:concept:politics:us:china_customer_restriction"]
         self.assertEqual((restriction["from"], restriction["to"]), ("concept:politics:us", "@company"))
         self.assertIn("China", restriction["mechanism"])
 
@@ -124,6 +124,21 @@ class ResearchMapTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "contradicts_if"):
             self.project()
 
+    def test_observability_is_validated_and_needs_a_note_unless_direct(self):
+        concept = self.data["concepts"][0]
+        for fields, message in (({"observability": "partly"}, "invalid observability"),
+                                ({"observability": "none"}, "observable_with"),
+                                ({"observability": "proxy", "observable_with": "  "}, "observable_with"),
+                                ({"observable_with": "A note without a level."}, "invalid observability")):
+            with self.subTest(fields=fields):
+                data = copy.deepcopy(self.data)
+                data["concepts"][0].update(fields)
+                with self.assertRaisesRegex(ValueError, message):
+                    API["load_research_map"](self.path, data)
+        self.data["concepts"][0].update(observability="proxy", observable_with="A public series with a stated assumption.")
+        _, nodes, _ = API["load_research_map"](self.path, self.data)
+        self.assertEqual(nodes[concept["id"]]["observability"], "proxy")
+
     def test_observation_links_do_not_become_mechanism_claims(self):
         edges = self.project()[1]
         observations = [e for e in edges if e["relation_kind"] == "observation_lead"]
@@ -143,6 +158,22 @@ class ResearchMapTests(unittest.TestCase):
                 edge = next(e for e in self.project()[1] if e["origin_edge_id"] == lead)
                 self.assertEqual(edge["evidence"][0]["assessment"], assessment)
                 self.assertEqual(edge["status"], "candidate")
+
+    def test_evidence_citing_a_retired_id_attaches_to_its_replacement(self):
+        retired = self.profile["retired_ids"][0]
+        record = {"id": "test-evidence", "lead_id": retired["id"], "assessment": "inconclusive",
+                  "summary": "Synthetic fixture, not research evidence.",
+                  "citation": {"url": "https://example.invalid/report", "locator": "page 1",
+                               "published_on": "2026-11-18", "retrieved_on": "2026-11-19"}}
+        self.profile["evidence"] = [record]
+        edge = next(e for e in self.project()[1] if e["origin_edge_id"] == retired["replaced_by"])
+        self.assertEqual(edge["evidence"], [record])  # the record keeps the id it was written with
+        self.profile["retired_ids"][0]["replaced_by"] = "missing"
+        with self.assertRaisesRegex(ValueError, "replaced by an unknown lead"):
+            self.project()
+        self.profile["retired_ids"] = [{"id": self.profile["exposures"][0]["id"], "replaced_by": retired["replaced_by"]}]
+        with self.assertRaisesRegex(ValueError, "still in use"):
+            self.project()
 
     def test_evidence_requires_known_lead_and_specific_citation(self):
         self.profile["evidence"] = [{"id": "test", "lead_id": "missing"}]
@@ -186,6 +217,9 @@ class ResearchMapTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             destination = Path(temp) / "semiconductor"
             shutil.copytree(self.path.parent, destination, ignore=shutil.ignore_patterns("*.html"))
+            # The sector's related concepts point at the shared market-structure map.
+            shutil.copytree(BASE / "market_structure", Path(temp) / "market_structure",
+                            ignore=shutil.ignore_patterns("*.html"))
             output = API["render"](destination / "semiconductor.json")
             page = output.read_text()
             payload = json.loads(page.split("const PAGE = ", 1)[1].split(";\nconst map", 1)[0])
@@ -219,8 +253,12 @@ class MapBuildTests(unittest.TestCase):
             link = node["related_concepts"][0]
             target = page.parent / link["href"].split("#")[0]
             self.assertEqual(target.stem, "semiconductor")
-            self.assertEqual(data["inputs"]["related_sectors"][0]["content_sha256"],
+            pinned = {entry["id"]: entry["content_sha256"] for entry in data["inputs"]["related_sectors"]}
+            self.assertEqual(set(pinned), {"semiconductors", "market_structure"})
+            self.assertEqual(pinned["semiconductors"],
                              API["content_hash"](json.loads(target.with_suffix(".json").read_text())))
+            self.assertEqual(pinned["market_structure"], API["content_hash"](
+                json.loads((root / "market_structure/market_structure.json").read_text())))
             registry = root / INSTITUTIONS.relative_to(BASE)
             edited = json.loads(registry.read_text())
             edited["content_revision"] += ".test"
@@ -255,6 +293,75 @@ class InstitutionRegistryTests(unittest.TestCase):
             broken.write_text(json.dumps(data))
             with self.assertRaisesRegex(ValueError, "unknown concept"):
                 self.load(broken)
+
+
+class MarketStructureTests(unittest.TestCase):
+    def setUp(self):
+        self.path = BASE / "market_structure/market_structure.json"
+        self.data = json.loads(self.path.read_text())
+        self.view, self.nodes, self.relations = API["load"](self.path)
+
+    def test_every_concept_states_how_observable_it_is(self):
+        levels = {c["id"]: c.get("observability") for c in self.data["concepts"]}
+        self.assertTrue(all(level in API["OBSERVABILITY"] for level in levels.values()), levels)
+        self.assertEqual(levels["concept:derivatives_flows:vol_term_structure"], "direct")
+        self.assertEqual(levels["concept:derivatives_flows:dealer_gamma"], "proxy")
+        self.assertEqual(levels["concept:systematic_positioning:vol_control_flows"], "none")
+
+    def test_term_structure_is_not_presented_as_a_measure_of_dealer_gamma(self):
+        edges = {(e["from"], e["to"]): e for e in self.data["concept_edges"]}
+        term, gamma = "concept:derivatives_flows:vol_term_structure", "concept:derivatives_flows:dealer_gamma"
+        self.assertEqual(edges[(term, gamma)]["relation_kind"], "mechanism_hypothesis")
+        observables = " ".join(self.nodes[gamma]["watch"])
+        self.assertNotIn("VIX", observables)
+        self.assertIn("VIX/VIX3M ratio", self.nodes[term]["watch"])
+
+    def test_price_transforms_are_not_concepts(self):
+        text = json.dumps(self.data["concepts"]).lower()
+        for indicator in ("rsi", "macd", "kdj"):
+            self.assertNotRegex(text, rf"\b{indicator}\b")
+
+    def test_benchmark_funds_project_the_market_links(self):
+        for symbol in ("SPY", "QQQ"):
+            path = self.path.parent / symbol / "fund.json"
+            _, edges, _, _ = API["company_graph"](json.loads(path.read_text()), self.nodes, self.relations, path, self.view)
+            direct = [e for e in edges if e["hop"] == "direct"]
+            self.assertEqual({e["scope"] for e in direct}, {"sector", "company"})
+
+    def test_lead_about_an_unmeasurable_concept_cannot_be_scored(self):
+        path = self.path.parent / "SPY/fund.json"
+        profile = json.loads(path.read_text())
+        citation = {"url": "https://example.invalid/report", "locator": "page 1",
+                    "published_on": "2026-11-18", "retrieved_on": "2026-11-19"}
+
+        def project(lead, assessment):
+            profile["evidence"] = [{"id": "test-evidence", "lead_id": lead, "assessment": assessment,
+                                    "summary": "Synthetic fixture, not research evidence.", "citation": citation}]
+            return API["company_graph"](profile, self.nodes, self.relations, path, self.view)
+
+        unmeasured = next(e["id"] for e in self.relations if e["from"] == "concept:systematic_positioning:vol_control_flows")
+        proxy = next(e["id"] for e in self.relations if e["from"] == "concept:derivatives_flows:dealer_gamma")
+        for assessment in ("supports", "contradicts"):
+            with self.assertRaisesRegex(ValueError, "observability none"):
+                project(unmeasured, assessment)
+            project(proxy, assessment)  # a proxy concept stays assessable
+        project(unmeasured, "inconclusive")
+
+    def test_fund_flow_leads_stay_at_fund_level(self):
+        # Any fund that has a flow lead; a benchmark used only for price comparison needs none.
+        flows = [e for path in BASE.glob("*/*/fund.json")
+                 for e in json.loads(path.read_text())["exposures"] if e["type"] == "fund_flows"]
+        self.assertGreaterEqual(len(flows), 4)  # SPY, QQQ, SOXX and SMH today
+        for lead in flows:
+            self.assertIn("do not by themselves establish net flows", lead["mechanism_hypothesis"])
+
+    def test_sector_maps_refer_to_the_shared_concepts(self):
+        for folder in ("semiconductor", "technology_platforms"):
+            data = json.loads(next((BASE / folder).glob("*.json")).read_text())
+            targets = {link["concept_id"] for c in data["concepts"] for link in c.get("related_concepts", [])
+                       if link["sector_id"] == "market_structure"}
+            self.assertLessEqual(targets, set(self.nodes))
+            self.assertIn("concept:derivatives_flows:vol_term_structure", targets)
 
 
 class FundProfileTests(unittest.TestCase):

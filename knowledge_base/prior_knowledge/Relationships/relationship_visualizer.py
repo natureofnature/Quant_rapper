@@ -489,6 +489,7 @@ function showNode(id) {
   const tag = n.tag ? esc(n.tag) : `<a data-branch="${esc(n.branch)}">${esc(nice(n.branch))}</a>`;
   panel.innerHTML = `<h2>${esc(nice(n.name))}</h2><div class="tag">${tag}</div>
     <p>${esc(n.role || '')}</p><p class="notice">${esc(nice(n.node_kind || ''))}</p>
+    ${n.observability ? `<h3>Observability</h3><p><strong>${esc(n.observability)}</strong>${n.observable_with ? ' — ' + esc(n.observable_with) : ''}</p>` : ''}
     ${n.facts ? '<h3>Profile</h3>' + list(n.facts.map(esc)) : ''}
     ${n.leads ? `<h3>${esc(n.leads_heading || 'Leads')}</h3><p>` + n.leads.map(esc).join(', ') + '</p>' : ''}
     <h3>${esc(n.watch_heading || 'What to watch')}</h3>${list((n.watch || []).map(esc))}

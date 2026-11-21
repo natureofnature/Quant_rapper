@@ -231,7 +231,14 @@
         "real yields",
         "curve shape"
       ],
-      "node_kind": "variable"
+      "node_kind": "variable",
+      "related_concepts": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:macro_liquidity:real_yields",
+          "question": "Is the sector's move in line with a market-wide repricing from real yields?"
+        }
+      ]
     },
     {
       "id": "concept:economy:growth",
@@ -267,7 +274,14 @@
         "data-center and AI debt issuance",
         "private-credit and vendor-financing deals"
       ],
-      "node_kind": "variable"
+      "node_kind": "variable",
+      "related_concepts": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:macro_liquidity:credit_spreads",
+          "question": "Are market-wide credit spreads widening, beyond financing of AI capital spending?"
+        }
+      ]
     },
     {
       "id": "concept:economy:risk_appetite",
@@ -279,7 +293,24 @@
         "margin debt",
         "breadth and correlation among sector members"
       ],
-      "node_kind": "variable"
+      "node_kind": "variable",
+      "related_concepts": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:derivatives_flows:vol_term_structure",
+          "question": "Was the volatility term structure signalling market-wide stress when the sector moved?"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:derivatives_flows:dealer_gamma",
+          "question": "Could dealer hedging have amplified the move, and what would distinguish that from a sector cause?"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:systematic_positioning:cta_trend_flows",
+          "question": "Had index trends broken in a way that could trigger systematic selling?"
+        }
+      ]
     },
     {
       "id": "concept:resources:electricity",
@@ -956,5 +987,5 @@
       "relation_kind": "mechanism_hypothesis"
     }
   ],
-  "content_revision": "2026-11-21.1"
+  "content_revision": "2026-11-21.2"
 }
