@@ -6,7 +6,9 @@ A mid/low-frequency quant research workspace built around a point-in-time causal
 
 ## Design principles
 
-- **Point-in-time everywhere.** Every data row and every graph edge records when it became known. Nothing learned after a decision date may influence a historical run.
+- **Decision inputs are point-in-time.** Research recipes check the availability of cited evidence. When actual price or series observations are loaded, `quant_pit_data` must select rows available by the decision time.
+- **The research map is versioned.** The curated map is a prior: a set of questions to investigate, frozen and recorded by revision for each evaluation. A result for a decision made before that revision was frozen is exploratory, because the leads may have been chosen knowing what happened; such a lead must be confirmed on held-out or later observations.
+  Frozen maps use `post_period_knowledge` to flag this pre-freeze use. A recipe records it as `exploratory`. Out-of-sample evaluation also requires a held-out split.
 - **Alpha and beta are separate tracks.** Stock-specific signals are evaluated on returns with sector/market beta removed. Sector-level risk gets its own regime track, which can veto alpha signals.
 - **No MAE for selection.** Candidates are judged by event-window abnormal returns, directional hit rate and information coefficient.
 - **The LLM is fenced in.** Only `quant_causal_graph` may call an LLM. The evaluator has no LLM, network or UI dependencies, so its results are deterministic and replayable.
@@ -119,7 +121,7 @@ Generate all maps and switch between them using the page's map selector:
 python3 knowledge_base/prior_knowledge/Relationships/relationship_visualizer.py
 ```
 
-`tests/invariants/` holds the rules that must never break, such as "an edge first known after the decision date cannot guide historical discovery" and "labels never cross into the held-out window".
+`tests/invariants/` holds the rules that must never break, such as "a decision cannot use evidence or data that was unavailable at its decision time", "a result from before the research map was frozen is labelled exploratory" and "labels never cross into the held-out window".
 
 ## Setup
 
