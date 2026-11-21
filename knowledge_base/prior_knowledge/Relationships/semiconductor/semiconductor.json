@@ -3,7 +3,7 @@
   "kind": "industry_research_map",
   "sector_id": "semiconductors",
   "label": "Semiconductors",
-  "compiled_on": "2026-11-19",
+  "compiled_on": "2026-11-21",
   "levels": {
     "L1": {
       "label": "Macro and policy",
@@ -920,7 +920,7 @@
       "from": "concept:economy:risk_appetite",
       "to": "sector:semiconductors",
       "type": "sector_beta",
-      "mechanism_hypothesis": "Risk-on or risk-off positioning moves sector members together regardless of company news",
+      "mechanism_hypothesis": "Changes in investor risk appetite can contribute to sector-wide moves",
       "relation_kind": "mechanism_hypothesis"
     },
     {
@@ -956,5 +956,5 @@
       "relation_kind": "mechanism_hypothesis"
     }
   ],
-  "content_revision": "2026-11-19.3"
+  "content_revision": "2026-11-21.1"
 }

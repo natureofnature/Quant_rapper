@@ -4,14 +4,14 @@
   "fund_id": "fund:soxx",
   "symbol": "SOXX",
   "name": "iShares Semiconductor ETF",
-  "compiled_on": "2026-11-19",
-  "content_revision": "2026-11-19.2",
+  "compiled_on": "2026-11-21",
+  "content_revision": "2026-11-21.1",
   "status": "exploratory_leads",
   "sector": {
     "id": "semiconductors",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-19.3",
-    "content_sha256": "77eca9396185f5dd0ec9f56e974a08ab73efa284691107d7c66ccf1e766ad55e"
+    "content_revision": "2026-11-21.1",
+    "content_sha256": "c7896e841d425f8df75af104964286e6070bb3dbffe370d3b75ef9c1639d4f14"
   },
   "issuer_institution_id": "institution:blackrock",
   "index_tracked": "NYSE Semiconductor Index",

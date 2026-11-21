@@ -4,14 +4,14 @@
   "company_id": "company:apple",
   "symbol": "AAPL",
   "name": "Apple",
-  "compiled_on": "2026-11-19",
-  "content_revision": "2026-11-19.2",
+  "compiled_on": "2026-11-21",
+  "content_revision": "2026-11-21.1",
   "status": "exploratory_leads",
   "sector": {
     "id": "technology_platforms",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-19.2",
-    "content_sha256": "305c75859076a59373b85ed0cf1ca4abbb2caba3132a7294394a4dd027386fa6"
+    "content_revision": "2026-11-21.1",
+    "content_sha256": "1a7972833ccf72d1544ae8a3bb4be6368178b216df42a81c03236b4d89dd94ac"
   },
   "business_roles": [
     {

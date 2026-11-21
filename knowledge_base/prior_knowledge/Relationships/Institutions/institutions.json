@@ -3,8 +3,8 @@
   "kind": "institution_registry",
   "registry_id": "institutions",
   "label": "Institutions",
-  "compiled_on": "2026-11-19",
-  "content_revision": "2026-11-19.2",
+  "compiled_on": "2026-11-21",
+  "content_revision": "2026-11-21.1",
   "usage": {
     "describe": "Stable profiles of institutions that set policy, publish data or hold positions: who they are, what they publish, how often and how late. Guides where to look and how to date what is found.",
     "status": "exploratory_leads",
@@ -588,7 +588,7 @@
           "availability": "filing"
         },
         {
-          "name": "iShares ETF holdings and flows",
+          "name": "iShares ETF holdings",
           "cadence": "daily",
           "typical_lag": "one day",
           "availability": "official_archive"
@@ -629,7 +629,7 @@
           "availability": "filing"
         },
         {
-          "name": "ETF holdings and flows",
+          "name": "ETF holdings",
           "cadence": "daily",
           "typical_lag": "one day",
           "availability": "official_archive"
@@ -646,6 +646,47 @@
       "source_leads": [
         "https://www.sec.gov/edgar",
         "https://www.vaneck.com/"
+      ]
+    },
+    {
+      "id": "institution:invesco",
+      "institution_kind": "investor",
+      "label": "Invesco",
+      "jurisdiction": "US",
+      "description_lead": "Asset manager and ETF issuer, including the QQQ fund that tracks the Nasdaq-100",
+      "investor": {
+        "style": "passive_index",
+        "disclosures": [
+          "13F",
+          "ETF holdings"
+        ],
+        "reading_note": "QQQ creations and redemptions are fund-level flows, not flows into this research group; confirm the source and timing of flow data before relying on it"
+      },
+      "publications": [
+        {
+          "name": "Form 13F",
+          "cadence": "quarterly",
+          "typical_lag": "up to 45 days after quarter end",
+          "availability": "filing"
+        },
+        {
+          "name": "ETF holdings",
+          "cadence": "daily",
+          "typical_lag": "one day",
+          "availability": "official_archive"
+        }
+      ],
+      "concept_links": [
+        {
+          "sector_id": "technology_platforms",
+          "concept_id": "concept:technology_platforms:risk_appetite",
+          "link_kind": "informs"
+        }
+      ],
+      "company_links": [],
+      "source_leads": [
+        "https://www.sec.gov/edgar",
+        "https://www.invesco.com/"
       ]
     },
     {

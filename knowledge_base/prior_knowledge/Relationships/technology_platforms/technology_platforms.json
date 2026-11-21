@@ -3,8 +3,8 @@
   "kind": "industry_research_map",
   "sector_id": "technology_platforms",
   "label": "Technology Platforms",
-  "compiled_on": "2026-11-19",
-  "content_revision": "2026-11-19.2",
+  "compiled_on": "2026-11-21",
+  "content_revision": "2026-11-21.1",
   "levels": {
     "L1": {
       "label": "Macro and policy",
@@ -53,7 +53,8 @@
       "question": "Which macro conditions affect valuation and reported results?",
       "concept_ids": [
         "concept:technology_platforms:rates",
-        "concept:technology_platforms:fx"
+        "concept:technology_platforms:fx",
+        "concept:technology_platforms:risk_appetite"
       ]
     },
     {
@@ -140,6 +141,18 @@
       "observables_to_research": [
         "constant-currency growth",
         "currency sensitivity disclosures"
+      ]
+    },
+    {
+      "id": "concept:technology_platforms:risk_appetite",
+      "label": "Risk Appetite",
+      "node_kind": "variable",
+      "description_lead": "Investor positioning and leverage in large technology stocks",
+      "observables_to_research": [
+        "VIX level and term structure",
+        "QQQ fund flows",
+        "breadth and correlation among group members",
+        "each company's return against QQQ over the same US sessions"
       ]
     },
     {
@@ -300,6 +313,14 @@
       "type": "valuation",
       "relation_kind": "mechanism_hypothesis",
       "mechanism_hypothesis": "Changes in financing conditions may alter valuation and investment budgets."
+    },
+    {
+      "id": "lead:technology_platforms:risk_appetite:sector_beta:sector",
+      "from": "concept:technology_platforms:risk_appetite",
+      "to": "sector:technology_platforms",
+      "type": "sector_beta",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Changes in investor risk appetite can contribute to group-wide moves."
     },
     {
       "id": "lead:technology_platforms:fx:translation:sector",
