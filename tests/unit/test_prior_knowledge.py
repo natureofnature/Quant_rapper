@@ -153,6 +153,35 @@ class ResearchMapTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "dated, locatable citation"):
             self.project()
 
+    def test_links_are_labelled_by_hop_and_carry_the_id_evidence_cites(self):
+        _, edges, direct, second = self.project()
+        self.assertEqual({e["hop"] for e in edges}, {"direct", "second_hop", "lateral"})
+        for edge in edges:
+            self.assertEqual(edge["lead_id"], edge["origin_edge_id"])
+            ends = {edge["from"], edge["to"]}
+            if edge["hop"] == "direct":
+                self.assertIn("@company", ends)
+            elif edge["hop"] == "second_hop":
+                self.assertIn(edge["from"], second)
+            else:
+                self.assertLessEqual(ends, set(direct))
+
+    def test_evidence_can_cite_a_profile_observable_instead_of_a_lead(self):
+        record = {"id": "test-evidence", "observable": self.profile["observables_to_research"][0],
+                  "assessment": "inconclusive", "summary": "Synthetic fixture, not research evidence.",
+                  "citation": {"url": "https://example.invalid/report", "locator": "page 1",
+                               "published_on": "2026-11-18", "retrieved_on": "2026-11-19"}}
+        self.profile["evidence"] = [record]
+        nodes, edges, _, _ = self.project()
+        self.assertEqual(nodes["@company"]["evidence"], [record])
+        self.assertFalse(any(e["evidence"] for e in edges))
+        self.profile["evidence"] = [{**record, "observable": "not in the profile"}]
+        with self.assertRaisesRegex(ValueError, "unknown observable"):
+            self.project()
+        self.profile["evidence"] = [{**record, "lead_id": self.relations[0]["id"]}]
+        with self.assertRaisesRegex(ValueError, "not both"):
+            self.project()
+
     def test_render_has_complete_provenance_and_valid_endpoints(self):
         with tempfile.TemporaryDirectory() as temp:
             destination = Path(temp) / "semiconductor"

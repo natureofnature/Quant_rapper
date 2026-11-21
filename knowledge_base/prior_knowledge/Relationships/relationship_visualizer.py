@@ -305,8 +305,9 @@ def company_overview(profile: dict, nodes: dict, relations: list) -> dict:
     listing = [f"{pretty(k)}: {v}" for k, v in profile.get("listing", {}).items()]
     sourced = [f"{r['assessment']}: {r['summary']} — {r['citation']['url']} ({r['citation']['locator']})"
                for r in profile["evidence"]]
-    touching = [r for r in relations if CENTRE in (r["from"], r["to"])]
+    touching = [r for r in relations if r["hop"] == "direct"]
     count = {scope: sum(1 for r in touching if r["scope"] == scope) for scope in ("concept", "sector", "company")}
+    hops = {hop: sum(1 for r in relations if r["hop"] == hop) for hop in ("second_hop", "lateral")}
     return {
         "title": f"{nodes[CENTRE]['name']} — {profile.get('name', '')}".rstrip(" —"),
         "tag": nodes[CENTRE]["tag"],
@@ -319,7 +320,8 @@ def company_overview(profile: dict, nodes: dict, relations: list) -> dict:
         "sections": [
             {"h": "Research links", "items": [{"node": CENTRE, "text": (
                 f"{count['concept']} role candidates, {count['sector']} sector candidates, "
-                f"{count['company']} company leads; {len(relations) - len(touching)} upstream links"
+                f"{count['company']} company leads; {hops['second_hop']} second-hop links, "
+                f"{hops['lateral']} lateral links between direct concepts"
             )}]},
             {"h": "Applicability", "items": [r["scope_note"] for r in profile["business_roles"]]
                 + list(profile["projection"]["edge_conditions"].values())},

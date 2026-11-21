@@ -5,6 +5,12 @@ A sector map is <sector>/<sector>.json; a company profile is <sector>/<SYMBOL>/c
 sector onto one company: links touching its business roles or the sector node become
 candidate links to the company, subject to the profile's exclusions and conditions.
 
+Each projected link carries ``hop`` ("direct", "second_hop" or "lateral") and ``lead_id``.
+``lead_id`` is the id of the sector edge or company exposure the link came from, and it is
+the id an evidence record must cite; the projected ``id`` is for display only. Evidence
+about one of the profile's own ``observables_to_research`` cites that text as
+``observable`` instead of a ``lead_id``.
+
 Validation failures raise ValueError.
 """
 
@@ -131,8 +137,14 @@ def validate_company(profile: dict, view: dict, nodes: dict, relations: list, so
                 source, f"invalid exposure concept on {exposure['id']}")
         require(exposure.get("relation_kind") in RELATION_KINDS, source, f"invalid relation_kind on {exposure['id']}")
         validate_test_criteria(exposure, source)
+    observables = profile.get("observables_to_research", [])
     for record in indexed(profile["evidence"], source, "evidence").values():
-        require(record.get("lead_id") in {*edges, *exposures}, source, "evidence refers to an unknown lead")
+        require(("lead_id" in record) != ("observable" in record), source,
+                "evidence cites either lead_id or observable, not both")
+        if "lead_id" in record:
+            require(record["lead_id"] in {*edges, *exposures}, source, "evidence refers to an unknown lead")
+        else:
+            require(record["observable"] in observables, source, "evidence refers to an unknown observable")
         require(record.get("assessment") in {"supports", "contradicts", "inconclusive"}, source, "invalid evidence assessment")
         citation = record.get("citation", {})
         require(all(isinstance(citation.get(k), str) and citation[k].strip()
@@ -199,6 +211,9 @@ def company_graph(profile: dict, nodes: dict, relations: list, source: Path,
                   view: dict) -> tuple[dict, list, list, list]:
     """Build candidate company links, retaining original endpoints and provenance.
 
+    Returns (nodes, links, direct concept ids, second-hop concept ids). See the module
+    docstring for the ``hop`` and ``lead_id`` fields on each link.
+
     Display projection is not causal inference: paths may mix hypotheses and
     observations, and evidence never automatically promotes a candidate to fact.
     """
@@ -241,7 +256,8 @@ def company_graph(profile: dict, nodes: dict, relations: list, source: Path,
 
     for relation in moved:
         relation["evidence"] = [record for record in profile["evidence"]
-                                if record["lead_id"] == relation["origin_edge_id"]]
+                                if record.get("lead_id") == relation["origin_edge_id"]]
+        relation["lead_id"] = relation["origin_edge_id"]  # what an evidence record cites
 
     inbound = list(dict.fromkeys(r["from"] for r in moved if r["to"] == CENTRE))
     outbound = list(dict.fromkeys(r["to"] for r in moved if r["from"] == CENTRE))
@@ -249,6 +265,11 @@ def company_graph(profile: dict, nodes: dict, relations: list, source: Path,
     second = list(dict.fromkeys(r["from"] for r in moved if r["to"] in inbound and r["from"] != CENTRE and r["from"] not in direct))
     placed = {CENTRE, *direct, *second}
     kept = [r for r in moved if CENTRE in (r["from"], r["to"]) or (r["to"] in inbound and r["from"] in placed)]
+    for relation in kept:
+        # direct: touches the company. second_hop: from one step upstream into a direct
+        # concept. lateral: between two direct concepts.
+        relation["hop"] = ("direct" if CENTRE in (relation["from"], relation["to"])
+                           else "second_hop" if relation["from"] in second else "lateral")
 
     labels = ", ".join(pretty(nodes[c]["name"]) for c in own) or "ETF"
     picked = {
@@ -261,6 +282,7 @@ def company_graph(profile: dict, nodes: dict, relations: list, source: Path,
             "kind": labels,
             "sector": sector_label,
             "watch": profile.get("observables_to_research", []),
+            "evidence": [record for record in profile["evidence"] if "observable" in record],
             **({"leads": profile["source_leads"]} if profile.get("source_leads") else {}),
         }
     }
@@ -315,6 +337,9 @@ def load_registry(root: Path) -> tuple[dict, dict, Path | None]:
 
     Returns (institutions, labels, registry path). ``labels`` maps each concept and
     company id to a display name. Without a registry the first two are empty.
+
+    Every profile file under ``root`` is opened, but only its kind, id and symbol are
+    used; no profile's research content is returned.
     """
     sectors, registry = find_maps(root)
     if registry is None:
