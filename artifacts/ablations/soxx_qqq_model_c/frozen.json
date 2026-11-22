@@ -1,0 +1,25 @@
+{
+  "kind": "frozen_comparison",
+  "registration_id": "soxx_qqq_model_c",
+  "frozen_on": "2026-11-22",
+  "describe": "The outputs of the first run of the registered Model C comparison, on real prices, made after the registration was pushed. A repeat run on the same day reproduced every positions file and report.json byte for byte. report.md is rendered from report.json by report.py.",
+  "registration_sha256": "7c101ff6f1561682766d1856afcfb03f6fcead51a5b081dab7f5b0efdc56fadf",
+  "code_commit": "53545e2056a4ac3fedb4d27f67653688c36b4ab6",
+  "replay_checkout": "292c7b31c34eeddc73e70b34c361817b2387af2e",
+  "replay_note": "code_commit holds the runner and the packages. Replay from replay_checkout, which adds the registration.",
+  "outcome": {
+    "SOXX": "the rule is kept",
+    "QQQ": "the rule is kept"
+  },
+  "outputs_sha256": {
+    "positions_QQQ_model_c.csv": "98d510ed3b290a7d925d3c01dc276897d297ee5fa723172174d4d8208494958c",
+    "positions_QQQ_rule.csv": "67a19ee353c3be0d28ca50f5fb7ddd9dfcb97ca975bf9a005aeb371e84c8fdd0",
+    "positions_SOXX_model_c.csv": "b23a17778af76657b7db3ca719454ffa446ed19de0fa18a28b0bf548d7e711b7",
+    "positions_SOXX_rule.csv": "21a47d554058cd5488b5a40415d20b1549ddc2c659f65fb345b88c83197929eb",
+    "report.json": "be05640532b3be58bd052421eb0006c019969389d587b30711f4a3c824296620",
+    "report.md": "88f0f1f89ed81bfdfc88f0d1dd98cd30439e18ba55fcdb54c9db76fec581c60f"
+  },
+  "open_items": [
+    "The raw market inputs exist only on the machine that ran this; see the snapshot manifest."
+  ]
+}

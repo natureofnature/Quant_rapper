@@ -1,0 +1,456 @@
+{
+  "registration_sha256": "7c101ff6f1561682766d1856afcfb03f6fcead51a5b081dab7f5b0efdc56fadf",
+  "bindings_sha256": {
+    "cboe:vix": "c3cd336b1c55662c0c5869032b767793278ca65f91c8d0ff0cd80748049e5e58",
+    "cboe:vix3m": "d9f54baad10a2baa4a8b0655063959397f16d27c820ab154c8a20f289ed08966",
+    "treasury:real_yield_10y": "dfe5f300dd46fe56a75f644a991065b53eb17625fd9dd3e30914b08683eacb9d",
+    "yahoo:qqq:close": "86f96a8f68ecd7605799c595cd2650c7501b62521ca34b5adb69c84c81848366",
+    "yahoo:qqq:open": "0082751aef7aeba9c14b526c06c0d26171b6d38908b700a18891102ded7fbf96",
+    "yahoo:soxx:close": "43bc2bd433cbdb11ddcb9fd6369c424df520d7343bc9d10ff8bb23815b5d53f5",
+    "yahoo:soxx:open": "179a8807fc322766667f899a9748d8cfe373a9b7ae4d075a626529f6ff70962e"
+  },
+  "comparison_1": {
+    "SOXX": {
+      "rule": {
+        "arm": "frozen rule",
+        "first_decision": "2013-11-01",
+        "first_session_traded": "2013-11-04",
+        "last_session": "2026-11-20",
+        "decisions": 3283,
+        "held_decisions": 0,
+        "decisions_by_target": {
+          "0.00": 271,
+          "0.50": 886,
+          "1.00": 2126
+        },
+        "max_drawdown": -0.38007727905224264,
+        "final_equity": 10.046261024631105,
+        "buy_and_hold": {
+          "max_drawdown": -0.46244801236686073,
+          "final_equity": 16.154182129975627
+        },
+        "turnover_per_year": 15.400723725613593,
+        "episodes": 34,
+        "unfinished_episodes": 1,
+        "whipsaw_rate": 0.6363636363636364,
+        "reentry_cost_all_finished": 0.02414730422868961,
+        "forward_drawdown": {
+          "stressed": {
+            "n": 1141,
+            "mean": -0.056099731765292066,
+            "median": -0.04377019688583761,
+            "p05": -0.1651460174051233,
+            "runs": 34
+          },
+          "ordinary": {
+            "n": 1611,
+            "mean": -0.031128575896212762,
+            "median": -0.02024822272177118,
+            "p05": -0.1054015091675404,
+            "runs": 34
+          },
+          "difference_of_means": -0.024971155869079303,
+          "interval_90": [
+            -0.03493222053746623,
+            -0.01239792522591196
+          ]
+        },
+        "tail_recall": {
+          "decisions": 3263,
+          "cases": 489,
+          "recall": 0.5460122699386503,
+          "alert_rate": 0.34967821023597917
+        },
+        "worst_windows_labelled_class_0": 0.5644171779141104,
+        "positions_sha256": "21a47d554058cd5488b5a40415d20b1549ddc2c659f65fb345b88c83197929eb"
+      },
+      "model_a": {
+        "arm": "Model A, as frozen",
+        "first_decision": "2013-11-01",
+        "first_session_traded": "2013-11-04",
+        "last_session": "2026-11-20",
+        "decisions": 3283,
+        "held_decisions": 0,
+        "decisions_by_target": {
+          "0.00": 756,
+          "0.50": 429,
+          "1.00": 2098
+        },
+        "max_drawdown": -0.4624480123668606,
+        "final_equity": 4.503179843863594,
+        "buy_and_hold": {
+          "max_drawdown": -0.46244801236686073,
+          "final_equity": 16.154182129975627
+        },
+        "turnover_per_year": 7.049087476400252,
+        "episodes": 14,
+        "unfinished_episodes": 0,
+        "whipsaw_rate": 0.6428571428571429,
+        "reentry_cost_all_finished": 0.21415051755280703,
+        "forward_drawdown": {
+          "stressed": {
+            "n": 1185,
+            "mean": -0.04076778111916847,
+            "median": -0.02805895589487084,
+            "p05": -0.13436468871110946,
+            "runs": 14
+          },
+          "ordinary": {
+            "n": 1889,
+            "mean": -0.04838624367821256,
+            "median": -0.03561235151122588,
+            "p05": -0.15047506120750004,
+            "runs": 15
+          },
+          "difference_of_means": 0.007618462559044088,
+          "interval_90": [
+            -0.007857544924512551,
+            0.019843098480343255
+          ]
+        },
+        "tail_recall": {
+          "decisions": 3263,
+          "cases": 489,
+          "recall": 0.2822085889570552,
+          "alert_rate": 0.363162733680662
+        },
+        "worst_windows_labelled_class_0": 0.5644171779141104
+      },
+      "model": {
+        "arm": "Model C, generic features",
+        "first_decision": "2013-11-01",
+        "first_session_traded": "2013-11-04",
+        "last_session": "2026-11-20",
+        "decisions": 3283,
+        "held_decisions": 0,
+        "decisions_by_target": {
+          "0.00": 672,
+          "0.50": 563,
+          "1.00": 2048
+        },
+        "max_drawdown": -0.4517442096565275,
+        "final_equity": 7.20137533846396,
+        "buy_and_hold": {
+          "max_drawdown": -0.46244801236686073,
+          "final_equity": 16.154182129975627
+        },
+        "turnover_per_year": 9.11784140969163,
+        "episodes": 15,
+        "unfinished_episodes": 0,
+        "whipsaw_rate": 0.7333333333333333,
+        "reentry_cost_all_finished": 0.19472168562897663,
+        "forward_drawdown": {
+          "stressed": {
+            "n": 1235,
+            "mean": -0.04279565757062784,
+            "median": -0.030452335278674414,
+            "p05": -0.1336417501566624,
+            "runs": 15
+          },
+          "ordinary": {
+            "n": 1666,
+            "mean": -0.04803274705130092,
+            "median": -0.032724145313676456,
+            "p05": -0.15320921146496666,
+            "runs": 16
+          },
+          "difference_of_means": 0.005237089480673085,
+          "interval_90": [
+            -0.009844675226191119,
+            0.019239088521254413
+          ]
+        },
+        "tail_recall": {
+          "decisions": 3263,
+          "cases": 489,
+          "recall": 0.3047034764826176,
+          "alert_rate": 0.3784860557768924
+        },
+        "worst_windows_labelled_class_0": 0.5644171779141104,
+        "positions_sha256": "b23a17778af76657b7db3ca719454ffa446ed19de0fa18a28b0bf548d7e711b7"
+      },
+      "checks": {
+        "drawdown_smaller_by_points": false,
+        "final_equity_share_of_rule": false,
+        "whipsaw_within_points": false
+      },
+      "decision": "the rule is kept",
+      "sensitivity_decides_nothing": {
+        "cost_x2": {
+          "first_decision": "2013-11-01",
+          "model": {
+            "max_drawdown": -0.45202111632604347,
+            "final_equity": 6.784252313266007,
+            "whipsaw_rate": 0.7333333333333333
+          },
+          "rule": {
+            "max_drawdown": -0.38605551840572483,
+            "final_equity": 9.089012890551645,
+            "whipsaw_rate": 0.6363636363636364
+          }
+        },
+        "cost_x3": {
+          "first_decision": "2013-11-01",
+          "model": {
+            "max_drawdown": -0.452297953056366,
+            "final_equity": 6.391158493639625,
+            "whipsaw_rate": 0.7333333333333333
+          },
+          "rule": {
+            "max_drawdown": -0.3919777234294409,
+            "final_equity": 8.22275970596817,
+            "whipsaw_rate": 0.6363636363636364
+          }
+        },
+        "rolling_5y": {
+          "first_decision": "2013-11-01",
+          "model": {
+            "max_drawdown": -0.41104564476123284,
+            "final_equity": 4.860572940081555,
+            "whipsaw_rate": 0.7333333333333333
+          },
+          "rule": {
+            "max_drawdown": -0.38007727905224264,
+            "final_equity": 10.046261024631105,
+            "whipsaw_rate": 0.6363636363636364
+          }
+        },
+        "embargo_5": {
+          "first_decision": "2013-11-01",
+          "model": {
+            "max_drawdown": -0.4517442096565276,
+            "final_equity": 8.497107633235796,
+            "whipsaw_rate": 0.75
+          },
+          "rule": {
+            "max_drawdown": -0.38007727905224264,
+            "final_equity": 10.046261024631105,
+            "whipsaw_rate": 0.6363636363636364
+          }
+        }
+      }
+    },
+    "QQQ": {
+      "rule": {
+        "arm": "frozen rule",
+        "first_decision": "2013-11-01",
+        "first_session_traded": "2013-11-04",
+        "last_session": "2026-11-20",
+        "decisions": 3283,
+        "held_decisions": 0,
+        "decisions_by_target": {
+          "0.00": 234,
+          "0.50": 827,
+          "1.00": 2222
+        },
+        "max_drawdown": -0.1785023873443844,
+        "final_equity": 5.624913299106748,
+        "buy_and_hold": {
+          "max_drawdown": -0.3561721518084682,
+          "final_equity": 7.3254277641629715
+        },
+        "turnover_per_year": 14.40465701699182,
+        "episodes": 38,
+        "unfinished_episodes": 1,
+        "whipsaw_rate": 0.6216216216216216,
+        "reentry_cost_all_finished": 0.006818794711707099,
+        "forward_drawdown": {
+          "stressed": {
+            "n": 1051,
+            "mean": -0.039540434541101045,
+            "median": -0.027442330706755613,
+            "p05": -0.12578227579975415,
+            "runs": 38
+          },
+          "ordinary": {
+            "n": 1713,
+            "mean": -0.020838293653782997,
+            "median": -0.013785241692034211,
+            "p05": -0.0712124970185206,
+            "runs": 38
+          },
+          "difference_of_means": -0.018702140887318048,
+          "interval_90": [
+            -0.027953387025475084,
+            -0.006643449065946251
+          ]
+        },
+        "tail_recall": {
+          "decisions": 3263,
+          "cases": 489,
+          "recall": 0.5255623721881391,
+          "alert_rate": 0.3220962304627643
+        },
+        "worst_windows_labelled_class_0": 0.5521472392638037,
+        "positions_sha256": "67a19ee353c3be0d28ca50f5fb7ddd9dfcb97ca975bf9a005aeb371e84c8fdd0"
+      },
+      "model_a": {
+        "arm": "Model A, as frozen",
+        "first_decision": "2013-11-01",
+        "first_session_traded": "2013-11-04",
+        "last_session": "2026-11-20",
+        "decisions": 3283,
+        "held_decisions": 0,
+        "decisions_by_target": {
+          "0.00": 839,
+          "0.50": 443,
+          "1.00": 2001
+        },
+        "max_drawdown": -0.35617215180846806,
+        "final_equity": 4.245924286697822,
+        "buy_and_hold": {
+          "max_drawdown": -0.3561721518084682,
+          "final_equity": 7.3254277641629715
+        },
+        "turnover_per_year": 8.351636249213342,
+        "episodes": 17,
+        "unfinished_episodes": 0,
+        "whipsaw_rate": 0.6470588235294118,
+        "reentry_cost_all_finished": 0.0934339914795794,
+        "forward_drawdown": {
+          "stressed": {
+            "n": 1282,
+            "mean": -0.027832619919447927,
+            "median": -0.018959165349915486,
+            "p05": -0.08934933219176297,
+            "runs": 17
+          },
+          "ordinary": {
+            "n": 1837,
+            "mean": -0.033136549716131065,
+            "median": -0.020240116282965293,
+            "p05": -0.11667321743232643,
+            "runs": 17
+          },
+          "difference_of_means": 0.0053039297966831385,
+          "interval_90": [
+            -0.007165912144297969,
+            0.013536866813387591
+          ]
+        },
+        "tail_recall": {
+          "decisions": 3263,
+          "cases": 489,
+          "recall": 0.2822085889570552,
+          "alert_rate": 0.3928899785473491
+        },
+        "worst_windows_labelled_class_0": 0.5521472392638037
+      },
+      "model": {
+        "arm": "Model C, generic features",
+        "first_decision": "2013-11-01",
+        "first_session_traded": "2013-11-04",
+        "last_session": "2026-11-20",
+        "decisions": 3283,
+        "held_decisions": 0,
+        "decisions_by_target": {
+          "0.00": 708,
+          "0.50": 379,
+          "1.00": 2196
+        },
+        "max_drawdown": -0.28809362939144934,
+        "final_equity": 4.003024379270719,
+        "buy_and_hold": {
+          "max_drawdown": -0.3561721518084682,
+          "final_equity": 7.3254277641629715
+        },
+        "turnover_per_year": 6.359502831969793,
+        "episodes": 18,
+        "unfinished_episodes": 0,
+        "whipsaw_rate": 0.7777777777777778,
+        "reentry_cost_all_finished": 0.07235555303222609,
+        "forward_drawdown": {
+          "stressed": {
+            "n": 1087,
+            "mean": -0.02870565049522414,
+            "median": -0.019976433076869804,
+            "p05": -0.0891728511884329,
+            "runs": 18
+          },
+          "ordinary": {
+            "n": 1943,
+            "mean": -0.03215942845418887,
+            "median": -0.01902867440469025,
+            "p05": -0.11501053134269734,
+            "runs": 19
+          },
+          "difference_of_means": 0.003453777958964732,
+          "interval_90": [
+            -0.0042154364945965195,
+            0.015818118373847452
+          ]
+        },
+        "tail_recall": {
+          "decisions": 3263,
+          "cases": 489,
+          "recall": 0.26380368098159507,
+          "alert_rate": 0.3331290223720503
+        },
+        "worst_windows_labelled_class_0": 0.5521472392638037,
+        "positions_sha256": "98d510ed3b290a7d925d3c01dc276897d297ee5fa723172174d4d8208494958c"
+      },
+      "checks": {
+        "drawdown_smaller_by_points": false,
+        "final_equity_share_of_rule": false,
+        "whipsaw_within_points": false
+      },
+      "decision": "the rule is kept",
+      "sensitivity_decides_nothing": {
+        "cost_x2": {
+          "first_decision": "2013-11-01",
+          "model": {
+            "max_drawdown": -0.28809362939144934,
+            "final_equity": 3.84020238163438,
+            "whipsaw_rate": 0.7777777777777778
+          },
+          "rule": {
+            "max_drawdown": -0.18191257941415317,
+            "final_equity": 5.121162139932489,
+            "whipsaw_rate": 0.6216216216216216
+          }
+        },
+        "cost_x3": {
+          "first_decision": "2013-11-01",
+          "model": {
+            "max_drawdown": -0.2880936293914492,
+            "final_equity": 3.6839477714903537,
+            "whipsaw_rate": 0.7777777777777778
+          },
+          "rule": {
+            "max_drawdown": -0.18748299284270398,
+            "final_equity": 4.662410456042689,
+            "whipsaw_rate": 0.6216216216216216
+          }
+        },
+        "rolling_5y": {
+          "first_decision": "2013-11-01",
+          "model": {
+            "max_drawdown": -0.22864841431939764,
+            "final_equity": 4.526757488789591,
+            "whipsaw_rate": 0.7
+          },
+          "rule": {
+            "max_drawdown": -0.1785023873443844,
+            "final_equity": 5.624913299106748,
+            "whipsaw_rate": 0.6216216216216216
+          }
+        },
+        "embargo_5": {
+          "first_decision": "2013-11-01",
+          "model": {
+            "max_drawdown": -0.29720375989434145,
+            "final_equity": 4.221877269130298,
+            "whipsaw_rate": 0.6875
+          },
+          "rule": {
+            "max_drawdown": -0.1785023873443844,
+            "final_equity": 5.624913299106748,
+            "whipsaw_rate": 0.6216216216216216
+          }
+        }
+      }
+    }
+  },
+  "comparison_2": {},
+  "synthetic_prices": false
+}
