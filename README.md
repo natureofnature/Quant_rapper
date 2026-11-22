@@ -112,6 +112,8 @@ Before downloading data, check the manifests in `artifacts/snapshots/<version>/`
 
 Git ignores local studies and raw market data by default. Each snapshot's `manifest.json` can be versioned directly. Add file-specific exceptions for small curated datasets worth preserving, such as filing dates and exchange calendars. When a result becomes a formal reference, add exceptions for its recipe, input references and expected results under `artifacts/ablations/<benchmark>/` or `artifacts/prospective/<benchmark>/`. Record a durable retrieval location for any untracked input required to reproduce that benchmark.
 
+A prospective test is registered before its first event in `artifacts/prospective/<name>/`: `recipe.json` and a `registration.json` that fixes the factors, thresholds, outcome, cutoff rule and reading rule. The commit that adds the registration dates the choice of comparison. That is separate from the recipe's prior status, which dates the research map.
+
 The prior knowledge currently has two broad research groups and one shared layer:
 
 - [Semiconductors](knowledge_base/prior_knowledge/Relationships/semiconductor/semiconductor.json): MU, TSM, and sector funds.
@@ -134,11 +136,15 @@ python3 knowledge_base/prior_knowledge/Relationships/relationship_visualizer.py
 
 ## Setup
 
-Requires Python 3.12+ and [uv](https://docs.astral.sh/uv/).
+Requires Python 3.12+ and [uv](https://docs.astral.sh/uv/). If `uv` is not installed, `pip install uv` provides it.
 
 ```bash
-uv sync
+uv sync                                                   # install the five packages and pydantic into .venv
+uv run python -m unittest discover -s tests/unit
+uv run python -m unittest discover -s tests/invariants
 ```
+
+Both commands must end in a plain `OK`. A result such as `OK (skipped=22)` means the tests ran without pydantic, as they do under a bare system Python: the contract, as-of and event-table tests were skipped, not passed.
 
 ## Disclaimer
 

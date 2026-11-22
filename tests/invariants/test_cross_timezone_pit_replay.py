@@ -193,8 +193,7 @@ class CrossTimezoneReplayTests(unittest.TestCase):
 
     def test_real_event_resolves_under_both_recorded_upper_bounds(self):
         fixture = json.loads(FIXTURE.read_text(encoding="utf-8"))
-        by_id = {b.series_id: b for b in self.both}
-        rows = [observe(by_id[series], date.fromisoformat(day), value)
+        rows = [observe(self.series[series], date.fromisoformat(day), value)
                 for series, values in fixture["rows"].items() for day, value in values.items()]
         expected = fixture["expected"]
         for cutoff in (Cutoff(**c) for c in fixture["cutoffs"]):
@@ -206,6 +205,9 @@ class CrossTimezoneReplayTests(unittest.TestCase):
             self.assertEqual({o.available_at for o in result.observations},
                              {datetime.fromisoformat(expected["available_at"])})
             self.assertEqual((result.cutoff.basis, audit), ("upper_bound", ()))
+            price, _ = latest_common([self.series["yahoo:soxx:close"]], rows, cutoff, self.pilot_calendar, LIMIT)
+            self.assertEqual((str(price.session), price.observations[0].value, price.verified),
+                             (expected["session"], expected["soxx_close"], expected["verified"]))
 
     def test_bindings_anchor_to_ids_that_exist_in_the_research_maps(self):
         known = set()

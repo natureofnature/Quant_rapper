@@ -1,5 +1,5 @@
 {
-  "describe": "One real event for the as-of replay: the latest VIX and VIX3M closes knowable before TSMC's October 2026 monthly revenue report. Values and times were read from the listed sources on 2026-11-21.",
+  "describe": "Two examples at the same TSMC monthly release: the VIX/VIX3M ratio and the SOXX closing price. Each includes a US close after the cutoff. The VIX and VIX3M values were read from the listed sources on 2026-11-21, the SOXX values on 2026-11-22.",
   "limitation": "No first-publication time was found. TSMC's release and its 6-K carry the date 2026-11-10 and no time of day. Both cutoffs below are upper bounds, so the expected result is resolved under those bounds and is not verified.",
   "cutoffs": [
     {
@@ -23,18 +23,24 @@
       "2026-11-06": 24.6,
       "2026-11-09": 20.85,
       "2026-11-10": 20.64
+    },
+    "yahoo:soxx:close": {
+      "2026-11-09": 146.75999450683594,
+      "2026-11-10": 146.58999633789062
     }
   },
   "row_sources": {
     "cboe:vix": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
-    "cboe:vix3m": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX3M_History.csv"
+    "cboe:vix3m": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX3M_History.csv",
+    "yahoo:soxx:close": "2026-11-22 Yahoo SOXX chart snapshot, indicators.quote[0].close, SHA-256 70d87f085d41024734b8b4a9c0bd326567883370836de0646fca15883b956652."
   },
   "expected": {
     "status": "resolved",
     "session": "2026-11-09",
     "verified": false,
     "ratio": 0.9554,
-    "available_at": "2026-11-09T16:30:00-05:00"
+    "available_at": "2026-11-09T16:30:00-05:00",
+    "soxx_close": 146.75999450683594
   },
   "calendar": {
     "calendar_id": "us_index_sessions_pilot",

@@ -15,7 +15,6 @@ from pydantic import AwareDatetime, Field, model_validator
 
 from quant_contracts.research import Availability, Contract, Text
 
-Routing = Literal["beta_regime_input", "alpha_event_input", "conditioning_filter", "exogenous_shock"]
 # exact: a recorded first-publication time. upper_bound: the true time was no later.
 # assumed: a convention with no record behind it.
 CutoffBasis = Literal["exact", "upper_bound", "assumed"]
@@ -34,7 +33,6 @@ class SeriesBinding(Contract):
     anchors: tuple[Text, ...] = Field(min_length=1)  # concept, company or fund ids it serves
     source_url: Text
     availability: Availability
-    routing: Routing
     timezone: Text  # IANA name of the session's local time, e.g. "America/New_York"
     value_time: time  # local time at which the session's value is fixed: the open or the close
     publication_delay_minutes: int = Field(ge=0)  # from that time to knowable

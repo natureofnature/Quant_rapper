@@ -1,0 +1,1648 @@
+{
+ "describe": "TSMC monthly net revenue in millions of New Taiwan dollars, January 2002 to October 2026, as shown on the company's investor pages (one page per year) on 2026-11-22. The company shows unconsolidated figures for 2002-2012, consolidated figures from April 2006, and only consolidated figures from January 2013. yoy_pct is the page's own year-on-year change.",
+ "point_in_time_note": "These are the values visible on the investor site on 2026-11-22, not the values first released: an early figure may have been restated since. The filing times in tsmc_monthly_revenue_events.json show when a release had been filed; they do not show that a value in this file appeared in that release. Use this file for exploratory analysis only. A historical point-in-time test needs each value taken from the dated release it relies on.",
+ "source": "https://investor.tsmc.com/english/monthly-revenue/<year>",
+ "transcription_checks": "Each year's months sum to the page's Total within rounding (at most 2), except 2006 consolidated, where the page shows a full-year total but months only from April. Stated year-on-year changes were compared with the figure twelve months earlier on the same basis. Those over 0.06 points follow; the 2013 ones coincide with the change of accounting basis that year: 2003-12 unconsolidated: stated 67.2%, computed 68.16%; 2007-06 consolidated: stated -5.4%, computed -5.55%; 2007-09 consolidated: stated 8.2%, computed 8.29%; 2013-01 consolidated: stated 37.1%, computed 37.23%; 2013-02 consolidated: stated 21.5%, computed 21.64%; 2013-03 consolidated: stated 18.9%, computed 19.01%; 2013-04 consolidated: stated 23.5%, computed 23.64%; 2013-05 consolidated: stated 17.2%, computed 17.33%; 2013-06 consolidated: stated 24.3%, computed 24.41%; 2013-07 consolidated: stated 7.3%, computed 7.37%; 2013-08 consolidated: stated 11.2%, computed 11.30%; 2013-09 consolidated: stated 27.6%, computed 27.75%; 2013-10 consolidated: stated 3.6%, computed 3.72%; 2013-11 consolidated: stated 0.1%, computed 0.17%; 2013-12 consolidated: stated 33.7%, computed 33.86%.",
+ "figures": [
+  {
+   "month": "2002-01",
+   "unconsolidated": 12045,
+   "unconsolidated_yoy_pct": -25.5
+  },
+  {
+   "month": "2002-02",
+   "unconsolidated": 11468,
+   "unconsolidated_yoy_pct": -1.3
+  },
+  {
+   "month": "2002-03",
+   "unconsolidated": 12277,
+   "unconsolidated_yoy_pct": 4.5
+  },
+  {
+   "month": "2002-04",
+   "unconsolidated": 13366,
+   "unconsolidated_yoy_pct": 44.8
+  },
+  {
+   "month": "2002-05",
+   "unconsolidated": 15201,
+   "unconsolidated_yoy_pct": 77.8
+  },
+  {
+   "month": "2002-06",
+   "unconsolidated": 15615,
+   "unconsolidated_yoy_pct": 83.4
+  },
+  {
+   "month": "2002-07",
+   "unconsolidated": 13536,
+   "unconsolidated_yoy_pct": 57.3
+  },
+  {
+   "month": "2002-08",
+   "unconsolidated": 13544,
+   "unconsolidated_yoy_pct": 50.0
+  },
+  {
+   "month": "2002-09",
+   "unconsolidated": 12755,
+   "unconsolidated_yoy_pct": 37.0
+  },
+  {
+   "month": "2002-10",
+   "unconsolidated": 15231,
+   "unconsolidated_yoy_pct": 47.3
+  },
+  {
+   "month": "2002-11",
+   "unconsolidated": 14582,
+   "unconsolidated_yoy_pct": 31.9
+  },
+  {
+   "month": "2002-12",
+   "unconsolidated": 11278,
+   "unconsolidated_yoy_pct": -3.9
+  },
+  {
+   "month": "2003-01",
+   "unconsolidated": 13129,
+   "unconsolidated_yoy_pct": 9.0
+  },
+  {
+   "month": "2003-02",
+   "unconsolidated": 12345,
+   "unconsolidated_yoy_pct": 7.6
+  },
+  {
+   "month": "2003-03",
+   "unconsolidated": 13851,
+   "unconsolidated_yoy_pct": 12.8
+  },
+  {
+   "month": "2003-04",
+   "unconsolidated": 15264,
+   "unconsolidated_yoy_pct": 14.2
+  },
+  {
+   "month": "2003-05",
+   "unconsolidated": 16812,
+   "unconsolidated_yoy_pct": 10.6
+  },
+  {
+   "month": "2003-06",
+   "unconsolidated": 17846,
+   "unconsolidated_yoy_pct": 14.3
+  },
+  {
+   "month": "2003-07",
+   "unconsolidated": 17649,
+   "unconsolidated_yoy_pct": 30.4
+  },
+  {
+   "month": "2003-08",
+   "unconsolidated": 18317,
+   "unconsolidated_yoy_pct": 35.2
+  },
+  {
+   "month": "2003-09",
+   "unconsolidated": 18911,
+   "unconsolidated_yoy_pct": 48.3
+  },
+  {
+   "month": "2003-10",
+   "unconsolidated": 20304,
+   "unconsolidated_yoy_pct": 33.3
+  },
+  {
+   "month": "2003-11",
+   "unconsolidated": 18510,
+   "unconsolidated_yoy_pct": 26.9
+  },
+  {
+   "month": "2003-12",
+   "unconsolidated": 18965,
+   "unconsolidated_yoy_pct": 67.2
+  },
+  {
+   "month": "2004-01",
+   "unconsolidated": 19156,
+   "unconsolidated_yoy_pct": 45.9
+  },
+  {
+   "month": "2004-02",
+   "unconsolidated": 18385,
+   "unconsolidated_yoy_pct": 48.9
+  },
+  {
+   "month": "2004-03",
+   "unconsolidated": 19972,
+   "unconsolidated_yoy_pct": 44.2
+  },
+  {
+   "month": "2004-04",
+   "unconsolidated": 20631,
+   "unconsolidated_yoy_pct": 35.2
+  },
+  {
+   "month": "2004-05",
+   "unconsolidated": 21720,
+   "unconsolidated_yoy_pct": 29.2
+  },
+  {
+   "month": "2004-06",
+   "unconsolidated": 22519,
+   "unconsolidated_yoy_pct": 26.2
+  },
+  {
+   "month": "2004-07",
+   "unconsolidated": 23148,
+   "unconsolidated_yoy_pct": 31.2
+  },
+  {
+   "month": "2004-08",
+   "unconsolidated": 23414,
+   "unconsolidated_yoy_pct": 27.8
+  },
+  {
+   "month": "2004-09",
+   "unconsolidated": 23174,
+   "unconsolidated_yoy_pct": 22.5
+  },
+  {
+   "month": "2004-10",
+   "unconsolidated": 22970,
+   "unconsolidated_yoy_pct": 13.1
+  },
+  {
+   "month": "2004-11",
+   "unconsolidated": 20986,
+   "unconsolidated_yoy_pct": 13.4
+  },
+  {
+   "month": "2004-12",
+   "unconsolidated": 19919,
+   "unconsolidated_yoy_pct": 5.0
+  },
+  {
+   "month": "2005-01",
+   "unconsolidated": 20843,
+   "unconsolidated_yoy_pct": 8.8
+  },
+  {
+   "month": "2005-02",
+   "unconsolidated": 17200,
+   "unconsolidated_yoy_pct": -6.4
+  },
+  {
+   "month": "2005-03",
+   "unconsolidated": 17610,
+   "unconsolidated_yoy_pct": -11.8
+  },
+  {
+   "month": "2005-04",
+   "unconsolidated": 18903,
+   "unconsolidated_yoy_pct": -8.4
+  },
+  {
+   "month": "2005-05",
+   "unconsolidated": 19508,
+   "unconsolidated_yoy_pct": -10.2
+  },
+  {
+   "month": "2005-06",
+   "unconsolidated": 20105,
+   "unconsolidated_yoy_pct": -10.7
+  },
+  {
+   "month": "2005-07",
+   "unconsolidated": 20847,
+   "unconsolidated_yoy_pct": -9.9
+  },
+  {
+   "month": "2005-08",
+   "unconsolidated": 23182,
+   "unconsolidated_yoy_pct": -1.0
+  },
+  {
+   "month": "2005-09",
+   "unconsolidated": 25229,
+   "unconsolidated_yoy_pct": 8.9
+  },
+  {
+   "month": "2005-10",
+   "unconsolidated": 26227,
+   "unconsolidated_yoy_pct": 14.2
+  },
+  {
+   "month": "2005-11",
+   "unconsolidated": 27518,
+   "unconsolidated_yoy_pct": 31.1
+  },
+  {
+   "month": "2005-12",
+   "unconsolidated": 27416,
+   "unconsolidated_yoy_pct": 37.6
+  },
+  {
+   "month": "2006-01",
+   "unconsolidated": 26178,
+   "unconsolidated_yoy_pct": 25.6
+  },
+  {
+   "month": "2006-02",
+   "unconsolidated": 24009,
+   "unconsolidated_yoy_pct": 39.6
+  },
+  {
+   "month": "2006-03",
+   "unconsolidated": 27107,
+   "unconsolidated_yoy_pct": 53.9
+  },
+  {
+   "month": "2006-04",
+   "unconsolidated": 27162,
+   "unconsolidated_yoy_pct": 43.7,
+   "consolidated": 27388
+  },
+  {
+   "month": "2006-05",
+   "unconsolidated": 26770,
+   "unconsolidated_yoy_pct": 37.2,
+   "consolidated": 27124
+  },
+  {
+   "month": "2006-06",
+   "unconsolidated": 27295,
+   "unconsolidated_yoy_pct": 35.8,
+   "consolidated": 27647
+  },
+  {
+   "month": "2006-07",
+   "unconsolidated": 27567,
+   "unconsolidated_yoy_pct": 32.2,
+   "consolidated": 27959
+  },
+  {
+   "month": "2006-08",
+   "unconsolidated": 27000,
+   "unconsolidated_yoy_pct": 16.5,
+   "consolidated": 27284
+  },
+  {
+   "month": "2006-09",
+   "unconsolidated": 26859,
+   "unconsolidated_yoy_pct": 6.5,
+   "consolidated": 27198
+  },
+  {
+   "month": "2006-10",
+   "unconsolidated": 26850,
+   "unconsolidated_yoy_pct": 2.4,
+   "consolidated": 27032
+  },
+  {
+   "month": "2006-11",
+   "unconsolidated": 24709,
+   "unconsolidated_yoy_pct": -10.2,
+   "consolidated": 25060
+  },
+  {
+   "month": "2006-12",
+   "unconsolidated": 22376,
+   "unconsolidated_yoy_pct": -18.4,
+   "consolidated": 22871
+  },
+  {
+   "month": "2007-01",
+   "unconsolidated": 20851,
+   "unconsolidated_yoy_pct": -20.3,
+   "consolidated": 21389
+  },
+  {
+   "month": "2007-02",
+   "unconsolidated": 20577,
+   "unconsolidated_yoy_pct": -14.3,
+   "consolidated": 20948
+  },
+  {
+   "month": "2007-03",
+   "unconsolidated": 21918,
+   "unconsolidated_yoy_pct": -19.1,
+   "consolidated": 22560
+  },
+  {
+   "month": "2007-04",
+   "unconsolidated": 22513,
+   "unconsolidated_yoy_pct": -17.1,
+   "consolidated": 23094,
+   "consolidated_yoy_pct": -15.7
+  },
+  {
+   "month": "2007-05",
+   "unconsolidated": 25093,
+   "unconsolidated_yoy_pct": -6.3,
+   "consolidated": 25712,
+   "consolidated_yoy_pct": -5.2
+  },
+  {
+   "month": "2007-06",
+   "unconsolidated": 25246,
+   "unconsolidated_yoy_pct": -7.5,
+   "consolidated": 26112,
+   "consolidated_yoy_pct": -5.4
+  },
+  {
+   "month": "2007-07",
+   "unconsolidated": 28766,
+   "unconsolidated_yoy_pct": 4.3,
+   "consolidated": 29483,
+   "consolidated_yoy_pct": 5.5
+  },
+  {
+   "month": "2007-08",
+   "unconsolidated": 29199,
+   "unconsolidated_yoy_pct": 8.1,
+   "consolidated": 30019,
+   "consolidated_yoy_pct": 10.0
+  },
+  {
+   "month": "2007-09",
+   "unconsolidated": 28496,
+   "unconsolidated_yoy_pct": 6.1,
+   "consolidated": 29453,
+   "consolidated_yoy_pct": 8.2
+  },
+  {
+   "month": "2007-10",
+   "unconsolidated": 31725,
+   "unconsolidated_yoy_pct": 18.2,
+   "consolidated": 32606,
+   "consolidated_yoy_pct": 20.6
+  },
+  {
+   "month": "2007-11",
+   "unconsolidated": 30143,
+   "unconsolidated_yoy_pct": 22.0,
+   "consolidated": 31265,
+   "consolidated_yoy_pct": 24.8
+  },
+  {
+   "month": "2007-12",
+   "unconsolidated": 29120,
+   "unconsolidated_yoy_pct": 30.1,
+   "consolidated": 29988,
+   "consolidated_yoy_pct": 31.1
+  },
+  {
+   "month": "2008-01",
+   "unconsolidated": 30286,
+   "unconsolidated_yoy_pct": 45.2,
+   "consolidated": 31069,
+   "consolidated_yoy_pct": 45.3
+  },
+  {
+   "month": "2008-02",
+   "unconsolidated": 28382,
+   "unconsolidated_yoy_pct": 37.9,
+   "consolidated": 29282,
+   "consolidated_yoy_pct": 39.8
+  },
+  {
+   "month": "2008-03",
+   "unconsolidated": 26562,
+   "unconsolidated_yoy_pct": 21.2,
+   "consolidated": 27128,
+   "consolidated_yoy_pct": 20.2
+  },
+  {
+   "month": "2008-04",
+   "unconsolidated": 28094,
+   "unconsolidated_yoy_pct": 24.8,
+   "consolidated": 28863,
+   "consolidated_yoy_pct": 25.0
+  },
+  {
+   "month": "2008-05",
+   "unconsolidated": 28990,
+   "unconsolidated_yoy_pct": 15.5,
+   "consolidated": 29801,
+   "consolidated_yoy_pct": 15.9
+  },
+  {
+   "month": "2008-06",
+   "unconsolidated": 28510,
+   "unconsolidated_yoy_pct": 12.9,
+   "consolidated": 29473,
+   "consolidated_yoy_pct": 12.9
+  },
+  {
+   "month": "2008-07",
+   "unconsolidated": 30869,
+   "unconsolidated_yoy_pct": 7.3,
+   "consolidated": 31814,
+   "consolidated_yoy_pct": 7.9
+  },
+  {
+   "month": "2008-08",
+   "unconsolidated": 30995,
+   "unconsolidated_yoy_pct": 6.2,
+   "consolidated": 31850,
+   "consolidated_yoy_pct": 6.1
+  },
+  {
+   "month": "2008-09",
+   "unconsolidated": 28252,
+   "unconsolidated_yoy_pct": -0.9,
+   "consolidated": 29315,
+   "consolidated_yoy_pct": -0.5
+  },
+  {
+   "month": "2008-10",
+   "unconsolidated": 28371,
+   "unconsolidated_yoy_pct": -10.6,
+   "consolidated": 29490,
+   "consolidated_yoy_pct": -9.6
+  },
+  {
+   "month": "2008-11",
+   "unconsolidated": 19295,
+   "unconsolidated_yoy_pct": -36.0,
+   "consolidated": 20644,
+   "consolidated_yoy_pct": -34.0
+  },
+  {
+   "month": "2008-12",
+   "unconsolidated": 13161,
+   "unconsolidated_yoy_pct": -54.8,
+   "consolidated": 14429,
+   "consolidated_yoy_pct": -51.9
+  },
+  {
+   "month": "2009-01",
+   "unconsolidated": 12436,
+   "unconsolidated_yoy_pct": -58.9,
+   "consolidated": 13126,
+   "consolidated_yoy_pct": -57.8
+  },
+  {
+   "month": "2009-02",
+   "unconsolidated": 11504,
+   "unconsolidated_yoy_pct": -59.5,
+   "consolidated": 12176,
+   "consolidated_yoy_pct": -58.4
+  },
+  {
+   "month": "2009-03",
+   "unconsolidated": 13619,
+   "unconsolidated_yoy_pct": -48.7,
+   "consolidated": 14198,
+   "consolidated_yoy_pct": -47.7
+  },
+  {
+   "month": "2009-04",
+   "unconsolidated": 21745,
+   "unconsolidated_yoy_pct": -22.6,
+   "consolidated": 22450,
+   "consolidated_yoy_pct": -22.2
+  },
+  {
+   "month": "2009-05",
+   "unconsolidated": 24474,
+   "unconsolidated_yoy_pct": -15.6,
+   "consolidated": 25247,
+   "consolidated_yoy_pct": -15.3
+  },
+  {
+   "month": "2009-06",
+   "unconsolidated": 25778,
+   "unconsolidated_yoy_pct": -9.6,
+   "consolidated": 26515,
+   "consolidated_yoy_pct": -10.0
+  },
+  {
+   "month": "2009-07",
+   "unconsolidated": 30279,
+   "unconsolidated_yoy_pct": -1.9,
+   "consolidated": 31173,
+   "consolidated_yoy_pct": -2.0
+  },
+  {
+   "month": "2009-08",
+   "unconsolidated": 28888,
+   "unconsolidated_yoy_pct": -6.8,
+   "consolidated": 29827,
+   "consolidated_yoy_pct": -6.4
+  },
+  {
+   "month": "2009-09",
+   "unconsolidated": 28024,
+   "unconsolidated_yoy_pct": -0.8,
+   "consolidated": 28936,
+   "consolidated_yoy_pct": -1.3
+  },
+  {
+   "month": "2009-10",
+   "unconsolidated": 29181,
+   "unconsolidated_yoy_pct": 2.9,
+   "consolidated": 30219,
+   "consolidated_yoy_pct": 2.5
+  },
+  {
+   "month": "2009-11",
+   "unconsolidated": 29349,
+   "unconsolidated_yoy_pct": 52.1,
+   "consolidated": 30322,
+   "consolidated_yoy_pct": 46.9
+  },
+  {
+   "month": "2009-12",
+   "unconsolidated": 30466,
+   "unconsolidated_yoy_pct": 131.5,
+   "consolidated": 31554,
+   "consolidated_yoy_pct": 118.7
+  },
+  {
+   "month": "2010-01",
+   "unconsolidated": 29156,
+   "unconsolidated_yoy_pct": 134.4,
+   "consolidated": 30136,
+   "consolidated_yoy_pct": 129.6
+  },
+  {
+   "month": "2010-02",
+   "unconsolidated": 29195,
+   "unconsolidated_yoy_pct": 153.8,
+   "consolidated": 30132,
+   "consolidated_yoy_pct": 147.5
+  },
+  {
+   "month": "2010-03",
+   "unconsolidated": 30823,
+   "unconsolidated_yoy_pct": 126.3,
+   "consolidated": 31919,
+   "consolidated_yoy_pct": 124.8
+  },
+  {
+   "month": "2010-04",
+   "unconsolidated": 32683,
+   "unconsolidated_yoy_pct": 50.3,
+   "consolidated": 33809,
+   "consolidated_yoy_pct": 50.6
+  },
+  {
+   "month": "2010-05",
+   "unconsolidated": 33839,
+   "unconsolidated_yoy_pct": 38.3,
+   "consolidated": 34819,
+   "consolidated_yoy_pct": 37.9
+  },
+  {
+   "month": "2010-06",
+   "unconsolidated": 35113,
+   "unconsolidated_yoy_pct": 36.2,
+   "consolidated": 36334,
+   "consolidated_yoy_pct": 37.0
+  },
+  {
+   "month": "2010-07",
+   "unconsolidated": 36156,
+   "unconsolidated_yoy_pct": 19.4,
+   "consolidated": 37218,
+   "consolidated_yoy_pct": 19.4
+  },
+  {
+   "month": "2010-08",
+   "unconsolidated": 36498,
+   "unconsolidated_yoy_pct": 26.3,
+   "consolidated": 37391,
+   "consolidated_yoy_pct": 25.4
+  },
+  {
+   "month": "2010-09",
+   "unconsolidated": 36653,
+   "unconsolidated_yoy_pct": 30.8,
+   "consolidated": 37638,
+   "consolidated_yoy_pct": 30.1
+  },
+  {
+   "month": "2010-10",
+   "unconsolidated": 37373,
+   "unconsolidated_yoy_pct": 28.1,
+   "consolidated": 38427,
+   "consolidated_yoy_pct": 27.2
+  },
+  {
+   "month": "2010-11",
+   "unconsolidated": 35722,
+   "unconsolidated_yoy_pct": 21.7,
+   "consolidated": 36846,
+   "consolidated_yoy_pct": 21.5
+  },
+  {
+   "month": "2010-12",
+   "unconsolidated": 33751,
+   "unconsolidated_yoy_pct": 10.8,
+   "consolidated": 34869,
+   "consolidated_yoy_pct": 10.5
+  },
+  {
+   "month": "2011-01",
+   "unconsolidated": 34424,
+   "unconsolidated_yoy_pct": 18.1,
+   "consolidated": 35371,
+   "consolidated_yoy_pct": 17.4
+  },
+  {
+   "month": "2011-02",
+   "unconsolidated": 31754,
+   "unconsolidated_yoy_pct": 8.8,
+   "consolidated": 32691,
+   "consolidated_yoy_pct": 8.5
+  },
+  {
+   "month": "2011-03",
+   "unconsolidated": 36370,
+   "unconsolidated_yoy_pct": 18.0,
+   "consolidated": 37315,
+   "consolidated_yoy_pct": 16.9
+  },
+  {
+   "month": "2011-04",
+   "unconsolidated": 36231,
+   "unconsolidated_yoy_pct": 10.9,
+   "consolidated": 37127,
+   "consolidated_yoy_pct": 9.8
+  },
+  {
+   "month": "2011-05",
+   "unconsolidated": 35961,
+   "unconsolidated_yoy_pct": 6.3,
+   "consolidated": 36709,
+   "consolidated_yoy_pct": 5.4
+  },
+  {
+   "month": "2011-06",
+   "unconsolidated": 35654,
+   "unconsolidated_yoy_pct": 1.5,
+   "consolidated": 36673,
+   "consolidated_yoy_pct": 0.9
+  },
+  {
+   "month": "2011-07",
+   "unconsolidated": 34917,
+   "unconsolidated_yoy_pct": -3.4,
+   "consolidated": 35432,
+   "consolidated_yoy_pct": -4.8
+  },
+  {
+   "month": "2011-08",
+   "unconsolidated": 37042,
+   "unconsolidated_yoy_pct": 1.5,
+   "consolidated": 37645,
+   "consolidated_yoy_pct": 0.7
+  },
+  {
+   "month": "2011-09",
+   "unconsolidated": 32861,
+   "unconsolidated_yoy_pct": -10.3,
+   "consolidated": 33406,
+   "consolidated_yoy_pct": -11.2
+  },
+  {
+   "month": "2011-10",
+   "unconsolidated": 37247,
+   "unconsolidated_yoy_pct": -0.3,
+   "consolidated": 37610,
+   "consolidated_yoy_pct": -2.1
+  },
+  {
+   "month": "2011-11",
+   "unconsolidated": 35219,
+   "unconsolidated_yoy_pct": -1.4,
+   "consolidated": 35859,
+   "consolidated_yoy_pct": -2.7
+  },
+  {
+   "month": "2011-12",
+   "unconsolidated": 30567,
+   "unconsolidated_yoy_pct": -9.4,
+   "consolidated": 31242,
+   "consolidated_yoy_pct": -10.4
+  },
+  {
+   "month": "2012-01",
+   "unconsolidated": 34053,
+   "unconsolidated_yoy_pct": -1.1,
+   "consolidated": 34569,
+   "consolidated_yoy_pct": -2.3
+  },
+  {
+   "month": "2012-02",
+   "unconsolidated": 33584,
+   "unconsolidated_yoy_pct": 5.8,
+   "consolidated": 33856,
+   "consolidated_yoy_pct": 3.6
+  },
+  {
+   "month": "2012-03",
+   "unconsolidated": 36611,
+   "unconsolidated_yoy_pct": 0.7,
+   "consolidated": 37083,
+   "consolidated_yoy_pct": -0.6
+  },
+  {
+   "month": "2012-04",
+   "unconsolidated": 40008,
+   "unconsolidated_yoy_pct": 10.4,
+   "consolidated": 40496,
+   "consolidated_yoy_pct": 9.1
+  },
+  {
+   "month": "2012-05",
+   "unconsolidated": 43623,
+   "unconsolidated_yoy_pct": 21.3,
+   "consolidated": 44138,
+   "consolidated_yoy_pct": 20.2
+  },
+  {
+   "month": "2012-06",
+   "unconsolidated": 42870,
+   "unconsolidated_yoy_pct": 20.2,
+   "consolidated": 43427,
+   "consolidated_yoy_pct": 18.4
+  },
+  {
+   "month": "2012-07",
+   "unconsolidated": 47924,
+   "unconsolidated_yoy_pct": 37.3,
+   "consolidated": 48525,
+   "consolidated_yoy_pct": 37.0
+  },
+  {
+   "month": "2012-08",
+   "unconsolidated": 48896,
+   "unconsolidated_yoy_pct": 32.0,
+   "consolidated": 49497,
+   "consolidated_yoy_pct": 31.5
+  },
+  {
+   "month": "2012-09",
+   "unconsolidated": 42817,
+   "unconsolidated_yoy_pct": 30.3,
+   "consolidated": 43353,
+   "consolidated_yoy_pct": 29.8
+  },
+  {
+   "month": "2012-10",
+   "unconsolidated": 49283,
+   "unconsolidated_yoy_pct": 32.3,
+   "consolidated": 49938,
+   "consolidated_yoy_pct": 32.8
+  },
+  {
+   "month": "2012-11",
+   "unconsolidated": 43644,
+   "unconsolidated_yoy_pct": 23.9,
+   "consolidated": 44253,
+   "consolidated_yoy_pct": 23.4
+  },
+  {
+   "month": "2012-12",
+   "unconsolidated": 36559,
+   "unconsolidated_yoy_pct": 19.6,
+   "consolidated": 37114,
+   "consolidated_yoy_pct": 18.8
+  },
+  {
+   "month": "2013-01",
+   "consolidated": 47439,
+   "consolidated_yoy_pct": 37.1
+  },
+  {
+   "month": "2013-02",
+   "consolidated": 41182,
+   "consolidated_yoy_pct": 21.5
+  },
+  {
+   "month": "2013-03",
+   "consolidated": 44134,
+   "consolidated_yoy_pct": 18.9
+  },
+  {
+   "month": "2013-04",
+   "consolidated": 50071,
+   "consolidated_yoy_pct": 23.5
+  },
+  {
+   "month": "2013-05",
+   "consolidated": 51788,
+   "consolidated_yoy_pct": 17.2
+  },
+  {
+   "month": "2013-06",
+   "consolidated": 54028,
+   "consolidated_yoy_pct": 24.3
+  },
+  {
+   "month": "2013-07",
+   "consolidated": 52103,
+   "consolidated_yoy_pct": 7.3
+  },
+  {
+   "month": "2013-08",
+   "consolidated": 55091,
+   "consolidated_yoy_pct": 11.2
+  },
+  {
+   "month": "2013-09",
+   "consolidated": 55382,
+   "consolidated_yoy_pct": 27.6
+  },
+  {
+   "month": "2013-10",
+   "consolidated": 51795,
+   "consolidated_yoy_pct": 3.6
+  },
+  {
+   "month": "2013-11",
+   "consolidated": 44330,
+   "consolidated_yoy_pct": 0.1
+  },
+  {
+   "month": "2013-12",
+   "consolidated": 49681,
+   "consolidated_yoy_pct": 33.7
+  },
+  {
+   "month": "2014-01",
+   "consolidated": 51430,
+   "consolidated_yoy_pct": 8.4
+  },
+  {
+   "month": "2014-02",
+   "consolidated": 46829,
+   "consolidated_yoy_pct": 13.7
+  },
+  {
+   "month": "2014-03",
+   "consolidated": 49956,
+   "consolidated_yoy_pct": 13.2
+  },
+  {
+   "month": "2014-04",
+   "consolidated": 61887,
+   "consolidated_yoy_pct": 23.6
+  },
+  {
+   "month": "2014-05",
+   "consolidated": 60789,
+   "consolidated_yoy_pct": 17.4
+  },
+  {
+   "month": "2014-06",
+   "consolidated": 60344,
+   "consolidated_yoy_pct": 11.7
+  },
+  {
+   "month": "2014-07",
+   "consolidated": 64925,
+   "consolidated_yoy_pct": 24.6
+  },
+  {
+   "month": "2014-08",
+   "consolidated": 69279,
+   "consolidated_yoy_pct": 25.8
+  },
+  {
+   "month": "2014-09",
+   "consolidated": 74846,
+   "consolidated_yoy_pct": 35.1
+  },
+  {
+   "month": "2014-10",
+   "consolidated": 80736,
+   "consolidated_yoy_pct": 55.9
+  },
+  {
+   "month": "2014-11",
+   "consolidated": 72275,
+   "consolidated_yoy_pct": 63.0
+  },
+  {
+   "month": "2014-12",
+   "consolidated": 69510,
+   "consolidated_yoy_pct": 39.9
+  },
+  {
+   "month": "2015-01",
+   "consolidated": 87120,
+   "consolidated_yoy_pct": 69.4
+  },
+  {
+   "month": "2015-02",
+   "consolidated": 62645,
+   "consolidated_yoy_pct": 33.8
+  },
+  {
+   "month": "2015-03",
+   "consolidated": 72269,
+   "consolidated_yoy_pct": 44.7
+  },
+  {
+   "month": "2015-04",
+   "consolidated": 75330,
+   "consolidated_yoy_pct": 21.7
+  },
+  {
+   "month": "2015-05",
+   "consolidated": 70155,
+   "consolidated_yoy_pct": 15.4
+  },
+  {
+   "month": "2015-06",
+   "consolidated": 59955,
+   "consolidated_yoy_pct": -0.6
+  },
+  {
+   "month": "2015-07",
+   "consolidated": 80953,
+   "consolidated_yoy_pct": 24.7
+  },
+  {
+   "month": "2015-08",
+   "consolidated": 67038,
+   "consolidated_yoy_pct": -3.2
+  },
+  {
+   "month": "2015-09",
+   "consolidated": 64514,
+   "consolidated_yoy_pct": -13.8
+  },
+  {
+   "month": "2015-10",
+   "consolidated": 81743,
+   "consolidated_yoy_pct": 1.2
+  },
+  {
+   "month": "2015-11",
+   "consolidated": 63428,
+   "consolidated_yoy_pct": -12.2
+  },
+  {
+   "month": "2015-12",
+   "consolidated": 58347,
+   "consolidated_yoy_pct": -16.1
+  },
+  {
+   "month": "2016-01",
+   "consolidated": 70855,
+   "consolidated_yoy_pct": -18.7
+  },
+  {
+   "month": "2016-02",
+   "consolidated": 59551,
+   "consolidated_yoy_pct": -4.9
+  },
+  {
+   "month": "2016-03",
+   "consolidated": 73089,
+   "consolidated_yoy_pct": 1.1
+  },
+  {
+   "month": "2016-04",
+   "consolidated": 66843,
+   "consolidated_yoy_pct": -11.3
+  },
+  {
+   "month": "2016-05",
+   "consolidated": 73576,
+   "consolidated_yoy_pct": 4.9
+  },
+  {
+   "month": "2016-06",
+   "consolidated": 81391,
+   "consolidated_yoy_pct": 35.8
+  },
+  {
+   "month": "2016-07",
+   "consolidated": 76392,
+   "consolidated_yoy_pct": -5.6
+  },
+  {
+   "month": "2016-08",
+   "consolidated": 94311,
+   "consolidated_yoy_pct": 40.7
+  },
+  {
+   "month": "2016-09",
+   "consolidated": 89703,
+   "consolidated_yoy_pct": 39.0
+  },
+  {
+   "month": "2016-10",
+   "consolidated": 91085,
+   "consolidated_yoy_pct": 11.4
+  },
+  {
+   "month": "2016-11",
+   "consolidated": 93030,
+   "consolidated_yoy_pct": 46.7
+  },
+  {
+   "month": "2016-12",
+   "consolidated": 78112,
+   "consolidated_yoy_pct": 33.9
+  },
+  {
+   "month": "2017-01",
+   "consolidated": 76616,
+   "consolidated_yoy_pct": 8.1
+  },
+  {
+   "month": "2017-02",
+   "consolidated": 71423,
+   "consolidated_yoy_pct": 19.9
+  },
+  {
+   "month": "2017-03",
+   "consolidated": 85875,
+   "consolidated_yoy_pct": 17.5
+  },
+  {
+   "month": "2017-04",
+   "consolidated": 56872,
+   "consolidated_yoy_pct": -14.9
+  },
+  {
+   "month": "2017-05",
+   "consolidated": 72796,
+   "consolidated_yoy_pct": -1.1
+  },
+  {
+   "month": "2017-06",
+   "consolidated": 84187,
+   "consolidated_yoy_pct": 3.4
+  },
+  {
+   "month": "2017-07",
+   "consolidated": 71611,
+   "consolidated_yoy_pct": -6.3
+  },
+  {
+   "month": "2017-08",
+   "consolidated": 91917,
+   "consolidated_yoy_pct": -2.5
+  },
+  {
+   "month": "2017-09",
+   "consolidated": 88579,
+   "consolidated_yoy_pct": -1.3
+  },
+  {
+   "month": "2017-10",
+   "consolidated": 94520,
+   "consolidated_yoy_pct": 3.8
+  },
+  {
+   "month": "2017-11",
+   "consolidated": 93153,
+   "consolidated_yoy_pct": 0.1
+  },
+  {
+   "month": "2017-12",
+   "consolidated": 89897,
+   "consolidated_yoy_pct": 15.1
+  },
+  {
+   "month": "2018-01",
+   "consolidated": 79741,
+   "consolidated_yoy_pct": 4.1
+  },
+  {
+   "month": "2018-02",
+   "consolidated": 64641,
+   "consolidated_yoy_pct": -9.5
+  },
+  {
+   "month": "2018-03",
+   "consolidated": 103697,
+   "consolidated_yoy_pct": 20.8
+  },
+  {
+   "month": "2018-04",
+   "consolidated": 81870,
+   "consolidated_yoy_pct": 44.0
+  },
+  {
+   "month": "2018-05",
+   "consolidated": 80969,
+   "consolidated_yoy_pct": 11.2
+  },
+  {
+   "month": "2018-06",
+   "consolidated": 70438,
+   "consolidated_yoy_pct": -16.3
+  },
+  {
+   "month": "2018-07",
+   "consolidated": 74371,
+   "consolidated_yoy_pct": 3.9
+  },
+  {
+   "month": "2018-08",
+   "consolidated": 91055,
+   "consolidated_yoy_pct": -0.9
+  },
+  {
+   "month": "2018-09",
+   "consolidated": 94922,
+   "consolidated_yoy_pct": 7.2
+  },
+  {
+   "month": "2018-10",
+   "consolidated": 101550,
+   "consolidated_yoy_pct": 7.4
+  },
+  {
+   "month": "2018-11",
+   "consolidated": 98389,
+   "consolidated_yoy_pct": 5.6
+  },
+  {
+   "month": "2018-12",
+   "consolidated": 89831,
+   "consolidated_yoy_pct": -0.1
+  },
+  {
+   "month": "2019-01",
+   "consolidated": 78094,
+   "consolidated_yoy_pct": -2.1
+  },
+  {
+   "month": "2019-02",
+   "consolidated": 60889,
+   "consolidated_yoy_pct": -5.8
+  },
+  {
+   "month": "2019-03",
+   "consolidated": 79722,
+   "consolidated_yoy_pct": -23.1
+  },
+  {
+   "month": "2019-04",
+   "consolidated": 74694,
+   "consolidated_yoy_pct": -8.8
+  },
+  {
+   "month": "2019-05",
+   "consolidated": 80437,
+   "consolidated_yoy_pct": -0.7
+  },
+  {
+   "month": "2019-06",
+   "consolidated": 85868,
+   "consolidated_yoy_pct": 21.9
+  },
+  {
+   "month": "2019-07",
+   "consolidated": 84758,
+   "consolidated_yoy_pct": 14.0
+  },
+  {
+   "month": "2019-08",
+   "consolidated": 106118,
+   "consolidated_yoy_pct": 16.5
+  },
+  {
+   "month": "2019-09",
+   "consolidated": 102170,
+   "consolidated_yoy_pct": 7.6
+  },
+  {
+   "month": "2019-10",
+   "consolidated": 106040,
+   "consolidated_yoy_pct": 4.4
+  },
+  {
+   "month": "2019-11",
+   "consolidated": 107884,
+   "consolidated_yoy_pct": 9.7
+  },
+  {
+   "month": "2019-12",
+   "consolidated": 103313,
+   "consolidated_yoy_pct": 15.0
+  },
+  {
+   "month": "2020-01",
+   "consolidated": 103683,
+   "consolidated_yoy_pct": 32.8
+  },
+  {
+   "month": "2020-02",
+   "consolidated": 93394,
+   "consolidated_yoy_pct": 53.4
+  },
+  {
+   "month": "2020-03",
+   "consolidated": 113520,
+   "consolidated_yoy_pct": 42.4
+  },
+  {
+   "month": "2020-04",
+   "consolidated": 96002,
+   "consolidated_yoy_pct": 28.5
+  },
+  {
+   "month": "2020-05",
+   "consolidated": 93819,
+   "consolidated_yoy_pct": 16.6
+  },
+  {
+   "month": "2020-06",
+   "consolidated": 120878,
+   "consolidated_yoy_pct": 40.8
+  },
+  {
+   "month": "2020-07",
+   "consolidated": 105963,
+   "consolidated_yoy_pct": 25.0
+  },
+  {
+   "month": "2020-08",
+   "consolidated": 122878,
+   "consolidated_yoy_pct": 15.8
+  },
+  {
+   "month": "2020-09",
+   "consolidated": 127585,
+   "consolidated_yoy_pct": 24.9
+  },
+  {
+   "month": "2020-10",
+   "consolidated": 119303,
+   "consolidated_yoy_pct": 12.5
+  },
+  {
+   "month": "2020-11",
+   "consolidated": 124865,
+   "consolidated_yoy_pct": 15.7
+  },
+  {
+   "month": "2020-12",
+   "consolidated": 117365,
+   "consolidated_yoy_pct": 13.6
+  },
+  {
+   "month": "2021-01",
+   "consolidated": 126749,
+   "consolidated_yoy_pct": 22.2
+  },
+  {
+   "month": "2021-02",
+   "consolidated": 106534,
+   "consolidated_yoy_pct": 14.1
+  },
+  {
+   "month": "2021-03",
+   "consolidated": 129127,
+   "consolidated_yoy_pct": 13.7
+  },
+  {
+   "month": "2021-04",
+   "consolidated": 111315,
+   "consolidated_yoy_pct": 16.0
+  },
+  {
+   "month": "2021-05",
+   "consolidated": 112360,
+   "consolidated_yoy_pct": 19.8
+  },
+  {
+   "month": "2021-06",
+   "consolidated": 148471,
+   "consolidated_yoy_pct": 22.8
+  },
+  {
+   "month": "2021-07",
+   "consolidated": 124558,
+   "consolidated_yoy_pct": 17.5
+  },
+  {
+   "month": "2021-08",
+   "consolidated": 137427,
+   "consolidated_yoy_pct": 11.8
+  },
+  {
+   "month": "2021-09",
+   "consolidated": 152685,
+   "consolidated_yoy_pct": 19.7
+  },
+  {
+   "month": "2021-10",
+   "consolidated": 134539,
+   "consolidated_yoy_pct": 12.8
+  },
+  {
+   "month": "2021-11",
+   "consolidated": 148268,
+   "consolidated_yoy_pct": 18.7
+  },
+  {
+   "month": "2021-12",
+   "consolidated": 155382,
+   "consolidated_yoy_pct": 32.4
+  },
+  {
+   "month": "2022-01",
+   "consolidated": 172176,
+   "consolidated_yoy_pct": 35.8
+  },
+  {
+   "month": "2022-02",
+   "consolidated": 146933,
+   "consolidated_yoy_pct": 37.9
+  },
+  {
+   "month": "2022-03",
+   "consolidated": 171967,
+   "consolidated_yoy_pct": 33.2
+  },
+  {
+   "month": "2022-04",
+   "consolidated": 172561,
+   "consolidated_yoy_pct": 55.0
+  },
+  {
+   "month": "2022-05",
+   "consolidated": 185705,
+   "consolidated_yoy_pct": 65.3
+  },
+  {
+   "month": "2022-06",
+   "consolidated": 175874,
+   "consolidated_yoy_pct": 18.5
+  },
+  {
+   "month": "2022-07",
+   "consolidated": 186763,
+   "consolidated_yoy_pct": 49.9
+  },
+  {
+   "month": "2022-08",
+   "consolidated": 218132,
+   "consolidated_yoy_pct": 58.7
+  },
+  {
+   "month": "2022-09",
+   "consolidated": 208248,
+   "consolidated_yoy_pct": 36.4
+  },
+  {
+   "month": "2022-10",
+   "consolidated": 210266,
+   "consolidated_yoy_pct": 56.3
+  },
+  {
+   "month": "2022-11",
+   "consolidated": 222706,
+   "consolidated_yoy_pct": 50.2
+  },
+  {
+   "month": "2022-12",
+   "consolidated": 192560,
+   "consolidated_yoy_pct": 23.9
+  },
+  {
+   "month": "2023-01",
+   "consolidated": 200051,
+   "consolidated_yoy_pct": 16.2
+  },
+  {
+   "month": "2023-02",
+   "consolidated": 163174,
+   "consolidated_yoy_pct": 11.1
+  },
+  {
+   "month": "2023-03",
+   "consolidated": 145408,
+   "consolidated_yoy_pct": -15.4
+  },
+  {
+   "month": "2023-04",
+   "consolidated": 147900,
+   "consolidated_yoy_pct": -14.3
+  },
+  {
+   "month": "2023-05",
+   "consolidated": 176537,
+   "consolidated_yoy_pct": -4.9
+  },
+  {
+   "month": "2023-06",
+   "consolidated": 156404,
+   "consolidated_yoy_pct": -11.1
+  },
+  {
+   "month": "2023-07",
+   "consolidated": 177616,
+   "consolidated_yoy_pct": -4.9
+  },
+  {
+   "month": "2023-08",
+   "consolidated": 188686,
+   "consolidated_yoy_pct": -13.5
+  },
+  {
+   "month": "2023-09",
+   "consolidated": 180430,
+   "consolidated_yoy_pct": -13.4
+  },
+  {
+   "month": "2023-10",
+   "consolidated": 243203,
+   "consolidated_yoy_pct": 15.7
+  },
+  {
+   "month": "2023-11",
+   "consolidated": 206026,
+   "consolidated_yoy_pct": -7.5
+  },
+  {
+   "month": "2023-12",
+   "consolidated": 176300,
+   "consolidated_yoy_pct": -8.4
+  },
+  {
+   "month": "2024-01",
+   "consolidated": 215785,
+   "consolidated_yoy_pct": 7.9
+  },
+  {
+   "month": "2024-02",
+   "consolidated": 181648,
+   "consolidated_yoy_pct": 11.3
+  },
+  {
+   "month": "2024-03",
+   "consolidated": 195211,
+   "consolidated_yoy_pct": 34.3
+  },
+  {
+   "month": "2024-04",
+   "consolidated": 236021,
+   "consolidated_yoy_pct": 59.6
+  },
+  {
+   "month": "2024-05",
+   "consolidated": 229620,
+   "consolidated_yoy_pct": 30.1
+  },
+  {
+   "month": "2024-06",
+   "consolidated": 207869,
+   "consolidated_yoy_pct": 32.9
+  },
+  {
+   "month": "2024-07",
+   "consolidated": 256953,
+   "consolidated_yoy_pct": 44.7
+  },
+  {
+   "month": "2024-08",
+   "consolidated": 250866,
+   "consolidated_yoy_pct": 33.0
+  },
+  {
+   "month": "2024-09",
+   "consolidated": 251873,
+   "consolidated_yoy_pct": 39.6
+  },
+  {
+   "month": "2024-10",
+   "consolidated": 314240,
+   "consolidated_yoy_pct": 29.2
+  },
+  {
+   "month": "2024-11",
+   "consolidated": 276058,
+   "consolidated_yoy_pct": 34.0
+  },
+  {
+   "month": "2024-12",
+   "consolidated": 278163,
+   "consolidated_yoy_pct": 57.8
+  },
+  {
+   "month": "2025-01",
+   "consolidated": 293288,
+   "consolidated_yoy_pct": 35.9
+  },
+  {
+   "month": "2025-02",
+   "consolidated": 260009,
+   "consolidated_yoy_pct": 43.1
+  },
+  {
+   "month": "2025-03",
+   "consolidated": 285957,
+   "consolidated_yoy_pct": 46.5
+  },
+  {
+   "month": "2025-04",
+   "consolidated": 349567,
+   "consolidated_yoy_pct": 48.1
+  },
+  {
+   "month": "2025-05",
+   "consolidated": 320516,
+   "consolidated_yoy_pct": 39.6
+  },
+  {
+   "month": "2025-06",
+   "consolidated": 263709,
+   "consolidated_yoy_pct": 26.9
+  },
+  {
+   "month": "2025-07",
+   "consolidated": 323166,
+   "consolidated_yoy_pct": 25.8
+  },
+  {
+   "month": "2025-08",
+   "consolidated": 335772,
+   "consolidated_yoy_pct": 33.8
+  },
+  {
+   "month": "2025-09",
+   "consolidated": 330980,
+   "consolidated_yoy_pct": 31.4
+  },
+  {
+   "month": "2025-10",
+   "consolidated": 367473,
+   "consolidated_yoy_pct": 16.9
+  },
+  {
+   "month": "2025-11",
+   "consolidated": 343614,
+   "consolidated_yoy_pct": 24.5
+  },
+  {
+   "month": "2025-12",
+   "consolidated": 335003,
+   "consolidated_yoy_pct": 20.4
+  },
+  {
+   "month": "2026-01",
+   "consolidated": 401255,
+   "consolidated_yoy_pct": 36.8
+  },
+  {
+   "month": "2026-02",
+   "consolidated": 317657,
+   "consolidated_yoy_pct": 22.2
+  },
+  {
+   "month": "2026-03",
+   "consolidated": 415191,
+   "consolidated_yoy_pct": 45.2
+  },
+  {
+   "month": "2026-04",
+   "consolidated": 410726,
+   "consolidated_yoy_pct": 17.5
+  },
+  {
+   "month": "2026-05",
+   "consolidated": 416975,
+   "consolidated_yoy_pct": 30.1
+  },
+  {
+   "month": "2026-06",
+   "consolidated": 442680,
+   "consolidated_yoy_pct": 67.9
+  },
+  {
+   "month": "2026-07",
+   "consolidated": 467580,
+   "consolidated_yoy_pct": 44.7
+  },
+  {
+   "month": "2026-08",
+   "consolidated": 514806,
+   "consolidated_yoy_pct": 53.3
+  },
+  {
+   "month": "2026-09",
+   "consolidated": 511857,
+   "consolidated_yoy_pct": 54.6
+  },
+  {
+   "month": "2026-10",
+   "consolidated": 586890,
+   "consolidated_yoy_pct": 59.7
+  }
+ ]
+}

@@ -18,3 +18,8 @@ artifacts/**
 !/artifacts/snapshots/2026-11-21/us_equity_sessions_2026.json
 !/artifacts/snapshots/2026-11-22/tsmc_monthly_revenue_events.json
 !/artifacts/snapshots/2026-11-22/us_equity_sessions_2002_2026.json
+!/artifacts/snapshots/2026-11-22/tsmc_monthly_revenue_figures.json
+
+# Prospective registrations: the recipe and what was fixed before the events
+!/artifacts/prospective/*/registration.json
+!/artifacts/prospective/*/recipe.json

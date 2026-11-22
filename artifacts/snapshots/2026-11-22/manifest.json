@@ -37,6 +37,12 @@
       "first_session": "2002-01-02",
       "last_session": "2026-12-31",
       "sha256": "5d50274a820c310010d51b3823775804998ae35a934aabb0e46e12e436f55754"
+    },
+    "tsmc_monthly_revenue_figures.json": {
+      "source": "https://investor.tsmc.com/english/monthly-revenue/<year>, one page per year; see describe in the file",
+      "first_month": "2002-01",
+      "last_month": "2026-10",
+      "sha256": "ca4e7cf1d8aec20665037b2df1f3911450dc449d2dc2e60b7a5d36e8c9117381"
     }
   }
 }

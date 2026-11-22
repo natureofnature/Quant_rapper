@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0.0",
   "kind": "series_bindings",
-  "compiled_on": "2026-11-21",
-  "content_revision": "2026-11-21.4",
+  "compiled_on": "2026-11-22",
+  "content_revision": "2026-11-22.3",
   "describe": "Machine-readable sources and availability rules for observables named in the research maps. A binding says when a value became knowable; it makes no claim about what the value means.",
   "series": [
     {
@@ -13,7 +13,6 @@
       ],
       "source_url": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
       "availability": "official_archive",
-      "routing": "beta_regime_input",
       "timezone": "America/New_York",
       "value_time": "16:15:00",
       "publication_delay_minutes": 15,
@@ -29,13 +28,72 @@
       ],
       "source_url": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX3M_History.csv",
       "availability": "official_archive",
-      "routing": "beta_regime_input",
       "timezone": "America/New_York",
       "value_time": "16:15:00",
       "publication_delay_minutes": 15,
       "availability_basis": "assumed",
       "revisable": false,
       "basis_note": "Close time assumed equal to the VIX's; no Cboe document confirming VIX3M hours was opened. The 15-minute delay is an assumption, not sourced."
+    },
+    {
+      "series_id": "yahoo:tsm:open",
+      "label": "TSM daily open, regular session",
+      "anchors": [
+        "company:tsmc"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/TSM",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "09:30:00",
+      "publication_delay_minutes": 1,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Session opens at 9:30 a.m. Eastern (NYSE core session hours). The one-minute delay is an assumption. Yahoo is an aggregator, not the exchange: values are restated on the current split basis after every split and exclude dividends."
+    },
+    {
+      "series_id": "yahoo:tsm:close",
+      "label": "TSM daily close, regular session",
+      "anchors": [
+        "company:tsmc"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/TSM",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Session closes at 4:00 p.m. Eastern (NYSE core session hours), earlier on the two half days. The 15-minute delay is an assumption. Yahoo is an aggregator, not the exchange: values are restated on the current split basis after every split and exclude dividends."
+    },
+    {
+      "series_id": "yahoo:soxx:open",
+      "label": "SOXX daily open, regular session",
+      "anchors": [
+        "fund:soxx"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "09:30:00",
+      "publication_delay_minutes": 1,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Session opens at 9:30 a.m. Eastern (NYSE core session hours). The one-minute delay is an assumption. Yahoo is an aggregator, not the exchange: values are restated on the current split basis after every split and exclude dividends."
+    },
+    {
+      "series_id": "yahoo:soxx:close",
+      "label": "SOXX daily close, regular session",
+      "anchors": [
+        "fund:soxx"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ."
     }
   ],
   "events": [

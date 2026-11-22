@@ -36,7 +36,7 @@ class EventTableTests(unittest.TestCase):
         def binding(series_id, value_time):
             return SeriesBinding(series_id=series_id, label=series_id, anchors=("test",),
                                  source_url="https://example.invalid", availability="official_archive",
-                                 routing="alpha_event_input", timezone="America/New_York", value_time=value_time,
+                                 timezone="America/New_York", value_time=value_time,
                                  publication_delay_minutes=15, availability_basis="assumed",
                                  revisable=False, basis_note="Synthetic fixture.")
 
