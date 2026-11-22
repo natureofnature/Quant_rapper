@@ -216,7 +216,7 @@ class EventTableTests(unittest.TestCase):
                    Factor(factor_id="ratio", measure="ratio", series_ids=("state:near", "state:far"), max_age_days=100),
                    Factor(factor_id="change", measure="change", series_ids=("state:near",), max_age_days=100, lookback_sessions=30),
                    Factor(factor_id="short", measure="level", series_ids=("state:near",), max_age_days=5)]
-        level, ratio, change, short = factor_states(factors, self.bindings, SeriesIndex(rows), when, long, {})
+        level, ratio, change, short = factor_states(factors, self.bindings, SeriesIndex(rows, {"state:near", "state:far"}), when, long, {})
         limit = timedelta(days=100)
         self.assertEqual(level.state, latest_common([self.state[0]], rows, when, long, limit)[0])
         self.assertEqual(ratio.state, latest_common(list(self.state), rows, when, long, limit)[0])
@@ -241,6 +241,22 @@ class EventTableTests(unittest.TestCase):
         self.assertFalse(hasattr(first, "target"))
         again = feature_panel("fund:test", list(SESSIONS[3:7]), time(17, 0), factors, self.bindings, list(reversed(rising)), self.calendar)
         self.assertEqual([r.model_dump_json() for r in panel], [r.model_dump_json() for r in again])
+
+    def test_fault_in_a_series_the_table_does_not_read_leaves_the_table_alone(self):
+        when = datetime(2026, 11, 10, 13, 30, tzinfo=TAIPEI)
+        unused = self.state[0].model_copy(update={"series_id": "unused"})
+        broken = [observe(unused, date(2026, 11, 9), 1.0), observe(unused, date(2026, 11, 9), 2.0)]  # two rows for one session
+        clean = self.table(when)
+        self.assertEqual(self.table(when, rows=self.rows + broken).model_dump_json(), clean.model_dump_json())
+        self.assertEqual(clean.rows[0].status, "complete")
+        states = lambda rows: daily_states([date(2026, 11, 10)], time(17, 0), self.factors, self.bindings, rows, self.calendar)
+        self.assertEqual(states(self.rows + broken), states(self.rows))
+        reads_it = [Factor(factor_id="u", measure="level", series_ids=("unused",), max_age_days=5)]  # a table that does read it still fails
+        with self.assertRaisesRegex(ValueError, "duplicate observation for unused"):
+            self.table(when, rows=self.rows + broken, factors=reads_it)
+        twice = self.rows + [observe(self.subject[1], date(2026, 11, 10), 5.0)]  # and a duplicate in a price it uses is still caught
+        with self.assertRaisesRegex(ValueError, "duplicate observation for subject:close"):
+            self.table(when, rows=twice)
 
     def test_group_comparison(self):
         result = compare_groups("x", [0.01, 0.03], [0.0, 0.0, 0.03])

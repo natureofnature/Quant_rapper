@@ -5,6 +5,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 report = json.loads((HERE / "output/report.json").read_text())
 reg = json.loads((HERE / "registration.json").read_text())
+model_a = json.loads((HERE.parent / "soxx_qqq_model_a/output/report.json").read_text())  # frozen; pinned by this registration
 pct = lambda v: "n/a" if v is None else f"{100 * v:+.1f}%"
 share = lambda v: "n/a" if v is None else f"{100 * v:.1f}%"
 
@@ -39,5 +40,17 @@ for fund, result in report["comparison_1"].items():
               "Sensitivity runs for Model C, which decide nothing (max drawdown / final equity, then the rule's over the same period):", ""]
     lines += [f"- {name.replace('_', ' ')}: {pct(s['model']['max_drawdown'])} / {s['model']['final_equity']:.2f}; "
               f"rule {pct(s['rule']['max_drawdown'])} / {s['rule']['final_equity']:.2f}" for name, s in result["sensitivity_decides_nothing"].items()] + [""]
+    # All three arms at each cost level. Model A's figures are from its own frozen report, over the same period.
+    lines += ["Max drawdown / final equity at each cost level:", "", "| Cost | Frozen rule | Model A, as frozen | Model C |", "| --- | ---: | ---: | ---: |",
+              f"| 1x | {pct(result['rule']['max_drawdown'])} / {result['rule']['final_equity']:.2f} | "
+              f"{pct(result['model_a']['max_drawdown'])} / {result['model_a']['final_equity']:.2f} | "
+              f"{pct(result['model']['max_drawdown'])} / {result['model']['final_equity']:.2f} |"]
+    for level in ("cost_x2", "cost_x3"):
+        c_run, a_run = result["sensitivity_decides_nothing"][level], model_a["comparison_1"][fund]["sensitivity_decides_nothing"][level]
+        assert a_run["first_decision"] == c_run["first_decision"], "the two frozen reports cover different periods"
+        lines.append(f"| {level[-1]}x | {pct(c_run['rule']['max_drawdown'])} / {c_run['rule']['final_equity']:.2f} | "
+                     f"{pct(a_run['model']['max_drawdown'])} / {a_run['model']['final_equity']:.2f} | "
+                     f"{pct(c_run['model']['max_drawdown'])} / {c_run['model']['final_equity']:.2f} |")
+    lines.append("")
 lines += ["## Limits", ""] + [f"- {item}" for item in reg["known_limits"]]
 (HERE / "output/report.md").write_text("\n".join(lines) + "\n")

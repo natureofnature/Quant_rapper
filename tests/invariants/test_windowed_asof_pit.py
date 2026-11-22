@@ -14,7 +14,7 @@ for package in ("quant_contracts", "quant_pit_data"):
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 try:
     from quant_contracts.pit import Cutoff, SeriesBinding, SessionCalendar, WindowedAsOf
-    from quant_pit_data.asof import observe, trailing_window
+    from quant_pit_data.asof import latest_common, observe, trailing_window
 except ModuleNotFoundError:
     SeriesBinding = None
 
@@ -65,6 +65,48 @@ class WindowedAsOfTests(unittest.TestCase):
         self.assertEqual(([o.session.day for o in window.observations], window.anchor.status), ([9, 10], "requested"))
         self.assertIn("over the limit", self.window(when, 2, session=date(2026, 11, 6)).anchor.reason)
         self.assertIn("had not closed", self.window(when, 2, session=date(2026, 11, 16)).anchor.reason)
+
+    def test_revised_value_is_read_in_the_version_that_was_current_at_the_cutoff(self):
+        day, when = date(2026, 11, 10), datetime(2026, 11, 14, 9, 0, tzinfo=NEW_YORK)
+        first = next(r for r in self.rows if r.session == day)
+        stamp = lambda d, h: datetime(2026, 11, d, h, 0, tzinfo=NEW_YORK)
+        original = first.model_copy(update={"vintage_at": first.available_at})
+        revised = first.model_copy(update={"value": 99.0, "vintage_at": stamp(13, 10)})  # same release stamp, revised later
+        later = first.model_copy(update={"value": 77.0, "vintage_at": stamp(20, 10)})  # a revision from after the cutoff
+        others = [r for r in self.rows if r.session != day]
+        value = lambda rows, cut=when: {o.session: o.value for o in self.window(cut, 4, rows=rows).observations}[day]
+        self.assertEqual(value(others + [original, revised, later]), 99.0)  # the latest version already public
+        self.assertEqual(value(others + [later, revised, original]), 99.0)  # whatever order the rows come in
+        self.assertEqual(value(others + [original, revised, later], stamp(13, 9)), 10.0)  # an hour before the revision: the original
+        # A revision that is not yet available does not hide the earlier version, which is still usable.
+        unreleased = first.model_copy(update={"value": 55.0, "vintage_at": stamp(13, 10), "available_at": stamp(20, 10)})
+        self.assertEqual(value(others + [original, unreleased]), 10.0)
+        self.assertEqual(len(self.window(when, 4, rows=others + [unreleased, original]).observations), 4)
+        only_later = self.window(when, 4, rows=others + [later])
+        self.assertEqual(only_later.observations, ())  # only a future version exists: the session has no value yet
+        self.assertEqual(value(others + [first]), 10.0)  # a value with no vintage is used as before
+        with self.assertRaisesRegex(ValueError, "duplicate observation"):
+            self.window(when, 4, rows=others + [first, first.model_copy(update={"value": 5.0})])
+        twin = original.model_copy(update={"value": 99.0})  # the same version stamp with another value
+        for order in ([original, twin], [twin, original]):
+            with self.assertRaisesRegex(ValueError, "duplicate observation"):
+                self.window(when, 4, rows=others + order)  # refused either way round: order must not pick the value
+        # A broken feed for another series in the same batch does not touch this one.
+        other = self.binding.model_copy(update={"series_id": "y:close"})
+        broken = [observe(other, day, 1.0), observe(other, day, 2.0)]  # two rows, no vintage: an error for y, nothing to do with x
+        self.assertEqual(self.window(when, 4, rows=self.rows + broken), self.window(when, 4))
+        resolved, _ = latest_common([self.binding], self.rows + broken, Cutoff(time=when, basis="exact", source="Synthetic fixture."), self.calendar, LIMIT)
+        self.assertEqual(resolved.status, "resolved")
+        with self.assertRaisesRegex(ValueError, "duplicate observation for y:close"):
+            latest_common([other], self.rows + broken, Cutoff(time=when, basis="exact", source="Synthetic fixture."), self.calendar, LIMIT)
+        # A saved result gets the same rule: a version from after the cutoff cannot be loaded back as if it had been known.
+        good = self.window(when, 4, rows=others + [original, revised])
+        moved = [o.model_copy(update={"vintage_at": stamp(20, 10)}) if o.session == day else o for o in good.observations]
+        with self.assertRaisesRegex(ValueError, "in that version"):
+            WindowedAsOf(anchor=good.anchor, sessions=4, observations=tuple(moved))
+        late_anchor = good.anchor.observations[0].model_copy(update={"vintage_at": stamp(20, 10)})
+        with self.assertRaisesRegex(ValueError, "in that version"):
+            type(good.anchor).model_validate({**good.anchor.model_dump(), "observations": [late_anchor]})
 
     def test_stale_series_is_a_gap_not_an_old_window(self):
         old = [r for r in self.rows if r.session <= date(2026, 11, 9)]

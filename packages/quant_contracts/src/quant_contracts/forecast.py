@@ -23,6 +23,12 @@ class BetaTicket(Contract):
     subject_id: Text
     session: date
     decision_time: AwareDatetime
+    # When the ticket was actually written, and whether that was in time. live: after the decision and
+    # before the next session opened. replay: later, so it shows what the rule would have said and is
+    # not evidence of a forecast made in time. Both are None only on a ticket issued before these
+    # fields existed: its issuance is unknown, and it is left as it was written.
+    issued_at: AwareDatetime | None = None
+    issuance: Literal["live", "replay"] | None = None
     state: GateState
     target_exposure: float
     held: bool  # True when an input was missing and the previous ticket's state was carried
@@ -37,6 +43,10 @@ class BetaTicket(Contract):
     def exposure_follows_state(self) -> Self:
         if self.target_exposure != EXPOSURE[self.state] or self.ticket_id != f"beta:{self.subject_id}:{self.session}":
             raise ValueError("the exposure must be the state's, and the id must name the subject and session")
+        if (self.issued_at is None) != (self.issuance is None):
+            raise ValueError("issued_at and issuance are recorded together or not at all")
+        if self.issued_at is not None and self.issued_at < self.decision_time:
+            raise ValueError("a ticket cannot be issued before its decision time")
         return self
 
 

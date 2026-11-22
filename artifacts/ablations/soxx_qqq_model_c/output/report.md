@@ -34,6 +34,14 @@ Sensitivity runs for Model C, which decide nothing (max drawdown / final equity,
 - rolling 5y: -41.1% / 4.86; rule -38.0% / 10.05
 - embargo 5: -45.2% / 8.50; rule -38.0% / 10.05
 
+Max drawdown / final equity at each cost level:
+
+| Cost | Frozen rule | Model A, as frozen | Model C |
+| --- | ---: | ---: | ---: |
+| 1x | -38.0% / 10.05 | -46.2% / 4.50 | -45.2% / 7.20 |
+| 2x | -38.6% / 9.09 | -46.2% / 4.30 | -45.2% / 6.78 |
+| 3x | -39.2% / 8.22 | -46.2% / 4.11 | -45.2% / 6.39 |
+
 ### QQQ
 
 | | Frozen rule | Model A, as frozen | Model C |
@@ -63,6 +71,14 @@ Sensitivity runs for Model C, which decide nothing (max drawdown / final equity,
 - cost x3: -28.8% / 3.68; rule -18.7% / 4.66
 - rolling 5y: -22.9% / 4.53; rule -17.9% / 5.62
 - embargo 5: -29.7% / 4.22; rule -17.9% / 5.62
+
+Max drawdown / final equity at each cost level:
+
+| Cost | Frozen rule | Model A, as frozen | Model C |
+| --- | ---: | ---: | ---: |
+| 1x | -17.9% / 5.62 | -35.6% / 4.25 | -28.8% / 4.00 |
+| 2x | -18.2% / 5.12 | -35.6% / 4.02 | -28.8% / 3.84 |
+| 3x | -18.7% / 4.66 | -35.6% / 3.81 | -28.8% / 3.68 |
 
 ## Limits
 

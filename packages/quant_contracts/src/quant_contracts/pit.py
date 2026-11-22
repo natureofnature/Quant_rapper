@@ -97,6 +97,11 @@ class Observation(Contract):
     vintage_at: AwareDatetime | None = None
 
 
+def known_before(observation: Observation, cutoff: Cutoff) -> bool:
+    """Whether this version of the value was public before the cutoff: both its release and, if revised, its vintage."""
+    return observation.available_at < cutoff.time and (observation.vintage_at is None or observation.vintage_at < cutoff.time)
+
+
 class SkippedSession(Contract):
     """An expected session that could not be used.
 
@@ -138,8 +143,8 @@ class AsOfResult(Contract):
             raise ValueError("reason is only for a gap")
         if (self.status == "fallback") != bool(self.skipped):
             raise ValueError("a fallback lists what it skipped, and a resolved result skipped nothing")
-        if any(o.available_at >= self.cutoff.time for o in self.observations):
-            raise ValueError("every observation must have been available strictly before the cutoff")
+        if any(not known_before(o, self.cutoff) for o in self.observations):
+            raise ValueError("every observation must have been available, in that version, strictly before the cutoff")
         if self.session is None or any(o.session != self.session for o in self.observations):
             raise ValueError("resolved and fallback observations must belong to the selected session")
         observed_ids = {o.series_id for o in self.observations}
@@ -182,9 +187,9 @@ class WindowedAsOf(Contract):
             days = [o.session for o in self.observations]
             if len(days) != self.sessions or days != sorted(set(days)) or self.observations[-1] != self.anchor.observations[0]:
                 raise ValueError("the window must hold the requested sessions, ascending, ending at the anchor")
-            if any(o.series_id != self.anchor.series_ids[0] or o.available_at >= self.anchor.cutoff.time
+            if any(o.series_id != self.anchor.series_ids[0] or not known_before(o, self.anchor.cutoff)
                    for o in self.observations):
-                raise ValueError("every observation must be of the series and available strictly before the cutoff")
+                raise ValueError("every observation must be of the series and available, in that version, strictly before the cutoff")
         return self
 
 

@@ -10,7 +10,7 @@ separate file under outcomes/, and only when the full horizon is in the data.
 """
 
 import argparse
-from datetime import date, time
+from datetime import date, datetime, time, timezone
 import hashlib
 import json
 import operator
@@ -84,7 +84,15 @@ def _load(root: Path, snapshot: Path, symbol: str):
     return registration, hashlib.sha256(registration_path.read_bytes()).hexdigest(), subject, b, calendars, equity, prices, hashes, bindings_dir
 
 
-def emit(root: Path, snapshot: Path, symbol: str, session: date) -> BetaTicket:
+def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime | None = None) -> BetaTicket:
+    """The ticket for one session, as of ``now`` (the clock, unless a test supplies it).
+
+    It is refused before the session's decision time, and unless the snapshot already holds
+    the session's own close: values carried from earlier days must never stand in for a
+    session that has not happened. A ticket written before the next session opens is live;
+    one written later is a replay and says so.
+    """
+    now = now or datetime.now(timezone.utc)
     registration, recipe_hash, subject, b, calendars, equity, prices, hashes, bindings_dir = _load(root, snapshot, symbol)
     factors, rules, series_calendars = [], [], {}
     for signal in registration["signals"]:
@@ -102,8 +110,15 @@ def emit(root: Path, snapshot: Path, symbol: str, session: date) -> BetaTicket:
     yields = load_daily_closes(snapshot / "treasury_real_yield_10y.csv", b["treasury:real_yield_10y"])
     if session not in equity.sessions:
         raise SystemExit(f"{session} is not a session of {equity.calendar_id}")
+    if not any(x.session == session and x.series_id == subject["close"] for x in prices):
+        raise SystemExit(f"the snapshot has no {symbol} close for {session}: that session's ticket cannot be written yet")
     cutoff, states = daily_states([session], time.fromisoformat(registration["decision"]["time"]), factors, b,
                                   state + yields + prices, equity, series_calendars)[0]
+    if now < cutoff.time:
+        raise SystemExit(f"it is {now.isoformat()}, before the decision time {cutoff.time.isoformat()}: no ticket is written early")
+    later = [s for s in equity.sessions if s > session]
+    next_open = datetime.combine(later[0], b[subject["open"]].value_time, cutoff.time.tzinfo) if later else None
+    issuance = "live" if next_open is not None and now < next_open else "replay"
     values = {s.factor_id: s.value for s in states}
     folder = root / "artifacts/tickets" / symbol
     subject_id = next(a for a in b[subject["close"]].anchors)
@@ -118,7 +133,7 @@ def emit(root: Path, snapshot: Path, symbol: str, session: date) -> BetaTicket:
         gate, held = STATES[min(len(stressed), 2)], False
     exposure = registration["exposure"]["by_stressed_count"][STATES.index(gate)]
     return BetaTicket(ticket_id=f"beta:{subject_id}:{session}", subject_id=subject_id, session=session, decision_time=cutoff.time,
-                      state=gate, target_exposure=exposure, held=held, stressed_rules=stressed, inputs=values, horizon_sessions=20,
+                      issued_at=now, issuance=issuance, state=gate, target_exposure=exposure, held=held, stressed_rules=stressed, inputs=values, horizon_sessions=20,
                       source=f"frozen rule {registration['registration_id']}", recipe_sha256=recipe_hash, snapshot_sha256=hashes)
 
 
@@ -152,8 +167,11 @@ def main() -> None:
     folder = args.root / "artifacts/tickets" / args.symbol
     if args.action == "emit":
         ticket = emit(args.root, args.snapshot, args.symbol, args.session)
+        if ticket.issued_at is None or ticket.issuance is None:
+            raise SystemExit("a newly issued ticket must record when it was issued")
         write_once(folder / f"{args.session}.json", ticket.model_dump_json(indent=1) + "\n")
-        print(f"{ticket.ticket_id}: {ticket.state}, exposure {ticket.target_exposure}, stressed {list(ticket.stressed_rules)}, held {ticket.held}")
+        print(f"{ticket.ticket_id}: {ticket.state}, exposure {ticket.target_exposure}, stressed {list(ticket.stressed_rules)}, "
+              f"held {ticket.held}, {ticket.issuance}")
     else:
         outcome = mature(args.root, args.snapshot, args.symbol, args.session)
         write_once(folder / "outcomes" / f"{args.session}.json", outcome.model_dump_json(indent=1) + "\n")

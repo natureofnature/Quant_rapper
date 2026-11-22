@@ -36,6 +36,42 @@ def load_daily_closes(path: Path, binding: SeriesBinding) -> list[Observation]:
                 for row in csv.DictReader(handle)]
 
 
+def as_of_vintage(observations: list[Observation], cutoff: Cutoff, series_ids: tuple[str, ...]) -> list[Observation]:
+    """For each requested series and session, the one version of the value that was current at the cutoff.
+
+    Only ``series_ids`` are read and checked: rows of any other series in the same batch are
+    ignored, so a bad feed cannot block a factor that does not use it.
+
+    A revised series can hold several rows for one session, each with the time that version
+    was published in ``vintage_at``. A version is eligible only if it was both available and
+    published before the cutoff; of the eligible ones the latest is kept. When none is
+    eligible the earliest-published row is kept instead, so the caller can still report when
+    the value appeared; it fails the caller's availability check and is never used. Two rows
+    for one session with the same vintage, or both with none, are an error: the order of the
+    input must never decide which value is read.
+    """
+    def eligible(item: Observation) -> bool:
+        return item.available_at < cutoff.time and (item.vintage_at is None or item.vintage_at < cutoff.time)
+
+    groups: dict[tuple[str, date], list[Observation]] = {}
+    for item in observations:
+        if item.series_id not in series_ids:
+            continue
+        groups.setdefault((item.series_id, item.session), []).append(item)
+    kept = []
+    for (series_id, session), versions in groups.items():
+        stamps = [v.vintage_at for v in versions]
+        if len(set(stamps)) != len(stamps):  # two rows for one version: order would decide the value
+            raise ValueError(f"duplicate observation for {series_id} on {session}")
+        usable = [v for v in versions if eligible(v)]
+        if usable:
+            kept.append(max(usable, key=lambda v: (v.vintage_at is not None, v.vintage_at or v.available_at)))
+        else:  # nothing usable: keep one unusable row for the audit trail, marked by a time at or after the cutoff
+            first = min(versions, key=lambda v: max(v.available_at, v.vintage_at or v.available_at))
+            kept.append(first.model_copy(update={"available_at": max(first.available_at, first.vintage_at or first.available_at)}))
+    return kept
+
+
 def latest_common(bindings: list[SeriesBinding], observations: list[Observation], cutoff: Cutoff,
                   calendar: SessionCalendar, max_age: timedelta) -> tuple[AsOfResult, tuple[AuditNote, ...]]:
     """Pick the latest expected session for which every series was knowable before the cutoff.
@@ -54,7 +90,7 @@ def latest_common(bindings: list[SeriesBinding], observations: list[Observation]
     by_id = {b.series_id: b for b in bindings}
     ids, expected = tuple(by_id), set(calendar.sessions)
     table: dict[tuple[date, str], Observation] = {}
-    for item in observations:
+    for item in as_of_vintage(observations, cutoff, ids):
         if item.series_id not in by_id or not calendar.first <= item.session <= calendar.last:
             continue
         key = (item.session, item.series_id)
@@ -115,8 +151,8 @@ def at_session(bindings: list[SeriesBinding], observations: list[Observation], c
         return gap(f"{session} had not closed before the cutoff")
     if cutoff.time - fixed > max_age:
         return gap(f"{session} is {cutoff.time - fixed} old, over the limit of {max_age}")
-    found = {o.series_id: o for o in observations
-             if o.session == session and o.series_id in ids and o.available_at < cutoff.time}
+    found = {o.series_id: o for o in as_of_vintage(observations, cutoff, ids)
+             if o.session == session and o.available_at < cutoff.time}
     missing = [i for i in ids if i not in found]
     if missing:
         return gap(f"the value for {session} was not knowable before the cutoff: {', '.join(missing)}")
@@ -144,8 +180,8 @@ def trailing_window(binding: SeriesBinding, observations: list[Observation], cut
     if end < sessions:
         return WindowedAsOf(anchor=anchor, sessions=sessions,
                             reason=f"the calendar holds {end} sessions up to {anchor.session}, fewer than {sessions}")
-    usable = {o.session: o for o in observations
-              if o.series_id == binding.series_id and o.available_at < cutoff.time}
+    usable = {o.session: o for o in as_of_vintage(observations, cutoff, (binding.series_id,))
+              if o.available_at < cutoff.time}
     wanted = calendar.sessions[end - sessions:end]
     missing = [s for s in wanted if s not in usable]
     if missing:

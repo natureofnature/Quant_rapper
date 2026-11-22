@@ -18,7 +18,7 @@ def daily_states(sessions: list[date], decision_time: time, factors: list[Factor
 
     The cutoff is exact: it is the rule's own decision time, not an estimate of someone else's.
     """
-    index, zone = SeriesIndex(observations), ZoneInfo(calendar.timezone)
+    index, zone = SeriesIndex(observations, {i for f in factors for i in f.series_ids}), ZoneInfo(calendar.timezone)
     out = []
     for session in sessions:
         cutoff = Cutoff(time=datetime.combine(session, decision_time, zone), basis="exact",

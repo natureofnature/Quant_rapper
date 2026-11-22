@@ -2,7 +2,7 @@
   "kind": "frozen_comparison",
   "registration_id": "soxx_qqq_model_c",
   "frozen_on": "2026-11-22",
-  "describe": "The outputs of the first run of the registered Model C comparison, on real prices, made after the registration was pushed. A repeat run on the same day reproduced every positions file and report.json byte for byte. report.md is rendered from report.json by report.py.",
+  "describe": "The outputs of the first run of the registered Model C comparison, on real prices, made after the registration was pushed. A repeat run on the same day reproduced every positions file and report.json byte for byte. report.md is rendered from report.json by report.py. report.md was re-rendered on the same day to show all three arms at each cost level; report.json and the positions are as first frozen.",
   "registration_sha256": "7c101ff6f1561682766d1856afcfb03f6fcead51a5b081dab7f5b0efdc56fadf",
   "code_commit": "53545e2056a4ac3fedb4d27f67653688c36b4ab6",
   "replay_checkout": "292c7b31c34eeddc73e70b34c361817b2387af2e",
@@ -17,9 +17,20 @@
     "positions_SOXX_model_c.csv": "b23a17778af76657b7db3ca719454ffa446ed19de0fa18a28b0bf548d7e711b7",
     "positions_SOXX_rule.csv": "21a47d554058cd5488b5a40415d20b1549ddc2c659f65fb345b88c83197929eb",
     "report.json": "be05640532b3be58bd052421eb0006c019969389d587b30711f4a3c824296620",
-    "report.md": "88f0f1f89ed81bfdfc88f0d1dd98cd30439e18ba55fcdb54c9db76fec581c60f"
+    "report.md": "45da9bbd1244ab9c4404f308aa2b82b4f79b7a982a3d1f3499d5d384fb387aa4"
   },
   "open_items": [
     "The raw market inputs exist only on the machine that ran this; see the snapshot manifest."
-  ]
+  ],
+  "report_renderer": {
+    "file": "report.py",
+    "sha256": "a41620f0008458653f1c21dc371dfa6d196c9aa14f3f9e9ed4b2ac2ee16e7c3b",
+    "command": "python artifacts/ablations/soxx_qqq_model_c/report.py",
+    "reads": [
+      "output/report.json",
+      "registration.json",
+      "../soxx_qqq_model_a/output/report.json"
+    ],
+    "note": "report.md is reproduced by this version of report.py, identified by its file hash because replay_checkout holds an earlier renderer without the cost table. replay_checkout reproduces report.json and the positions; then run the command above from a checkout whose report.py has this hash."
+  }
 }

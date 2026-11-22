@@ -32,16 +32,24 @@ DEFINITION = ("Entry is the open of the first US regular session that opens afte
               "under the same cutoff and age limit, and no other session is used in its place.")
 
 
-class SeriesIndex:
-    """Observations of each series in session order, so one decision reads only its recent ones."""
+BETA_REACH = timedelta(days=10)  # how far back the last close before a state cutoff may lie
 
-    def __init__(self, observations: list[Observation]):
+
+class SeriesIndex:
+    """Observations of the named series in session order, so one decision reads only its recent ones.
+
+    Only ``series_ids`` are indexed and checked. A batch may hold other series, and a fault in
+    one of those must not stop a table that never reads it.
+    """
+
+    def __init__(self, observations: list[Observation], series_ids: set[str]):
         self.by_series: dict[str, list[Observation]] = {}
         for item in observations:
-            self.by_series.setdefault(item.series_id, []).append(item)
-        for items in self.by_series.values():
-            items.sort(key=lambda o: o.session)
-            if any(a.session == b.session for a, b in zip(items, items[1:])):
+            if item.series_id in series_ids:
+                self.by_series.setdefault(item.series_id, []).append(item)
+        for items in self.by_series.values():  # several vintages of one session may coexist; the selector picks among them
+            items.sort(key=lambda o: (o.session, o.vintage_at is not None, o.vintage_at or o.available_at))
+            if any(a.session == b.session and a.vintage_at == b.vintage_at for a, b in zip(items, items[1:])):
                 raise ValueError(f"duplicate observation for {items[0].series_id}")
         self.sessions = {i: [o.session for o in items] for i, items in self.by_series.items()}
 
@@ -130,11 +138,13 @@ def build_table(recipe: CandidateFactorRecipe, events: list[EventTime], factors:
     such as "ex-dividend TSM" to dates; a row is flagged for each date inside its span.
     ``series_calendars`` gives a factor series its own calendar; returns always use ``calendar``.
     ``beta_sessions`` adds a pre-event beta to each row: the subject's beta to the benchmark over
-    that many close-to-close returns ending at the session before the entry, so it reads
-    nothing from the row's own window. Where that history is incomplete the row has no beta.
+    that many close-to-close returns ending at the last session whose closes were knowable before
+    the state cutoff. So it reads nothing from the row's own window and nothing published after
+    the event. Where that history is incomplete the row has no beta.
     """
-    index = SeriesIndex(observations)
-    prices = {(o.series_id, o.session): o.value for o in observations}
+    index = SeriesIndex(observations, {i for f in factors for i in f.series_ids}
+                        | {b.series_id for pair in (subject, benchmark) if pair for b in pair})
+    prices = {(o.series_id, o.session): o.value for items in index.by_series.values() for o in items}  # latest vintage last
     horizon = recipe.horizons_sessions[0]
     rows = []
     for event in events:
@@ -164,12 +174,21 @@ def build_table(recipe: CandidateFactorRecipe, events: list[EventTime], factors:
         b_prev, b_open, b_last = (prices[k] for k in needed[3:]) if benchmark else (None, None, None)
         beta = None
         if beta_sessions and benchmark:
-            end = calendar.sessions.index(previous)
-            history = calendar.sessions[max(0, end - beta_sessions):end + 1]
-            beta = beta_before([prices.get((subject[1].series_id, s)) for s in history],
-                               [prices.get((benchmark[1].series_id, s)) for s in history], len(history) - 1, beta_sessions)
+            # Every close in the estimate is read as it stood before the state cutoff, through the same selector as
+            # a windowed factor: the window ends at the last close knowable by then, and a revision published later
+            # changes nothing.
+            closes = (subject[1], benchmark[1])
+            reach = {b.series_id: index.reachable(b.series_id, event.state, calendar, BETA_REACH, beta_sessions + 1) for b in closes}
+            common, _ = latest_common(list(closes), [o for rows_ in reach.values() for o in rows_], event.state, calendar, BETA_REACH)
+            # First the latest session both closes were knowable for, then both windows ending there: one late close
+            # moves the estimate back a session for both series, it does not remove it.
+            windows = [] if common.session is None else [
+                trailing_window(b, reach[b.series_id], event.state, calendar, beta_sessions + 1, BETA_REACH, common.session) for b in closes]
+            if windows and all(w.observations for w in windows):
+                beta = beta_before([o.value for o in windows[0].observations], [o.value for o in windows[1].observations],
+                                   beta_sessions, beta_sessions)
             if beta is None:
-                flags.append(f"no pre-event beta: fewer than {beta_sessions} complete returns before {entry}")
+                flags.append(f"no pre-event beta: fewer than {beta_sessions} complete returns knowable before the state cutoff")
         flags += [f"{label} {day}" for label, days in sorted(corporate_actions.items())
                   for day in days if previous < day <= last]
         rows.append(EventOutcomeRow(**row, status="complete", entry_session=entry, exit_session=last,

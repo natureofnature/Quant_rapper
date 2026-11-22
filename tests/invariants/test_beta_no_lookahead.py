@@ -53,8 +53,8 @@ class BetaNoLookaheadTests(unittest.TestCase):
             out += [observe(self.subject[0], d, s), observe(self.subject[1], d, s), observe(self.benchmark[0], d, b), observe(self.benchmark[1], d, b)]
         return out
 
-    def row(self, entry_index, beta_sessions=20, **prices):
-        when = datetime.combine(DAYS[entry_index], datetime.min.time(), NEW_YORK) + timedelta(hours=8)
+    def row(self, entry_index, beta_sessions=20, hour=8, **prices):
+        when = datetime.combine(DAYS[entry_index], datetime.min.time(), NEW_YORK) + timedelta(hours=hour)
         event = EventTime(event_id="e", cutoff=Cutoff(time=when, basis="exact", source="Synthetic."))
         factor = Factor(factor_id="x", measure="level", series_ids=("x",), max_age_days=5)
         return build_table(self.recipe, [event], [factor], {"x": self.state}, self.subject, self.benchmark, self.rows(**prices),
@@ -77,6 +77,55 @@ class BetaNoLookaheadTests(unittest.TestCase):
         before = list(self.subj)
         before[entry - 22] *= 1.5  # one session before the 20-return window: not read
         self.assertEqual(self.row(entry, subj=before).window.pre_beta, base.window.pre_beta)
+
+    def test_announcement_during_a_session_keeps_that_session_s_close_out_of_the_beta(self):
+        day = 60
+        noon = self.row(day, hour=12)  # announced at noon: the entry is the next session's open
+        self.assertEqual(noon.entry_session, DAYS[day + 1])
+        self.assertAlmostEqual(noon.window.pre_beta, 2.0)
+        reacted = list(self.subj)
+        reacted[day] *= 0.8  # the announcement day's own close, already moved by the news
+        self.assertEqual(self.row(day, hour=12, subj=reacted).window.pre_beta, noon.window.pre_beta)
+        earlier = list(self.subj)
+        earlier[day - 1] *= 0.8  # the close before the announcement is the last one used
+        self.assertNotEqual(self.row(day, hour=12, subj=earlier).window.pre_beta, noon.window.pre_beta)
+        self.assertEqual(noon.window.pre_beta, self.row(day, hour=8).window.pre_beta)  # the same estimate as before the open
+
+    def test_revision_published_after_the_event_changes_no_close_in_the_window(self):
+        day, when = 60, None
+        base = self.row(day).window.pre_beta
+        rows = self.rows()
+        target = next(r for r in rows if r.series_id == "s:close" and r.session == DAYS[day - 10])  # a close well inside the window
+        after = datetime.combine(DAYS[day + 1], datetime.min.time(), NEW_YORK)
+        revision = target.model_copy(update={"value": target.value * 1.5, "vintage_at": after})  # same release stamp, revised later
+        original = target.model_copy(update={"vintage_at": target.available_at})
+
+        def beta(extra):
+            cutoff = datetime.combine(DAYS[day], datetime.min.time(), NEW_YORK) + timedelta(hours=8)
+            event = EventTime(event_id="e", cutoff=Cutoff(time=cutoff, basis="exact", source="Synthetic."))
+            factor = Factor(factor_id="x", measure="level", series_ids=("x",), max_age_days=5)
+            data = [r for r in rows if r is not target] + extra
+            return build_table(self.recipe, [event], [factor], {"x": self.state}, self.subject, self.benchmark, data,
+                               self.calendar, {}, {"synthetic": "0" * 64}, beta_sessions=20).rows[0].window.pre_beta
+
+        self.assertEqual(beta([original]), base)
+        self.assertEqual(beta([original, revision]), base)  # the later revision exists and is not read
+        self.assertEqual(beta([revision, original]), base)
+        early = revision.model_copy(update={"vintage_at": target.available_at + timedelta(hours=1)})  # revised before the event
+        self.assertNotEqual(beta([original, early]), base)  # that one was current at the cutoff, so it is used
+
+    def test_one_late_close_moves_the_estimate_back_a_session_for_both_series(self):
+        day = 60
+        cutoff = datetime.combine(DAYS[day], datetime.min.time(), NEW_YORK) + timedelta(hours=8)
+        rows = self.rows()
+        last = next(r for r in rows if r.series_id == "b:close" and r.session == DAYS[day - 1])
+        late = last.model_copy(update={"available_at": cutoff + timedelta(hours=1)})  # the benchmark's latest close is not out yet
+        event = EventTime(event_id="e", cutoff=Cutoff(time=cutoff, basis="exact", source="Synthetic."))
+        factor = Factor(factor_id="x", measure="level", series_ids=("x",), max_age_days=5)
+        row = build_table(self.recipe, [event], [factor], {"x": self.state}, self.subject, self.benchmark,
+                          [r for r in rows if r is not last] + [late], self.calendar, {}, {"synthetic": "0" * 64}, beta_sessions=20).rows[0]
+        self.assertAlmostEqual(row.window.pre_beta, 2.0)  # the 20 returns ending one session earlier, for both
+        self.assertNotIn("no pre-event beta", " ".join(row.flags))
 
     def test_incomplete_history_gives_no_beta_and_says_so(self):
         early = self.row(10)  # only ten earlier sessions for a 20-return estimate

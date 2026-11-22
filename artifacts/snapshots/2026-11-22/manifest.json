@@ -76,6 +76,12 @@
       "first_month": "2003-09",
       "last_month": "2026-10",
       "sha256": "93ff6fac92e5c1531e69a177583ace108b940df6c96107228e035c13165e83f4"
+    },
+    "announcement_dates_2002_2026.json": {
+      "source": "ALFRED release dates and BLS schedules (CPI, PPI), federalreserve.gov (FOMC), investor.tsmc.com (TSMC earnings); see describe in the file",
+      "first_date": "2002-01-11",
+      "last_date": "2026-11-13",
+      "sha256": "59220008873006c1a887fb356cadb28964b0b86d7b7c706a9303716f03ec953c"
     }
   }
 }

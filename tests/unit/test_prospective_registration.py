@@ -90,6 +90,8 @@ class ProspectiveRegistrationTests(unittest.TestCase):
         self.assertTrue(frozen["outputs_sha256"])
         for name, expected in frozen["outputs_sha256"].items():
             self.assertEqual(digest(folder / "output" / name), expected, name)
+        if "report_renderer" in frozen:  # the renderer that produced report.md is pinned by its own bytes
+            self.assertEqual(digest(folder / frozen["report_renderer"]["file"]), frozen["report_renderer"]["sha256"])
 
 
 if __name__ == "__main__":
