@@ -21,6 +21,7 @@ artifacts/**
 !/artifacts/snapshots/2026-11-22/tsmc_monthly_revenue_figures.json
 !/artifacts/snapshots/2026-11-22/tsmc_monthly_revenue_first_release.json
 !/artifacts/snapshots/2026-11-22/announcement_dates_2002_2026.json
+!/artifacts/snapshots/2026-11-22/tsmc_quarterly_guidance.json
 !/artifacts/snapshots/2026-11-22/treasury_real_yield_10y.csv
 !/artifacts/snapshots/2026-11-22/us_treasury_yield_sessions_2003_2026.json
 

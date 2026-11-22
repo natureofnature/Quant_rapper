@@ -89,6 +89,12 @@
       "first_date": "2002-01-11",
       "last_date": "2026-11-13",
       "sha256": "59220008873006c1a887fb356cadb28964b0b86d7b7c706a9303716f03ec953c"
+    },
+    "tsmc_quarterly_guidance.json": {
+      "source": "https://investor.tsmc.com/english/quarterly-results/<year>/q<n>, one results release per quarter; see describe in the file",
+      "first_quarter": "2001Q4",
+      "last_quarter": "2026Q3",
+      "sha256": "d5388b23721f1b8ce6a4fe1de68865bf288b51894896194c9c095f72d1038436"
     }
   }
 }
