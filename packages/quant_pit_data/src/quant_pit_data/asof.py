@@ -45,7 +45,8 @@ def latest_common(bindings: list[SeriesBinding], observations: list[Observation]
     why, and may hold later knowledge such as when a late value was finally published.
 
     Expected sessions come from ``calendar``, so a session missing from every series is a
-    reported skip, not a silent holiday. ``max_age`` bounds how old the chosen close may be.
+    reported skip, not a silent holiday. ``max_age`` bounds how old the chosen session may be;
+    the search stops at the first expected session older than that.
     """
     zone = ZoneInfo(calendar.timezone)
     if not calendar.first <= cutoff.time.astimezone(zone).date() <= calendar.last:
@@ -72,6 +73,10 @@ def latest_common(bindings: list[SeriesBinding], observations: list[Observation]
     for session in reversed(calendar.sessions):
         if all(fixed_at(b, session) >= cutoff.time for b in bindings):
             continue  # not closed yet: not expected, so not a skip
+        age = cutoff.time - max(fixed_at(b, session) for b in bindings)
+        if age > max_age:  # nothing older can be used, so stop: do not list all of history as skipped
+            return result(status="gap", reason=f"no usable session within the limit: {session} is {age} old, "
+                                               f"over the limit of {max_age}")
         unavailable = []
         for series_id in ids:
             item = table.get((session, series_id))
@@ -86,9 +91,6 @@ def latest_common(bindings: list[SeriesBinding], observations: list[Observation]
         if unavailable:
             skipped.append(SkippedSession(session=session, unavailable=tuple(unavailable)))
             continue
-        age = cutoff.time - max(fixed_at(b, session) for b in bindings)
-        if age > max_age:
-            return result(status="gap", reason=f"latest usable session {session} is {age} old, over the limit of {max_age}")
         return result(status="fallback" if skipped else "resolved", session=session,
                       observations=tuple(table[(session, i)] for i in ids))
     return result(status="gap", reason="no expected session with every series available before the cutoff")
@@ -113,6 +115,8 @@ def on_calendar(observations: list[Observation], calendar: SessionCalendar) -> t
     here deliberately and keep the second list as the record of what was dropped.
     """
     expected = set(calendar.sessions)
-    inside = [o for o in observations if calendar.first <= o.session <= calendar.last]
-    return ([o for o in observations if o not in inside or o.session in expected],
-            [o for o in inside if o.session not in expected])
+    kept, dropped = [], []
+    for item in observations:
+        off = calendar.first <= item.session <= calendar.last and item.session not in expected
+        (dropped if off else kept).append(item)
+    return kept, dropped

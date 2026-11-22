@@ -15,8 +15,9 @@ for package in ("quant_contracts", "quant_pit_data", "quant_causal_graph", "quan
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 try:
     from quant_causal_graph.recipes import event_state_recipe, project_leads
+    from quant_contracts.evaluation import Factor
     from quant_contracts.pit import Cutoff, SeriesBinding, SessionCalendar
-    from quant_evaluator.alpha.event_window import return_pair, simple_return
+    from quant_evaluator.alpha.event_window import compare_groups, return_pair, simple_return
     from quant_loop.event_table import build_table
     from quant_pit_data.asof import observe, on_calendar
 except ModuleNotFoundError:
@@ -44,6 +45,9 @@ class EventTableTests(unittest.TestCase):
         self.benchmark = (binding("benchmark:open", "09:30"), binding("benchmark:close", "16:00"))
         self.calendar = SessionCalendar(calendar_id="test", timezone="America/New_York", first=SESSIONS[0],
                                         last=SESSIONS[-1], sessions=SESSIONS, basis_note="Synthetic.")
+        self.bindings = {b.series_id: b for b in self.state}
+        self.factors = [Factor(factor_id="near_over_far", measure="ratio", series_ids=("state:near", "state:far"), max_age_days=5),
+                        Factor(factor_id="near", measure="level", series_ids=("state:near",), max_age_days=5)]
         self.leads = project_leads(RELATIONSHIPS, "semiconductor", "TSM", FROZEN)
         self.recipe = event_state_recipe(
             "recipe:test", [self.leads[RISK_LEAD]], FROZEN + timedelta(hours=1), "Synthetic release", "filing",
@@ -55,8 +59,8 @@ class EventTableTests(unittest.TestCase):
 
     def table(self, when, rows=None, dividends=None, recipe=None, basis="exact"):
         cutoff = Cutoff(time=when, basis=basis, source="Synthetic fixture.")
-        return build_table(recipe or self.recipe, [("event:1", cutoff)], self.state, self.subject, self.benchmark,
-                           self.rows if rows is None else rows, self.calendar, dividends or {}, timedelta(days=5),
+        return build_table(recipe or self.recipe, [("event:1", cutoff)], self.factors, self.bindings, self.subject,
+                           self.benchmark, self.rows if rows is None else rows, self.calendar, dividends or {},
                            {"synthetic": "0" * 64})
 
     def test_arithmetic(self):
@@ -70,8 +74,10 @@ class EventTableTests(unittest.TestCase):
     def test_window_starts_at_the_first_open_after_the_cutoff_and_ends_on_the_fifth_session(self):
         row = self.table(datetime(2026, 11, 10, 13, 30, tzinfo=TAIPEI)).rows[0]  # 00:30 in New York
         self.assertEqual((row.status, row.entry_session, row.exit_session), ("complete", date(2026, 11, 10), date(2026, 11, 16)))
-        self.assertEqual(row.state.session, date(2026, 11, 9))
-        self.assertAlmostEqual(row.state_value, 0.9)
+        ratio, level = row.factors
+        self.assertEqual((ratio.state.session, level.state.session), (date(2026, 11, 9), date(2026, 11, 9)))
+        self.assertAlmostEqual(ratio.value, 0.9)
+        self.assertAlmostEqual(level.value, 18.0)
         self.assertAlmostEqual(row.reaction.subject, 110.0 / 110.0 - 1)  # 9 Nov close 110 to 10 Nov open 110
         self.assertAlmostEqual(row.window.subject, 117.0 / 110.0 - 1)  # 10 Nov open to 16 Nov close
         self.assertAlmostEqual(row.window.relative, 117.0 / 110.0 - 1)
@@ -86,9 +92,53 @@ class EventTableTests(unittest.TestCase):
         self.assertEqual((row.prior_status, row.timing_verified), ("exploratory", False))
         self.assertEqual(self.recipe.prior_status, "prior_available_at_decision")
 
+    def test_factor_without_data_is_a_gap_on_its_own_and_the_row_keeps_its_returns(self):
+        when = datetime(2026, 11, 10, 13, 30, tzinfo=TAIPEI)
+        table = self.table(when, rows=[r for r in self.rows if r.series_id != "state:far"])  # the far series does not exist yet
+        ratio, level = table.rows[0].factors
+        self.assertEqual((ratio.state.status, ratio.value), ("gap", None))
+        self.assertLessEqual(len(ratio.state.skipped), 5)  # the search stops at the age limit, not at the start of history
+        self.assertAlmostEqual(level.value, 18.0)
+        self.assertEqual(table.rows[0].status, "complete")
+        self.assertEqual(table.rows[0].window, self.table(when).rows[0].window)
+        self.assertEqual((table.coverage("near_over_far"), table.coverage("near")), ((), ("event:1",)))
+        with self.assertRaises(ValueError):
+            Factor(factor_id="bad", measure="ratio", series_ids=("state:near",), max_age_days=5)
+
+    def test_zero_denominator_leaves_one_factor_without_a_value_and_nothing_else_changes(self):
+        when = datetime(2026, 11, 10, 13, 30, tzinfo=TAIPEI)
+        zero = [observe(self.state[1], r.session, 0.0) if r.series_id == "state:far" and r.session == date(2026, 11, 9) else r
+                for r in self.rows]
+        row = self.table(when, rows=zero).rows[0]
+        ratio, level = row.factors
+        self.assertEqual((ratio.value, ratio.state.status, len(ratio.state.observations)), (None, "resolved", 2))
+        self.assertIn("state:far is zero on 2026-11-09", ratio.reason)
+        self.assertAlmostEqual(level.value, 18.0)
+        self.assertEqual((row.status, row.window), ("complete", self.table(when).rows[0].window))
+
+    def test_timing_is_not_verified_when_no_factor_has_a_value(self):
+        when = datetime(2026, 11, 10, 13, 30, tzinfo=TAIPEI)
+        sourced = [r.model_copy(update={"availability_basis": "sourced"}) for r in self.rows]
+        self.assertTrue(self.table(when, rows=sourced).rows[0].timing_verified)  # exact cutoff, documented inputs
+        prices_only = [r for r in sourced if not r.series_id.startswith("state:")]
+        row = self.table(when, rows=prices_only).rows[0]
+        self.assertEqual([s.state.status for s in row.factors], ["gap", "gap"])
+        self.assertEqual((row.cutoff.basis, row.timing_verified, row.status), ("exact", False, "complete"))
+
+    def test_cutoff_inside_a_session_is_flagged(self):
+        inside = self.table(datetime(2026, 11, 10, 11, 0, tzinfo=NEW_YORK), basis="upper_bound").rows[0]
+        self.assertEqual((inside.entry_session, inside.flags), (date(2026, 11, 11), ("cutoff at or after the open of 2026-11-10",)))
+        self.assertEqual(self.table(datetime(2026, 11, 8, 11, 0, tzinfo=NEW_YORK)).rows[0].flags, ())  # a Sunday
+
+    def test_group_comparison(self):
+        result = compare_groups("x", [0.01, 0.03], [0.0, 0.0, 0.03])
+        self.assertAlmostEqual(result.difference, 0.01)
+        self.assertAlmostEqual(result.standard_error, (0.0002 / 2 + 0.0003 / 3) ** 0.5)
+        self.assertEqual(compare_groups("x", [0.01], []).model_dump()["difference"], None)
+
     def test_ex_dividend_date_in_the_span_is_flagged(self):
         when = datetime(2026, 11, 10, 13, 30, tzinfo=TAIPEI)
-        inside = self.table(when, dividends={"TSM": [date(2026, 11, 10), date(2026, 11, 17)], "SOXX": [date(2026, 11, 9)]})
+        inside = self.table(when, dividends={"ex-dividend TSM": [date(2026, 11, 10), date(2026, 11, 17)], "ex-dividend SOXX": [date(2026, 11, 9)]})
         self.assertEqual(inside.rows[0].flags, ("ex-dividend TSM 2026-11-10",))
 
     def test_window_running_past_the_data_is_incomplete_not_shortened(self):
