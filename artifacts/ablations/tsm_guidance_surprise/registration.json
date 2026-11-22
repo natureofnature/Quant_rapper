@@ -1,0 +1,45 @@
+{
+  "kind": "diagnostic_registration",
+  "registration_id": "tsm_guidance_surprise",
+  "registered_on": "2026-11-22",
+  "standing": "Exploratory. It closes the directional-surprise part of RFC-002 section 3.3, which the TSM diagnostics recorded as a data gap. The returns used are the ones already frozen in tsm_diagnostics, whose results were known when this was written: no state split there reached two standard errors. Revenue growth is never used as a surprise here; the only benchmark is the company's own guidance.",
+  "definition": {
+    "events": "The monthly revenue release that reports the third month of a quarter, for guided quarters 2005Q4 to 2026Q3. At that release the quarter's revenue is known as the sum of three monthly figures, about a week before the quarterly results.",
+    "actual": "The sum of the quarter's three monthly revenue figures as first released (tsmc_monthly_revenue_first_release.json), in NT$: the unconsolidated figure for guided quarters through 2006Q1 and the consolidated figure from 2006Q2, matching the basis of the guidance.",
+    "guidance": "The original range from the previous quarter's results release. For 2006Q2 the consolidated range. A known mid-quarter revision is flagged and the original range is still used; a repeat without those quarters is reported.",
+    "currency": "Guidance in NT$ is compared directly. Guidance in US$ (guided quarters from 2017Q3) is compared with the actual converted to US$ month by month, each month's NT$ revenue divided by the mean of that month's daily USD/TWD closes: rates that were all known when the third month's release came out. As a check, the same quarters are also converted at the single rate the guidance itself assumed.",
+    "surprise": "above: the actual exceeds the top of the range. below: it is under the bottom. inside: otherwise. Also reported: the actual over the midpoint, minus one.",
+    "outcome": "TSM's beta-adjusted abnormal return around that release, taken unchanged from tsm_diagnostics/output/events.csv: the reaction (previous close to entry open), the entry session, and the 5-session window.",
+    "reported": "Every quarter listed one by one. Then above against below for each of the three windows: counts, means, medians, share positive and the Welch standard error. The inside group is shown and not tested. No threshold is tuned and no other split is tried."
+  },
+  "parameters": {
+    "first_guided_quarter": "2005Q4",
+    "last_guided_quarter": "2026Q3",
+    "unconsolidated_through": "2006Q1",
+    "usd_from": "2017Q3"
+  },
+  "inputs": {
+    "snapshot": "artifacts/snapshots/2026-11-22",
+    "sha256": {
+      "tsmc_quarterly_guidance.json": "d5388b23721f1b8ce6a4fe1de68865bf288b51894896194c9c095f72d1038436",
+      "tsmc_monthly_revenue_first_release.json": "93ff6fac92e5c1531e69a177583ace108b940df6c96107228e035c13165e83f4",
+      "tsmc_monthly_revenue_events.json": "503fa0f1c5f91a5cd4d622694be7ec2f260a611dd93701dd0d737974e25483c3",
+      "USDTWD.json": "e802c48eb7c3cebe420426149e2337e01a4ca493519a460901fe5f39ae6d796a"
+    },
+    "returns": {
+      "file": "artifacts/ablations/tsm_diagnostics/output/events.csv",
+      "sha256": "7683edd27530b2e43e6baf0f5d1d14f1763daf16fdc83a89e462f8993e02fe10"
+    }
+  },
+  "known_limits": [
+    "About 84 quarters, and far fewer above or below the range: this can describe, not establish.",
+    "The quarter's revenue being above guidance is often visible from the first two months, so the third month's release is not the first moment the surprise could be inferred.",
+    "USD/TWD closes are Yahoo's, not an official fixing, and start in March 2004.",
+    "Guidance ranges and monthly figures were collected through page readers and PDF text extraction and cross-checked as their files describe.",
+    "Revisions to guidance before 2012 were not searched for."
+  ],
+  "code": {
+    "commit": "7cdb7e884e7bb8be38f32519fbe55f40d2c84f63",
+    "runner": "artifacts/ablations/tsm_guidance_surprise/run.py"
+  }
+}
