@@ -5,9 +5,11 @@
   "describe": "The outputs of the first and only run of the registered rule, fixed as the baseline that RFC-004 replays. Replaying run.py on the pinned inputs at the pinned commit must reproduce positions_*.csv and report.json byte for byte; a second run on 2026-11-22 did. report.md is rendered from report.json by report.py.",
   "registration_sha256": "f965d9d2f5db951f760a7a788b677ed4b15f0a51cc039d87cf5bc0fa32464306",
   "code_commit": "816deb4aa3fc0428f46f42b9bf9927a58b3bcae0",
+  "replay_checkout": "0dca5d04ff2fd880e4d5057c1da8ee78133a4e1f",
+  "replay_note": "code_commit holds the runner and the arithmetic. Replay from replay_checkout: it has the same runner and the final registration. The registration could not be amended in the commit it pins, so at code_commit it is the earlier text, and a run from there writes a different registration hash into report.json. A replay from replay_checkout on 2026-11-22, rendered with report.py as first frozen, matched every output byte for byte; report.md was then re-rendered to make the group counts add up.",
   "outputs_sha256": {
     "report.json": "0a904a49ea52ba1568d45cc9d78f5fdb3e5344f20e9a298eee6336bcc48e46a1",
-    "report.md": "f40c95e0d733beddcb02e96eb79ef045230052624f518ed7881b6b3d8e76a7fc",
+    "report.md": "2015e5da99090a6f1bd69d9804f9bf44f47de1ae6824ba2da69b0c300f3c5b8f",
     "positions_SOXX.csv": "af48cb1db8d2fcfacca7707d2e700521f6beb2641885215af08f064f1f6de33d",
     "positions_QQQ.csv": "9b541243beb15c10bb937e0e0abaec1838ccfc16e26897fdbb491cc0766c2685"
   },

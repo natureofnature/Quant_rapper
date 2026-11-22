@@ -7,7 +7,8 @@ Produced by `run.py` from `registration.json` (sha256 `f965d9d2f5db…`), code c
 | First decision | 2009-09-18 | 2009-09-18 |
 | Last decision, positions | 2026-11-20 | 2026-11-20 |
 | Last decision, forward measure | 2026-10-23 | 2026-10-23 |
-| Decisions | 4321 | 4321 |
+| Decisions, position period | 4321 | 4321 |
+| Decisions, forward period | 4301 | 4301 |
 | Decisions at 100% / 50% / 0% | 2636 / 1348 / 337 | 2918 / 1123 / 280 |
 | Sessions holding the previous target | 0 (longest run 0) | 0 (longest run 0) |
 | Max drawdown, gate | -38.0% | -17.9% |
@@ -20,7 +21,8 @@ Produced by `run.py` from `registration.json` (sha256 `f965d9d2f5db…`), code c
 | Sessions (runs), ordinary | 1898 (43) | 2147 (50) |
 | Stressed minus ordinary, mean | -1.8% | -1.4% |
 | 90% interval | -2.7% to -0.7% | -2.3% to -0.3% |
-| Decisions at 100% inside an episode (in neither group) | 738 | 771 |
+| Forward-period decisions in neither group (at 100% inside an episode) | 734 | 761 |
+| The same over the whole position period | 738 | 771 |
 | Episodes (unfinished) | 43 (1) | 50 (1) |
 | Episodes crossing the end of the forward period | 1 | 1 |
 | Whipsaw rate | 64% | 65% |
