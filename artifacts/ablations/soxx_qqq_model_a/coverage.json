@@ -1,0 +1,77 @@
+{
+  "min_train": 750,
+  "min_scores": 252,
+  "funds": {
+    "SOXX": {
+      "comparison_1_generic": {
+        "status": "coverage computed",
+        "features": [
+          "vix_term_structure",
+          "real_yield_10y_change_20_rank_250",
+          "trend_200"
+        ],
+        "first_decision_with_all_features": "2009-09-18",
+        "decisions_with_all_features": 4321,
+        "decisions_missing_a_feature_after_that": 0,
+        "first_trainable_month": "2012-11",
+        "first_forecast": "2012-11-01",
+        "first_eligible_trading_decision": "2013-11-01",
+        "forecast_days_from_then": 3283,
+        "held_days_from_then": 0,
+        "forecast_days_with_complete_outcome": 3263,
+        "gate_days_with_complete_outcome": 3263,
+        "last_decision_with_a_complete_outcome_window": "2026-10-23",
+        "last_session_for_equity_and_drawdown": "2026-11-20"
+      },
+      "comparison_2_with_revenue": {
+        "status": "coverage computed",
+        "features": [
+          "vix_term_structure",
+          "real_yield_10y_change_20_rank_250",
+          "trend_200",
+          "reported_revenue_growth_yoy"
+        ],
+        "first_decision_with_all_features": "2009-09-18",
+        "decisions_with_all_features": 4319,
+        "decisions_missing_a_feature_after_that": 2,
+        "first_trainable_month": "2012-11",
+        "first_forecast": "2012-11-01",
+        "first_eligible_trading_decision": "2013-11-01",
+        "forecast_days_from_then": 3281,
+        "held_days_from_then": 2,
+        "forecast_days_with_complete_outcome": 3261,
+        "gate_days_with_complete_outcome": 3263,
+        "last_decision_with_a_complete_outcome_window": "2026-10-23",
+        "last_session_for_equity_and_drawdown": "2026-11-20",
+        "decisions_without_a_fresh_release": 2,
+        "first_such_decisions": [
+          "2019-02-14",
+          "2019-02-15"
+        ],
+        "release_months_missing_2009-08_to_2026-10": []
+      }
+    },
+    "QQQ": {
+      "comparison_1_generic": {
+        "status": "coverage computed",
+        "features": [
+          "vix_term_structure",
+          "real_yield_10y_change_20_rank_250",
+          "trend_200"
+        ],
+        "first_decision_with_all_features": "2009-09-18",
+        "decisions_with_all_features": 4321,
+        "decisions_missing_a_feature_after_that": 0,
+        "first_trainable_month": "2012-11",
+        "first_forecast": "2012-11-01",
+        "first_eligible_trading_decision": "2013-11-01",
+        "forecast_days_from_then": 3283,
+        "held_days_from_then": 0,
+        "forecast_days_with_complete_outcome": 3263,
+        "gate_days_with_complete_outcome": 3263,
+        "last_decision_with_a_complete_outcome_window": "2026-10-23",
+        "last_session_for_equity_and_drawdown": "2026-11-20"
+      }
+    }
+  }
+}
