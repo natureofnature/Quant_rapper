@@ -1,0 +1,796 @@
+{
+ "status": "EXPLORATORY",
+ "registration_sha256": "b398e315f7f8396502bf191d5c9fa1b4831b559e15dc38f76affc63ad2de77f6",
+ "part_1": {
+  "variance": {
+   "sessions": 6012,
+   "first": "2002-12-31",
+   "residual_share_of_variance": {
+    "spy": 0.6068862219926222,
+    "soxx": 0.44569932524060984,
+    "both": 0.4361140455622213
+   },
+   "by_year": {
+    "2003": {
+     "spy": 0.7040216232120949,
+     "soxx": 0.45456857657727784,
+     "both": 0.46021573568157115
+    },
+    "2004": {
+     "spy": 0.6893261351078319,
+     "soxx": 0.42901985025072475,
+     "both": 0.42342586631371
+    },
+    "2005": {
+     "spy": 0.8922985079092652,
+     "soxx": 0.6689474833878731,
+     "both": 0.6784478598747398
+    },
+    "2006": {
+     "spy": 0.6645972366733555,
+     "soxx": 0.48631895391581637,
+     "both": 0.4789051576013895
+    },
+    "2007": {
+     "spy": 0.5173528618236601,
+     "soxx": 0.5550181423986521,
+     "both": 0.4714816749700845
+    },
+    "2008": {
+     "spy": 0.4694153907450708,
+     "soxx": 0.4023567510837505,
+     "both": 0.381389754972662
+    },
+    "2009": {
+     "spy": 0.584441558243024,
+     "soxx": 0.4954650713644858,
+     "both": 0.4744629593822963
+    },
+    "2010": {
+     "spy": 0.5248629837917224,
+     "soxx": 0.5230885163927631,
+     "both": 0.4937618866140259
+    },
+    "2011": {
+     "spy": 0.4723457382796987,
+     "soxx": 0.3886375673142402,
+     "both": 0.3817134729403443
+    },
+    "2012": {
+     "spy": 0.6808267208962927,
+     "soxx": 0.5624369163945964,
+     "both": 0.560807434366193
+    },
+    "2013": {
+     "spy": 0.7858126355049728,
+     "soxx": 0.6943395227749714,
+     "both": 0.6969932563433053
+    },
+    "2014": {
+     "spy": 0.8185180856490174,
+     "soxx": 0.6944491658565449,
+     "both": 0.6980689103478498
+    },
+    "2015": {
+     "spy": 0.7358108604038569,
+     "soxx": 0.6310258565486169,
+     "both": 0.6308899569396738
+    },
+    "2016": {
+     "spy": 0.6144937412094105,
+     "soxx": 0.4803744729692274,
+     "both": 0.4739834934231135
+    },
+    "2017": {
+     "spy": 0.8133363972975045,
+     "soxx": 0.7178470074101969,
+     "both": 0.7032200069800314
+    },
+    "2018": {
+     "spy": 0.5623326327113077,
+     "soxx": 0.43503978333788457,
+     "both": 0.42943799829004053
+    },
+    "2019": {
+     "spy": 0.6478275102872633,
+     "soxx": 0.41698716611196646,
+     "both": 0.419833827912393
+    },
+    "2020": {
+     "spy": 0.549098279186511,
+     "soxx": 0.3958152439523049,
+     "both": 0.3969539164708599
+    },
+    "2021": {
+     "spy": 0.7247898483581,
+     "soxx": 0.3575940325709851,
+     "both": 0.3475386363732147
+    },
+    "2022": {
+     "spy": 0.5316741197562148,
+     "soxx": 0.3515526905875917,
+     "both": 0.3490940089695968
+    },
+    "2023": {
+     "spy": 0.7008421382062282,
+     "soxx": 0.4430467619425339,
+     "both": 0.446176041045906
+    },
+    "2024": {
+     "spy": 0.695681026887344,
+     "soxx": 0.40996373189219815,
+     "both": 0.4088847040791901
+    },
+    "2025": {
+     "spy": 0.527714433776608,
+     "soxx": 0.34336637980209456,
+     "both": 0.345154129956817
+    },
+    "2026": {
+     "spy": 0.4781328252059079,
+     "soxx": 0.3227761510438265,
+     "both": 0.2974105363417916
+    }
+   }
+  },
+  "catalyst_concentration_in_soxx_adjusted_residual": {
+   "cpi": {
+    "sessions": 286,
+    "share_of_sessions": 0.04757152361942781,
+    "share_of_squared_residual": 0.04282116470122622
+   },
+   "ppi": {
+    "sessions": 286,
+    "share_of_sessions": 0.04757152361942781,
+    "share_of_squared_residual": 0.05395590880549865
+   },
+   "fomc": {
+    "sessions": 200,
+    "share_of_sessions": 0.0332667997338656,
+    "share_of_squared_residual": 0.039258902894048354
+   },
+   "tsmc_earnings": {
+    "sessions": 96,
+    "share_of_sessions": 0.015968063872255488,
+    "share_of_squared_residual": 0.09775375743441962
+   },
+   "tsmc_monthly_revenue": {
+    "sessions": 287,
+    "share_of_sessions": 0.04773785761809714,
+    "share_of_squared_residual": 0.044769471968955234
+   },
+   "opex": {
+    "sessions": 287,
+    "share_of_sessions": 0.04773785761809714,
+    "share_of_squared_residual": 0.04266392444009201
+   },
+   "any_catalyst": {
+    "sessions": 1314,
+    "share_of_sessions": 0.218562874251497,
+    "share_of_squared_residual": 0.2842815972365843
+   }
+  },
+  "shock_audit": {
+   "sessions_listed": 76,
+   "eligible_sessions": 4698,
+   "file": "shocks.csv"
+  }
+ },
+ "part_2": {
+  "events": 289,
+  "events_with_a_pre_event_beta": 287,
+  "events_with_a_collision": 40,
+  "question_1_window_mean": {
+   "vix_term_structure|reaction|raw": {
+    "label": "reaction raw: vix_term_structure >= 1.0 against < 1.0",
+    "n_a": 16,
+    "n_b": 190,
+    "mean_a": 0.003359197821669574,
+    "mean_b": 0.002160217725521486,
+    "difference": 0.0011989800961480879,
+    "standard_error": 0.004377022623097318,
+    "median_a": 0.006706714681694703,
+    "median_b": 0.0009857362631648936,
+    "positive_share_a": 0.5625,
+    "positive_share_b": 0.5421052631578948,
+    "episodes_a": 11,
+    "episodes_b": 4
+   },
+   "vix_term_structure|reaction|relative": {
+    "label": "reaction relative: vix_term_structure >= 1.0 against < 1.0",
+    "n_a": 16,
+    "n_b": 190,
+    "mean_a": 1.3166746193678247e-05,
+    "mean_b": 0.0017807597551876325,
+    "difference": -0.0017675930089939543,
+    "standard_error": 0.0028906618522671905,
+    "median_a": -0.0009748291834943967,
+    "median_b": 0.0008928610089559141,
+    "positive_share_a": 0.4375,
+    "positive_share_b": 0.5368421052631579,
+    "episodes_a": 11,
+    "episodes_b": 4
+   },
+   "vix_term_structure|reaction|abnormal": {
+    "label": "reaction abnormal: vix_term_structure >= 1.0 against < 1.0",
+    "n_a": 16,
+    "n_b": 190,
+    "mean_a": 0.0020773479502949536,
+    "mean_b": 0.0018219960659498328,
+    "difference": 0.0002553518843451208,
+    "standard_error": 0.001945989772638467,
+    "median_a": -0.0005118864632065289,
+    "median_b": 0.00042414195530303227,
+    "positive_share_a": 0.4375,
+    "positive_share_b": 0.5421052631578948,
+    "episodes_a": 11,
+    "episodes_b": 4
+   },
+   "vix_term_structure|entry_day|raw": {
+    "label": "entry_day raw: vix_term_structure >= 1.0 against < 1.0",
+    "n_a": 16,
+    "n_b": 190,
+    "mean_a": -0.0035738750732220437,
+    "mean_b": -0.0010365504922326188,
+    "difference": -0.0025373245809894246,
+    "standard_error": 0.0036992812964762164,
+    "median_a": -0.002330053790600195,
+    "median_b": -0.0010042279277152066,
+    "positive_share_a": 0.4375,
+    "positive_share_b": 0.4631578947368421,
+    "episodes_a": 11,
+    "episodes_b": 4
+   },
+   "vix_term_structure|entry_day|relative": {
+    "label": "entry_day relative: vix_term_structure >= 1.0 against < 1.0",
+    "n_a": 16,
+    "n_b": 190,
+    "mean_a": -0.003829489700675974,
+    "mean_b": -0.001087744292429294,
+    "difference": -0.00274174540824668,
+    "standard_error": 0.0031792368380365787,
+    "median_a": -0.004209435555903085,
+    "median_b": -8.894269153508771e-05,
+    "positive_share_a": 0.4375,
+    "positive_share_b": 0.49473684210526314,
+    "episodes_a": 11,
+    "episodes_b": 4
+   },
+   "vix_term_structure|entry_day|abnormal": {
+    "label": "entry_day abnormal: vix_term_structure >= 1.0 against < 1.0",
+    "n_a": 16,
+    "n_b": 190,
+    "mean_a": -0.00315892879302805,
+    "mean_b": -0.0010964079498445097,
+    "difference": -0.0020625208431835403,
+    "standard_error": 0.0029602579287026,
+    "median_a": -0.004694827847448972,
+    "median_b": -0.001302922459974328,
+    "positive_share_a": 0.375,
+    "positive_share_b": 0.4473684210526316,
+    "episodes_a": 11,
+    "episodes_b": 4
+   },
+   "vix_term_structure|window|raw": {
+    "label": "window raw: vix_term_structure >= 1.0 against < 1.0",
+    "n_a": 16,
+    "n_b": 190,
+    "mean_a": 0.00018954253167675905,
+    "mean_b": 0.005773377711551693,
+    "difference": -0.005583835179874934,
+    "standard_error": 0.014435521872550088,
+    "median_a": 0.01105574921315311,
+    "median_b": 0.004721915034281876,
+    "positive_share_a": 0.625,
+    "positive_share_b": 0.5421052631578948,
+    "episodes_a": 11,
+    "episodes_b": 4
+   },
+   "vix_term_structure|window|relative": {
+    "label": "window relative: vix_term_structure >= 1.0 against < 1.0",
+    "n_a": 16,
+    "n_b": 190,
+    "mean_a": -0.004871230629442787,
+    "mean_b": -0.001699220792095252,
+    "difference": -0.003172009837347535,
+    "standard_error": 0.007976589235028947,
+    "median_a": -0.0030873743297584744,
+    "median_b": -0.002842370205916711,
+    "positive_share_a": 0.4375,
+    "positive_share_b": 0.45263157894736844,
+    "episodes_a": 11,
+    "episodes_b": 4
+   },
+   "vix_term_structure|window|abnormal": {
+    "label": "window abnormal: vix_term_structure >= 1.0 against < 1.0",
+    "n_a": 16,
+    "n_b": 190,
+    "mean_a": -0.003572698446810979,
+    "mean_b": -0.00021599462567836557,
+    "difference": -0.0033567038211326132,
+    "standard_error": 0.007405882172564863,
+    "median_a": -0.009327890569002715,
+    "median_b": -0.0023329361562874386,
+    "positive_share_a": 0.375,
+    "positive_share_b": 0.4789473684210526,
+    "episodes_a": 11,
+    "episodes_b": 4
+   },
+   "vix_level|reaction|raw": {
+    "label": "reaction raw: vix_level >= 20.0 against < 20.0",
+    "n_a": 93,
+    "n_b": 196,
+    "mean_a": 0.0032247081977325853,
+    "mean_b": 0.0018462923346111901,
+    "difference": 0.0013784158631213951,
+    "standard_error": 0.0019957718255486034,
+    "median_a": 0.0015456509974882682,
+    "median_b": 0.00088784995630109,
+    "positive_share_a": 0.5268817204301075,
+    "positive_share_b": 0.5306122448979592,
+    "episodes_a": 18,
+    "episodes_b": 11
+   },
+   "vix_level|reaction|relative": {
+    "label": "reaction relative: vix_level >= 20.0 against < 20.0",
+    "n_a": 93,
+    "n_b": 196,
+    "mean_a": 0.0016835218980579038,
+    "mean_b": 0.0014324294047625527,
+    "difference": 0.00025109249329535103,
+    "standard_error": 0.0014946241072934703,
+    "median_a": 0.0011231203485224661,
+    "median_b": 0.0005422838133989916,
+    "positive_share_a": 0.5591397849462365,
+    "positive_share_b": 0.5204081632653061,
+    "episodes_a": 18,
+    "episodes_b": 11
+   },
+   "vix_level|reaction|abnormal": {
+    "label": "reaction abnormal: vix_level >= 20.0 against < 20.0",
+    "n_a": 91,
+    "n_b": 196,
+    "mean_a": 0.002136739223143245,
+    "mean_b": 0.0013825934260194646,
+    "difference": 0.0007541457971237805,
+    "standard_error": 0.0014433377323304446,
+    "median_a": 0.0014960116816370526,
+    "median_b": 0.0001759274901128695,
+    "positive_share_a": 0.5604395604395604,
+    "positive_share_b": 0.5204081632653061,
+    "episodes_a": 18,
+    "episodes_b": 11
+   },
+   "vix_level|entry_day|raw": {
+    "label": "entry_day raw: vix_level >= 20.0 against < 20.0",
+    "n_a": 93,
+    "n_b": 196,
+    "mean_a": -0.00133325467170265,
+    "mean_b": -0.0013925922747460092,
+    "difference": 5.933760304335919e-05,
+    "standard_error": 0.002331956098258328,
+    "median_a": 0.00020513584712533728,
+    "median_b": -0.0007602350182199791,
+    "positive_share_a": 0.5053763440860215,
+    "positive_share_b": 0.45918367346938777,
+    "episodes_a": 18,
+    "episodes_b": 11
+   },
+   "vix_level|entry_day|relative": {
+    "label": "entry_day relative: vix_level >= 20.0 against < 20.0",
+    "n_a": 93,
+    "n_b": 196,
+    "mean_a": 0.000563245864512981,
+    "mean_b": -0.001290234528552947,
+    "difference": 0.0018534803930659281,
+    "standard_error": 0.0018738484119297373,
+    "median_a": 0.0003601664315526776,
+    "median_b": -0.0004585423763119878,
+    "positive_share_a": 0.5161290322580645,
+    "positive_share_b": 0.4744897959183674,
+    "episodes_a": 18,
+    "episodes_b": 11
+   },
+   "vix_level|entry_day|abnormal": {
+    "label": "entry_day abnormal: vix_level >= 20.0 against < 20.0",
+    "n_a": 91,
+    "n_b": 196,
+    "mean_a": 0.00038675480829978903,
+    "mean_b": -0.0012631057448596519,
+    "difference": 0.001649860553159441,
+    "standard_error": 0.0018441657762205805,
+    "median_a": -0.0007417083774352165,
+    "median_b": -0.0012545696078970917,
+    "positive_share_a": 0.4725274725274725,
+    "positive_share_b": 0.44387755102040816,
+    "episodes_a": 18,
+    "episodes_b": 11
+   },
+   "vix_level|window|raw": {
+    "label": "window raw: vix_level >= 20.0 against < 20.0",
+    "n_a": 93,
+    "n_b": 196,
+    "mean_a": 0.006818570394598411,
+    "mean_b": -0.0006181482180009272,
+    "difference": 0.007436718612599338,
+    "standard_error": 0.006863980554521681,
+    "median_a": 0.006796086750288088,
+    "median_b": -0.0015580882117570694,
+    "positive_share_a": 0.5698924731182796,
+    "positive_share_b": 0.4744897959183674,
+    "episodes_a": 18,
+    "episodes_b": 11
+   },
+   "vix_level|window|relative": {
+    "label": "window relative: vix_level >= 20.0 against < 20.0",
+    "n_a": 93,
+    "n_b": 196,
+    "mean_a": 0.0006477376148456088,
+    "mean_b": -0.004374463102983617,
+    "difference": 0.005022200717829226,
+    "standard_error": 0.004608912254085473,
+    "median_a": 0.00019531214260770646,
+    "median_b": -0.005085670699687517,
+    "positive_share_a": 0.5053763440860215,
+    "positive_share_b": 0.4030612244897959,
+    "episodes_a": 18,
+    "episodes_b": 11
+   },
+   "vix_level|window|abnormal": {
+    "label": "window abnormal: vix_level >= 20.0 against < 20.0",
+    "n_a": 91,
+    "n_b": 196,
+    "mean_a": 0.004016141258725706,
+    "mean_b": -0.003532729157124712,
+    "difference": 0.0075488704158504175,
+    "standard_error": 0.004457393080220526,
+    "median_a": 0.00046266492183179644,
+    "median_b": -0.005294502106227783,
+    "positive_share_a": 0.5164835164835165,
+    "positive_share_b": 0.42857142857142855,
+    "episodes_a": 18,
+    "episodes_b": 11
+   }
+  },
+  "question_2_volatility": {
+   "vix_term_structure|all_sessions": {
+    "n": {
+     "low_other": 3800,
+     "low_announcement": 190,
+     "high_other": 314,
+     "high_announcement": 16
+    },
+    "mean_abs_abnormal": {
+     "low_other": 0.007069166258854997,
+     "low_announcement": 0.008126143995724847,
+     "high_other": 0.00925189402794903,
+     "high_announcement": 0.009877278662265686
+    },
+    "difference_in_differences": -0.00043159310255319345,
+    "standard_error": 0.001672567327169016
+   },
+   "vix_term_structure|without_collision_sessions": {
+    "n": {
+     "low_other": 3292,
+     "low_announcement": 159,
+     "high_other": 271,
+     "high_announcement": 11
+    },
+    "mean_abs_abnormal": {
+     "low_other": 0.006998102170690127,
+     "low_announcement": 0.008649239319225299,
+     "high_other": 0.009015634252390409,
+     "high_announcement": 0.010340448823571276
+    },
+    "difference_in_differences": -0.00032632257735430454,
+    "standard_error": 0.002214289790394171
+   },
+   "vix_level|all_sessions": {
+    "n": {
+     "high_other": 1819,
+     "high_announcement": 91,
+     "low_other": 3906,
+     "low_announcement": 196
+    },
+    "mean_abs_abnormal": {
+     "high_other": 0.010574411744209436,
+     "high_announcement": 0.01110166176704073,
+     "low_other": 0.007500800868626889,
+     "low_announcement": 0.008476511129773006
+    },
+    "difference_in_differences": -0.0004484602383148222,
+    "standard_error": 0.0013234863428006232
+   },
+   "vix_level|without_collision_sessions": {
+    "n": {
+     "high_other": 1558,
+     "high_announcement": 74,
+     "low_other": 3381,
+     "low_announcement": 173
+    },
+    "mean_abs_abnormal": {
+     "high_other": 0.010417565816094859,
+     "high_announcement": 0.011776527037761487,
+     "low_other": 0.007411333457790968,
+     "low_announcement": 0.008892778062636927
+    },
+    "difference_in_differences": -0.00012248338317933077,
+    "standard_error": 0.001547559148939262
+   }
+  },
+  "small_groups_listed_individually": {
+   "vix_term_structure at_or_above 1.0": [
+    {
+     "event_id": "tsmc:monthly_revenue:2010-04",
+     "entry": "2010-05-10",
+     "state": 1.1182413981430914,
+     "pre_beta": 0.6873784864257309,
+     "collisions": [
+      "COLLISION_FOMC"
+     ],
+     "reaction_raw": 0.03134473763205481,
+     "reaction_relative": -0.021851420017679146,
+     "reaction_abnormal": -0.0052211566968838816,
+     "entry_day_raw": 0.009803959150949337,
+     "entry_day_relative": 0.010822390022725115,
+     "entry_day_abnormal": 0.010504006622119809,
+     "window_raw": -0.032352934301655645,
+     "window_relative": 0.0014557017334213551,
+     "window_abnormal": -0.009113605235745996
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2011-07",
+     "entry": "2011-08-10",
+     "state": 1.1284196974573544,
+     "pre_beta": 0.7917322890059729,
+     "collisions": [],
+     "reaction_raw": -0.015652200450067988,
+     "reaction_relative": 0.007108909681706188,
+     "reaction_abnormal": 0.002368505374878621,
+     "entry_day_raw": -0.02208480624909437,
+     "entry_day_relative": -0.025785297477557867,
+     "entry_day_abnormal": -0.0250146046398523,
+     "window_raw": 0.01766791239675558,
+     "window_relative": -0.03239750221417337,
+     "window_abnormal": -0.021970492913188276
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2011-08",
+     "entry": "2011-09-09",
+     "state": 1.0180955206170275,
+     "pre_beta": 0.8273410536946365,
+     "collisions": [],
+     "reaction_raw": -0.005000034968058231,
+     "reaction_relative": 0.00043253078203797646,
+     "reaction_abnormal": -0.0005054502961082414,
+     "entry_day_raw": -0.0050250810762974,
+     "entry_day_relative": 0.00022708984505892538,
+     "entry_day_abnormal": -0.0006797444520381278,
+     "window_raw": 0.01423786283654871,
+     "window_relative": -0.07357720881584706,
+     "window_abnormal": -0.05841515107461441
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2011-10",
+     "entry": "2011-11-10",
+     "state": 1.0188785573400956,
+     "pre_beta": 0.8194894108777689,
+     "collisions": [],
+     "reaction_raw": 0.008012851373214724,
+     "reaction_relative": -0.003381887880687273,
+     "reaction_abnormal": -0.0013250167850712112,
+     "entry_day_raw": 0.007154225209357268,
+     "entry_day_relative": 0.011816225596329,
+     "entry_day_abnormal": 0.010974685159988663,
+     "window_raw": 0.01271858890162636,
+     "window_relative": -0.015641969027879954,
+     "window_abnormal": -0.010522588008189608
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2013-09",
+     "entry": "2013-10-09",
+     "state": 1.0252016129032258,
+     "pre_beta": 0.7667991623308373,
+     "collisions": [],
+     "reaction_raw": 0.010882047194755273,
+     "reaction_relative": 0.00936903770890507,
+     "reaction_abnormal": 0.009721872788406727,
+     "entry_day_raw": -0.022096283177195475,
+     "entry_day_relative": -0.01696031512280527,
+     "entry_day_abnormal": -0.018158027175331125,
+     "window_raw": 0.028328612510283735,
+     "window_relative": 0.010503835590647048,
+     "window_abnormal": 0.01466058849957228
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2015-06",
+     "entry": "2015-07-10",
+     "state": 1.0096056622851364,
+     "pre_beta": 0.6579962054519978,
+     "collisions": [],
+     "reaction_raw": 0.005400577990174682,
+     "reaction_relative": -0.0064837994121969,
+     "reaction_abnormal": -0.002419297244745289,
+     "entry_day_raw": 0.010295413637662065,
+     "entry_day_relative": 0.0037455290462524715,
+     "entry_day_abnormal": 0.005985614430366043,
+     "window_raw": 0.017457447940225634,
+     "window_relative": -0.003999351308923149,
+     "window_abnormal": 0.0033389554531404603
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2015-12",
+     "entry": "2016-01-08",
+     "state": 1.0150284321689682,
+     "pre_beta": 0.7000966094099127,
+     "collisions": [],
+     "reaction_raw": 0.008056875508080097,
+     "reaction_relative": 0.0011512174105827722,
+     "reaction_abnormal": 0.0032222476882781117,
+     "entry_day_raw": -0.021626750442940712,
+     "entry_day_relative": -0.00045008399934498566,
+     "entry_day_abnormal": -0.006801038067174669,
+     "window_raw": 0.025857979559177346,
+     "window_relative": 0.04727527350973981,
+     "window_abnormal": 0.040852154436701565
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2018-01",
+     "entry": "2018-02-09",
+     "state": 1.2242956458104648,
+     "pre_beta": 0.6256617926998489,
+     "collisions": [],
+     "reaction_raw": 0.009415288958587675,
+     "reaction_relative": -0.013325742710309951,
+     "reaction_abnormal": -0.0048129056832188506,
+     "entry_day_raw": 0.017918495634774878,
+     "entry_day_relative": 0.012004857651056078,
+     "entry_day_abnormal": 0.014218558292503455,
+     "window_raw": 0.06823757154546817,
+     "window_relative": 0.007681711502176114,
+     "window_abnormal": 0.03035008359230091
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2018-03",
+     "entry": "2018-04-10",
+     "state": 1.0254357041921809,
+     "pre_beta": 0.6821536739768218,
+     "collisions": [
+      "COLLISION_PPI"
+     ],
+     "reaction_raw": 0.01857439616273515,
+     "reaction_relative": -0.004366194403307766,
+     "reaction_abnormal": 0.0029253880249109562,
+     "entry_day_raw": -0.006610374011641662,
+     "entry_day_relative": -0.015444839197232385,
+     "entry_day_abnormal": -0.012636836895612699,
+     "window_raw": -0.022794621024556205,
+     "window_relative": -0.04527732194676215,
+     "window_abnormal": -0.03813127805956107
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2018-11",
+     "entry": "2018-12-10",
+     "state": 1.035204991087344,
+     "pre_beta": 0.7579350783985105,
+     "collisions": [],
+     "reaction_raw": -0.005750248681281489,
+     "reaction_relative": -0.0022575007662197777,
+     "reaction_abnormal": -0.0031029725164529566,
+     "entry_day_raw": 0.0033048451486161756,
+     "entry_day_relative": -0.01307288775080151,
+     "entry_day_abnormal": -0.009108413120493833,
+     "window_raw": 0.00605886526260746,
+     "window_relative": -0.014524746196346694,
+     "window_abnormal": -0.009542175902259436
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2019-04",
+     "entry": "2019-05-10",
+     "state": 1.0357917570498916,
+     "pre_beta": 0.7003582644712151,
+     "collisions": [
+      "COLLISION_CPI"
+     ],
+     "reaction_raw": -0.009017326928287606,
+     "reaction_relative": 0.00014102225167500482,
+     "reaction_abnormal": -0.0026032013911876156,
+     "entry_day_raw": -0.0006999248453026796,
+     "entry_day_relative": -0.011399722407843815,
+     "entry_day_abnormal": -0.008193616496397327,
+     "window_raw": -0.031031306862218444,
+     "window_relative": -0.008576926000405383,
+     "window_abnormal": -0.015305195652063383
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2020-02",
+     "entry": "2020-03-10",
+     "state": 1.2650406504065042,
+     "pre_beta": 0.764683841523839,
+     "collisions": [],
+     "reaction_raw": 0.03627237482155632,
+     "reaction_relative": -0.005542294946726534,
+     "reaction_abnormal": 0.004297372511095056,
+     "entry_day_raw": 0.014894791485703607,
+     "entry_day_relative": -0.007968787112461184,
+     "entry_day_abnormal": -0.002588617627723274,
+     "window_raw": -0.16402900221126027,
+     "window_relative": 0.029016464878952264,
+     "window_abnormal": -0.016410252847952722
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2020-03",
+     "entry": "2020-04-13",
+     "state": 1.0261019453336617,
+     "pre_beta": 0.7554513591210641,
+     "collisions": [
+      "COLLISION_CPI"
+     ],
+     "reaction_raw": 0.008483340200261758,
+     "reaction_relative": 0.012297853448458906,
+     "reaction_abnormal": 0.011365019417997599,
+     "entry_day_raw": 0.00020513584712533728,
+     "entry_day_relative": -0.014972989760442701,
+     "entry_day_abnormal": -0.011261199772022164,
+     "window_raw": 0.10155922810378315,
+     "window_relative": 0.03401907564700046,
+     "window_abnormal": 0.050535928135062795
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2025-02",
+     "entry": "2025-03-10",
+     "state": 1.0345285524568393,
+     "pre_beta": 0.9453288605009333,
+     "collisions": [],
+     "reaction_raw": -0.02614344846553107,
+     "reaction_relative": -0.0014684472136141657,
+     "reaction_abnormal": -0.002817457649197358,
+     "entry_day_raw": -0.010552602257419608,
+     "entry_day_relative": 0.011577976665603895,
+     "entry_day_abnormal": 0.010368072698108174,
+     "window_raw": 0.00939290952467986,
+     "window_relative": -0.0021753973505937996,
+     "window_abnormal": -0.0015429448316477013
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2025-03",
+     "entry": "2025-04-10",
+     "state": 1.123663101604278,
+     "pre_beta": 0.8742293766520308,
+     "collisions": [
+      "COLLISION_CPI"
+     ],
+     "reaction_raw": -0.020472440944881876,
+     "reaction_relative": 0.028868595159849075,
+     "reaction_abnormal": 0.022662942292322408,
+     "entry_day_raw": -0.028102862489951752,
+     "entry_day_relative": 0.00598284205921884,
+     "entry_day_abnormal": 0.0016958617508149448,
+     "window_raw": -0.02463023685565713,
+     "window_relative": 0.016444519101846078,
+     "window_abnormal": 0.01127852144120519
+    },
+    {
+     "event_id": "tsmc:monthly_revenue:2026-02",
+     "entry": "2026-03-10",
+     "state": 1.0063141278610892,
+     "pre_beta": 0.791991304116784,
+     "collisions": [],
+     "reaction_raw": -0.0006596242565990451,
+     "reaction_relative": -0.0004812111533746277,
+     "reaction_abnormal": -0.0005183226303048164,
+     "entry_day_raw": -0.00396018273589771,
+     "entry_day_relative": -0.011393823268570191,
+     "entry_day_abnormal": -0.009847561395704373,
+     "window_raw": -0.02364619681898017,
+     "window_relative": -0.028165849173936164,
+     "window_abnormal": -0.027225722181736262
+    }
+   ]
+  }
+ },
+ "data_gaps": [
+  "Key customer earnings dates: not collected, so they are not a catalyst type.",
+  "The guidance-surprise table of RFC-002 section 3.3: it needs TSMC's quarterly revenue guidance history and exchange rates as of each date, neither of which is held. It is recorded as not done, and revenue growth is not used in its place."
+ ]
+}

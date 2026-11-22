@@ -1,0 +1,19 @@
+{
+  "kind": "frozen_diagnostic",
+  "registration_id": "tsm_diagnostics",
+  "frozen_on": "2026-11-22",
+  "describe": "The outputs of the registered TSM diagnostics. Exploratory. The run was repeated once after a correction to the report's format (see the registration's amendment); every figure is identical between the two runs. report.md is rendered from report.json by report.py.",
+  "registration_sha256": "b398e315f7f8396502bf191d5c9fa1b4831b559e15dc38f76affc63ad2de77f6",
+  "code_commit": "e4914a6cdc8272cbf2ce5a190968e7b5638b3e6c",
+  "outputs_sha256": {
+    "events.csv": "7683edd27530b2e43e6baf0f5d1d14f1763daf16fdc83a89e462f8993e02fe10",
+    "report.json": "03341c87391653b9e1e29ee14bdeefe2c79422c58270af10b8dca4b31dbddca8",
+    "report.md": "4621ce1aacccabb36cbc5fb1c3d7e199e5ca425560e114ffa6c157037ef8a0bf",
+    "shocks.csv": "e187efe28375984f4e6bc9953c4fee4ca7c3f8288aa5b7ac87a767c3e182b42b"
+  },
+  "report_renderer": {
+    "file": "report.py",
+    "sha256": "fe1960cb6d60ac36e5a8adf4133440fe5bdc399d09ef16c2c8f76e888cadad45",
+    "command": "python artifacts/ablations/tsm_diagnostics/report.py"
+  }
+}

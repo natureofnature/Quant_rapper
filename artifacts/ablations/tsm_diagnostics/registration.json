@@ -69,7 +69,16 @@
     }
   },
   "code": {
-    "commit": "fc248d7df25205c92f23f9f71ea3db17a268402a",
+    "commit": "e4914a6cdc8272cbf2ce5a190968e7b5638b3e6c",
     "runner": "artifacts/ablations/tsm_diagnostics/run.py"
-  }
+  },
+  "amendments": [
+    {
+      "amended_on": "2026-11-22",
+      "after_first_run": true,
+      "change": "The code pin moves to a runner that leaves out a year with a single evaluated session and writes strict JSON. No definition changed.",
+      "reason": "The first run wrote NaN for 2002's variance share, which is not valid JSON. Every other figure of the first run is reproduced exactly by the corrected runner.",
+      "code_commit_before": "fc248d7df25205c92f23f9f71ea3db17a268402a"
+    }
+  ]
 }
