@@ -1,0 +1,87 @@
+{
+ "recipe_id": "recipe:tsmc:monthly_revenue:reported_growth:soxx_relative_5:pilot",
+ "recipe_sha256": "befd000069aad0fc8a3713fdf301e4c75de58f1c79bb8d436244f0fb900fdb0b",
+ "snapshot_sha256": {
+  "TSM.json": "a0b96ce2e7445a6cf021855c5c8a49e73a92523e12a043a616d7c901b0eb8aeb",
+  "SOXX.json": "70d87f085d41024734b8b4a9c0bd326567883370836de0646fca15883b956652",
+  "us_equity_sessions_2002_2026.json": "5d50274a820c310010d51b3823775804998ae35a934aabb0e46e12e436f55754"
+ },
+ "definition": "Entry is the open of the first US regular session that opens after the cutoff. Exit is the close of session number N counting the entry session as 1, with N the recipe's horizon. window is the simple return from entry open to exit close; reaction is the simple return from the previous session's close to the entry open. relative is subject minus benchmark with no beta adjustment. Prices are on the snapshot's split basis and exclude dividends; a row is flagged when an ex-dividend or split date falls in its span, and when its cutoff falls at or after the open of a session, since an upper-bound cutoff that late means the event may already have been traded on. Factors are read before the state cutoff, which is the cutoff itself unless the cutoff is only an upper bound on the event's time; then it is a separate time no later than the event. Each factor is the latest value knowable before the state cutoff and no older than its own age limit; otherwise it is a recorded gap and the row keeps its returns. A ratio whose denominator is zero has no value and keeps its inputs. A measure over a lookback reads every expected session of its window; if one has no value knowable before the state cutoff the factor has no value, and the window is never shortened. Where an event names the session a factor must be read from, that session is looked up directly under the same cutoff and age limit, and no other session is used in its place.",
+ "factors": [
+  {
+   "factor_id": "reported_revenue_growth_yoy",
+   "measure": "level",
+   "series_ids": [
+    "tsmc:monthly_revenue:yoy_pct_as_released"
+   ],
+   "max_age_days": 45,
+   "lookback_sessions": null,
+   "rank_sessions": null
+  }
+ ],
+ "rows": [
+  {
+   "event_id": "tsmc:monthly_revenue:2026-10",
+   "cutoff": {
+    "time": "2026-11-11T08:00:00-05:00",
+    "basis": "exact",
+    "source": "The decision time the event map was built for"
+   },
+   "state_cutoff": {
+    "time": "2026-11-11T08:00:00-05:00",
+    "basis": "exact",
+    "source": "The decision time the event map was built for"
+   },
+   "factors": [
+    {
+     "factor_id": "reported_revenue_growth_yoy",
+     "state": {
+      "cutoff": {
+       "time": "2026-11-11T08:00:00-05:00",
+       "basis": "exact",
+       "source": "The decision time the event map was built for"
+      },
+      "series_ids": [
+       "tsmc:monthly_revenue:yoy_pct_as_released"
+      ],
+      "status": "requested",
+      "session": "2026-10-31",
+      "observations": [
+       {
+        "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+        "session": "2026-10-31",
+        "value": 59.7,
+        "available_at": "2026-11-11T12:00:00Z",
+        "availability_basis": "assumed",
+        "source_url": "https://pr.tsmc.com/english/news/3349"
+       }
+      ],
+      "skipped": [],
+      "reason": null
+     },
+     "value": 59.7,
+     "reason": null,
+     "window_first": null,
+     "assumed_inputs": 1
+    }
+   ],
+   "prior_status": "exploratory",
+   "timing_verified": false,
+   "status": "complete",
+   "entry_session": "2026-11-11",
+   "exit_session": "2026-11-17",
+   "reaction": {
+    "subject": 0.047341577112494315,
+    "benchmark": 0.04727476708981304,
+    "relative": 0.000066810022681274
+   },
+   "window": {
+    "subject": -0.1337989104361078,
+    "benchmark": -0.07855652177543038,
+    "relative": -0.05524238866067743
+   },
+   "flags": [],
+   "reason": null
+  }
+ ]
+}

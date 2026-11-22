@@ -1,0 +1,157 @@
+{
+ "event_id": "tsmc:monthly_revenue:2026-10",
+ "subject_id": "company:tsmc",
+ "observable": "monthly revenue release",
+ "decision_time": "2026-11-10T08:00:00-05:00",
+ "event_time": {
+  "time": "2026-11-10T07:01:33-05:00",
+  "basis": "upper_bound",
+  "source": "SEC EDGAR acceptance of Form 6-K 0001046179-26-000796. The filing time bounds the release from above; it is not the first release time."
+ },
+ "prior": {
+  "sector_id": "semiconductors",
+  "sector_revision": "2026-11-21.2",
+  "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+  "profile_id": "company:tsmc",
+  "profile_revision": "2026-11-21.2",
+  "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+  "frozen_at": "2026-11-21T13:23:01-04:00"
+ },
+ "prior_status": "exploratory",
+ "edges": [
+  {
+   "lead": {
+    "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "direct",
+    "from_id": "concept:supply_chain:designers",
+    "to_id": "company:tsmc",
+    "mechanism": "Designer guidance and purchase commitments lead foundry wafer demand",
+    "test_criteria": null
+   },
+   "relevance": "Monthly revenue is the most frequent dated reading of how much wafer demand the designers' orders have turned into.",
+   "evidence_ids": [
+    "ev:tsmc:monthly_revenue:customer_breakdown"
+   ],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 1
+  },
+  {
+   "lead": {
+    "lead_id": "lead:company:tsmc:concept:economy:fx:adr_translation",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "company",
+    "hop": "direct",
+    "from_id": "concept:economy:fx",
+    "to_id": "company:tsmc",
+    "mechanism": "Revenue is mostly in US dollars and costs in Taiwan dollars, and the ADR is priced off the Taiwan line, so TWD moves change margins and the ADR premium",
+    "test_criteria": null
+   },
+   "relevance": "The release reports revenue in New Taiwan dollars, so the exchange rate moves the reported growth apart from the volume sold.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "lead": {
+    "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:economy:risk_appetite",
+    "to_id": "company:tsmc",
+    "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+    "test_criteria": null
+   },
+   "relevance": "The share price reaction to the release is read against the sector, whose own move depends on risk appetite at the time.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  }
+ ],
+ "evidence": [
+  {
+   "evidence_id": "ev:tsmc:monthly_revenue:2026-09:release",
+   "subject_id": "company:tsmc",
+   "lead_id": null,
+   "observable": "monthly revenue release",
+   "evidence_class": "direct",
+   "assessment": "inconclusive",
+   "summary": "Consolidated revenue for September 2026 was approximately NT$511.86 billion, a decrease of 0.6 percent from August 2026 and an increase of 54.6 percent from September 2025. A reading of the observable; it takes no side on any lead.",
+   "citation": {
+    "url": "https://pr.tsmc.com/english/news/3343",
+    "locator": "Body of the press release, first paragraph",
+    "published_on": "2026-10-08",
+    "published_at": null,
+    "retrieved_on": "2026-11-22",
+    "availability": "official_archive"
+   },
+   "missing": null
+  },
+  {
+   "evidence_id": "ev:tsmc:monthly_revenue:customer_breakdown",
+   "subject_id": "company:tsmc",
+   "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+   "observable": null,
+   "evidence_class": "data_gap",
+   "assessment": null,
+   "summary": "TSMC's monthly revenue releases give one consolidated total. They have no split by customer, platform or technology node; this was already so in the September 2026 release and earlier ones.",
+   "citation": null,
+   "missing": "Monthly revenue or wafer orders by customer or by platform, dated no later than the monthly release."
+  }
+ ],
+ "content_series": "tsmc:monthly_revenue:yoy_pct_as_released",
+ "content_session": "2026-10-31",
+ "content": [
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-09-30",
+   "value": 54.6,
+   "available_at": "2026-10-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3343"
+  }
+ ],
+ "inputs_sha256": {
+  "packet": "438b4b5a3cf23140d4ff9b2af41feeae73b74171f2090a7eb0e210321c616d0e",
+  "bindings_used": "8f245a0513f94329487c680607705d3746c96f301122c45c8133be4270ed55cd",
+  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9"
+ }
+}

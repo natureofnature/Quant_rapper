@@ -13,7 +13,7 @@ from quant_contracts.pit import Cutoff, Observation, SeriesBinding, SessionCalen
 from quant_contracts.research import CandidateFactorRecipe
 from quant_evaluator.alpha.event_window import return_pair
 from quant_evaluator.core.rolling import sessions_needed, windowed_value
-from quant_pit_data.asof import first_session_after, fixed_at, latest_common, session_offset, trailing_window
+from quant_pit_data.asof import at_session, first_session_after, fixed_at, latest_common, session_offset, trailing_window
 
 DEFINITION = ("Entry is the open of the first US regular session that opens after the cutoff. Exit is the close of "
               "session number N counting the entry session as 1, with N the recipe's horizon. window is the simple "
@@ -27,7 +27,8 @@ DEFINITION = ("Entry is the open of the first US regular session that opens afte
               "age limit; otherwise it is a recorded gap and the row keeps its returns. A ratio whose denominator is zero "
               "has no value and keeps its inputs. A measure over a lookback reads every expected session of its window; "
               "if one has no value knowable before the state cutoff the factor has no value, and the window is never "
-              "shortened.")
+              "shortened. Where an event names the session a factor must be read from, that session is looked up directly "
+              "under the same cutoff and age limit, and no other session is used in its place.")
 
 
 class SeriesIndex:
@@ -62,23 +63,31 @@ class SeriesIndex:
 
 
 def factor_states(factors: list[Factor], bindings: dict[str, SeriesBinding], index: SeriesIndex, state_cutoff: Cutoff,
-                  calendar: SessionCalendar, series_calendars: dict[str, SessionCalendar]) -> tuple[FactorState, ...]:
+                  calendar: SessionCalendar, series_calendars: dict[str, SessionCalendar],
+                  required_sessions: dict[str, date] | None = None) -> tuple[FactorState, ...]:
     """Every factor as knowable before ``state_cutoff``, each independent of the others.
 
     A series is read on its own calendar when ``series_calendars`` names one, otherwise on
     ``calendar``. So a lookback counts that series' own sessions: a day on which its market
-    was closed is neither a missing value nor a repeated one.
+    was closed is neither a missing value nor a repeated one. ``required_sessions`` names, per
+    factor id, the one session its value must come from: that session is looked up directly,
+    under the same cutoff and age limit, and no other session stands in for it.
     """
+    required_sessions = required_sessions or {}
+    if set(required_sessions) - {f.factor_id for f in factors}:
+        raise ValueError("a required session names a factor the table does not have")
     states = []
     for factor in factors:
         limit, value, reason, first, inputs = timedelta(days=factor.max_age_days), None, None, None, None
         own = [series_calendars.get(i, calendar) for i in factor.series_ids]
+        wanted = required_sessions.get(factor.factor_id)
         if factor.measure == "ratio":
             if own[0] != own[1]:
                 raise ValueError(f"{factor.factor_id}: the two series of a ratio must share a calendar")
-            selected, _ = latest_common([bindings[i] for i in factor.series_ids],
-                                        [o for i in factor.series_ids for o in index.reachable(i, state_cutoff, own[0], limit, 1)],
-                                        state_cutoff, own[0], limit)
+            pair = [bindings[i] for i in factor.series_ids]
+            rows = [o for i in factor.series_ids for o in index.reachable(i, state_cutoff, own[0], limit, 1)]
+            selected = (at_session(pair, rows, state_cutoff, own[0], wanted, limit) if wanted
+                        else latest_common(pair, rows, state_cutoff, own[0], limit)[0])
             picked = {o.series_id: o.value for o in selected.observations}
             if picked and picked[factor.series_ids[1]] == 0:
                 reason = f"ratio undefined: {factor.series_ids[1]} is zero on {selected.session}"
@@ -88,7 +97,7 @@ def factor_states(factors: list[Factor], bindings: dict[str, SeriesBinding], ind
             needed = sessions_needed(factor.measure, factor.lookback_sessions, factor.rank_sessions)
             window = trailing_window(bindings[factor.series_ids[0]],
                                      index.reachable(factor.series_ids[0], state_cutoff, own[0], limit, needed),
-                                     state_cutoff, own[0], needed, limit)
+                                     state_cutoff, own[0], needed, limit, wanted)
             selected, reason = window.anchor, window.reason
             if window.observations:
                 first, inputs = (window.observations[0].session if needed > 1 else None), window.observations
@@ -122,7 +131,8 @@ def build_table(recipe: CandidateFactorRecipe, events: list[EventTime], factors:
     rows = []
     for event in events:
         event_id, cutoff = event.event_id, event.cutoff
-        states = factor_states(factors, bindings, index, event.state, calendar, series_calendars or {})
+        states = factor_states(factors, bindings, index, event.state, calendar, series_calendars or {},
+                               event.required_sessions)
         usable = [s for s in states if s.value is not None]
         row = {"event_id": event_id, "cutoff": cutoff, "state_cutoff": event.state, "factors": states,
                "timing_verified": cutoff.basis == "exact" and bool(usable) and all(s.verified for s in usable),

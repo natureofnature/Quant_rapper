@@ -22,6 +22,18 @@ artifacts/**
 !/artifacts/snapshots/2026-11-22/treasury_real_yield_10y.csv
 !/artifacts/snapshots/2026-11-22/us_treasury_yield_sessions_2003_2026.json
 
+# Event-map pilots: the curated source packet, its entry-point outputs and the evaluator hand-off
+!/artifacts/event_maps/
+!/artifacts/event_maps/*/
+!/artifacts/event_maps/*/packet.json
+!/artifacts/event_maps/*/monthly_periods_*.json
+!/artifacts/event_maps/*/evaluate.py
+!/artifacts/event_maps/*/output/
+!/artifacts/event_maps/*/output/*/
+!/artifacts/event_maps/*/output/*/event_map.json
+!/artifacts/event_maps/*/output/*/recipe.json
+!/artifacts/event_maps/*/output/*/table.json
+
 # Prospective registrations: the recipe and what was fixed before the events
 !/artifacts/prospective/*/registration.json
 !/artifacts/prospective/*/recipe.json

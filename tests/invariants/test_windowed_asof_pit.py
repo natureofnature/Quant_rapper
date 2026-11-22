@@ -35,9 +35,9 @@ class WindowedAsOfTests(unittest.TestCase):
                                         last=SESSIONS[-1], sessions=SESSIONS, basis_note="Synthetic.")
         self.rows = [observe(self.binding, s, float(s.day)) for s in SESSIONS]
 
-    def window(self, when, sessions, rows=None, limit=LIMIT):
+    def window(self, when, sessions, rows=None, limit=LIMIT, session=None):
         cutoff = Cutoff(time=when, basis="exact", source="Synthetic fixture.")
-        return trailing_window(self.binding, self.rows if rows is None else rows, cutoff, self.calendar, sessions, limit)
+        return trailing_window(self.binding, self.rows if rows is None else rows, cutoff, self.calendar, sessions, limit, session)
 
     def test_window_ends_at_the_last_session_published_before_the_cutoff(self):
         before_publication = datetime(2026, 11, 13, 16, 10, tzinfo=NEW_YORK)  # closed at 16:00, published 16:15
@@ -58,6 +58,13 @@ class WindowedAsOfTests(unittest.TestCase):
         self.assertEqual(self.window(when, 4, rows=rows).observations, ())
         self.assertEqual(len(self.window(when, 2, rows=rows).observations), 2)  # a window that does not reach it is whole
         self.assertIn("fewer than 9", self.window(when, 9).reason)  # the calendar itself is too short
+
+    def test_window_can_end_at_a_named_session_under_the_same_cutoff_and_age_rules(self):
+        when = datetime(2026, 11, 14, 9, 0, tzinfo=NEW_YORK)
+        window = self.window(when, 2, session=date(2026, 11, 10))  # not the latest session: the 12th and 13th exist
+        self.assertEqual(([o.session.day for o in window.observations], window.anchor.status), ([9, 10], "requested"))
+        self.assertIn("over the limit", self.window(when, 2, session=date(2026, 11, 6)).anchor.reason)
+        self.assertIn("had not closed", self.window(when, 2, session=date(2026, 11, 16)).anchor.reason)
 
     def test_stale_series_is_a_gap_not_an_old_window(self):
         old = [r for r in self.rows if r.session <= date(2026, 11, 9)]

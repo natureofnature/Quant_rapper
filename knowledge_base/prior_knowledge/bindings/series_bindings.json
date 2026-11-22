@@ -2,7 +2,7 @@
   "schema_version": "2.0.0",
   "kind": "series_bindings",
   "compiled_on": "2026-11-22",
-  "content_revision": "2026-11-22.4",
+  "content_revision": "2026-11-22.5",
   "describe": "Machine-readable sources and availability rules for observables named in the research maps. A binding says when a value became knowable; it makes no claim about what the value means.",
   "series": [
     {
@@ -139,6 +139,21 @@
       "availability_basis": "assumed",
       "revisable": true,
       "basis_note": "Value time and delay are assumptions chosen to be late: the value is treated as knowable from 6:00 p.m. Eastern on its date. No Treasury document stating the publication time was opened. Published values can be corrected later; a snapshot holds the values visible on its download date. Its sessions follow the bond market, not the equity calendar."
+    },
+    {
+      "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+      "label": "TSMC monthly consolidated revenue, year-on-year change in percent, as stated in the monthly release",
+      "anchors": [
+        "company:tsmc"
+      ],
+      "source_url": "https://pr.tsmc.com/english/latest-news",
+      "availability": "official_archive",
+      "timezone": "Asia/Taipei",
+      "value_time": "23:59:59",
+      "publication_delay_minutes": 20160,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "One value per calendar month, dated on the month's last day. Each observation should carry the recorded availability of the release that states it; the rule here (14 days after month end) is only a late fallback and is an assumption. The value is the percentage the release itself states, not one recomputed from later figures."
     }
   ],
   "events": [

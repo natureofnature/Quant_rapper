@@ -96,15 +96,48 @@ def latest_common(bindings: list[SeriesBinding], observations: list[Observation]
     return result(status="gap", reason="no expected session with every series available before the cutoff")
 
 
+def at_session(bindings: list[SeriesBinding], observations: list[Observation], cutoff: Cutoff,
+               calendar: SessionCalendar, session: date, max_age: timedelta) -> AsOfResult:
+    """The values of one named session, if every series was knowable before the cutoff and it is within ``max_age``.
+
+    For a value that belongs to a particular period, such as a reported figure. No other
+    session stands in: if the named one cannot be used the result is a gap that says why.
+    """
+    ids = tuple(b.series_id for b in bindings)
+
+    def gap(reason: str) -> AsOfResult:
+        return AsOfResult(cutoff=cutoff, series_ids=ids, status="gap", reason=reason)
+
+    if session not in set(calendar.sessions):
+        return gap(f"{session} is not an expected session of {calendar.calendar_id}")
+    fixed = max(fixed_at(b, session) for b in bindings)
+    if fixed >= cutoff.time:
+        return gap(f"{session} had not closed before the cutoff")
+    if cutoff.time - fixed > max_age:
+        return gap(f"{session} is {cutoff.time - fixed} old, over the limit of {max_age}")
+    found = {o.series_id: o for o in observations
+             if o.session == session and o.series_id in ids and o.available_at < cutoff.time}
+    missing = [i for i in ids if i not in found]
+    if missing:
+        return gap(f"the value for {session} was not knowable before the cutoff: {', '.join(missing)}")
+    return AsOfResult(cutoff=cutoff, series_ids=ids, status="requested", session=session,
+                      observations=tuple(found[i] for i in ids))
+
+
 def trailing_window(binding: SeriesBinding, observations: list[Observation], cutoff: Cutoff,
-                    calendar: SessionCalendar, sessions: int, max_age: timedelta) -> WindowedAsOf:
+                    calendar: SessionCalendar, sessions: int, max_age: timedelta,
+                    session: date | None = None) -> WindowedAsOf:
     """The ``sessions`` expected sessions ending at the latest one usable before the cutoff.
 
     The end is chosen by ``latest_common``, so the age limit and the skip rules are the same
-    as for a single value. Every session of the window must then have a value knowable
-    before the cutoff; one missing makes the window incomplete, never shorter.
+    as for a single value; or it is the named ``session``, chosen by ``at_session``. Every
+    session of the window must then have a value knowable before the cutoff; one missing
+    makes the window incomplete, never shorter.
     """
-    anchor, _ = latest_common([binding], observations, cutoff, calendar, max_age)
+    if session is not None:
+        anchor = at_session([binding], observations, cutoff, calendar, session, max_age)
+    else:
+        anchor, _ = latest_common([binding], observations, cutoff, calendar, max_age)
     if anchor.status == "gap":
         return WindowedAsOf(anchor=anchor, sessions=sessions)
     end = calendar.sessions.index(anchor.session) + 1

@@ -127,6 +127,10 @@ class EventTime(Contract):
     event_id: Text
     cutoff: Cutoff
     state_cutoff: Cutoff | None = None
+    # factor id -> the session that factor must be read from for this event. For a factor that
+    # is the event's own content (a reported figure), the latest value of another period is not
+    # a stand-in: without the named session's value the factor has no value.
+    required_sessions: dict[Text, date] = Field(default_factory=dict)
 
     @model_validator(mode="after")
     def bounds_point_the_safe_way(self) -> Self:

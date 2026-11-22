@@ -1,0 +1,113 @@
+{
+  "describe": "Curated sources for one event, collected by hand on 2026-11-22. Figures are quoted from the two press releases, which state a date and no time of day. A recorded gap has no date, so it must describe something that was already true at every decision time the packet is replayed at.",
+  "event_id": "tsmc:monthly_revenue:2026-10",
+  "subject_id": "company:tsmc",
+  "sector_folder": "semiconductor",
+  "symbol": "TSM",
+  "observable": "monthly revenue release",
+  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9",
+  "bindings_sha256": "8f245a0513f94329487c680607705d3746c96f301122c45c8133be4270ed55cd",
+  "event_time": {
+    "time": "2026-11-10T07:01:33-05:00",
+    "basis": "upper_bound",
+    "source": "SEC EDGAR acceptance of Form 6-K 0001046179-26-000796. The filing time bounds the release from above; it is not the first release time."
+  },
+  "paths": [
+    {
+      "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+      "relevance": "Monthly revenue is the most frequent dated reading of how much wafer demand the designers' orders have turned into."
+    },
+    {
+      "lead_id": "lead:company:tsmc:concept:economy:fx:adr_translation",
+      "relevance": "The release reports revenue in New Taiwan dollars, so the exchange rate moves the reported growth apart from the volume sold."
+    },
+    {
+      "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+      "relevance": "The share price reaction to the release is read against the sector, whose own move depends on risk appetite at the time."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "ev:tsmc:monthly_revenue:2026-09:release",
+      "subject_id": "company:tsmc",
+      "observable": "monthly revenue release",
+      "evidence_class": "direct",
+      "assessment": "inconclusive",
+      "summary": "Consolidated revenue for September 2026 was approximately NT$511.86 billion, a decrease of 0.6 percent from August 2026 and an increase of 54.6 percent from September 2025. A reading of the observable; it takes no side on any lead.",
+      "citation": {
+        "url": "https://pr.tsmc.com/english/news/3343",
+        "locator": "Body of the press release, first paragraph",
+        "published_on": "2026-10-08",
+        "retrieved_on": "2026-11-22",
+        "availability": "official_archive"
+      }
+    },
+    {
+      "evidence_id": "ev:tsmc:monthly_revenue:2026-10:release",
+      "subject_id": "company:tsmc",
+      "observable": "monthly revenue release",
+      "evidence_class": "direct",
+      "assessment": "inconclusive",
+      "summary": "Consolidated revenue for October 2026 was approximately NT$586.89 billion, an increase of 14.7 percent from September 2026 and an increase of 59.7 percent from October 2025. A reading of the observable; it takes no side on any lead.",
+      "citation": {
+        "url": "https://pr.tsmc.com/english/news/3349",
+        "locator": "Body of the press release, first paragraph",
+        "published_on": "2026-11-10",
+        "retrieved_on": "2026-11-22",
+        "availability": "official_archive"
+      }
+    },
+    {
+      "evidence_id": "ev:tsmc:monthly_revenue:2026-10:demand_proxy",
+      "subject_id": "company:tsmc",
+      "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+      "evidence_class": "proxy",
+      "assessment": "inconclusive",
+      "summary": "Total revenue up 59.7 percent from October 2025 is consistent with strong wafer demand, but a company total cannot show which designers' orders produced it or whether their guidance led it.",
+      "citation": {
+        "url": "https://pr.tsmc.com/english/news/3349",
+        "locator": "Body of the press release, first paragraph",
+        "published_on": "2026-11-10",
+        "retrieved_on": "2026-11-22",
+        "availability": "official_archive"
+      }
+    },
+    {
+      "evidence_id": "ev:tsmc:monthly_revenue:customer_breakdown",
+      "subject_id": "company:tsmc",
+      "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+      "evidence_class": "data_gap",
+      "summary": "TSMC's monthly revenue releases give one consolidated total. They have no split by customer, platform or technology node; this was already so in the September 2026 release and earlier ones.",
+      "missing": "Monthly revenue or wafer orders by customer or by platform, dated no later than the monthly release."
+    }
+  ],
+  "content": [
+    {
+      "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+      "session": "2026-09-30",
+      "value": 54.6,
+      "evidence_id": "ev:tsmc:monthly_revenue:2026-09:release"
+    },
+    {
+      "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+      "session": "2026-10-31",
+      "value": 59.7,
+      "evidence_id": "ev:tsmc:monthly_revenue:2026-10:release"
+    }
+  ],
+  "recipe": {
+    "recipe_id": "recipe:tsmc:monthly_revenue:reported_growth:soxx_relative_5:pilot",
+    "trigger": "TSMC monthly revenue report (profile observable: monthly revenue release), once its reported figure is available",
+    "trigger_availability": "official_archive",
+    "benchmark": "SOXX",
+    "horizon_sessions": 5,
+    "series_ids": [
+      "yahoo:tsm:open",
+      "yahoo:tsm:close",
+      "yahoo:soxx:open",
+      "yahoo:soxx:close"
+    ],
+    "content_series": "tsmc:monthly_revenue:yoy_pct_as_released",
+    "content_session": "2026-10-31"
+  }
+}

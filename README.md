@@ -114,6 +114,15 @@ Before downloading data, check the manifests in `artifacts/snapshots/<version>/`
 
 Git ignores local studies and raw market data by default. Each snapshot's `manifest.json` can be versioned directly. Add file-specific exceptions for small curated datasets worth preserving, such as filing dates and exchange calendars. When a result becomes a formal reference, add exceptions for its recipe, input references and expected results under `artifacts/ablations/<benchmark>/` or `artifacts/prospective/<benchmark>/`. Record a durable retrieval location for any untracked input required to reproduce that benchmark.
 
+An event map says which leads of the frozen prior bear on one event at one decision time, and what evidence was available by then. It is generated from a curated source packet:
+
+```bash
+uv run python -m quant_causal_graph.event_map artifacts/event_maps/tsmc_monthly_revenue_2026-10/packet.json \
+    --decision-time 2026-11-11T08:00:00-05:00 --out /tmp/event_map
+```
+
+This writes `event_map.json` and `recipe.json`. The same packet, prior commit and decision time always give the same files. A dated source enters only if it was available strictly before the decision time, and a source that states a date and no time counts from noon UTC the next day. The pilot folder holds the packet, the outputs for two decision times that bracket the release, and `evaluate.py`, which hands a generated recipe to the event table.
+
 A prospective test is registered before its first event in `artifacts/prospective/<name>/`: `recipe.json` and a `registration.json` that fixes the factors, thresholds, outcome, cutoff rule and reading rule. The commit that adds the registration dates the choice of comparison. That is separate from the recipe's prior status, which dates the research map.
 
 The prior knowledge currently has two broad research groups and one shared layer:

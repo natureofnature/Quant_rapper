@@ -1,0 +1,173 @@
+{
+ "recipe_id": "recipe:tsmc:monthly_revenue:reported_growth:soxx_relative_5:pilot",
+ "subject_id": "company:tsmc",
+ "decision_time": "2026-11-11T08:00:00-05:00",
+ "leads": [
+  {
+   "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:supply_chain:designers",
+   "to_id": "company:tsmc",
+   "mechanism": "Designer guidance and purchase commitments lead foundry wafer demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:company:tsmc:concept:economy:fx:adr_translation",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:economy:fx",
+   "to_id": "company:tsmc",
+   "mechanism": "Revenue is mostly in US dollars and costs in Taiwan dollars, and the ADR is priced off the Taiwan line, so TWD moves change margins and the ADR premium",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:economy:risk_appetite",
+   "to_id": "company:tsmc",
+   "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+   "test_criteria": null
+  }
+ ],
+ "evidence": [
+  {
+   "evidence_id": "ev:tsmc:monthly_revenue:2026-09:release",
+   "subject_id": "company:tsmc",
+   "lead_id": null,
+   "observable": "monthly revenue release",
+   "evidence_class": "direct",
+   "assessment": "inconclusive",
+   "summary": "Consolidated revenue for September 2026 was approximately NT$511.86 billion, a decrease of 0.6 percent from August 2026 and an increase of 54.6 percent from September 2025. A reading of the observable; it takes no side on any lead.",
+   "citation": {
+    "url": "https://pr.tsmc.com/english/news/3343",
+    "locator": "Body of the press release, first paragraph",
+    "published_on": "2026-10-08",
+    "published_at": null,
+    "retrieved_on": "2026-11-22",
+    "availability": "official_archive"
+   },
+   "missing": null
+  },
+  {
+   "evidence_id": "ev:tsmc:monthly_revenue:2026-10:release",
+   "subject_id": "company:tsmc",
+   "lead_id": null,
+   "observable": "monthly revenue release",
+   "evidence_class": "direct",
+   "assessment": "inconclusive",
+   "summary": "Consolidated revenue for October 2026 was approximately NT$586.89 billion, an increase of 14.7 percent from September 2026 and an increase of 59.7 percent from October 2025. A reading of the observable; it takes no side on any lead.",
+   "citation": {
+    "url": "https://pr.tsmc.com/english/news/3349",
+    "locator": "Body of the press release, first paragraph",
+    "published_on": "2026-11-10",
+    "published_at": null,
+    "retrieved_on": "2026-11-22",
+    "availability": "official_archive"
+   },
+   "missing": null
+  },
+  {
+   "evidence_id": "ev:tsmc:monthly_revenue:2026-10:demand_proxy",
+   "subject_id": "company:tsmc",
+   "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+   "observable": null,
+   "evidence_class": "proxy",
+   "assessment": "inconclusive",
+   "summary": "Total revenue up 59.7 percent from October 2025 is consistent with strong wafer demand, but a company total cannot show which designers' orders produced it or whether their guidance led it.",
+   "citation": {
+    "url": "https://pr.tsmc.com/english/news/3349",
+    "locator": "Body of the press release, first paragraph",
+    "published_on": "2026-11-10",
+    "published_at": null,
+    "retrieved_on": "2026-11-22",
+    "availability": "official_archive"
+   },
+   "missing": null
+  },
+  {
+   "evidence_id": "ev:tsmc:monthly_revenue:customer_breakdown",
+   "subject_id": "company:tsmc",
+   "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+   "observable": null,
+   "evidence_class": "data_gap",
+   "assessment": null,
+   "summary": "TSMC's monthly revenue releases give one consolidated total. They have no split by customer, platform or technology node; this was already so in the September 2026 release and earlier ones.",
+   "citation": null,
+   "missing": "Monthly revenue or wafer orders by customer or by platform, dated no later than the monthly release."
+  }
+ ],
+ "trigger": "TSMC monthly revenue report (profile observable: monthly revenue release), once its reported figure is available",
+ "trigger_availability": "official_archive",
+ "expected_direction": "unspecified",
+ "benchmark": "SOXX",
+ "horizons_sessions": [
+  5
+ ],
+ "data_requirements": [
+  {
+   "series": "yahoo:tsm:open",
+   "availability": "news_only",
+   "typical_lag": null,
+   "status": "observable"
+  },
+  {
+   "series": "yahoo:tsm:close",
+   "availability": "news_only",
+   "typical_lag": null,
+   "status": "observable"
+  },
+  {
+   "series": "yahoo:soxx:open",
+   "availability": "news_only",
+   "typical_lag": null,
+   "status": "observable"
+  },
+  {
+   "series": "yahoo:soxx:close",
+   "availability": "news_only",
+   "typical_lag": null,
+   "status": "observable"
+  },
+  {
+   "series": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "availability": "official_archive",
+   "typical_lag": null,
+   "status": "observable"
+  }
+ ]
+}

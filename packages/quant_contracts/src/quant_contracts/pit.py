@@ -109,16 +109,17 @@ class AsOfResult(Contract):
     """The latest expected session whose values, for every series, were knowable before the cutoff.
 
     status:
-      resolved - the chosen session is the latest expected one that had closed before the cutoff.
-      fallback - a later expected session was unavailable for some series; see ``skipped``.
-      gap      - no usable session, or the only one is older than the staleness limit.
+      resolved  - the chosen session is the latest expected one that had closed before the cutoff.
+      fallback  - a later expected session was unavailable for some series; see ``skipped``.
+      requested - the caller named the session; later ones were not considered.
+      gap       - no usable session, or the only one is older than the staleness limit.
 
     Safe to show to a research step acting at the cutoff: it holds nothing learned later.
     """
 
     cutoff: Cutoff
     series_ids: tuple[Text, ...] = Field(min_length=1)
-    status: Literal["resolved", "fallback", "gap"]
+    status: Literal["resolved", "fallback", "requested", "gap"]
     session: date | None = None
     observations: tuple[Observation, ...] = ()
     skipped: tuple[SkippedSession, ...] = ()
@@ -145,8 +146,8 @@ class AsOfResult(Contract):
 
     @property
     def verified(self) -> bool:
-        """Verify only a resolved session with an exact cutoff and documented availability."""
-        return (self.status == "resolved" and self.cutoff.basis == "exact"
+        """Verify only a resolved or requested session with an exact cutoff and documented availability."""
+        return (self.status in ("resolved", "requested") and self.cutoff.basis == "exact"
                 and all(o.availability_basis != "assumed" for o in self.observations))
 
 
