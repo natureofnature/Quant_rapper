@@ -92,6 +92,9 @@ class Observation(Contract):
     available_at: AwareDatetime
     availability_basis: AvailabilityBasis
     source_url: Text
+    # For a series whose published values can be revised: when this particular value was published.
+    # None means the value is the one visible when the snapshot was taken, which may be a later revision.
+    vintage_at: AwareDatetime | None = None
 
 
 class SkippedSession(Contract):

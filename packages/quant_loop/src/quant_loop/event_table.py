@@ -11,7 +11,7 @@ from zoneinfo import ZoneInfo
 from quant_contracts.evaluation import EventOutcomeRow, EventTable, EventTime, Factor, FactorState
 from quant_contracts.pit import Cutoff, Observation, SeriesBinding, SessionCalendar
 from quant_contracts.research import CandidateFactorRecipe
-from quant_evaluator.alpha.event_window import return_pair
+from quant_evaluator.alpha.event_window import beta_before, return_pair
 from quant_evaluator.core.rolling import sessions_needed, windowed_value
 from quant_pit_data.asof import at_session, first_session_after, fixed_at, latest_common, session_offset, trailing_window
 
@@ -118,7 +118,8 @@ def build_table(recipe: CandidateFactorRecipe, events: list[EventTime], factors:
                 benchmark: tuple[SeriesBinding, SeriesBinding] | None, observations: list[Observation],
                 calendar: SessionCalendar, corporate_actions: dict[str, list[date]],
                 snapshot_sha256: dict[str, str],
-                series_calendars: dict[str, SessionCalendar] | None = None) -> EventTable:
+                series_calendars: dict[str, SessionCalendar] | None = None,
+                beta_sessions: int | None = None) -> EventTable:
     """``subject`` and ``benchmark`` are (open, close) bindings; ``bindings`` holds every factor series by id.
 
     ``benchmark`` is None when the recipe names none: the rows then hold the subject's own
@@ -128,6 +129,9 @@ def build_table(recipe: CandidateFactorRecipe, events: list[EventTime], factors:
     state cutoff is a gap on that row and nothing else changes. ``corporate_actions`` maps a label
     such as "ex-dividend TSM" to dates; a row is flagged for each date inside its span.
     ``series_calendars`` gives a factor series its own calendar; returns always use ``calendar``.
+    ``beta_sessions`` adds a pre-event beta to each row: the subject's beta to the benchmark over
+    that many close-to-close returns ending at the session before the entry, so it reads
+    nothing from the row's own window. Where that history is incomplete the row has no beta.
     """
     index = SeriesIndex(observations)
     prices = {(o.series_id, o.session): o.value for o in observations}
@@ -158,11 +162,19 @@ def build_table(recipe: CandidateFactorRecipe, events: list[EventTime], factors:
             continue
         s_prev, s_open, s_last = (prices[k] for k in needed[:3])
         b_prev, b_open, b_last = (prices[k] for k in needed[3:]) if benchmark else (None, None, None)
+        beta = None
+        if beta_sessions and benchmark:
+            end = calendar.sessions.index(previous)
+            history = calendar.sessions[max(0, end - beta_sessions):end + 1]
+            beta = beta_before([prices.get((subject[1].series_id, s)) for s in history],
+                               [prices.get((benchmark[1].series_id, s)) for s in history], len(history) - 1, beta_sessions)
+            if beta is None:
+                flags.append(f"no pre-event beta: fewer than {beta_sessions} complete returns before {entry}")
         flags += [f"{label} {day}" for label, days in sorted(corporate_actions.items())
                   for day in days if previous < day <= last]
         rows.append(EventOutcomeRow(**row, status="complete", entry_session=entry, exit_session=last,
-                                    reaction=return_pair(s_prev, s_open, b_prev, b_open),
-                                    window=return_pair(s_open, s_last, b_open, b_last), flags=tuple(flags)))
+                                    reaction=return_pair(s_prev, s_open, b_prev, b_open, beta),
+                                    window=return_pair(s_open, s_last, b_open, b_last, beta), flags=tuple(flags)))
     digest = hashlib.sha256(recipe.model_dump_json().encode("utf-8")).hexdigest()
     return EventTable(recipe_id=recipe.recipe_id, recipe_sha256=digest, snapshot_sha256=snapshot_sha256,
                       definition=DEFINITION, factors=tuple(factors), rows=tuple(rows))

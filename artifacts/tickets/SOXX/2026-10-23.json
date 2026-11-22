@@ -1,0 +1,26 @@
+{
+ "ticket_id": "beta:fund:soxx:2026-10-23",
+ "subject_id": "fund:soxx",
+ "session": "2026-10-23",
+ "decision_time": "2026-10-23T17:00:00-04:00",
+ "state": "GREEN",
+ "target_exposure": 1.0,
+ "held": false,
+ "stressed_rules": [],
+ "inputs": {
+  "vix_term_structure": 0.94970703125,
+  "real_yield_10y_change_20_rank_250": 0.068,
+  "trend_200": 0.01306011142812391
+ },
+ "horizon_sessions": 20,
+ "source": "frozen rule sector_risk_baseline",
+ "recipe_sha256": "f965d9d2f5db951f760a7a788b677ed4b15f0a51cc039d87cf5bc0fa32464306",
+ "snapshot_sha256": {
+  "VIX.csv": "2a3b180ffb268b7805c17567c0ac7787c74898b0d99f62f550be67eafffd1c16",
+  "VIX3M.csv": "034fd5e08f9ce5ef806e600a51b28a76a1d85c6ea3ff978a29ca4abc67451a96",
+  "treasury_real_yield_10y.csv": "6a1e7435e15bfe93eca94ddbef679c200e5b974fb0fe31ad11ad2cad2983cf60",
+  "SOXX.json": "70d87f085d41024734b8b4a9c0bd326567883370836de0646fca15883b956652",
+  "us_equity_sessions_2002_2026.json": "5d50274a820c310010d51b3823775804998ae35a934aabb0e46e12e436f55754",
+  "us_treasury_yield_sessions_2003_2026.json": "79c15162e8306b525ad57b8ba8766177f8e5ce4752698f9e0ef645ccf42cacd4"
+ }
+}

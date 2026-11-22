@@ -22,16 +22,21 @@ class ReturnPair(Contract):
 
     subject: float
     benchmark: float | None = None
+    # The subject's beta to the benchmark, estimated only from sessions before the span began.
+    pre_beta: float | None = None
 
     @model_validator(mode="before")
     @classmethod
     def saved_difference_must_match(cls, data):
         """A saved pair carries ``relative``; accept it on loading only if it is the difference."""
-        if isinstance(data, dict) and "relative" in data:
+        if isinstance(data, dict) and ("relative" in data or "beta_adjusted" in data):
             data = dict(data)
-            expected = None if data.get("benchmark") is None else data.get("subject", 0.0) - data["benchmark"]
-            if data.pop("relative") != expected:
-                raise ValueError("relative is not subject minus benchmark")
+            given = {k: data.pop(k) for k in ("relative", "beta_adjusted") if k in data}
+            subject, benchmark, beta = data.get("subject", 0.0), data.get("benchmark"), data.get("pre_beta")
+            expected = {"relative": None if benchmark is None else subject - benchmark,
+                        "beta_adjusted": None if benchmark is None or beta is None else subject - beta * benchmark}
+            if any(given[k] != expected[k] for k in given):
+                raise ValueError("a saved relative or beta-adjusted return does not follow from the pair")
         return data
 
     @computed_field
@@ -39,6 +44,14 @@ class ReturnPair(Contract):
     def relative(self) -> float | None:
         """Subject minus benchmark, or None without a benchmark. No beta adjustment is applied."""
         return None if self.benchmark is None else self.subject - self.benchmark
+
+    @computed_field
+    @property
+    def beta_adjusted(self) -> float | None:
+        """Subject minus pre-estimated beta times benchmark: the abnormal return. None without a beta."""
+        if self.benchmark is None or self.pre_beta is None:
+            return None
+        return self.subject - self.pre_beta * self.benchmark
 
 
 class Factor(Contract):
@@ -248,3 +261,9 @@ class GroupComparison(Contract):
     mean_b: float | None
     difference: float | None  # mean_a minus mean_b
     standard_error: float | None  # unequal-variance (Welch); None when a group has fewer than two values
+    median_a: float | None = None
+    median_b: float | None = None
+    positive_share_a: float | None = None  # share of the group's values above zero
+    positive_share_b: float | None = None
+    episodes_a: int | None = None  # independent episodes behind the group, when the caller supplies them
+    episodes_b: int | None = None

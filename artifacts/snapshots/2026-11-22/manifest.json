@@ -21,6 +21,13 @@
       "last_session": "2026-11-20",
       "sha256": "a0b96ce2e7445a6cf021855c5c8a49e73a92523e12a043a616d7c901b0eb8aeb"
     },
+    "SPY.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SPY",
+      "corporate_action_counts": {"dividends": 136, "splits": 0},
+      "first_session": "1993-01-29",
+      "last_session": "2026-11-20",
+      "sha256": "f8d0f8444088538a4d40dfbf688aebe5e7a40282c2d47cb854056a375b934463"
+    },
     "SOXX.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX",
       "corporate_action_counts": {"dividends": 78, "splits": 2},

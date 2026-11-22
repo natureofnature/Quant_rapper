@@ -17,12 +17,15 @@ GREEN, YELLOW, RED = 0, 1, 2
 
 def walk_forward_left_tail(sessions: list[date], features: np.ndarray, classes: Sequence[int | None], first_test: date,
                            l2: float, tail_weight: float = 1.0, horizon: int = HORIZON, embargo: int = 0,
-                           rolling_sessions: int | None = None, min_train: int = 250) -> list[float | None]:
+                           rolling_sessions: int | None = None, min_train: int = 250,
+                           tree: dict | None = None) -> list[float | None]:
     """Out-of-sample probability of the left-tail class for each decision, None where there is no forecast.
 
     Each month is scored by a model fitted only on decisions whose outcomes had matured
     before the month's first session. A training decision without a class or with a missing
-    feature is left out; a test decision with a missing feature gets None.
+    feature is left out; a test decision with a missing feature gets None. With ``tree`` set,
+    the monthly model is the boosted-tree model with those settings, not the linear one; the
+    folds, the purge and everything else are the same.
     """
     x = np.asarray(features, dtype=float)
     y = np.array([np.nan if c is None else float(c) for c in classes])
@@ -32,8 +35,12 @@ def walk_forward_left_tail(sessions: list[date], features: np.ndarray, classes: 
         usable = np.isfinite(x[train]).all(axis=1) & np.isfinite(y[train])
         if usable.sum() < min_train:
             continue
-        fit = fit_linear_ordinal(x[train], y[train], l2=l2, tail_weight=tail_weight)
-        prob = cumulative_probabilities(fit, x[np.array(fold.test)])
+        if tree is not None:
+            from quant_evaluator.beta.tree_model import fit_tree_ordinal, tree_cumulative_probabilities
+            prob = tree_cumulative_probabilities(fit_tree_ordinal(x[train], y[train], **tree), x[np.array(fold.test)])
+        else:
+            fit = fit_linear_ordinal(x[train], y[train], l2=l2, tail_weight=tail_weight)
+            prob = cumulative_probabilities(fit, x[np.array(fold.test)])
         for index, row in zip(fold.test, prob):
             scores[index] = None if np.isnan(row[0]) else float(1.0 - row[0])
     return scores

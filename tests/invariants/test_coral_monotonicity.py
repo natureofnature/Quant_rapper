@@ -9,6 +9,7 @@ sys.path.insert(0, str(ROOT / "packages/quant_evaluator/src"))
 try:
     import numpy as np
     from quant_evaluator.beta.ordinal_model import cumulative_probabilities, fit_linear_ordinal
+    from quant_evaluator.beta.tree_model import fit_tree_ordinal, tree_cumulative_probabilities
 except ModuleNotFoundError:
     np = None
 
@@ -66,6 +67,18 @@ class OrdinalMonotonicityTests(unittest.TestCase):
         self.assertTrue(np.isnan(prob[:50]).all() and np.isfinite(prob[50:]).all())
         with self.assertRaises(ValueError):
             fit_linear_ordinal(x, np.where(y == 0, 7, y))  # a class outside the range
+
+    def test_tree_model_probabilities_are_ordered_on_every_out_of_sample_row(self):
+        for seed, signal in ((1, 1.0), (3, 0.0)):
+            x, y = self.data(seed, rows=900, signal=signal)
+            fit = fit_tree_ordinal(x[:700], y[:700])
+            wild = np.vstack([x[700:], 50.0 * x[700:720], -50.0 * x[700:720]])
+            prob = tree_cumulative_probabilities(fit, wild)
+            self.assertTrue((np.diff(prob, axis=1) <= 1e-12).all(), seed)
+            self.assertTrue(((prob >= 0) & (prob <= 1)).all())
+        holed = x.copy()
+        holed[705, 0] = np.nan
+        self.assertTrue(np.isnan(tree_cumulative_probabilities(fit, holed[700:710])[5]).all())
 
 
 if __name__ == "__main__":

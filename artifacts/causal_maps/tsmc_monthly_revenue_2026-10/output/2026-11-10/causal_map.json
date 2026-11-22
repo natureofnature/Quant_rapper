@@ -1690,7 +1690,8 @@
    "value": 54.6,
    "available_at": "2026-10-09T12:00:00Z",
    "availability_basis": "assumed",
-   "source_url": "https://pr.tsmc.com/english/news/3343"
+   "source_url": "https://pr.tsmc.com/english/news/3343",
+   "vintage_at": null
   }
  ],
  "inputs_sha256": {

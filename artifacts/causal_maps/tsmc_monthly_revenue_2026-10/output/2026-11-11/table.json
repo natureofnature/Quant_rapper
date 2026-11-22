@@ -53,7 +53,8 @@
         "value": 59.7,
         "available_at": "2026-11-11T12:00:00Z",
         "availability_basis": "assumed",
-        "source_url": "https://pr.tsmc.com/english/news/3349"
+        "source_url": "https://pr.tsmc.com/english/news/3349",
+        "vintage_at": null
        }
       ],
       "skipped": [],
@@ -73,12 +74,16 @@
    "reaction": {
     "subject": 0.047341577112494315,
     "benchmark": 0.04727476708981304,
-    "relative": 0.000066810022681274
+    "pre_beta": null,
+    "relative": 0.000066810022681274,
+    "beta_adjusted": null
    },
    "window": {
     "subject": -0.1337989104361078,
     "benchmark": -0.07855652177543038,
-    "relative": -0.05524238866067743
+    "pre_beta": null,
+    "relative": -0.05524238866067743,
+    "beta_adjusted": null
    },
    "flags": [],
    "reason": null

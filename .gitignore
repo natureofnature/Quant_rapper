@@ -36,6 +36,13 @@ artifacts/**
 !/artifacts/causal_maps/*/output/*/table.json
 !/artifacts/causal_maps/*/output/*/gap.json
 
+# Forecast tickets and their matured outcomes: written once by the post-market loop
+!/artifacts/tickets/
+!/artifacts/tickets/*/
+!/artifacts/tickets/*/*.json
+!/artifacts/tickets/*/outcomes/
+!/artifacts/tickets/*/outcomes/*.json
+
 # Prospective registrations: the recipe and what was fixed before the events
 !/artifacts/prospective/*/registration.json
 !/artifacts/prospective/*/recipe.json
