@@ -169,7 +169,7 @@ class CandidateFactorRecipe(Contract):
     trigger_availability: Availability  # how provably the trigger date is known
     # "unspecified" is for discovery; directional evaluation must require a direction.
     expected_direction: Literal["positive", "negative", "unspecified"]
-    benchmark: Text  # ticker used to remove sector or market beta
+    benchmark: Text | None  # ticker whose return is subtracted; None when the subject's own return is measured
     horizons_sessions: tuple[int, ...] = Field(default=(5, 21), min_length=1)
     data_requirements: tuple[DataRequirement, ...] = Field(min_length=1)
 

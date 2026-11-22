@@ -1,0 +1,573 @@
+[
+ {
+  "recipe_id": "recipe:company:tsmc:vix_term_structure:fund:soxx:5",
+  "subject_id": "company:tsmc",
+  "decision_time": "2026-11-11T08:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:yields",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Higher real yields compress multiples of high-growth sectors",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:growth:cycle:economy:risk_appetite",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:growth",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Weakening orders reduce tolerance for cyclical exposure",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:economy:risk_appetite",
+    "to_id": "company:tsmc",
+    "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [
+   {
+    "evidence_id": "ev:tsmc:monthly_revenue:2026-09:release",
+    "subject_id": "company:tsmc",
+    "lead_id": null,
+    "observable": "monthly revenue release",
+    "evidence_class": "direct",
+    "assessment": "inconclusive",
+    "summary": "Consolidated revenue for September 2026 was approximately NT$511.86 billion, a decrease of 0.6 percent from August 2026 and an increase of 54.6 percent from September 2025. A reading of the observable; it takes no side on any lead.",
+    "citation": {
+     "url": "https://pr.tsmc.com/english/news/3343",
+     "locator": "Body of the press release, first paragraph",
+     "published_on": "2026-10-08",
+     "published_at": null,
+     "retrieved_on": "2026-11-22",
+     "availability": "official_archive"
+    },
+    "missing": null
+   },
+   {
+    "evidence_id": "ev:tsmc:monthly_revenue:2026-10:release",
+    "subject_id": "company:tsmc",
+    "lead_id": null,
+    "observable": "monthly revenue release",
+    "evidence_class": "direct",
+    "assessment": "inconclusive",
+    "summary": "Consolidated revenue for October 2026 was approximately NT$586.89 billion, an increase of 14.7 percent from September 2026 and an increase of 59.7 percent from October 2025. A reading of the observable; it takes no side on any lead.",
+    "citation": {
+     "url": "https://pr.tsmc.com/english/news/3349",
+     "locator": "Body of the press release, first paragraph",
+     "published_on": "2026-11-10",
+     "published_at": null,
+     "retrieved_on": "2026-11-22",
+     "availability": "official_archive"
+    },
+    "missing": null
+   }
+  ],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": "fund:soxx",
+  "horizons_sessions": [
+   5
+  ],
+  "data_requirements": [
+   {
+    "series": "cboe:vix",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "cboe:vix3m",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:tsm:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:tsm:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ },
+ {
+  "recipe_id": "recipe:company:tsmc:real_yield_10y_change_20_rank_250:fund:soxx:5",
+  "subject_id": "company:tsmc",
+  "decision_time": "2026-11-11T08:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:economy:frb:rate_transmission:economy:yields",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "second_hop",
+    "from_id": "concept:economy:frb",
+    "to_id": "concept:economy:yields",
+    "mechanism": "Policy expectations set the short end and move real yields",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:yields",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Higher real yields compress multiples of high-growth sectors",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:yields:valuation:sector",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:economy:yields",
+    "to_id": "company:tsmc",
+    "mechanism": "Real-yield moves reprice long-duration growth multiples across the whole sector",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [
+   {
+    "evidence_id": "ev:tsmc:monthly_revenue:2026-09:release",
+    "subject_id": "company:tsmc",
+    "lead_id": null,
+    "observable": "monthly revenue release",
+    "evidence_class": "direct",
+    "assessment": "inconclusive",
+    "summary": "Consolidated revenue for September 2026 was approximately NT$511.86 billion, a decrease of 0.6 percent from August 2026 and an increase of 54.6 percent from September 2025. A reading of the observable; it takes no side on any lead.",
+    "citation": {
+     "url": "https://pr.tsmc.com/english/news/3343",
+     "locator": "Body of the press release, first paragraph",
+     "published_on": "2026-10-08",
+     "published_at": null,
+     "retrieved_on": "2026-11-22",
+     "availability": "official_archive"
+    },
+    "missing": null
+   },
+   {
+    "evidence_id": "ev:tsmc:monthly_revenue:2026-10:release",
+    "subject_id": "company:tsmc",
+    "lead_id": null,
+    "observable": "monthly revenue release",
+    "evidence_class": "direct",
+    "assessment": "inconclusive",
+    "summary": "Consolidated revenue for October 2026 was approximately NT$586.89 billion, an increase of 14.7 percent from September 2026 and an increase of 59.7 percent from October 2025. A reading of the observable; it takes no side on any lead.",
+    "citation": {
+     "url": "https://pr.tsmc.com/english/news/3349",
+     "locator": "Body of the press release, first paragraph",
+     "published_on": "2026-11-10",
+     "published_at": null,
+     "retrieved_on": "2026-11-22",
+     "availability": "official_archive"
+    },
+    "missing": null
+   }
+  ],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": "fund:soxx",
+  "horizons_sessions": [
+   5
+  ],
+  "data_requirements": [
+   {
+    "series": "treasury:real_yield_10y",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:tsm:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:tsm:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ },
+ {
+  "recipe_id": "recipe:company:tsmc:trend_200:fund:soxx:5",
+  "subject_id": "company:tsmc",
+  "decision_time": "2026-11-11T08:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:yields",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Higher real yields compress multiples of high-growth sectors",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:growth:cycle:economy:risk_appetite",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:growth",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Weakening orders reduce tolerance for cyclical exposure",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:economy:risk_appetite",
+    "to_id": "company:tsmc",
+    "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [
+   {
+    "evidence_id": "ev:tsmc:monthly_revenue:2026-09:release",
+    "subject_id": "company:tsmc",
+    "lead_id": null,
+    "observable": "monthly revenue release",
+    "evidence_class": "direct",
+    "assessment": "inconclusive",
+    "summary": "Consolidated revenue for September 2026 was approximately NT$511.86 billion, a decrease of 0.6 percent from August 2026 and an increase of 54.6 percent from September 2025. A reading of the observable; it takes no side on any lead.",
+    "citation": {
+     "url": "https://pr.tsmc.com/english/news/3343",
+     "locator": "Body of the press release, first paragraph",
+     "published_on": "2026-10-08",
+     "published_at": null,
+     "retrieved_on": "2026-11-22",
+     "availability": "official_archive"
+    },
+    "missing": null
+   },
+   {
+    "evidence_id": "ev:tsmc:monthly_revenue:2026-10:release",
+    "subject_id": "company:tsmc",
+    "lead_id": null,
+    "observable": "monthly revenue release",
+    "evidence_class": "direct",
+    "assessment": "inconclusive",
+    "summary": "Consolidated revenue for October 2026 was approximately NT$586.89 billion, an increase of 14.7 percent from September 2026 and an increase of 59.7 percent from October 2025. A reading of the observable; it takes no side on any lead.",
+    "citation": {
+     "url": "https://pr.tsmc.com/english/news/3349",
+     "locator": "Body of the press release, first paragraph",
+     "published_on": "2026-11-10",
+     "published_at": null,
+     "retrieved_on": "2026-11-22",
+     "availability": "official_archive"
+    },
+    "missing": null
+   }
+  ],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": "fund:soxx",
+  "horizons_sessions": [
+   5
+  ],
+  "data_requirements": [
+   {
+    "series": "yahoo:tsm:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:tsm:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:tsm:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ },
+ {
+  "recipe_id": "recipe:company:tsmc:reported_revenue_growth_yoy:fund:soxx:5",
+  "subject_id": "company:tsmc",
+  "decision_time": "2026-11-11T08:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+    "subject_id": "company:tsmc",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:tsmc",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "direct",
+    "from_id": "concept:supply_chain:designers",
+    "to_id": "company:tsmc",
+    "mechanism": "Designer guidance and purchase commitments lead foundry wafer demand",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [
+   {
+    "evidence_id": "ev:tsmc:monthly_revenue:2026-09:release",
+    "subject_id": "company:tsmc",
+    "lead_id": null,
+    "observable": "monthly revenue release",
+    "evidence_class": "direct",
+    "assessment": "inconclusive",
+    "summary": "Consolidated revenue for September 2026 was approximately NT$511.86 billion, a decrease of 0.6 percent from August 2026 and an increase of 54.6 percent from September 2025. A reading of the observable; it takes no side on any lead.",
+    "citation": {
+     "url": "https://pr.tsmc.com/english/news/3343",
+     "locator": "Body of the press release, first paragraph",
+     "published_on": "2026-10-08",
+     "published_at": null,
+     "retrieved_on": "2026-11-22",
+     "availability": "official_archive"
+    },
+    "missing": null
+   },
+   {
+    "evidence_id": "ev:tsmc:monthly_revenue:2026-10:release",
+    "subject_id": "company:tsmc",
+    "lead_id": null,
+    "observable": "monthly revenue release",
+    "evidence_class": "direct",
+    "assessment": "inconclusive",
+    "summary": "Consolidated revenue for October 2026 was approximately NT$586.89 billion, an increase of 14.7 percent from September 2026 and an increase of 59.7 percent from October 2025. A reading of the observable; it takes no side on any lead.",
+    "citation": {
+     "url": "https://pr.tsmc.com/english/news/3349",
+     "locator": "Body of the press release, first paragraph",
+     "published_on": "2026-11-10",
+     "published_at": null,
+     "retrieved_on": "2026-11-22",
+     "availability": "official_archive"
+    },
+    "missing": null
+   },
+   {
+    "evidence_id": "ev:tsmc:monthly_revenue:2026-10:demand_proxy",
+    "subject_id": "company:tsmc",
+    "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+    "observable": null,
+    "evidence_class": "proxy",
+    "assessment": "inconclusive",
+    "summary": "Total revenue up 59.7 percent from October 2025 is consistent with strong wafer demand, but a company total cannot show which designers' orders produced it or whether their guidance led it.",
+    "citation": {
+     "url": "https://pr.tsmc.com/english/news/3349",
+     "locator": "Body of the press release, first paragraph",
+     "published_on": "2026-11-10",
+     "published_at": null,
+     "retrieved_on": "2026-11-22",
+     "availability": "official_archive"
+    },
+    "missing": null
+   },
+   {
+    "evidence_id": "ev:tsmc:monthly_revenue:customer_breakdown",
+    "subject_id": "company:tsmc",
+    "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+    "observable": null,
+    "evidence_class": "data_gap",
+    "assessment": null,
+    "summary": "TSMC's monthly revenue releases give one consolidated total. They have no split by customer, platform or technology node; this was already so in the September 2026 release and earlier ones.",
+    "citation": null,
+    "missing": "Monthly revenue or wafer orders by customer or by platform, dated no later than the monthly release."
+   }
+  ],
+  "trigger": "tsmc:monthly_revenue:2026-10: the release of 'monthly revenue release', once its content is available",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": "fund:soxx",
+  "horizons_sessions": [
+   5
+  ],
+  "data_requirements": [
+   {
+    "series": "tsmc:monthly_revenue:yoy_pct_as_released",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:tsm:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:tsm:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ }
+]

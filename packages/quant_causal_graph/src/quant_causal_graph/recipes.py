@@ -21,15 +21,28 @@ def _research_map(relationships: Path):
     return module
 
 
-def project_leads(relationships: Path, sector_folder: str, symbol: str,
-                  frozen_at: datetime) -> dict[str, ResearchLead]:
-    """Every lead the map projects onto one company, keyed by the id evidence cites.
+def find_profile(relationships: Path, subject: str) -> Path:
+    """The profile file of a company or fund, by its id ("fund:soxx") or its symbol ("SOXX")."""
+    api = _research_map(relationships)
+    found = []
+    for folder in sorted(p for p in relationships.iterdir() if (p / f"{p.name}.json").exists()):
+        for path in api.profile_paths(folder):
+            profile = json.loads(path.read_text(encoding="utf-8"))
+            if subject in (api.profile_id(profile), profile.get("symbol")):
+                found.append(path)
+    if len(found) != 1:
+        raise ValueError(f"{subject!r} matches {len(found)} profiles; expected exactly one")
+    return found[0]
 
+
+def project_profile(relationships: Path, profile_path: Path, frozen_at: datetime) -> tuple[dict[str, ResearchLead], dict, dict]:
+    """Every lead the map projects onto one company or fund, with the sector's concepts and the profile.
+
+    Returns (leads keyed by the id evidence cites, concept nodes of the sector map, profile).
     ``frozen_at`` is when this revision of the map and profile was fixed, e.g. its commit time.
     """
     api = _research_map(relationships)
-    sector_path = relationships / sector_folder / f"{sector_folder}.json"
-    profile_path = sector_path.parent / symbol / "company.json"
+    sector_path = profile_path.parent.parent / f"{profile_path.parent.parent.name}.json"
     profile = json.loads(profile_path.read_text(encoding="utf-8"))
     view, nodes, relations = api.load(sector_path)
     _, edges, _, _ = api.company_graph(profile, nodes, relations, profile_path, view)
@@ -42,12 +55,19 @@ def project_leads(relationships: Path, sector_folder: str, symbol: str,
     def end(node_id: str) -> str:
         return subject if node_id == api.CENTRE else node_id
 
-    return {edge["lead_id"]: ResearchLead(
+    leads = {edge["lead_id"]: ResearchLead(
         lead_id=edge["lead_id"], subject_id=subject, source=version, relation_kind=edge["relation_kind"],
         scope=edge["scope"], hop=edge["hop"], from_id=end(edge["from"]), to_id=end(edge["to"]),
         mechanism=edge["mechanism"],
         test_criteria=LeadTestCriteria(**edge["test_criteria"]) if edge.get("test_criteria") else None)
         for edge in edges}
+    return leads, nodes, profile
+
+
+def project_leads(relationships: Path, sector_folder: str, symbol: str,
+                  frozen_at: datetime) -> dict[str, ResearchLead]:
+    """Every lead the map projects onto one company, keyed by the id evidence cites."""
+    return project_profile(relationships, relationships / sector_folder / symbol / "company.json", frozen_at)[0]
 
 
 def event_state_recipe(recipe_id: str, leads: list[ResearchLead], decision_time: datetime, trigger: str,

@@ -1,0 +1,213 @@
+[
+ {
+  "recipe_id": "recipe:fund:spy:vix_term_structure:absolute:20",
+  "subject_id": "fund:spy",
+  "decision_time": "2026-11-22T12:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:derivatives_flows:vol_term_structure:stress_signal:sector",
+    "subject_id": "fund:spy",
+    "source": {
+     "sector_id": "market_structure",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+     "profile_id": "fund:spy",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "72eeb5b32601a3ff35edc54025e0d4a57a00a5be86b3971c61ea3aa0d93aa85e",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "observation_lead",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:derivatives_flows:vol_term_structure",
+    "to_id": "fund:spy",
+    "mechanism": "Near-term implied volatility above three-month implied volatility indicates strong demand for short-dated protection.",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:derivatives_flows:vol_term_structure:regime:derivatives_flows:dealer_gamma",
+    "subject_id": "fund:spy",
+    "source": {
+     "sector_id": "market_structure",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+     "profile_id": "fund:spy",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "72eeb5b32601a3ff35edc54025e0d4a57a00a5be86b3971c61ea3aa0d93aa85e",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:derivatives_flows:vol_term_structure",
+    "to_id": "concept:derivatives_flows:dealer_gamma",
+    "mechanism": "Volatility spikes and term-structure inversion may coincide with dealers holding negative gamma. This needs independent positioning evidence; the term structure does not measure it.",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": null,
+  "horizons_sessions": [
+   20
+  ],
+  "data_requirements": [
+   {
+    "series": "cboe:vix",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "cboe:vix3m",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:spy:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:spy:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ },
+ {
+  "recipe_id": "recipe:fund:spy:real_yield_10y_change_20_rank_250:absolute:20",
+  "subject_id": "fund:spy",
+  "decision_time": "2026-11-22T12:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:macro_liquidity:frb_policy:rate_path:macro_liquidity:real_yields",
+    "subject_id": "fund:spy",
+    "source": {
+     "sector_id": "market_structure",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+     "profile_id": "fund:spy",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "72eeb5b32601a3ff35edc54025e0d4a57a00a5be86b3971c61ea3aa0d93aa85e",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "second_hop",
+    "from_id": "concept:macro_liquidity:frb_policy",
+    "to_id": "concept:macro_liquidity:real_yields",
+    "mechanism": "Changes in the expected policy path may move real yields.",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:macro_liquidity:real_yields:valuation:sector",
+    "subject_id": "fund:spy",
+    "source": {
+     "sector_id": "market_structure",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+     "profile_id": "fund:spy",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "72eeb5b32601a3ff35edc54025e0d4a57a00a5be86b3971c61ea3aa0d93aa85e",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:macro_liquidity:real_yields",
+    "to_id": "fund:spy",
+    "mechanism": "Rapid rises in real yields may compress the valuation multiples of long-duration equities.",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": null,
+  "horizons_sessions": [
+   20
+  ],
+  "data_requirements": [
+   {
+    "series": "treasury:real_yield_10y",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:spy:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:spy:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ },
+ {
+  "recipe_id": "recipe:fund:spy:trend_200:absolute:20",
+  "subject_id": "fund:spy",
+  "decision_time": "2026-11-22T12:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:systematic_positioning:cta_trend_flows:deleveraging:sector",
+    "subject_id": "fund:spy",
+    "source": {
+     "sector_id": "market_structure",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+     "profile_id": "fund:spy",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "72eeb5b32601a3ff35edc54025e0d4a57a00a5be86b3971c61ea3aa0d93aa85e",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:systematic_positioning:cta_trend_flows",
+    "to_id": "fund:spy",
+    "mechanism": "Breaks of medium-term trends may trigger mechanical selling by trend-following funds.",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": null,
+  "horizons_sessions": [
+   20
+  ],
+  "data_requirements": [
+   {
+    "series": "yahoo:spy:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:spy:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:spy:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ }
+]

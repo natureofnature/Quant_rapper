@@ -1,31 +1,17 @@
 {
-  "describe": "Curated sources for one event, collected by hand on 2026-11-22. Figures are quoted from the two press releases, which state a date and no time of day. A recorded gap has no date, so it must describe something that was already true at every decision time the packet is replayed at.",
-  "event_id": "tsmc:monthly_revenue:2026-10",
+  "describe": "Curated sources for one event, collected by hand on 2026-11-22. Figures are quoted from the two press releases, which state a date and no time of day. A recorded gap has no date, so it must describe something that was already true at every decision time the packet is replayed at. The packet supplies evidence only: which candidates it bears on is decided by the generator.",
   "subject_id": "company:tsmc",
-  "sector_folder": "semiconductor",
-  "symbol": "TSM",
-  "observable": "monthly revenue release",
-  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9",
-  "bindings_sha256": "8f245a0513f94329487c680607705d3746c96f301122c45c8133be4270ed55cd",
-  "event_time": {
-    "time": "2026-11-10T07:01:33-05:00",
-    "basis": "upper_bound",
-    "source": "SEC EDGAR acceptance of Form 6-K 0001046179-26-000796. The filing time bounds the release from above; it is not the first release time."
+  "event": {
+    "event_id": "tsmc:monthly_revenue:2026-10",
+    "observable": "monthly revenue release",
+    "event_time": {
+      "time": "2026-11-10T07:01:33-05:00",
+      "basis": "upper_bound",
+      "source": "SEC EDGAR acceptance of Form 6-K 0001046179-26-000796. The filing time bounds the release from above; it is not the first release time."
+    },
+    "content_series": "tsmc:monthly_revenue:yoy_pct_as_released",
+    "content_session": "2026-10-31"
   },
-  "paths": [
-    {
-      "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
-      "relevance": "Monthly revenue is the most frequent dated reading of how much wafer demand the designers' orders have turned into."
-    },
-    {
-      "lead_id": "lead:company:tsmc:concept:economy:fx:adr_translation",
-      "relevance": "The release reports revenue in New Taiwan dollars, so the exchange rate moves the reported growth apart from the volume sold."
-    },
-    {
-      "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
-      "relevance": "The share price reaction to the release is read against the sector, whose own move depends on risk appetite at the time."
-    }
-  ],
   "evidence": [
     {
       "evidence_id": "ev:tsmc:monthly_revenue:2026-09:release",
@@ -94,20 +80,5 @@
       "value": 59.7,
       "evidence_id": "ev:tsmc:monthly_revenue:2026-10:release"
     }
-  ],
-  "recipe": {
-    "recipe_id": "recipe:tsmc:monthly_revenue:reported_growth:soxx_relative_5:pilot",
-    "trigger": "TSMC monthly revenue report (profile observable: monthly revenue release), once its reported figure is available",
-    "trigger_availability": "official_archive",
-    "benchmark": "SOXX",
-    "horizon_sessions": 5,
-    "series_ids": [
-      "yahoo:tsm:open",
-      "yahoo:tsm:close",
-      "yahoo:soxx:open",
-      "yahoo:soxx:close"
-    ],
-    "content_series": "tsmc:monthly_revenue:yoy_pct_as_released",
-    "content_session": "2026-10-31"
-  }
+  ]
 }

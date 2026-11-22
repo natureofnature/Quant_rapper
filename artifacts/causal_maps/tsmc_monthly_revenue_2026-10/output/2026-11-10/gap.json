@@ -1,0 +1,6 @@
+{
+ "candidate_id": "factor:reported_revenue_growth_yoy",
+ "status": "unmeasured",
+ "missing": "The value tsmc:monthly_revenue:2026-10 reports for 2026-10-31 was not available before the decision time. An earlier period's value is not used in its place.",
+ "decision_time": "2026-11-10T08:00:00-05:00"
+}

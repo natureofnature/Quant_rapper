@@ -12,8 +12,10 @@ def simple_return(start: float, end: float) -> float:
 
 
 def return_pair(subject_start: float, subject_end: float,
-                benchmark_start: float, benchmark_end: float) -> ReturnPair:
-    """Returns of subject and benchmark over one span; ``relative`` is their difference."""
+                benchmark_start: float | None = None, benchmark_end: float | None = None) -> ReturnPair:
+    """Returns of subject and benchmark over one span; ``relative`` is their difference. Without benchmark prices, the subject alone."""
+    if benchmark_start is None or benchmark_end is None:
+        return ReturnPair(subject=simple_return(subject_start, subject_end))
     return ReturnPair(subject=simple_return(subject_start, subject_end),
                       benchmark=simple_return(benchmark_start, benchmark_end))
 

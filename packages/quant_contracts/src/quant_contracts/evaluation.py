@@ -14,10 +14,14 @@ from quant_contracts.research import Contract, PriorStatus, Text
 
 
 class ReturnPair(Contract):
-    """Simple returns of the subject and the benchmark over the same span."""
+    """Simple returns of the subject and the benchmark over the same span.
+
+    With no benchmark there is no relative return: the outcome is the subject's own return,
+    and nothing is invented to subtract.
+    """
 
     subject: float
-    benchmark: float
+    benchmark: float | None = None
 
     @model_validator(mode="before")
     @classmethod
@@ -25,15 +29,16 @@ class ReturnPair(Contract):
         """A saved pair carries ``relative``; accept it on loading only if it is the difference."""
         if isinstance(data, dict) and "relative" in data:
             data = dict(data)
-            if data.pop("relative") != data.get("subject", 0.0) - data.get("benchmark", 0.0):
+            expected = None if data.get("benchmark") is None else data.get("subject", 0.0) - data["benchmark"]
+            if data.pop("relative") != expected:
                 raise ValueError("relative is not subject minus benchmark")
         return data
 
     @computed_field
     @property
-    def relative(self) -> float:
-        """Subject minus benchmark. A relative return: no beta adjustment is applied."""
-        return self.subject - self.benchmark
+    def relative(self) -> float | None:
+        """Subject minus benchmark, or None without a benchmark. No beta adjustment is applied."""
+        return None if self.benchmark is None else self.subject - self.benchmark
 
 
 class Factor(Contract):

@@ -1,0 +1,987 @@
+{
+ "subject_id": "fund:soxx",
+ "decision_time": "2026-11-22T12:00:00-05:00",
+ "event": null,
+ "prior": {
+  "sector_id": "semiconductors",
+  "sector_revision": "2026-11-21.2",
+  "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+  "profile_id": "fund:soxx",
+  "profile_revision": "2026-11-21.2",
+  "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+  "frozen_at": "2026-11-21T13:23:01-04:00"
+ },
+ "prior_status": "prior_available_at_decision",
+ "leads": [
+  {
+   "lead_id": "lead:politics:us:export_control:politics:china",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:us",
+   "to_id": "concept:politics:china",
+   "mechanism": "Limits on advanced chips and equipment cut vendors' China revenue and redirect demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:china:retaliation:politics:us",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:china",
+   "to_id": "concept:politics:us",
+   "mechanism": "Mineral export limits and actions against US firms raise input cost and revenue risk",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:trade_and_security:politics:taiwan",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:us",
+   "to_id": "concept:politics:taiwan",
+   "mechanism": "Tariffs and onshoring demands change foundry cost and capex location; security posture changes risk premium",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:china:geopolitical_risk:politics:taiwan",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:china",
+   "to_id": "concept:politics:taiwan",
+   "mechanism": "Cross-strait tension raises the risk premium on the whole sector",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:frb:rate_transmission:economy:yields",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:economy:frb",
+   "to_id": "concept:economy:yields",
+   "mechanism": "Policy expectations set the short end and move real yields",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:economy:yields",
+   "to_id": "concept:economy:risk_appetite",
+   "mechanism": "Higher real yields compress multiples of high-growth sectors",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:growth:cycle:economy:risk_appetite",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:economy:growth",
+   "to_id": "concept:economy:risk_appetite",
+   "mechanism": "Weakening orders reduce tolerance for cyclical exposure",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:design_tools:enabler:supply_chain:designers",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:supply_chain:design_tools",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Design starts hint at tape-outs several quarters ahead",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:supply_chain:packaging_and_test",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Packaging capacity caps accelerator shipments",
+   "test_criteria": {
+    "trigger": "Confirmed orders for a named accelerator require more advanced packaging capacity than is available by its shipment deadline.",
+    "observable": "Units shipped or delivery dates for that accelerator against the designer’s original shipment plan.",
+    "window": "The shipment quarter covered by the original plan.",
+    "supports_if": "The designer or its supplier attributes a shipment shortfall or delay against the plan to unavailable packaging capacity.",
+    "contradicts_if": "The packaging constraint is documented, yet the designer delivers the full planned quantity on time, for example by securing alternative packaging capacity."
+   }
+  },
+  {
+   "lead_id": "lead:supply_chain:memory:bottleneck:supply_chain:designers",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:supply_chain:memory",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "HBM supply caps accelerator shipments",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:system_builders:sell_through:supply_chain:designers",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:supply_chain:system_builders",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Server-builder revenue shows whether chips are being deployed or stocked",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:export_control:supply_chain:designers",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:us",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Controls remove China accelerator sales",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:hyperscalers:capex:supply_chain:designers",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:demand:hyperscalers",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Capex revisions lead accelerator and networking orders",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:sovereign_ai:orders:supply_chain:designers",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:demand:sovereign_ai",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Approved programmes add demand outside the hyperscalers",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:smartphones:orders:supply_chain:designers",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:demand:smartphones",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Handset cycle drives mobile-chip wafer demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:yields:valuation:sector",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:economy:yields",
+   "to_id": "fund:soxx",
+   "mechanism": "Real-yield moves reprice long-duration growth multiples across the whole sector",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:economy:risk_appetite",
+   "to_id": "fund:soxx",
+   "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:growth:cycle:sector",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:economy:growth",
+   "to_id": "fund:soxx",
+   "mechanism": "Global growth sets end demand for chips across every market",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:taiwan:concentration_risk:sector",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:politics:taiwan",
+   "to_id": "fund:soxx",
+   "mechanism": "Leading-edge manufacturing is concentrated in Taiwan, so a cross-strait or domestic disruption is a sector-wide supply shock",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:tariffs_and_subsidies:sector",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:politics:us",
+   "to_id": "fund:soxx",
+   "mechanism": "Chip tariffs and subsidies change cost and where capacity is built across the sector",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:china:market_and_restriction:sector",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:politics:china",
+   "to_id": "fund:soxx",
+   "mechanism": "China is both a major end market and the target of restrictions, so policy shifts move sector revenue expectations",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:fund:soxx:concept:supply_chain:designers:weight_concentration",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:supply_chain:designers",
+   "to_id": "fund:soxx",
+   "mechanism": "The largest chip designers carry the biggest index weights, so their results move the fund more than a count of holdings suggests",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:fund:soxx:concept:economy:risk_appetite:fund_flows",
+   "subject_id": "fund:soxx",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "fund:soxx",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:economy:risk_appetite",
+   "to_id": "fund:soxx",
+   "mechanism": "Creations and redemptions are primary-market activity in this fund; they do not by themselves establish net flows into the sector",
+   "test_criteria": null
+  }
+ ],
+ "candidates": [
+  {
+   "candidate_id": "factor:vix_term_structure",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:economy:yields:valuation:economy:risk_appetite",
+    "lead:economy:growth:cycle:economy:risk_appetite",
+    "lead:economy:risk_appetite:sector_beta:sector",
+    "lead:fund:soxx:concept:economy:risk_appetite:fund_flows"
+   ],
+   "relevance": "VIX over VIX3M: near-term implied volatility against three-month. Linked from Risk Appetite: Was the volatility term structure signalling market-wide stress when the sector moved?",
+   "via": [
+    "concept:economy:risk_appetite",
+    "concept:derivatives_flows:vol_term_structure"
+   ],
+   "factor": {
+    "factor_id": "vix_term_structure",
+    "measure": "ratio",
+    "series_ids": [
+     "cboe:vix",
+     "cboe:vix3m"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": null,
+    "rank_sessions": null
+   },
+   "reads": "direct",
+   "timing": "decision_time",
+   "recipe_id": "recipe:fund:soxx:vix_term_structure:absolute:20",
+   "recipe_sha256": "4abe9b228dfd88c05da178a46a49cd1801ca5127f724d41a7a4794b27c56b774",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "factor:real_yield_10y_change_20_rank_250",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:economy:frb:rate_transmission:economy:yields",
+    "lead:economy:yields:valuation:economy:risk_appetite",
+    "lead:economy:yields:valuation:sector"
+   ],
+   "relevance": "The 20-session change in the 10-year real yield, ranked against its own previous 250 values. Linked from Yields: Is the sector's move in line with a market-wide repricing from real yields?",
+   "via": [
+    "concept:economy:yields",
+    "concept:macro_liquidity:real_yields"
+   ],
+   "factor": {
+    "factor_id": "real_yield_10y_change_20_rank_250",
+    "measure": "change",
+    "series_ids": [
+     "treasury:real_yield_10y"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20,
+    "rank_sessions": 250
+   },
+   "reads": "direct",
+   "timing": "decision_time",
+   "recipe_id": "recipe:fund:soxx:real_yield_10y_change_20_rank_250:absolute:20",
+   "recipe_sha256": "2b3cc8568ffcd581e74870570fbe4f2fca33720cfc8c1d8d196cd5f5725d3a37",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "factor:trend_200",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:economy:yields:valuation:economy:risk_appetite",
+    "lead:economy:growth:cycle:economy:risk_appetite",
+    "lead:economy:risk_appetite:sector_beta:sector",
+    "lead:fund:soxx:concept:economy:risk_appetite:fund_flows"
+   ],
+   "relevance": "The subject's own close against its 200-session average. A description of price standing in for trend-following flows; it measures no one's positioning. Linked from Risk Appetite: Had index trends broken in a way that could trigger systematic selling?",
+   "via": [
+    "concept:economy:risk_appetite",
+    "concept:systematic_positioning:cta_trend_flows"
+   ],
+   "factor": {
+    "factor_id": "trend_200",
+    "measure": "trend_state",
+    "series_ids": [
+     "yahoo:soxx:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 200,
+    "rank_sessions": null
+   },
+   "reads": "proxy",
+   "timing": "decision_time",
+   "recipe_id": "recipe:fund:soxx:trend_200:absolute:20",
+   "recipe_sha256": "deffb97e6071721d33e83f61f2ff9d24dd1adb35acaece2e456d431610cce4d5",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:export_control:politics:china",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:export_control:politics:china"
+   ],
+   "relevance": "Limits on advanced chips and equipment cut vendors' China revenue and redirect demand.",
+   "via": [
+    "concept:politics:us",
+    "concept:politics:china"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US, China. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences; retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:china:retaliation:politics:us",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:china:retaliation:politics:us"
+   ],
+   "relevance": "Mineral export limits and actions against US firms raise input cost and revenue risk.",
+   "via": [
+    "concept:politics:china",
+    "concept:politics:us"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for China, US. The prior lists these observables: retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers; BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:trade_and_security:politics:taiwan",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:trade_and_security:politics:taiwan"
+   ],
+   "relevance": "Tariffs and onshoring demands change foundry cost and capex location; security posture changes risk premium.",
+   "via": [
+    "concept:politics:us",
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US, Taiwan. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences; cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:china:geopolitical_risk:politics:taiwan",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:china:geopolitical_risk:politics:taiwan"
+   ],
+   "relevance": "Cross-strait tension raises the risk premium on the whole sector.",
+   "via": [
+    "concept:politics:china",
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for China, Taiwan. The prior lists these observables: retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers; cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:design_tools:enabler:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:design_tools:enabler:supply_chain:designers"
+   ],
+   "relevance": "Design starts hint at tape-outs several quarters ahead.",
+   "via": [
+    "concept:supply_chain:design_tools",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Design Tools, Designers. The prior lists these observables: design-start and backlog commentary; China licence restrictions; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers"
+   ],
+   "relevance": "Packaging capacity caps accelerator shipments.",
+   "via": [
+    "concept:supply_chain:packaging_and_test",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Packaging and Test, Designers. The prior lists these observables: advanced-packaging capacity additions; lead times; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:memory:bottleneck:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:memory:bottleneck:supply_chain:designers"
+   ],
+   "relevance": "HBM supply caps accelerator shipments.",
+   "via": [
+    "concept:supply_chain:memory",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Memory, Designers. The prior lists these observables: contract and spot prices; HBM allocation; inventory days; capex cuts or increases; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:system_builders:sell_through:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:system_builders:sell_through:supply_chain:designers"
+   ],
+   "relevance": "Server-builder revenue shows whether chips are being deployed or stocked.",
+   "via": [
+    "concept:supply_chain:system_builders",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for System Builders, Designers. The prior lists these observables: monthly revenue; AI-server shipment commentary; component shortages; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:export_control:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:export_control:supply_chain:designers"
+   ],
+   "relevance": "Controls remove China accelerator sales.",
+   "via": [
+    "concept:politics:us",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US, Designers. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:hyperscalers:capex:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:hyperscalers:capex:supply_chain:designers"
+   ],
+   "relevance": "Capex revisions lead accelerator and networking orders.",
+   "via": [
+    "concept:demand:hyperscalers",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Hyperscalers, Designers. The prior lists these observables: capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:sovereign_ai:orders:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:sovereign_ai:orders:supply_chain:designers"
+   ],
+   "relevance": "Approved programmes add demand outside the hyperscalers.",
+   "via": [
+    "concept:demand:sovereign_ai",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Sovereign AI, Designers. The prior lists these observables: announced national programmes; export approvals; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:smartphones:orders:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:smartphones:orders:supply_chain:designers"
+   ],
+   "relevance": "Handset cycle drives mobile-chip wafer demand.",
+   "via": [
+    "concept:demand:smartphones",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Smartphones, Designers. The prior lists these observables: shipment estimates; flagship launch timing; channel inventory; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:economy:growth:cycle:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:economy:growth:cycle:sector"
+   ],
+   "relevance": "Global growth sets end demand for chips across every market.",
+   "via": [
+    "concept:economy:growth"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Growth. The prior lists these observables: PMI new orders; employment; GDP revisions; Korea and Taiwan export data.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:taiwan:concentration_risk:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:taiwan:concentration_risk:sector"
+   ],
+   "relevance": "Leading-edge manufacturing is concentrated in Taiwan, so a cross-strait or domestic disruption is a sector-wide supply shock.",
+   "via": [
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Taiwan. The prior lists these observables: cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:tariffs_and_subsidies:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:tariffs_and_subsidies:sector"
+   ],
+   "relevance": "Chip tariffs and subsidies change cost and where capacity is built across the sector.",
+   "via": [
+    "concept:politics:us"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:china:market_and_restriction:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:china:market_and_restriction:sector"
+   ],
+   "relevance": "China is both a major end market and the target of restrictions, so policy shifts move sector revenue expectations.",
+   "via": [
+    "concept:politics:china"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for China. The prior lists these observables: retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:fund:soxx:concept:supply_chain:designers:weight_concentration",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:fund:soxx:concept:supply_chain:designers:weight_concentration"
+   ],
+   "relevance": "The largest chip designers carry the biggest index weights, so their results move the fund more than a count of holdings suggests.",
+   "via": [
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Designers. The prior lists these observables: revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  }
+ ],
+ "evidence": [],
+ "content": [],
+ "inputs_sha256": {
+  "factor_definitions": "afa6237303ab4c9fde8a1f10479fa379573d779a0cffa3ce0f30b500ff7cbb2c",
+  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9",
+  "binding:cboe:vix": "c3cd336b1c55662c0c5869032b767793278ca65f91c8d0ff0cd80748049e5e58",
+  "binding:cboe:vix3m": "d9f54baad10a2baa4a8b0655063959397f16d27c820ab154c8a20f289ed08966",
+  "binding:treasury:real_yield_10y": "dfe5f300dd46fe56a75f644a991065b53eb17625fd9dd3e30914b08683eacb9d",
+  "binding:yahoo:soxx:close": "43bc2bd433cbdb11ddcb9fd6369c424df520d7343bc9d10ff8bb23815b5d53f5",
+  "binding:yahoo:soxx:open": "179a8807fc322766667f899a9748d8cfe373a9b7ae4d075a626529f6ff70962e"
+ }
+}

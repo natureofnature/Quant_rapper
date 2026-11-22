@@ -1,0 +1,329 @@
+[
+ {
+  "recipe_id": "recipe:company:micron:vix_term_structure:fund:soxx:5",
+  "subject_id": "company:micron",
+  "decision_time": "2026-11-22T12:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+    "subject_id": "company:micron",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:micron",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:yields",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Higher real yields compress multiples of high-growth sectors",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:growth:cycle:economy:risk_appetite",
+    "subject_id": "company:micron",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:micron",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:growth",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Weakening orders reduce tolerance for cyclical exposure",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+    "subject_id": "company:micron",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:micron",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:economy:risk_appetite",
+    "to_id": "company:micron",
+    "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": "fund:soxx",
+  "horizons_sessions": [
+   5
+  ],
+  "data_requirements": [
+   {
+    "series": "cboe:vix",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "cboe:vix3m",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:mu:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:mu:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ },
+ {
+  "recipe_id": "recipe:company:micron:real_yield_10y_change_20_rank_250:fund:soxx:5",
+  "subject_id": "company:micron",
+  "decision_time": "2026-11-22T12:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:economy:frb:rate_transmission:economy:yields",
+    "subject_id": "company:micron",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:micron",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "second_hop",
+    "from_id": "concept:economy:frb",
+    "to_id": "concept:economy:yields",
+    "mechanism": "Policy expectations set the short end and move real yields",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+    "subject_id": "company:micron",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:micron",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:yields",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Higher real yields compress multiples of high-growth sectors",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:yields:valuation:sector",
+    "subject_id": "company:micron",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:micron",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:economy:yields",
+    "to_id": "company:micron",
+    "mechanism": "Real-yield moves reprice long-duration growth multiples across the whole sector",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": "fund:soxx",
+  "horizons_sessions": [
+   5
+  ],
+  "data_requirements": [
+   {
+    "series": "treasury:real_yield_10y",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:mu:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:mu:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ },
+ {
+  "recipe_id": "recipe:company:micron:trend_200:fund:soxx:5",
+  "subject_id": "company:micron",
+  "decision_time": "2026-11-22T12:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+    "subject_id": "company:micron",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:micron",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:yields",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Higher real yields compress multiples of high-growth sectors",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:growth:cycle:economy:risk_appetite",
+    "subject_id": "company:micron",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:micron",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:growth",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Weakening orders reduce tolerance for cyclical exposure",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+    "subject_id": "company:micron",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "company:micron",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:economy:risk_appetite",
+    "to_id": "company:micron",
+    "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": "fund:soxx",
+  "horizons_sessions": [
+   5
+  ],
+  "data_requirements": [
+   {
+    "series": "yahoo:mu:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:mu:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:mu:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ }
+]

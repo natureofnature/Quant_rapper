@@ -1,0 +1,333 @@
+[
+ {
+  "recipe_id": "recipe:fund:soxx:vix_term_structure:absolute:20",
+  "subject_id": "fund:soxx",
+  "decision_time": "2026-11-22T12:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:yields",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Higher real yields compress multiples of high-growth sectors",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:growth:cycle:economy:risk_appetite",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:growth",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Weakening orders reduce tolerance for cyclical exposure",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:economy:risk_appetite",
+    "to_id": "fund:soxx",
+    "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:fund:soxx:concept:economy:risk_appetite:fund_flows",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "observation_lead",
+    "scope": "company",
+    "hop": "direct",
+    "from_id": "concept:economy:risk_appetite",
+    "to_id": "fund:soxx",
+    "mechanism": "Creations and redemptions are primary-market activity in this fund; they do not by themselves establish net flows into the sector",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": null,
+  "horizons_sessions": [
+   20
+  ],
+  "data_requirements": [
+   {
+    "series": "cboe:vix",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "cboe:vix3m",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ },
+ {
+  "recipe_id": "recipe:fund:soxx:real_yield_10y_change_20_rank_250:absolute:20",
+  "subject_id": "fund:soxx",
+  "decision_time": "2026-11-22T12:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:economy:frb:rate_transmission:economy:yields",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "second_hop",
+    "from_id": "concept:economy:frb",
+    "to_id": "concept:economy:yields",
+    "mechanism": "Policy expectations set the short end and move real yields",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:yields",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Higher real yields compress multiples of high-growth sectors",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:yields:valuation:sector",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:economy:yields",
+    "to_id": "fund:soxx",
+    "mechanism": "Real-yield moves reprice long-duration growth multiples across the whole sector",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": null,
+  "horizons_sessions": [
+   20
+  ],
+  "data_requirements": [
+   {
+    "series": "treasury:real_yield_10y",
+    "availability": "official_archive",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ },
+ {
+  "recipe_id": "recipe:fund:soxx:trend_200:absolute:20",
+  "subject_id": "fund:soxx",
+  "decision_time": "2026-11-22T12:00:00-05:00",
+  "leads": [
+   {
+    "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:yields",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Higher real yields compress multiples of high-growth sectors",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:growth:cycle:economy:risk_appetite",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "concept",
+    "hop": "lateral",
+    "from_id": "concept:economy:growth",
+    "to_id": "concept:economy:risk_appetite",
+    "mechanism": "Weakening orders reduce tolerance for cyclical exposure",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "mechanism_hypothesis",
+    "scope": "sector",
+    "hop": "direct",
+    "from_id": "concept:economy:risk_appetite",
+    "to_id": "fund:soxx",
+    "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+    "test_criteria": null
+   },
+   {
+    "lead_id": "lead:fund:soxx:concept:economy:risk_appetite:fund_flows",
+    "subject_id": "fund:soxx",
+    "source": {
+     "sector_id": "semiconductors",
+     "sector_revision": "2026-11-21.2",
+     "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+     "profile_id": "fund:soxx",
+     "profile_revision": "2026-11-21.2",
+     "profile_sha256": "fcf749ab8e416753313565a10b3df09a67e7a7ee2c583cbe8f9bf5f3d9a499bc",
+     "frozen_at": "2026-11-21T13:23:01-04:00"
+    },
+    "relation_kind": "observation_lead",
+    "scope": "company",
+    "hop": "direct",
+    "from_id": "concept:economy:risk_appetite",
+    "to_id": "fund:soxx",
+    "mechanism": "Creations and redemptions are primary-market activity in this fund; they do not by themselves establish net flows into the sector",
+    "test_criteria": null
+   }
+  ],
+  "evidence": [],
+  "trigger": "The decision time itself, on any US session",
+  "trigger_availability": "official_archive",
+  "expected_direction": "unspecified",
+  "benchmark": null,
+  "horizons_sessions": [
+   20
+  ],
+  "data_requirements": [
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:open",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   },
+   {
+    "series": "yahoo:soxx:close",
+    "availability": "news_only",
+    "typical_lag": null,
+    "status": "observable"
+   }
+  ]
+ }
+]

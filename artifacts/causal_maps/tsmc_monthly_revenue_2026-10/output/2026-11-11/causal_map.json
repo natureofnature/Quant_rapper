@@ -1,0 +1,1754 @@
+{
+ "subject_id": "company:tsmc",
+ "decision_time": "2026-11-11T08:00:00-05:00",
+ "event": {
+  "event_id": "tsmc:monthly_revenue:2026-10",
+  "observable": "monthly revenue release",
+  "event_time": {
+   "time": "2026-11-10T07:01:33-05:00",
+   "basis": "upper_bound",
+   "source": "SEC EDGAR acceptance of Form 6-K 0001046179-26-000796. The filing time bounds the release from above; it is not the first release time."
+  },
+  "content_series": "tsmc:monthly_revenue:yoy_pct_as_released",
+  "content_session": "2026-10-31"
+ },
+ "prior": {
+  "sector_id": "semiconductors",
+  "sector_revision": "2026-11-21.2",
+  "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+  "profile_id": "company:tsmc",
+  "profile_revision": "2026-11-21.2",
+  "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+  "frozen_at": "2026-11-21T13:23:01-04:00"
+ },
+ "prior_status": "exploratory",
+ "leads": [
+  {
+   "lead_id": "lead:politics:us:export_control:politics:china",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:us",
+   "to_id": "concept:politics:china",
+   "mechanism": "Limits on advanced chips and equipment cut vendors' China revenue and redirect demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:china:retaliation:politics:us",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:china",
+   "to_id": "concept:politics:us",
+   "mechanism": "Mineral export limits and actions against US firms raise input cost and revenue risk",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:trade_and_security:politics:taiwan",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:us",
+   "to_id": "concept:politics:taiwan",
+   "mechanism": "Tariffs and onshoring demands change foundry cost and capex location; security posture changes risk premium",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:china:geopolitical_risk:politics:taiwan",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:china",
+   "to_id": "concept:politics:taiwan",
+   "mechanism": "Cross-strait tension raises the risk premium on the whole sector",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:frb:rate_transmission:economy:yields",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:economy:frb",
+   "to_id": "concept:economy:yields",
+   "mechanism": "Policy expectations set the short end and move real yields",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:economy:yields",
+   "to_id": "concept:economy:risk_appetite",
+   "mechanism": "Higher real yields compress multiples of high-growth sectors",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:frb:rate_differential:economy:fx",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:economy:frb",
+   "to_id": "concept:economy:fx",
+   "mechanism": "Rate gaps move the dollar against Asian currencies",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:growth:cycle:economy:risk_appetite",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:economy:growth",
+   "to_id": "concept:economy:risk_appetite",
+   "mechanism": "Weakening orders reduce tolerance for cyclical exposure",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:resources:electricity:constraint:demand:hyperscalers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:resources:electricity",
+   "to_id": "concept:demand:hyperscalers",
+   "mechanism": "Power availability paces how fast ordered accelerators can be deployed",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:resources:electricity:constraint:supply_chain:foundry",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:resources:electricity",
+   "to_id": "company:tsmc",
+   "mechanism": "Shortages or price rises hit fab output and margins",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:resources:water:constraint:supply_chain:foundry",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:resources:water",
+   "to_id": "company:tsmc",
+   "mechanism": "Drought forces rationing or trucking cost",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:resources:critical_minerals:input_cost:supply_chain:materials",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:resources:critical_minerals",
+   "to_id": "concept:supply_chain:materials",
+   "mechanism": "Shortage raises compound-semiconductor and magnet cost",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:resources:logistics:disruption:supply_chain:foundry",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:resources:logistics",
+   "to_id": "company:tsmc",
+   "mechanism": "Natural disasters or route closures delay shipments",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:supply_chain:designers",
+   "to_id": "company:tsmc",
+   "mechanism": "Designer guidance and purchase commitments lead foundry wafer demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:foundry:capex:supply_chain:equipment",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "company:tsmc",
+   "to_id": "concept:supply_chain:equipment",
+   "mechanism": "Foundry capex guidance leads equipment bookings",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:design_tools:enabler:supply_chain:designers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:supply_chain:design_tools",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Design starts hint at tape-outs several quarters ahead",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:materials:input:supply_chain:foundry",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:supply_chain:materials",
+   "to_id": "company:tsmc",
+   "mechanism": "Wafer shipments track wafer starts",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "company:tsmc",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Packaging capacity caps accelerator shipments",
+   "test_criteria": {
+    "trigger": "Confirmed orders for a named accelerator require more advanced packaging capacity than is available by its shipment deadline.",
+    "observable": "Units shipped or delivery dates for that accelerator against the designer’s original shipment plan.",
+    "window": "The shipment quarter covered by the original plan.",
+    "supports_if": "The designer or its supplier attributes a shipment shortfall or delay against the plan to unavailable packaging capacity.",
+    "contradicts_if": "The packaging constraint is documented, yet the designer delivers the full planned quantity on time, for example by securing alternative packaging capacity."
+   }
+  },
+  {
+   "lead_id": "lead:supply_chain:memory:bottleneck:supply_chain:designers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:supply_chain:memory",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "HBM supply caps accelerator shipments",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:system_builders:sell_through:supply_chain:designers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:supply_chain:system_builders",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Server-builder revenue shows whether chips are being deployed or stocked",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:export_control:supply_chain:designers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:us",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Controls remove China accelerator sales",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:hyperscalers:capex:supply_chain:designers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:demand:hyperscalers",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Capex revisions lead accelerator and networking orders",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:ai_labs:compute_contract:demand:hyperscalers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:demand:ai_labs",
+   "to_id": "concept:demand:hyperscalers",
+   "mechanism": "Lab commitments underpin cloud capex; funding stress would unwind them",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:credit:funding:demand:hyperscalers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:economy:credit",
+   "to_id": "concept:demand:hyperscalers",
+   "mechanism": "Debt-funded capex is sensitive to spreads",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:sovereign_ai:orders:supply_chain:designers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:demand:sovereign_ai",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Approved programmes add demand outside the hyperscalers",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:smartphones:orders:supply_chain:designers",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:demand:smartphones",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Handset cycle drives mobile-chip wafer demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:auto_and_industrial:orders:supply_chain:foundry",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:demand:auto_and_industrial",
+   "to_id": "company:tsmc",
+   "mechanism": "Inventory correction lowers mature-node utilisation",
+   "test_criteria": {
+    "trigger": "Automotive or industrial customers cut orders for a named mature process node to draw down inventories.",
+    "observable": "Quarterly utilisation of the affected foundry capacity compared with the quarter before the order cuts.",
+    "window": "The quarter of the cuts and the following quarter.",
+    "supports_if": "Utilisation falls and the foundry attributes the decline at least in part to those order cuts.",
+    "contradicts_if": "The cuts occur, but utilisation holds or rises through the window and the foundry reports no utilisation loss from the cuts, for example because replacement orders filled the capacity."
+   }
+  },
+  {
+   "lead_id": "lead:demand:hyperscalers:in_house_chips:supply_chain:foundry",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:demand:hyperscalers",
+   "to_id": "company:tsmc",
+   "mechanism": "Custom chip programmes shift wafer demand between designers",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:yields:valuation:sector",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:economy:yields",
+   "to_id": "company:tsmc",
+   "mechanism": "Real-yield moves reprice long-duration growth multiples across the whole sector",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:economy:risk_appetite",
+   "to_id": "company:tsmc",
+   "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:growth:cycle:sector",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:economy:growth",
+   "to_id": "company:tsmc",
+   "mechanism": "Global growth sets end demand for chips across every market",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:taiwan:concentration_risk:sector",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:politics:taiwan",
+   "to_id": "company:tsmc",
+   "mechanism": "Leading-edge manufacturing is concentrated in Taiwan, so a cross-strait or domestic disruption is a sector-wide supply shock",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:tariffs_and_subsidies:sector",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:politics:us",
+   "to_id": "company:tsmc",
+   "mechanism": "Chip tariffs and subsidies change cost and where capacity is built across the sector",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:china:market_and_restriction:sector",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:politics:china",
+   "to_id": "company:tsmc",
+   "mechanism": "China is both a major end market and the target of restrictions, so policy shifts move sector revenue expectations",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:company:tsmc:concept:economy:fx:adr_translation",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:economy:fx",
+   "to_id": "company:tsmc",
+   "mechanism": "Revenue is mostly in US dollars and costs in Taiwan dollars, and the ADR is priced off the Taiwan line, so TWD moves change margins and the ADR premium",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:company:tsmc:concept:politics:taiwan:domicile",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:politics:taiwan",
+   "to_id": "company:tsmc",
+   "mechanism": "Taiwan power, water and overseas-investment policy apply to it directly, and cross-strait risk is priced into it first",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:company:tsmc:concept:politics:us:overseas_fabs",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:politics:us",
+   "to_id": "company:tsmc",
+   "mechanism": "US subsidy terms and tariff treatment of Taiwan-made chips change the cost of its US build-out",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:company:tsmc:concept:politics:us:china_customer_restriction",
+   "subject_id": "company:tsmc",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:tsmc",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:politics:us",
+   "to_id": "company:tsmc",
+   "mechanism": "US export controls administered by BIS may restrict which customers in China TSMC can supply and which chips it can manufacture for them.",
+   "test_criteria": null
+  }
+ ],
+ "candidates": [
+  {
+   "candidate_id": "factor:vix_term_structure",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:economy:yields:valuation:economy:risk_appetite",
+    "lead:economy:growth:cycle:economy:risk_appetite",
+    "lead:economy:risk_appetite:sector_beta:sector"
+   ],
+   "relevance": "VIX over VIX3M: near-term implied volatility against three-month. Linked from Risk Appetite: Was the volatility term structure signalling market-wide stress when the sector moved?",
+   "via": [
+    "concept:economy:risk_appetite",
+    "concept:derivatives_flows:vol_term_structure"
+   ],
+   "factor": {
+    "factor_id": "vix_term_structure",
+    "measure": "ratio",
+    "series_ids": [
+     "cboe:vix",
+     "cboe:vix3m"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": null,
+    "rank_sessions": null
+   },
+   "reads": "direct",
+   "timing": "decision_time",
+   "recipe_id": "recipe:company:tsmc:vix_term_structure:fund:soxx:5",
+   "recipe_sha256": "3056ebf8c673eb11a106bdc15921142e28c29bd0597ca3f125f5cb3b083bf475",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "factor:real_yield_10y_change_20_rank_250",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:economy:frb:rate_transmission:economy:yields",
+    "lead:economy:yields:valuation:economy:risk_appetite",
+    "lead:economy:yields:valuation:sector"
+   ],
+   "relevance": "The 20-session change in the 10-year real yield, ranked against its own previous 250 values. Linked from Yields: Is the sector's move in line with a market-wide repricing from real yields?",
+   "via": [
+    "concept:economy:yields",
+    "concept:macro_liquidity:real_yields"
+   ],
+   "factor": {
+    "factor_id": "real_yield_10y_change_20_rank_250",
+    "measure": "change",
+    "series_ids": [
+     "treasury:real_yield_10y"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20,
+    "rank_sessions": 250
+   },
+   "reads": "direct",
+   "timing": "decision_time",
+   "recipe_id": "recipe:company:tsmc:real_yield_10y_change_20_rank_250:fund:soxx:5",
+   "recipe_sha256": "76848d7cfedf70307930cb0b2caac47ead196596e6b7c8aa3ac4cb8ebcdcc425",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "factor:trend_200",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:economy:yields:valuation:economy:risk_appetite",
+    "lead:economy:growth:cycle:economy:risk_appetite",
+    "lead:economy:risk_appetite:sector_beta:sector"
+   ],
+   "relevance": "The subject's own close against its 200-session average. A description of price standing in for trend-following flows; it measures no one's positioning. Linked from Risk Appetite: Had index trends broken in a way that could trigger systematic selling?",
+   "via": [
+    "concept:economy:risk_appetite",
+    "concept:systematic_positioning:cta_trend_flows"
+   ],
+   "factor": {
+    "factor_id": "trend_200",
+    "measure": "trend_state",
+    "series_ids": [
+     "yahoo:tsm:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 200,
+    "rank_sessions": null
+   },
+   "reads": "proxy",
+   "timing": "decision_time",
+   "recipe_id": "recipe:company:tsmc:trend_200:fund:soxx:5",
+   "recipe_sha256": "8472ef9250950171801a8756fd2d8a80534ca01f1df5834cc9c1bb66b13fc6cf",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "factor:reported_revenue_growth_yoy",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:supply_chain:designers:orders:supply_chain:foundry"
+   ],
+   "relevance": "Year-on-year change in monthly revenue as the release states it. A company total standing in for wafer demand; it cannot show whose orders produced it. Origin: Designer guidance and purchase commitments lead foundry wafer demand.",
+   "via": [],
+   "factor": {
+    "factor_id": "reported_revenue_growth_yoy",
+    "measure": "level",
+    "series_ids": [
+     "tsmc:monthly_revenue:yoy_pct_as_released"
+    ],
+    "max_age_days": 45,
+    "lookback_sessions": null,
+    "rank_sessions": null
+   },
+   "reads": "proxy",
+   "timing": "event_content",
+   "recipe_id": "recipe:company:tsmc:reported_revenue_growth_yoy:fund:soxx:5",
+   "recipe_sha256": "f93f3f215cf4ac6a17a6dbfd79e428bcf3be2cb52e17461a11cd5c981999927a",
+   "missing": null,
+   "evidence_ids": [
+    "ev:tsmc:monthly_revenue:2026-10:demand_proxy",
+    "ev:tsmc:monthly_revenue:customer_breakdown"
+   ],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 1,
+   "gaps": 1
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:export_control:politics:china",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:export_control:politics:china"
+   ],
+   "relevance": "Limits on advanced chips and equipment cut vendors' China revenue and redirect demand.",
+   "via": [
+    "concept:politics:us",
+    "concept:politics:china"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US, China. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences; retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:china:retaliation:politics:us",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:china:retaliation:politics:us"
+   ],
+   "relevance": "Mineral export limits and actions against US firms raise input cost and revenue risk.",
+   "via": [
+    "concept:politics:china",
+    "concept:politics:us"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for China, US. The prior lists these observables: retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers; BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:trade_and_security:politics:taiwan",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:trade_and_security:politics:taiwan"
+   ],
+   "relevance": "Tariffs and onshoring demands change foundry cost and capex location; security posture changes risk premium.",
+   "via": [
+    "concept:politics:us",
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US, Taiwan. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences; cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:china:geopolitical_risk:politics:taiwan",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:china:geopolitical_risk:politics:taiwan"
+   ],
+   "relevance": "Cross-strait tension raises the risk premium on the whole sector.",
+   "via": [
+    "concept:politics:china",
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for China, Taiwan. The prior lists these observables: retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers; cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:economy:frb:rate_differential:economy:fx",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:economy:frb:rate_differential:economy:fx"
+   ],
+   "relevance": "Rate gaps move the dollar against Asian currencies.",
+   "via": [
+    "concept:economy:frb",
+    "concept:economy:fx"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for FRB, FX. The prior lists these observables: FOMC decisions and projections; balance-sheet runoff; speeches that shift rate expectations; USD index; TWD; JPY; KRW; ADR premium to local shares.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:resources:electricity:constraint:demand:hyperscalers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:resources:electricity:constraint:demand:hyperscalers"
+   ],
+   "relevance": "Power availability paces how fast ordered accelerators can be deployed.",
+   "via": [
+    "concept:resources:electricity",
+    "concept:demand:hyperscalers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Electricity, Hyperscalers. The prior lists these observables: grid-connection queues; power prices; Taiwan reserve margin; data-center power contracts; capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:resources:electricity:constraint:supply_chain:foundry",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:resources:electricity:constraint:supply_chain:foundry"
+   ],
+   "relevance": "Shortages or price rises hit fab output and margins.",
+   "via": [
+    "concept:resources:electricity"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Electricity. The prior lists these observables: grid-connection queues; power prices; Taiwan reserve margin; data-center power contracts.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:resources:water:constraint:supply_chain:foundry",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:resources:water:constraint:supply_chain:foundry"
+   ],
+   "relevance": "Drought forces rationing or trucking cost.",
+   "via": [
+    "concept:resources:water"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Water. The prior lists these observables: Taiwan reservoir levels; rationing notices.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:resources:critical_minerals:input_cost:supply_chain:materials",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:resources:critical_minerals:input_cost:supply_chain:materials"
+   ],
+   "relevance": "Shortage raises compound-semiconductor and magnet cost.",
+   "via": [
+    "concept:resources:critical_minerals",
+    "concept:supply_chain:materials"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Critical Minerals, Materials. The prior lists these observables: export-licence rules; spot prices; non-China refining projects; wafer shipments; contract pricing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:resources:logistics:disruption:supply_chain:foundry",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:resources:logistics:disruption:supply_chain:foundry"
+   ],
+   "relevance": "Natural disasters or route closures delay shipments.",
+   "via": [
+    "concept:resources:logistics"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Logistics. The prior lists these observables: shipping-lane disruptions; earthquakes and typhoons in Taiwan and Japan.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:foundry:capex:supply_chain:equipment",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:foundry:capex:supply_chain:equipment"
+   ],
+   "relevance": "Foundry capex guidance leads equipment bookings.",
+   "via": [
+    "concept:supply_chain:equipment"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Equipment. The prior lists these observables: bookings and backlog; China share of revenue; lead times.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:design_tools:enabler:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:design_tools:enabler:supply_chain:designers"
+   ],
+   "relevance": "Design starts hint at tape-outs several quarters ahead.",
+   "via": [
+    "concept:supply_chain:design_tools",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Design Tools, Designers. The prior lists these observables: design-start and backlog commentary; China licence restrictions; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:materials:input:supply_chain:foundry",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:materials:input:supply_chain:foundry"
+   ],
+   "relevance": "Wafer shipments track wafer starts.",
+   "via": [
+    "concept:supply_chain:materials"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Materials. The prior lists these observables: wafer shipments; contract pricing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers"
+   ],
+   "relevance": "Packaging capacity caps accelerator shipments.",
+   "via": [
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Designers. The prior lists these observables: revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:memory:bottleneck:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:memory:bottleneck:supply_chain:designers"
+   ],
+   "relevance": "HBM supply caps accelerator shipments.",
+   "via": [
+    "concept:supply_chain:memory",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Memory, Designers. The prior lists these observables: contract and spot prices; HBM allocation; inventory days; capex cuts or increases; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:system_builders:sell_through:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:system_builders:sell_through:supply_chain:designers"
+   ],
+   "relevance": "Server-builder revenue shows whether chips are being deployed or stocked.",
+   "via": [
+    "concept:supply_chain:system_builders",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for System Builders, Designers. The prior lists these observables: monthly revenue; AI-server shipment commentary; component shortages; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:export_control:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:export_control:supply_chain:designers"
+   ],
+   "relevance": "Controls remove China accelerator sales.",
+   "via": [
+    "concept:politics:us",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US, Designers. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:hyperscalers:capex:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:hyperscalers:capex:supply_chain:designers"
+   ],
+   "relevance": "Capex revisions lead accelerator and networking orders.",
+   "via": [
+    "concept:demand:hyperscalers",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Hyperscalers, Designers. The prior lists these observables: capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:ai_labs:compute_contract:demand:hyperscalers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:ai_labs:compute_contract:demand:hyperscalers"
+   ],
+   "relevance": "Lab commitments underpin cloud capex; funding stress would unwind them.",
+   "via": [
+    "concept:demand:ai_labs",
+    "concept:demand:hyperscalers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for AI Labs, Hyperscalers. The prior lists these observables: funding rounds; compute commitments; revenue disclosures by counterparties; capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:economy:credit:funding:demand:hyperscalers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:economy:credit:funding:demand:hyperscalers"
+   ],
+   "relevance": "Debt-funded capex is sensitive to spreads.",
+   "via": [
+    "concept:economy:credit",
+    "concept:demand:hyperscalers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Credit, Hyperscalers. The prior lists these observables: credit spreads; data-center and AI debt issuance; private-credit and vendor-financing deals; capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:sovereign_ai:orders:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:sovereign_ai:orders:supply_chain:designers"
+   ],
+   "relevance": "Approved programmes add demand outside the hyperscalers.",
+   "via": [
+    "concept:demand:sovereign_ai",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Sovereign AI, Designers. The prior lists these observables: announced national programmes; export approvals; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:smartphones:orders:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:smartphones:orders:supply_chain:designers"
+   ],
+   "relevance": "Handset cycle drives mobile-chip wafer demand.",
+   "via": [
+    "concept:demand:smartphones",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Smartphones, Designers. The prior lists these observables: shipment estimates; flagship launch timing; channel inventory; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:auto_and_industrial:orders:supply_chain:foundry",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:auto_and_industrial:orders:supply_chain:foundry"
+   ],
+   "relevance": "Inventory correction lowers mature-node utilisation.",
+   "via": [
+    "concept:demand:auto_and_industrial"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Auto and Industrial. The prior lists these observables: auto production; distributor inventory; analog chipmaker guidance.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:hyperscalers:in_house_chips:supply_chain:foundry",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:hyperscalers:in_house_chips:supply_chain:foundry"
+   ],
+   "relevance": "Custom chip programmes shift wafer demand between designers.",
+   "via": [
+    "concept:demand:hyperscalers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Hyperscalers. The prior lists these observables: capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:economy:growth:cycle:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:economy:growth:cycle:sector"
+   ],
+   "relevance": "Global growth sets end demand for chips across every market.",
+   "via": [
+    "concept:economy:growth"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Growth. The prior lists these observables: PMI new orders; employment; GDP revisions; Korea and Taiwan export data.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:taiwan:concentration_risk:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:taiwan:concentration_risk:sector"
+   ],
+   "relevance": "Leading-edge manufacturing is concentrated in Taiwan, so a cross-strait or domestic disruption is a sector-wide supply shock.",
+   "via": [
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Taiwan. The prior lists these observables: cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:tariffs_and_subsidies:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:tariffs_and_subsidies:sector"
+   ],
+   "relevance": "Chip tariffs and subsidies change cost and where capacity is built across the sector.",
+   "via": [
+    "concept:politics:us"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:china:market_and_restriction:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:china:market_and_restriction:sector"
+   ],
+   "relevance": "China is both a major end market and the target of restrictions, so policy shifts move sector revenue expectations.",
+   "via": [
+    "concept:politics:china"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for China. The prior lists these observables: retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:company:tsmc:concept:economy:fx:adr_translation",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:company:tsmc:concept:economy:fx:adr_translation"
+   ],
+   "relevance": "Revenue is mostly in US dollars and costs in Taiwan dollars, and the ADR is priced off the Taiwan line, so TWD moves change margins and the ADR premium.",
+   "via": [
+    "concept:economy:fx"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for FX. The prior lists these observables: USD index; TWD; JPY; KRW; ADR premium to local shares.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:company:tsmc:concept:politics:taiwan:domicile",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:company:tsmc:concept:politics:taiwan:domicile"
+   ],
+   "relevance": "Taiwan power, water and overseas-investment policy apply to it directly, and cross-strait risk is priced into it first.",
+   "via": [
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Taiwan. The prior lists these observables: cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:company:tsmc:concept:politics:us:overseas_fabs",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:company:tsmc:concept:politics:us:overseas_fabs"
+   ],
+   "relevance": "US subsidy terms and tariff treatment of Taiwan-made chips change the cost of its US build-out.",
+   "via": [
+    "concept:politics:us"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:company:tsmc:concept:politics:us:china_customer_restriction",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:company:tsmc:concept:politics:us:china_customer_restriction"
+   ],
+   "relevance": "US export controls administered by BIS may restrict which customers in China TSMC can supply and which chips it can manufacture for them.",
+   "via": [
+    "concept:politics:us"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  }
+ ],
+ "evidence": [
+  {
+   "evidence_id": "ev:tsmc:monthly_revenue:2026-09:release",
+   "subject_id": "company:tsmc",
+   "lead_id": null,
+   "observable": "monthly revenue release",
+   "evidence_class": "direct",
+   "assessment": "inconclusive",
+   "summary": "Consolidated revenue for September 2026 was approximately NT$511.86 billion, a decrease of 0.6 percent from August 2026 and an increase of 54.6 percent from September 2025. A reading of the observable; it takes no side on any lead.",
+   "citation": {
+    "url": "https://pr.tsmc.com/english/news/3343",
+    "locator": "Body of the press release, first paragraph",
+    "published_on": "2026-10-08",
+    "published_at": null,
+    "retrieved_on": "2026-11-22",
+    "availability": "official_archive"
+   },
+   "missing": null
+  },
+  {
+   "evidence_id": "ev:tsmc:monthly_revenue:2026-10:release",
+   "subject_id": "company:tsmc",
+   "lead_id": null,
+   "observable": "monthly revenue release",
+   "evidence_class": "direct",
+   "assessment": "inconclusive",
+   "summary": "Consolidated revenue for October 2026 was approximately NT$586.89 billion, an increase of 14.7 percent from September 2026 and an increase of 59.7 percent from October 2025. A reading of the observable; it takes no side on any lead.",
+   "citation": {
+    "url": "https://pr.tsmc.com/english/news/3349",
+    "locator": "Body of the press release, first paragraph",
+    "published_on": "2026-11-10",
+    "published_at": null,
+    "retrieved_on": "2026-11-22",
+    "availability": "official_archive"
+   },
+   "missing": null
+  },
+  {
+   "evidence_id": "ev:tsmc:monthly_revenue:2026-10:demand_proxy",
+   "subject_id": "company:tsmc",
+   "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+   "observable": null,
+   "evidence_class": "proxy",
+   "assessment": "inconclusive",
+   "summary": "Total revenue up 59.7 percent from October 2025 is consistent with strong wafer demand, but a company total cannot show which designers' orders produced it or whether their guidance led it.",
+   "citation": {
+    "url": "https://pr.tsmc.com/english/news/3349",
+    "locator": "Body of the press release, first paragraph",
+    "published_on": "2026-11-10",
+    "published_at": null,
+    "retrieved_on": "2026-11-22",
+    "availability": "official_archive"
+   },
+   "missing": null
+  },
+  {
+   "evidence_id": "ev:tsmc:monthly_revenue:customer_breakdown",
+   "subject_id": "company:tsmc",
+   "lead_id": "lead:supply_chain:designers:orders:supply_chain:foundry",
+   "observable": null,
+   "evidence_class": "data_gap",
+   "assessment": null,
+   "summary": "TSMC's monthly revenue releases give one consolidated total. They have no split by customer, platform or technology node; this was already so in the September 2026 release and earlier ones.",
+   "citation": null,
+   "missing": "Monthly revenue or wafer orders by customer or by platform, dated no later than the monthly release."
+  }
+ ],
+ "content": [
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-09-30",
+   "value": 54.6,
+   "available_at": "2026-10-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3343"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-10-31",
+   "value": 59.7,
+   "available_at": "2026-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3349"
+  }
+ ],
+ "inputs_sha256": {
+  "factor_definitions": "afa6237303ab4c9fde8a1f10479fa379573d779a0cffa3ce0f30b500ff7cbb2c",
+  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9",
+  "packet": "ce76a7bec923fbc0ddbc3a27b5fda7c19abe42dcda6d43e1916b586ae686da99",
+  "binding:cboe:vix": "c3cd336b1c55662c0c5869032b767793278ca65f91c8d0ff0cd80748049e5e58",
+  "binding:cboe:vix3m": "d9f54baad10a2baa4a8b0655063959397f16d27c820ab154c8a20f289ed08966",
+  "binding:treasury:real_yield_10y": "dfe5f300dd46fe56a75f644a991065b53eb17625fd9dd3e30914b08683eacb9d",
+  "binding:tsmc:monthly_revenue:yoy_pct_as_released": "e1de721133de335c020a01c68867cf6455da7d4a2af69d0c58519d9021753b40",
+  "binding:yahoo:soxx:close": "43bc2bd433cbdb11ddcb9fd6369c424df520d7343bc9d10ff8bb23815b5d53f5",
+  "binding:yahoo:soxx:open": "179a8807fc322766667f899a9748d8cfe373a9b7ae4d075a626529f6ff70962e",
+  "binding:yahoo:tsm:close": "72fbe74c556ee451fc20d09eb6e2573c6554ec933f4138dd666f30099b469b02",
+  "binding:yahoo:tsm:open": "cdc377f37517bd741e73e9317ad86a844c1b509649b9960b444fa4c16d198c6b"
+ }
+}

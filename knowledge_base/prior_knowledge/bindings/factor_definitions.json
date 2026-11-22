@@ -1,0 +1,96 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "factor_definitions",
+  "content_revision": "2026-11-22.1",
+  "describe": "How each bound series is turned into a factor, and which concept of the prior it measures. The generator makes candidates only from these definitions, so adding a transform is a recorded, versioned change. A proxy is named as a proxy and is never reported as the concept itself.",
+  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9",
+  "factors": [
+    {
+      "factor": {
+        "factor_id": "vix_term_structure",
+        "measure": "ratio",
+        "series_ids": [
+          "cboe:vix",
+          "cboe:vix3m"
+        ],
+        "max_age_days": 5
+      },
+      "anchor": "concept:derivatives_flows:vol_term_structure",
+      "reads": "direct",
+      "values_from": "snapshot",
+      "note": "VIX over VIX3M: near-term implied volatility against three-month."
+    },
+    {
+      "factor": {
+        "factor_id": "real_yield_10y_change_20_rank_250",
+        "measure": "change",
+        "series_ids": [
+          "treasury:real_yield_10y"
+        ],
+        "lookback_sessions": 20,
+        "rank_sessions": 250,
+        "max_age_days": 5
+      },
+      "anchor": "concept:macro_liquidity:real_yields",
+      "reads": "direct",
+      "values_from": "snapshot",
+      "note": "The 20-session change in the 10-year real yield, ranked against its own previous 250 values."
+    },
+    {
+      "factor": {
+        "factor_id": "trend_200",
+        "measure": "trend_state",
+        "series_ids": [
+          "subject:close"
+        ],
+        "lookback_sessions": 200,
+        "max_age_days": 5
+      },
+      "anchor": "concept:systematic_positioning:cta_trend_flows",
+      "reads": "proxy",
+      "values_from": "snapshot",
+      "note": "The subject's own close against its 200-session average. A description of price standing in for trend-following flows; it measures no one's positioning."
+    },
+    {
+      "factor": {
+        "factor_id": "reported_revenue_growth_yoy",
+        "measure": "level",
+        "series_ids": [
+          "tsmc:monthly_revenue:yoy_pct_as_released"
+        ],
+        "max_age_days": 45
+      },
+      "anchor": "company:tsmc",
+      "reads": "proxy",
+      "values_from": "packet",
+      "origin_lead_ids": [
+        "lead:supply_chain:designers:orders:supply_chain:foundry"
+      ],
+      "note": "Year-on-year change in monthly revenue as the release states it. A company total standing in for wafer demand; it cannot show whose orders produced it."
+    }
+  ],
+  "benchmarks": {
+    "company:tsmc": "fund:soxx",
+    "company:micron": "fund:soxx"
+  },
+  "horizon_sessions": {
+    "company": 5,
+    "fund": 20
+  },
+  "bindings_sha256": {
+    "cboe:vix": "c3cd336b1c55662c0c5869032b767793278ca65f91c8d0ff0cd80748049e5e58",
+    "cboe:vix3m": "d9f54baad10a2baa4a8b0655063959397f16d27c820ab154c8a20f289ed08966",
+    "yahoo:tsm:open": "cdc377f37517bd741e73e9317ad86a844c1b509649b9960b444fa4c16d198c6b",
+    "yahoo:tsm:close": "72fbe74c556ee451fc20d09eb6e2573c6554ec933f4138dd666f30099b469b02",
+    "yahoo:soxx:open": "179a8807fc322766667f899a9748d8cfe373a9b7ae4d075a626529f6ff70962e",
+    "yahoo:soxx:close": "43bc2bd433cbdb11ddcb9fd6369c424df520d7343bc9d10ff8bb23815b5d53f5",
+    "yahoo:qqq:open": "0082751aef7aeba9c14b526c06c0d26171b6d38908b700a18891102ded7fbf96",
+    "yahoo:qqq:close": "86f96a8f68ecd7605799c595cd2650c7501b62521ca34b5adb69c84c81848366",
+    "treasury:real_yield_10y": "dfe5f300dd46fe56a75f644a991065b53eb17625fd9dd3e30914b08683eacb9d",
+    "tsmc:monthly_revenue:yoy_pct_as_released": "e1de721133de335c020a01c68867cf6455da7d4a2af69d0c58519d9021753b40",
+    "yahoo:spy:open": "2b10f10c514e32a777d4019764ffbe767dfa4a57256a713b2f453c7301b8799d",
+    "yahoo:spy:close": "22cfd27cb0db6de33d6fa24a1dc77c8d4301ca539fcaf9974129bf6efe4a0c55",
+    "yahoo:mu:open": "32d96613cddab069d6e2cfddc3eaeaf71e7ed918d7c9a9229387a6761df9ddf5",
+    "yahoo:mu:close": "750d8d204accf9ae2fb43d2cb675aec38f45b02d8e196b6af993bb679e5da2a3"
+  }
+}

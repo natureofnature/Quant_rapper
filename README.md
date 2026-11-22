@@ -114,14 +114,23 @@ Before downloading data, check the manifests in `artifacts/snapshots/<version>/`
 
 Git ignores local studies and raw market data by default. Each snapshot's `manifest.json` can be versioned directly. Add file-specific exceptions for small curated datasets worth preserving, such as filing dates and exchange calendars. When a result becomes a formal reference, add exceptions for its recipe, input references and expected results under `artifacts/ablations/<benchmark>/` or `artifacts/prospective/<benchmark>/`. Record a durable retrieval location for any untracked input required to reproduce that benchmark.
 
-An event map says which leads of the frozen prior bear on one event at one decision time, and what evidence was available by then. It is generated from a curated source packet:
+A causal map lists the candidate factors worth investigating for one stock or ETF at one decision time. It is generated from the subject and the time alone:
 
 ```bash
-uv run python -m quant_causal_graph.event_map artifacts/event_maps/tsmc_monthly_revenue_2026-10/packet.json \
-    --decision-time 2026-11-11T08:00:00-05:00 --out /tmp/event_map
+uv run python -m quant_causal_graph.causal_map SOXX --decision-time 2026-11-22T12:00:00-05:00 --out /tmp/soxx
+uv run python -m quant_causal_graph.causal_map TSM --decision-time 2026-11-11T08:00:00-05:00 --out /tmp/tsm \
+    --packet artifacts/causal_maps/tsmc_monthly_revenue_2026-10/packet.json
 ```
 
-This writes `event_map.json` and `recipe.json`. The same packet, prior commit and decision time always give the same files. A dated source enters only if it was available strictly before the decision time, and a source that states a date and no time counts from noon UTC the next day. The pilot folder holds the packet, the outputs for two decision times that bracket the release, and `evaluate.py`, which hands a generated recipe to the event table.
+This writes `causal_map.json` and `recipes.json`. The subject is a profile id or a symbol; companies and funds take the same path, and no lead list, factor list or sector folder is supplied. Candidates come from three versioned inputs:
+
+- the leads the frozen profile projects, including links from a sector map into the shared market-structure map;
+- the series bindings, which say which concept or subject each series measures;
+- [`factor_definitions.json`](knowledge_base/prior_knowledge/bindings/factor_definitions.json), which says how a bound series becomes a factor, pins the prior commit and pins each binding by hash.
+
+A factor definition becomes a measurable candidate, with one recipe, when a projected lead reaches the concept it measures. Every other lead is kept as an unmeasured candidate that names the missing observation. To cover another subject, add its profile and price bindings; to add a factor, add a definition. A packet of dated sources is optional and supplies evidence only. A source enters only if it was available strictly before the decision time, and one that states a date and no time counts from noon UTC the next day.
+
+`artifacts/causal_maps/` holds the saved outputs: five subjects at one decision time, and TSMC's October 2026 revenue release at two decision times that bracket the release, with `evaluate.py` handing a generated candidate to the event table.
 
 A prospective test is registered before its first event in `artifacts/prospective/<name>/`: `recipe.json` and a `registration.json` that fixes the factors, thresholds, outcome, cutoff rule and reading rule. The commit that adds the registration dates the choice of comparison. That is separate from the recipe's prior status, which dates the research map.
 

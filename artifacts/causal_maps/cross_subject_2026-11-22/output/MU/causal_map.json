@@ -1,0 +1,1643 @@
+{
+ "subject_id": "company:micron",
+ "decision_time": "2026-11-22T12:00:00-05:00",
+ "event": null,
+ "prior": {
+  "sector_id": "semiconductors",
+  "sector_revision": "2026-11-21.2",
+  "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+  "profile_id": "company:micron",
+  "profile_revision": "2026-11-21.2",
+  "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+  "frozen_at": "2026-11-21T13:23:01-04:00"
+ },
+ "prior_status": "prior_available_at_decision",
+ "leads": [
+  {
+   "lead_id": "lead:politics:us:export_control:politics:china",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:us",
+   "to_id": "concept:politics:china",
+   "mechanism": "Limits on advanced chips and equipment cut vendors' China revenue and redirect demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:china:retaliation:politics:us",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:china",
+   "to_id": "concept:politics:us",
+   "mechanism": "Mineral export limits and actions against US firms raise input cost and revenue risk",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:alignment:politics:japan",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:us",
+   "to_id": "concept:politics:japan",
+   "mechanism": "Matched controls on equipment and materials",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:trade_and_security:politics:taiwan",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:us",
+   "to_id": "concept:politics:taiwan",
+   "mechanism": "Tariffs and onshoring demands change foundry cost and capex location; security posture changes risk premium",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:china:geopolitical_risk:politics:taiwan",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:china",
+   "to_id": "concept:politics:taiwan",
+   "mechanism": "Cross-strait tension raises the risk premium on the whole sector",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:frb:rate_transmission:economy:yields",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:economy:frb",
+   "to_id": "concept:economy:yields",
+   "mechanism": "Policy expectations set the short end and move real yields",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:yields:valuation:economy:risk_appetite",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:economy:yields",
+   "to_id": "concept:economy:risk_appetite",
+   "mechanism": "Higher real yields compress multiples of high-growth sectors",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:growth:cycle:economy:risk_appetite",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:economy:growth",
+   "to_id": "concept:economy:risk_appetite",
+   "mechanism": "Weakening orders reduce tolerance for cyclical exposure",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:resources:electricity:constraint:demand:hyperscalers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:resources:electricity",
+   "to_id": "concept:demand:hyperscalers",
+   "mechanism": "Power availability paces how fast ordered accelerators can be deployed",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:resources:critical_minerals:input_cost:supply_chain:materials",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:resources:critical_minerals",
+   "to_id": "concept:supply_chain:materials",
+   "mechanism": "Shortage raises compound-semiconductor and magnet cost",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:memory:capex:supply_chain:equipment",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "company:micron",
+   "to_id": "concept:supply_chain:equipment",
+   "mechanism": "Memory capex swings with the price cycle",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:design_tools:enabler:supply_chain:designers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:supply_chain:design_tools",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Design starts hint at tape-outs several quarters ahead",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:supply_chain:packaging_and_test",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Packaging capacity caps accelerator shipments",
+   "test_criteria": {
+    "trigger": "Confirmed orders for a named accelerator require more advanced packaging capacity than is available by its shipment deadline.",
+    "observable": "Units shipped or delivery dates for that accelerator against the designer’s original shipment plan.",
+    "window": "The shipment quarter covered by the original plan.",
+    "supports_if": "The designer or its supplier attributes a shipment shortfall or delay against the plan to unavailable packaging capacity.",
+    "contradicts_if": "The packaging constraint is documented, yet the designer delivers the full planned quantity on time, for example by securing alternative packaging capacity."
+   }
+  },
+  {
+   "lead_id": "lead:supply_chain:memory:bottleneck:supply_chain:designers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "company:micron",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "HBM supply caps accelerator shipments",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:system_builders:sell_through:supply_chain:designers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:supply_chain:system_builders",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Server-builder revenue shows whether chips are being deployed or stocked",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:export_control:supply_chain:designers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:politics:us",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Controls remove China accelerator sales",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:hyperscalers:capex:supply_chain:designers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:demand:hyperscalers",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Capex revisions lead accelerator and networking orders",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:ai_labs:compute_contract:demand:hyperscalers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:demand:ai_labs",
+   "to_id": "concept:demand:hyperscalers",
+   "mechanism": "Lab commitments underpin cloud capex; funding stress would unwind them",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:credit:funding:demand:hyperscalers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:economy:credit",
+   "to_id": "concept:demand:hyperscalers",
+   "mechanism": "Debt-funded capex is sensitive to spreads",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:sovereign_ai:orders:supply_chain:designers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:demand:sovereign_ai",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Approved programmes add demand outside the hyperscalers",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:smartphones:orders:supply_chain:designers",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:demand:smartphones",
+   "to_id": "concept:supply_chain:designers",
+   "mechanism": "Handset cycle drives mobile-chip wafer demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:hyperscalers:orders:supply_chain:memory",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:demand:hyperscalers",
+   "to_id": "company:micron",
+   "mechanism": "AI-server build-outs drive server DRAM and high-bandwidth memory demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:smartphones:orders:supply_chain:memory",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:demand:smartphones",
+   "to_id": "company:micron",
+   "mechanism": "Handset volumes and memory content per phone drive mobile DRAM and NAND demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:demand:pcs_and_servers:orders:supply_chain:memory",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:demand:pcs_and_servers",
+   "to_id": "company:micron",
+   "mechanism": "PC and server shipments and refresh cycles drive DRAM and NAND demand",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:designers:orders:supply_chain:memory",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:supply_chain:designers",
+   "to_id": "company:micron",
+   "mechanism": "Accelerator roadmaps and volumes set how much high-bandwidth memory is needed and to what specification",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:system_builders:sell_through:supply_chain:memory",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:supply_chain:system_builders",
+   "to_id": "company:micron",
+   "mechanism": "Builder shipments and component inventory show whether memory is being consumed or stocked",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:supply_chain:materials:input:supply_chain:memory",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:supply_chain:materials",
+   "to_id": "company:micron",
+   "mechanism": "Wafer shipments track memory wafer starts",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:export_control:supply_chain:memory",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:politics:us",
+   "to_id": "company:micron",
+   "mechanism": "Controls on advanced memory sales and on equipment for China fabs remove revenue and limit capacity upgrades",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:china:retaliation:supply_chain:memory",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "direct",
+   "from_id": "concept:politics:china",
+   "to_id": "company:micron",
+   "mechanism": "Restrictions on foreign memory and support for domestic makers shift share in the China market",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:yields:valuation:sector",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:economy:yields",
+   "to_id": "company:micron",
+   "mechanism": "Real-yield moves reprice long-duration growth multiples across the whole sector",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:economy:risk_appetite",
+   "to_id": "company:micron",
+   "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:economy:growth:cycle:sector",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:economy:growth",
+   "to_id": "company:micron",
+   "mechanism": "Global growth sets end demand for chips across every market",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:taiwan:concentration_risk:sector",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:politics:taiwan",
+   "to_id": "company:micron",
+   "mechanism": "Leading-edge manufacturing is concentrated in Taiwan, so a cross-strait or domestic disruption is a sector-wide supply shock",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:us:tariffs_and_subsidies:sector",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:politics:us",
+   "to_id": "company:micron",
+   "mechanism": "Chip tariffs and subsidies change cost and where capacity is built across the sector",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:politics:china:market_and_restriction:sector",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:politics:china",
+   "to_id": "company:micron",
+   "mechanism": "China is both a major end market and the target of restrictions, so policy shifts move sector revenue expectations",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:company:micron:concept:politics:us:subsidy",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:politics:us",
+   "to_id": "company:micron",
+   "mechanism": "US chip subsidies support its domestic fab build-out and its timing",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:company:micron:concept:politics:japan:fab_subsidy",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:politics:japan",
+   "to_id": "company:micron",
+   "mechanism": "Japanese subsidies support its fab in Japan",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:company:micron:concept:politics:taiwan:manufacturing_base",
+   "subject_id": "company:micron",
+   "source": {
+    "sector_id": "semiconductors",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+    "profile_id": "company:micron",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "d235754c14729942bf6b56f832b5f463952f7e653bd50c42f282c7a63f0aad56",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:politics:taiwan",
+   "to_id": "company:micron",
+   "mechanism": "A large share of its DRAM output is made in Taiwan, so Taiwan disruption hits its supply directly",
+   "test_criteria": null
+  }
+ ],
+ "candidates": [
+  {
+   "candidate_id": "factor:vix_term_structure",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:economy:yields:valuation:economy:risk_appetite",
+    "lead:economy:growth:cycle:economy:risk_appetite",
+    "lead:economy:risk_appetite:sector_beta:sector"
+   ],
+   "relevance": "VIX over VIX3M: near-term implied volatility against three-month. Linked from Risk Appetite: Was the volatility term structure signalling market-wide stress when the sector moved?",
+   "via": [
+    "concept:economy:risk_appetite",
+    "concept:derivatives_flows:vol_term_structure"
+   ],
+   "factor": {
+    "factor_id": "vix_term_structure",
+    "measure": "ratio",
+    "series_ids": [
+     "cboe:vix",
+     "cboe:vix3m"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": null,
+    "rank_sessions": null
+   },
+   "reads": "direct",
+   "timing": "decision_time",
+   "recipe_id": "recipe:company:micron:vix_term_structure:fund:soxx:5",
+   "recipe_sha256": "7620982635bba9eccfe8a49a0ac5d3fcd6ddd60100d45e547bd1d6d3dfd36b19",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "factor:real_yield_10y_change_20_rank_250",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:economy:frb:rate_transmission:economy:yields",
+    "lead:economy:yields:valuation:economy:risk_appetite",
+    "lead:economy:yields:valuation:sector"
+   ],
+   "relevance": "The 20-session change in the 10-year real yield, ranked against its own previous 250 values. Linked from Yields: Is the sector's move in line with a market-wide repricing from real yields?",
+   "via": [
+    "concept:economy:yields",
+    "concept:macro_liquidity:real_yields"
+   ],
+   "factor": {
+    "factor_id": "real_yield_10y_change_20_rank_250",
+    "measure": "change",
+    "series_ids": [
+     "treasury:real_yield_10y"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20,
+    "rank_sessions": 250
+   },
+   "reads": "direct",
+   "timing": "decision_time",
+   "recipe_id": "recipe:company:micron:real_yield_10y_change_20_rank_250:fund:soxx:5",
+   "recipe_sha256": "c2e0ffe7c901299292d5d4ee25215ccfd2420dc423de8985316777c70cd54915",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "factor:trend_200",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:economy:yields:valuation:economy:risk_appetite",
+    "lead:economy:growth:cycle:economy:risk_appetite",
+    "lead:economy:risk_appetite:sector_beta:sector"
+   ],
+   "relevance": "The subject's own close against its 200-session average. A description of price standing in for trend-following flows; it measures no one's positioning. Linked from Risk Appetite: Had index trends broken in a way that could trigger systematic selling?",
+   "via": [
+    "concept:economy:risk_appetite",
+    "concept:systematic_positioning:cta_trend_flows"
+   ],
+   "factor": {
+    "factor_id": "trend_200",
+    "measure": "trend_state",
+    "series_ids": [
+     "yahoo:mu:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 200,
+    "rank_sessions": null
+   },
+   "reads": "proxy",
+   "timing": "decision_time",
+   "recipe_id": "recipe:company:micron:trend_200:fund:soxx:5",
+   "recipe_sha256": "5b1c5d16f1f41f27dc022f0b3fcecf4c8ca57e8df391ad6e769843a77382bd09",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:export_control:politics:china",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:export_control:politics:china"
+   ],
+   "relevance": "Limits on advanced chips and equipment cut vendors' China revenue and redirect demand.",
+   "via": [
+    "concept:politics:us",
+    "concept:politics:china"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US, China. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences; retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:china:retaliation:politics:us",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:china:retaliation:politics:us"
+   ],
+   "relevance": "Mineral export limits and actions against US firms raise input cost and revenue risk.",
+   "via": [
+    "concept:politics:china",
+    "concept:politics:us"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for China, US. The prior lists these observables: retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers; BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:alignment:politics:japan",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:alignment:politics:japan"
+   ],
+   "relevance": "Matched controls on equipment and materials.",
+   "via": [
+    "concept:politics:us",
+    "concept:politics:japan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US, Japan. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences; export-control alignment; fab subsidies; yen policy.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:trade_and_security:politics:taiwan",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:trade_and_security:politics:taiwan"
+   ],
+   "relevance": "Tariffs and onshoring demands change foundry cost and capex location; security posture changes risk premium.",
+   "via": [
+    "concept:politics:us",
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US, Taiwan. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences; cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:china:geopolitical_risk:politics:taiwan",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:china:geopolitical_risk:politics:taiwan"
+   ],
+   "relevance": "Cross-strait tension raises the risk premium on the whole sector.",
+   "via": [
+    "concept:politics:china",
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for China, Taiwan. The prior lists these observables: retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers; cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:resources:electricity:constraint:demand:hyperscalers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:resources:electricity:constraint:demand:hyperscalers"
+   ],
+   "relevance": "Power availability paces how fast ordered accelerators can be deployed.",
+   "via": [
+    "concept:resources:electricity",
+    "concept:demand:hyperscalers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Electricity, Hyperscalers. The prior lists these observables: grid-connection queues; power prices; Taiwan reserve margin; data-center power contracts; capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:resources:critical_minerals:input_cost:supply_chain:materials",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:resources:critical_minerals:input_cost:supply_chain:materials"
+   ],
+   "relevance": "Shortage raises compound-semiconductor and magnet cost.",
+   "via": [
+    "concept:resources:critical_minerals",
+    "concept:supply_chain:materials"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Critical Minerals, Materials. The prior lists these observables: export-licence rules; spot prices; non-China refining projects; wafer shipments; contract pricing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:memory:capex:supply_chain:equipment",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:memory:capex:supply_chain:equipment"
+   ],
+   "relevance": "Memory capex swings with the price cycle.",
+   "via": [
+    "concept:supply_chain:equipment"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Equipment. The prior lists these observables: bookings and backlog; China share of revenue; lead times.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:design_tools:enabler:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:design_tools:enabler:supply_chain:designers"
+   ],
+   "relevance": "Design starts hint at tape-outs several quarters ahead.",
+   "via": [
+    "concept:supply_chain:design_tools",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Design Tools, Designers. The prior lists these observables: design-start and backlog commentary; China licence restrictions; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:packaging_and_test:bottleneck:supply_chain:designers"
+   ],
+   "relevance": "Packaging capacity caps accelerator shipments.",
+   "via": [
+    "concept:supply_chain:packaging_and_test",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Packaging and Test, Designers. The prior lists these observables: advanced-packaging capacity additions; lead times; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:memory:bottleneck:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:memory:bottleneck:supply_chain:designers"
+   ],
+   "relevance": "HBM supply caps accelerator shipments.",
+   "via": [
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Designers. The prior lists these observables: revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:system_builders:sell_through:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:system_builders:sell_through:supply_chain:designers"
+   ],
+   "relevance": "Server-builder revenue shows whether chips are being deployed or stocked.",
+   "via": [
+    "concept:supply_chain:system_builders",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for System Builders, Designers. The prior lists these observables: monthly revenue; AI-server shipment commentary; component shortages; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:export_control:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:export_control:supply_chain:designers"
+   ],
+   "relevance": "Controls remove China accelerator sales.",
+   "via": [
+    "concept:politics:us",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US, Designers. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:hyperscalers:capex:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:hyperscalers:capex:supply_chain:designers"
+   ],
+   "relevance": "Capex revisions lead accelerator and networking orders.",
+   "via": [
+    "concept:demand:hyperscalers",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Hyperscalers, Designers. The prior lists these observables: capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:ai_labs:compute_contract:demand:hyperscalers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:ai_labs:compute_contract:demand:hyperscalers"
+   ],
+   "relevance": "Lab commitments underpin cloud capex; funding stress would unwind them.",
+   "via": [
+    "concept:demand:ai_labs",
+    "concept:demand:hyperscalers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for AI Labs, Hyperscalers. The prior lists these observables: funding rounds; compute commitments; revenue disclosures by counterparties; capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:economy:credit:funding:demand:hyperscalers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:economy:credit:funding:demand:hyperscalers"
+   ],
+   "relevance": "Debt-funded capex is sensitive to spreads.",
+   "via": [
+    "concept:economy:credit",
+    "concept:demand:hyperscalers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Credit, Hyperscalers. The prior lists these observables: credit spreads; data-center and AI debt issuance; private-credit and vendor-financing deals; capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:sovereign_ai:orders:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:sovereign_ai:orders:supply_chain:designers"
+   ],
+   "relevance": "Approved programmes add demand outside the hyperscalers.",
+   "via": [
+    "concept:demand:sovereign_ai",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Sovereign AI, Designers. The prior lists these observables: announced national programmes; export approvals; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:smartphones:orders:supply_chain:designers",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:smartphones:orders:supply_chain:designers"
+   ],
+   "relevance": "Handset cycle drives mobile-chip wafer demand.",
+   "via": [
+    "concept:demand:smartphones",
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Smartphones, Designers. The prior lists these observables: shipment estimates; flagship launch timing; channel inventory; revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:hyperscalers:orders:supply_chain:memory",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:hyperscalers:orders:supply_chain:memory"
+   ],
+   "relevance": "AI-server build-outs drive server DRAM and high-bandwidth memory demand.",
+   "via": [
+    "concept:demand:hyperscalers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Hyperscalers. The prior lists these observables: capex actuals and guidance; cloud revenue growth; depreciation and free cash flow; in-house chip programmes.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:smartphones:orders:supply_chain:memory",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:smartphones:orders:supply_chain:memory"
+   ],
+   "relevance": "Handset volumes and memory content per phone drive mobile DRAM and NAND demand.",
+   "via": [
+    "concept:demand:smartphones"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Smartphones. The prior lists these observables: shipment estimates; flagship launch timing; channel inventory.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:demand:pcs_and_servers:orders:supply_chain:memory",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:demand:pcs_and_servers:orders:supply_chain:memory"
+   ],
+   "relevance": "PC and server shipments and refresh cycles drive DRAM and NAND demand.",
+   "via": [
+    "concept:demand:pcs_and_servers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for PCs and Servers. The prior lists these observables: shipment estimates; enterprise refresh commentary.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:designers:orders:supply_chain:memory",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:designers:orders:supply_chain:memory"
+   ],
+   "relevance": "Accelerator roadmaps and volumes set how much high-bandwidth memory is needed and to what specification.",
+   "via": [
+    "concept:supply_chain:designers"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Designers. The prior lists these observables: revenue guidance; inventory and purchase commitments; product-cycle timing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:system_builders:sell_through:supply_chain:memory",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:system_builders:sell_through:supply_chain:memory"
+   ],
+   "relevance": "Builder shipments and component inventory show whether memory is being consumed or stocked.",
+   "via": [
+    "concept:supply_chain:system_builders"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for System Builders. The prior lists these observables: monthly revenue; AI-server shipment commentary; component shortages.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:supply_chain:materials:input:supply_chain:memory",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:supply_chain:materials:input:supply_chain:memory"
+   ],
+   "relevance": "Wafer shipments track memory wafer starts.",
+   "via": [
+    "concept:supply_chain:materials"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Materials. The prior lists these observables: wafer shipments; contract pricing.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:export_control:supply_chain:memory",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:export_control:supply_chain:memory"
+   ],
+   "relevance": "Controls on advanced memory sales and on equipment for China fabs remove revenue and limit capacity upgrades.",
+   "via": [
+    "concept:politics:us"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:china:retaliation:supply_chain:memory",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:china:retaliation:supply_chain:memory"
+   ],
+   "relevance": "Restrictions on foreign memory and support for domestic makers shift share in the China market.",
+   "via": [
+    "concept:politics:china"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for China. The prior lists these observables: retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:economy:growth:cycle:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:economy:growth:cycle:sector"
+   ],
+   "relevance": "Global growth sets end demand for chips across every market.",
+   "via": [
+    "concept:economy:growth"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Growth. The prior lists these observables: PMI new orders; employment; GDP revisions; Korea and Taiwan export data.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:taiwan:concentration_risk:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:taiwan:concentration_risk:sector"
+   ],
+   "relevance": "Leading-edge manufacturing is concentrated in Taiwan, so a cross-strait or domestic disruption is a sector-wide supply shock.",
+   "via": [
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Taiwan. The prior lists these observables: cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:us:tariffs_and_subsidies:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:us:tariffs_and_subsidies:sector"
+   ],
+   "relevance": "Chip tariffs and subsidies change cost and where capacity is built across the sector.",
+   "via": [
+    "concept:politics:us"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:politics:china:market_and_restriction:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:politics:china:market_and_restriction:sector"
+   ],
+   "relevance": "China is both a major end market and the target of restrictions, so policy shifts move sector revenue expectations.",
+   "via": [
+    "concept:politics:china"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for China. The prior lists these observables: retaliation and critical-mineral export limits; state chip-fund rounds; domestic substitution mandates; customs and antitrust actions against foreign chipmakers.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:company:micron:concept:politics:us:subsidy",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:company:micron:concept:politics:us:subsidy"
+   ],
+   "relevance": "US chip subsidies support its domestic fab build-out and its timing.",
+   "via": [
+    "concept:politics:us"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for US. The prior lists these observables: BIS export-control rules and entity-list changes; chip and equipment tariff actions; CHIPS Act awards; AI-chip export licences.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:company:micron:concept:politics:japan:fab_subsidy",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:company:micron:concept:politics:japan:fab_subsidy"
+   ],
+   "relevance": "Japanese subsidies support its fab in Japan.",
+   "via": [
+    "concept:politics:japan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Japan. The prior lists these observables: export-control alignment; fab subsidies; yen policy.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:company:micron:concept:politics:taiwan:manufacturing_base",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:company:micron:concept:politics:taiwan:manufacturing_base"
+   ],
+   "relevance": "A large share of its DRAM output is made in Taiwan, so Taiwan disruption hits its supply directly.",
+   "via": [
+    "concept:politics:taiwan"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Taiwan. The prior lists these observables: cross-strait military activity; overseas-fab investment rules; power and water policy; trade terms with the US.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  }
+ ],
+ "evidence": [],
+ "content": [],
+ "inputs_sha256": {
+  "factor_definitions": "afa6237303ab4c9fde8a1f10479fa379573d779a0cffa3ce0f30b500ff7cbb2c",
+  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9",
+  "binding:cboe:vix": "c3cd336b1c55662c0c5869032b767793278ca65f91c8d0ff0cd80748049e5e58",
+  "binding:cboe:vix3m": "d9f54baad10a2baa4a8b0655063959397f16d27c820ab154c8a20f289ed08966",
+  "binding:treasury:real_yield_10y": "dfe5f300dd46fe56a75f644a991065b53eb17625fd9dd3e30914b08683eacb9d",
+  "binding:yahoo:mu:close": "750d8d204accf9ae2fb43d2cb675aec38f45b02d8e196b6af993bb679e5da2a3",
+  "binding:yahoo:mu:open": "32d96613cddab069d6e2cfddc3eaeaf71e7ed918d7c9a9229387a6761df9ddf5",
+  "binding:yahoo:soxx:close": "43bc2bd433cbdb11ddcb9fd6369c424df520d7343bc9d10ff8bb23815b5d53f5",
+  "binding:yahoo:soxx:open": "179a8807fc322766667f899a9748d8cfe373a9b7ae4d075a626529f6ff70962e"
+ }
+}

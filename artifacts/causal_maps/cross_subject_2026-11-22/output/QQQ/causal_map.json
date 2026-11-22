@@ -1,0 +1,627 @@
+{
+ "subject_id": "fund:qqq",
+ "decision_time": "2026-11-22T12:00:00-05:00",
+ "event": null,
+ "prior": {
+  "sector_id": "market_structure",
+  "sector_revision": "2026-11-21.2",
+  "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+  "profile_id": "fund:qqq",
+  "profile_revision": "2026-11-21.2",
+  "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+  "frozen_at": "2026-11-21T13:23:01-04:00"
+ },
+ "prior_status": "prior_available_at_decision",
+ "leads": [
+  {
+   "lead_id": "lead:macro_liquidity:frb_policy:rate_path:macro_liquidity:real_yields",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:macro_liquidity:frb_policy",
+   "to_id": "concept:macro_liquidity:real_yields",
+   "mechanism": "Changes in the expected policy path may move real yields.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:macro_liquidity:real_yields:valuation:sector",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:macro_liquidity:real_yields",
+   "to_id": "fund:qqq",
+   "mechanism": "Rapid rises in real yields may compress the valuation multiples of long-duration equities.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:macro_liquidity:credit_spreads:funding:systematic_positioning:market_breadth",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:macro_liquidity:credit_spreads",
+   "to_id": "concept:systematic_positioning:market_breadth",
+   "mechanism": "Widening credit spreads may tighten funding and pull money out of higher-beta stocks first, narrowing breadth.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:macro_liquidity:usd_liquidity:funding_stress:sector",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:macro_liquidity:usd_liquidity",
+   "to_id": "fund:qqq",
+   "mechanism": "Dollar funding stress may force holders of dollar-funded positions to sell risk assets.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:derivatives_flows:vol_term_structure:stress_signal:sector",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:derivatives_flows:vol_term_structure",
+   "to_id": "fund:qqq",
+   "mechanism": "Near-term implied volatility above three-month implied volatility indicates strong demand for short-dated protection.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:derivatives_flows:vol_term_structure:regime:derivatives_flows:dealer_gamma",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "lateral",
+   "from_id": "concept:derivatives_flows:vol_term_structure",
+   "to_id": "concept:derivatives_flows:dealer_gamma",
+   "mechanism": "Volatility spikes and term-structure inversion may coincide with dealers holding negative gamma. This needs independent positioning evidence; the term structure does not measure it.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:derivatives_flows:opex_calendar:hedge_roll_off:derivatives_flows:dealer_gamma",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "concept",
+   "hop": "second_hop",
+   "from_id": "concept:derivatives_flows:opex_calendar",
+   "to_id": "concept:derivatives_flows:dealer_gamma",
+   "mechanism": "Expiry removes option positions and their hedges, which may change the dealer gamma regime around those dates.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:derivatives_flows:dealer_gamma:hedging_feedback:sector",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:derivatives_flows:dealer_gamma",
+   "to_id": "fund:qqq",
+   "mechanism": "When dealers hold negative gamma, their delta hedging may sell into falls and buy into rises, amplifying moves.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:systematic_positioning:cta_trend_flows:deleveraging:sector",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:systematic_positioning:cta_trend_flows",
+   "to_id": "fund:qqq",
+   "mechanism": "Breaks of medium-term trends may trigger mechanical selling by trend-following funds.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:systematic_positioning:vol_control_flows:deleveraging:sector",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:systematic_positioning:vol_control_flows",
+   "to_id": "fund:qqq",
+   "mechanism": "A jump in realised volatility may force volatility-targeting funds to cut equity exposure.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:systematic_positioning:market_breadth:participation:sector",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:systematic_positioning:market_breadth",
+   "to_id": "fund:qqq",
+   "mechanism": "An index move carried by few members, or a spike in correlation among members, indicates a fragile or crowded market.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:systematic_positioning:margin_and_etf_flows:forced_selling:sector",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "sector",
+   "hop": "direct",
+   "from_id": "concept:systematic_positioning:margin_and_etf_flows",
+   "to_id": "fund:qqq",
+   "mechanism": "Margin calls and fund redemptions may force selling that is unrelated to company fundamentals.",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:fund:qqq:concept:systematic_positioning:market_breadth:weight_concentration",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:systematic_positioning:market_breadth",
+   "to_id": "fund:qqq",
+   "mechanism": "The largest holdings carry most of the index weight, so the index can hold up while most members weaken",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:fund:qqq:concept:macro_liquidity:real_yields:duration_sensitivity",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "mechanism_hypothesis",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:macro_liquidity:real_yields",
+   "to_id": "fund:qqq",
+   "mechanism": "A technology-heavy index may react more to real-yield changes than the broad market does",
+   "test_criteria": null
+  },
+  {
+   "lead_id": "lead:fund:qqq:concept:systematic_positioning:margin_and_etf_flows:fund_flows",
+   "subject_id": "fund:qqq",
+   "source": {
+    "sector_id": "market_structure",
+    "sector_revision": "2026-11-21.2",
+    "sector_sha256": "34dbba8af13e7179018f191fae5b09e5ce65c72578210250db71147339c5f1e5",
+    "profile_id": "fund:qqq",
+    "profile_revision": "2026-11-21.2",
+    "profile_sha256": "6e3330404adb988b09f4445084b508d37584fe30b7fc5decad6172768e1dd784",
+    "frozen_at": "2026-11-21T13:23:01-04:00"
+   },
+   "relation_kind": "observation_lead",
+   "scope": "company",
+   "hop": "direct",
+   "from_id": "concept:systematic_positioning:margin_and_etf_flows",
+   "to_id": "fund:qqq",
+   "mechanism": "Creations and redemptions are primary-market activity in this fund; they do not by themselves establish net flows into large technology stocks",
+   "test_criteria": null
+  }
+ ],
+ "candidates": [
+  {
+   "candidate_id": "factor:vix_term_structure",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:derivatives_flows:vol_term_structure:stress_signal:sector",
+    "lead:derivatives_flows:vol_term_structure:regime:derivatives_flows:dealer_gamma"
+   ],
+   "relevance": "VIX over VIX3M: near-term implied volatility against three-month. Near-term implied volatility above three-month implied volatility indicates strong demand for short-dated protection.",
+   "via": [
+    "concept:derivatives_flows:vol_term_structure"
+   ],
+   "factor": {
+    "factor_id": "vix_term_structure",
+    "measure": "ratio",
+    "series_ids": [
+     "cboe:vix",
+     "cboe:vix3m"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": null,
+    "rank_sessions": null
+   },
+   "reads": "direct",
+   "timing": "decision_time",
+   "recipe_id": "recipe:fund:qqq:vix_term_structure:absolute:20",
+   "recipe_sha256": "aa7694e5f03cf524c8c366547a9cca09484e2db7c3b83ebad9d96374b20395c1",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "factor:real_yield_10y_change_20_rank_250",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:macro_liquidity:frb_policy:rate_path:macro_liquidity:real_yields",
+    "lead:macro_liquidity:real_yields:valuation:sector",
+    "lead:fund:qqq:concept:macro_liquidity:real_yields:duration_sensitivity"
+   ],
+   "relevance": "The 20-session change in the 10-year real yield, ranked against its own previous 250 values. Changes in the expected policy path may move real yields.",
+   "via": [
+    "concept:macro_liquidity:real_yields"
+   ],
+   "factor": {
+    "factor_id": "real_yield_10y_change_20_rank_250",
+    "measure": "change",
+    "series_ids": [
+     "treasury:real_yield_10y"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20,
+    "rank_sessions": 250
+   },
+   "reads": "direct",
+   "timing": "decision_time",
+   "recipe_id": "recipe:fund:qqq:real_yield_10y_change_20_rank_250:absolute:20",
+   "recipe_sha256": "495e6c45cab9ca9e9daf1c1b7fa9553fb9ec53d8945de18f8e9189abc4660ee6",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "factor:trend_200",
+   "status": "measurable",
+   "origin_lead_ids": [
+    "lead:systematic_positioning:cta_trend_flows:deleveraging:sector"
+   ],
+   "relevance": "The subject's own close against its 200-session average. A description of price standing in for trend-following flows; it measures no one's positioning. Breaks of medium-term trends may trigger mechanical selling by trend-following funds.",
+   "via": [
+    "concept:systematic_positioning:cta_trend_flows"
+   ],
+   "factor": {
+    "factor_id": "trend_200",
+    "measure": "trend_state",
+    "series_ids": [
+     "yahoo:qqq:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 200,
+    "rank_sessions": null
+   },
+   "reads": "proxy",
+   "timing": "decision_time",
+   "recipe_id": "recipe:fund:qqq:trend_200:absolute:20",
+   "recipe_sha256": "6706e73738d7acd40d80c2fd4fe477ba505571e8c20d444bd807a0e544f68f19",
+   "missing": null,
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:macro_liquidity:credit_spreads:funding:systematic_positioning:market_breadth",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:macro_liquidity:credit_spreads:funding:systematic_positioning:market_breadth"
+   ],
+   "relevance": "Widening credit spreads may tighten funding and pull money out of higher-beta stocks first, narrowing breadth.",
+   "via": [
+    "concept:macro_liquidity:credit_spreads",
+    "concept:systematic_positioning:market_breadth"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Credit Spreads, Market Breadth. The prior lists these observables: high-yield and investment-grade option-adjusted spreads; spread rate of change; share of index members above their 50-day and 200-day averages; equal-weight against cap-weight index return; rolling pairwise correlation of members.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:macro_liquidity:usd_liquidity:funding_stress:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:macro_liquidity:usd_liquidity:funding_stress:sector"
+   ],
+   "relevance": "Dollar funding stress may force holders of dollar-funded positions to sell risk assets.",
+   "via": [
+    "concept:macro_liquidity:usd_liquidity"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for USD Liquidity. The prior lists these observables: broad dollar index; cross-currency basis; money-market funding rates.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:derivatives_flows:opex_calendar:hedge_roll_off:derivatives_flows:dealer_gamma",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:derivatives_flows:opex_calendar:hedge_roll_off:derivatives_flows:dealer_gamma"
+   ],
+   "relevance": "Expiry removes option positions and their hedges, which may change the dealer gamma regime around those dates.",
+   "via": [
+    "concept:derivatives_flows:opex_calendar",
+    "concept:derivatives_flows:dealer_gamma"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Options Expiry Calendar, Dealer Gamma. The prior lists these observables: monthly and quarterly expiry dates; open interest expiring on each date; share of volume in same-day-expiry options; estimated net dealer gamma by strike; index level against the estimated gamma-flip level.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:derivatives_flows:dealer_gamma:hedging_feedback:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:derivatives_flows:dealer_gamma:hedging_feedback:sector"
+   ],
+   "relevance": "When dealers hold negative gamma, their delta hedging may sell into falls and buy into rises, amplifying moves.",
+   "via": [
+    "concept:derivatives_flows:dealer_gamma"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Dealer Gamma. The prior lists these observables: estimated net dealer gamma by strike; index level against the estimated gamma-flip level.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:systematic_positioning:vol_control_flows:deleveraging:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:systematic_positioning:vol_control_flows:deleveraging:sector"
+   ],
+   "relevance": "A jump in realised volatility may force volatility-targeting funds to cut equity exposure.",
+   "via": [
+    "concept:systematic_positioning:vol_control_flows"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Volatility-Control Flows. The prior lists these observables: realised volatility of the equity index, as the input these funds respond to.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:systematic_positioning:market_breadth:participation:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:systematic_positioning:market_breadth:participation:sector"
+   ],
+   "relevance": "An index move carried by few members, or a spike in correlation among members, indicates a fragile or crowded market.",
+   "via": [
+    "concept:systematic_positioning:market_breadth"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Market Breadth. The prior lists these observables: share of index members above their 50-day and 200-day averages; equal-weight against cap-weight index return; rolling pairwise correlation of members.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:systematic_positioning:margin_and_etf_flows:forced_selling:sector",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:systematic_positioning:margin_and_etf_flows:forced_selling:sector"
+   ],
+   "relevance": "Margin calls and fund redemptions may force selling that is unrelated to company fundamentals.",
+   "via": [
+    "concept:systematic_positioning:margin_and_etf_flows"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Margin and ETF Flows. The prior lists these observables: margin debt balances; ETF shares outstanding, creations and redemptions.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:fund:qqq:concept:systematic_positioning:market_breadth:weight_concentration",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:fund:qqq:concept:systematic_positioning:market_breadth:weight_concentration"
+   ],
+   "relevance": "The largest holdings carry most of the index weight, so the index can hold up while most members weaken.",
+   "via": [
+    "concept:systematic_positioning:market_breadth"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Market Breadth. The prior lists these observables: share of index members above their 50-day and 200-day averages; equal-weight against cap-weight index return; rolling pairwise correlation of members.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  },
+  {
+   "candidate_id": "unmeasured:lead:fund:qqq:concept:systematic_positioning:margin_and_etf_flows:fund_flows",
+   "status": "unmeasured",
+   "origin_lead_ids": [
+    "lead:fund:qqq:concept:systematic_positioning:margin_and_etf_flows:fund_flows"
+   ],
+   "relevance": "Creations and redemptions are primary-market activity in this fund; they do not by themselves establish net flows into large technology stocks.",
+   "via": [
+    "concept:systematic_positioning:margin_and_etf_flows"
+   ],
+   "factor": null,
+   "reads": null,
+   "timing": null,
+   "recipe_id": null,
+   "recipe_sha256": null,
+   "missing": "No factor is defined on a bound series for Margin and ETF Flows. The prior lists these observables: margin debt balances; ETF shares outstanding, creations and redemptions.",
+   "evidence_ids": [],
+   "supports": 0,
+   "contradicts": 0,
+   "inconclusive": 0,
+   "gaps": 0
+  }
+ ],
+ "evidence": [],
+ "content": [],
+ "inputs_sha256": {
+  "factor_definitions": "afa6237303ab4c9fde8a1f10479fa379573d779a0cffa3ce0f30b500ff7cbb2c",
+  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9",
+  "binding:cboe:vix": "c3cd336b1c55662c0c5869032b767793278ca65f91c8d0ff0cd80748049e5e58",
+  "binding:cboe:vix3m": "d9f54baad10a2baa4a8b0655063959397f16d27c820ab154c8a20f289ed08966",
+  "binding:treasury:real_yield_10y": "dfe5f300dd46fe56a75f644a991065b53eb17625fd9dd3e30914b08683eacb9d",
+  "binding:yahoo:qqq:close": "86f96a8f68ecd7605799c595cd2650c7501b62521ca34b5adb69c84c81848366",
+  "binding:yahoo:qqq:open": "0082751aef7aeba9c14b526c06c0d26171b6d38908b700a18891102ded7fbf96"
+ }
+}

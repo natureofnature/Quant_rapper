@@ -22,17 +22,18 @@ artifacts/**
 !/artifacts/snapshots/2026-11-22/treasury_real_yield_10y.csv
 !/artifacts/snapshots/2026-11-22/us_treasury_yield_sessions_2003_2026.json
 
-# Event-map pilots: the curated source packet, its entry-point outputs and the evaluator hand-off
-!/artifacts/event_maps/
-!/artifacts/event_maps/*/
-!/artifacts/event_maps/*/packet.json
-!/artifacts/event_maps/*/monthly_periods_*.json
-!/artifacts/event_maps/*/evaluate.py
-!/artifacts/event_maps/*/output/
-!/artifacts/event_maps/*/output/*/
-!/artifacts/event_maps/*/output/*/event_map.json
-!/artifacts/event_maps/*/output/*/recipe.json
-!/artifacts/event_maps/*/output/*/table.json
+# Causal maps: curated source packets, the generator's outputs and the evaluator hand-off
+!/artifacts/causal_maps/
+!/artifacts/causal_maps/*/
+!/artifacts/causal_maps/*/packet.json
+!/artifacts/causal_maps/*/monthly_periods_*.json
+!/artifacts/causal_maps/*/evaluate.py
+!/artifacts/causal_maps/*/output/
+!/artifacts/causal_maps/*/output/*/
+!/artifacts/causal_maps/*/output/*/causal_map.json
+!/artifacts/causal_maps/*/output/*/recipes.json
+!/artifacts/causal_maps/*/output/*/table.json
+!/artifacts/causal_maps/*/output/*/gap.json
 
 # Prospective registrations: the recipe and what was fixed before the events
 !/artifacts/prospective/*/registration.json
