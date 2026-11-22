@@ -11,3 +11,8 @@ run/**
 artifacts/**
 !artifacts/**/
 !artifacts/**/.gitkeep
+
+# Reusable snapshot metadata and curated source data
+!/artifacts/snapshots/*/manifest.json
+!/artifacts/snapshots/2026-11-21/tsmc_monthly_revenue_events.json
+!/artifacts/snapshots/2026-11-21/us_equity_sessions_2026.json

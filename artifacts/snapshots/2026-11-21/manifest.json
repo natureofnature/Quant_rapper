@@ -1,0 +1,42 @@
+{
+  "snapshot_date": "2026-11-21",
+  "retrieval_note": "The four raw market files are stored locally. Their source URLs serve changing histories. Exact replay requires the saved bytes matching the hashes below.",
+  "files": {
+    "VIX.csv": {
+      "source": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
+      "first_session": "1990-01-02",
+      "last_session": "2026-11-20",
+      "sha256": "2a3b180ffb268b7805c17567c0ac7787c74898b0d99f62f550be67eafffd1c16"
+    },
+    "VIX3M.csv": {
+      "source": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX3M_History.csv",
+      "first_session": "2009-09-18",
+      "last_session": "2026-11-20",
+      "sha256": "034fd5e08f9ce5ef806e600a51b28a76a1d85c6ea3ff978a29ca4abc67451a96"
+    },
+    "TSM.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/TSM",
+      "first_session": "2025-11-03",
+      "last_session": "2026-11-20",
+      "sha256": "4ade1bec69d10863dcf0e60f081a24a75ea18def9eab288d27d99ad8e9771481"
+    },
+    "SOXX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX",
+      "first_session": "2025-11-03",
+      "last_session": "2026-11-20",
+      "sha256": "31516982ccde5d845dfa9cfcd33ef7282bf9db821b8d096eaad9f0faf2943240"
+    },
+    "tsmc_monthly_revenue_events.json": {
+      "source": "SEC EDGAR Form 6-K filing index pages identified by the accession numbers in the file",
+      "first_filing_date": "2026-01-09",
+      "last_filing_date": "2026-11-10",
+      "sha256": "4ff759371f99e8e10540f8baa7fdf03e231eb04282c65cc5e3a1e5bbadb3d787"
+    },
+    "us_equity_sessions_2026.json": {
+      "source": "NYSE Hours & Calendars, 2026 US equity trading schedule",
+      "first_session": "2026-01-02",
+      "last_session": "2026-12-31",
+      "sha256": "ba88da256a661d4d54dbdc45ded1da8b60cc0b15c1bfbf6b8485b460f33eca87"
+    }
+  }
+}

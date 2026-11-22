@@ -36,9 +36,10 @@ def weekdays(first: date, last: date, holidays=()) -> tuple[date, ...]:
 class CrossTimezoneReplayTests(unittest.TestCase):
     def setUp(self):
         data = json.loads(BINDINGS.read_text(encoding="utf-8"))
-        self.vix, self.vix3m = (SeriesBinding(**s) for s in data["series"])
+        self.series = {s["series_id"]: SeriesBinding(**s) for s in data["series"]}
+        self.vix, self.vix3m = self.series["cboe:vix"], self.series["cboe:vix3m"]
         self.events = [EventBinding(**e) for e in data["events"]]
-        self.pilot_calendar = SessionCalendar(**data["calendars"][0])
+        self.pilot_calendar = SessionCalendar(**json.loads(FIXTURE.read_text())["calendar"])
         self.both = [self.vix, self.vix3m]
 
     def closes(self, *sessions, skip=()):
@@ -213,7 +214,7 @@ class CrossTimezoneReplayTests(unittest.TestCase):
         for path in (ROOT / "knowledge_base/prior_knowledge/Relationships").glob("*/*/*.json"):
             profile = json.loads(path.read_text(encoding="utf-8"))
             known.update(v for k, v in profile.items() if k in ("company_id", "fund_id"))
-        for binding in (*self.both, *self.events):
+        for binding in (*self.series.values(), *self.events):
             self.assertLessEqual(set(binding.anchors), known, binding)
 
 

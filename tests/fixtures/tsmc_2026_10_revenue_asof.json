@@ -35,5 +35,24 @@
     "verified": false,
     "ratio": 0.9554,
     "available_at": "2026-11-09T16:30:00-05:00"
+  },
+  "calendar": {
+    "calendar_id": "us_index_sessions_pilot",
+    "timezone": "America/New_York",
+    "first": "2026-11-02",
+    "last": "2026-11-13",
+    "sessions": [
+      "2026-11-02",
+      "2026-11-03",
+      "2026-11-04",
+      "2026-11-05",
+      "2026-11-06",
+      "2026-11-09",
+      "2026-11-10",
+      "2026-11-11",
+      "2026-11-12",
+      "2026-11-13"
+    ],
+    "basis_note": "Every weekday in the window. No US exchange holiday falls in it under the standard schedule (Veterans Day, 11 November, is a trading day). The schedule was not opened as a source; each listed date does have a row in both Cboe history files."
   }
 }

@@ -1,0 +1,16 @@
+{
+  "describe": "TSMC monthly revenue Form 6-K filings in 2026. accepted is the EDGAR acceptance time (US Eastern) read from each filing index page on 2026-11-21. It is an upper bound on the release time: the report is published in Taiwan first.",
+  "events": [
+    {"month": "2025-12", "accession": "0001046179-26-000005", "accepted": "2026-01-09T06:02:53"},
+    {"month": "2026-01", "accession": "0001046179-26-000015", "accepted": "2026-02-10T07:00:18"},
+    {"month": "2026-02", "accession": "0001046179-26-000031", "accepted": "2026-03-10T06:19:33"},
+    {"month": "2026-03", "accession": "0001046179-26-000136", "accepted": "2026-04-10T06:14:43"},
+    {"month": "2026-04", "accession": "0001046179-26-000213", "accepted": "2026-05-08T06:07:47"},
+    {"month": "2026-05", "accession": "0001046179-26-000367", "accepted": "2026-06-10T06:18:57"},
+    {"month": "2026-06", "accession": "0001046179-26-000447", "accepted": "2026-07-13T07:01:35"},
+    {"month": "2026-07", "accession": "0001046179-26-000471", "accepted": "2026-08-10T06:28:44"},
+    {"month": "2026-08", "accession": "0001046179-26-000658", "accepted": "2026-09-10T06:15:36"},
+    {"month": "2026-09", "accession": "0001046179-26-000680", "accepted": "2026-10-08T06:12:39"},
+    {"month": "2026-10", "accession": "0001046179-26-000796", "accepted": "2026-11-10T07:01:33"}
+  ]
+}

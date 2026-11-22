@@ -14,15 +14,15 @@ from quant_contracts.pit import (AsOfResult, AuditNote, Cutoff, Observation, Ser
                                  SessionCalendar, SkippedSession)
 
 
-def closes_at(binding: SeriesBinding, session: date) -> datetime:
-    """The moment the session's closing value is fixed, in the series' own timezone."""
-    return datetime.combine(session, binding.close_time, ZoneInfo(binding.timezone))
+def fixed_at(binding: SeriesBinding, session: date) -> datetime:
+    """The moment the session's value is fixed, in the series' own timezone."""
+    return datetime.combine(session, binding.value_time, ZoneInfo(binding.timezone))
 
 
 def observe(binding: SeriesBinding, session: date, value: float,
             available_at: datetime | None = None) -> Observation:
     """Build an observation. A recorded ``available_at`` overrides the binding's rule."""
-    default = closes_at(binding, session) + timedelta(minutes=binding.publication_delay_minutes)
+    default = fixed_at(binding, session) + timedelta(minutes=binding.publication_delay_minutes)
     return Observation(series_id=binding.series_id, session=session, value=value,
                        available_at=available_at or default,
                        availability_basis="recorded" if available_at else binding.availability_basis,
@@ -70,7 +70,7 @@ def latest_common(bindings: list[SeriesBinding], observations: list[Observation]
         return AsOfResult(cutoff=cutoff, series_ids=ids, skipped=tuple(skipped), **fields), tuple(audit)
 
     for session in reversed(calendar.sessions):
-        if all(closes_at(b, session) >= cutoff.time for b in bindings):
+        if all(fixed_at(b, session) >= cutoff.time for b in bindings):
             continue  # not closed yet: not expected, so not a skip
         unavailable = []
         for series_id in ids:
@@ -86,9 +86,33 @@ def latest_common(bindings: list[SeriesBinding], observations: list[Observation]
         if unavailable:
             skipped.append(SkippedSession(session=session, unavailable=tuple(unavailable)))
             continue
-        age = cutoff.time - max(closes_at(b, session) for b in bindings)
+        age = cutoff.time - max(fixed_at(b, session) for b in bindings)
         if age > max_age:
             return result(status="gap", reason=f"latest usable session {session} is {age} old, over the limit of {max_age}")
         return result(status="fallback" if skipped else "resolved", session=session,
                       observations=tuple(table[(session, i)] for i in ids))
     return result(status="gap", reason="no expected session with every series available before the cutoff")
+
+
+def first_session_after(binding: SeriesBinding, calendar: SessionCalendar, cutoff: Cutoff) -> date | None:
+    """The first expected session whose value for ``binding`` is fixed strictly after the cutoff."""
+    return next((s for s in calendar.sessions if fixed_at(binding, s) > cutoff.time), None)
+
+
+def session_offset(calendar: SessionCalendar, session: date, offset: int) -> date | None:
+    """The expected session ``offset`` sessions after (or before) ``session``; None outside the calendar."""
+    index = calendar.sessions.index(session) + offset
+    return calendar.sessions[index] if 0 <= index < len(calendar.sessions) else None
+
+
+def on_calendar(observations: list[Observation], calendar: SessionCalendar) -> tuple[list[Observation], list[Observation]]:
+    """Split rows inside the calendar's span into (on an expected session, off it).
+
+    Some sources publish on days that are not sessions of the calendar in use: Cboe gives
+    VIX values on US equity holidays. ``latest_common`` rejects such rows, so drop them
+    here deliberately and keep the second list as the record of what was dropped.
+    """
+    expected = set(calendar.sessions)
+    inside = [o for o in observations if calendar.first <= o.session <= calendar.last]
+    return ([o for o in observations if o not in inside or o.session in expected],
+            [o for o in inside if o.session not in expected])

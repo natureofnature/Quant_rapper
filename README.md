@@ -58,7 +58,7 @@ System topology: alpha / beta dual track plus the post-market closed loop.
               │ 3. maturity_grader     : grade after 5 / 21 sessions │
               │ 4. feedback_store      : write results back to graph │
               └──────────────────────────┬───────────────────────────┘
-                                         │  reads artifacts/ JSON only
+                                         │  planned input: benchmark JSON from artifacts/
                                          ▼
               ┌──────────────────────────────────────────────────────┐
               │        apps/  (CLI and frozen read-only workbench)   │
@@ -99,13 +99,18 @@ Dependencies are one-way: everything depends on `quant_contracts`, and no core p
 ```
 pyproject.toml      uv workspace root
 packages/           the five packages above, each with its own pyproject.toml
-configs/            sectors/  universes/  beta_regimes/  experiments/
+configs/            sectors/  universes/  beta_regimes/
+run/<study>/        disposable study scripts, input references and results
 apps/               cli/  workbench/
 tests/              unit/  invariants/  integration/
-artifacts/          snapshots/  ablations/  prospective/   (contents git-ignored)
+artifacts/          snapshots/ for reusable inputs, ablations/ and prospective/ for formal benchmarks
 docs/rfcs/          design documents
-knowledge_base/     curated research maps and company profiles
+knowledge_base/     version-controlled research priors, maps and company profiles
 ```
+
+Before downloading data, check the manifests in `artifacts/snapshots/<version>/` for the source and coverage you need. A study can reuse a frozen input by listing its SHA-256 and repository-relative path in `run/<study>/inputs.sha256`. Run `sha256sum -c run/<study>/inputs.sha256` from the repository root to verify the selected files. Save updated source data under a new snapshot version so earlier studies can replay their original inputs.
+
+Git ignores local studies and raw market data by default. Each snapshot's `manifest.json` can be versioned directly. Add file-specific exceptions for small curated datasets worth preserving, such as filing dates and exchange calendars. When a result becomes a formal reference, add exceptions for its recipe, input references and expected results under `artifacts/ablations/<benchmark>/` or `artifacts/prospective/<benchmark>/`. Record a durable retrieval location for any untracked input required to reproduce that benchmark.
 
 The prior knowledge currently has two broad research groups and one shared layer:
 

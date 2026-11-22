@@ -24,7 +24,10 @@ AvailabilityBasis = Literal["sourced", "assumed", "recorded"]
 
 
 class SeriesBinding(Contract):
-    """Binds an observable named in the research map to one concrete daily series."""
+    """Binds an observable named in the research map to one concrete daily series.
+
+    One binding is one value per session, so a session's open and close are two bindings.
+    """
 
     series_id: Text  # e.g. "cboe:vix"
     label: Text
@@ -33,11 +36,11 @@ class SeriesBinding(Contract):
     availability: Availability
     routing: Routing
     timezone: Text  # IANA name of the session's local time, e.g. "America/New_York"
-    close_time: time  # local time at which the session's closing value is fixed
-    publication_delay_minutes: int = Field(ge=0)  # from close to knowable
-    availability_basis: Literal["sourced", "assumed"]  # whether close_time plus delay is documented
+    value_time: time  # local time at which the session's value is fixed: the open or the close
+    publication_delay_minutes: int = Field(ge=0)  # from that time to knowable
+    availability_basis: Literal["sourced", "assumed"]  # whether value_time plus delay is documented
     revisable: bool  # True when published values can later be restated
-    basis_note: Text  # where close_time and the delay come from
+    basis_note: Text  # where value_time and the delay come from
 
 
 class EventBinding(Contract):
