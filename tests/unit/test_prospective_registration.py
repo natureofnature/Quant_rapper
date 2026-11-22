@@ -58,7 +58,10 @@ class ProspectiveRegistrationTests(unittest.TestCase):
                     sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
                     for name, digest in registration["rule_baseline"]["sha256"].items():
                         self.assertEqual(sha(ROOT / registration["rule_baseline"]["folder"] / name), digest, name)
-                    self.assertEqual(sha(folder / "coverage.json"), registration["coverage"]["coverage_json_sha256"])
+                    if "coverage" in registration:  # only a comparison that fixed its start dates from a coverage table
+                        self.assertEqual(sha(folder / "coverage.json"), registration["coverage"]["coverage_json_sha256"])
+                    for name, digest in registration.get("model_a", {}).get("sha256", {}).items():  # a frozen earlier arm it shows
+                        self.assertEqual(sha(ROOT / registration["model_a"]["folder"] / name), digest, name)
                     self.assertEqual(sha(ROOT / "knowledge_base/prior_knowledge/bindings/factor_definitions.json"),
                                      registration["inputs"]["factor_definitions_sha256"])
                     self.assertLessEqual(set(registration["parameters"]["comparison_2_subjects"]), set(registration["parameters"]["subjects"]))
