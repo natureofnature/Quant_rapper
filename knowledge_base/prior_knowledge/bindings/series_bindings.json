@@ -2,7 +2,7 @@
   "schema_version": "2.0.0",
   "kind": "series_bindings",
   "compiled_on": "2026-11-22",
-  "content_revision": "2026-11-22.3",
+  "content_revision": "2026-11-22.4",
   "describe": "Machine-readable sources and availability rules for observables named in the research maps. A binding says when a value became knowable; it makes no claim about what the value means.",
   "series": [
     {
@@ -94,6 +94,51 @@
       "availability_basis": "assumed",
       "revisable": true,
       "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ."
+    },
+    {
+      "series_id": "yahoo:qqq:open",
+      "label": "QQQ daily open, regular session",
+      "anchors": [
+        "fund:qqq"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/QQQ",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "09:30:00",
+      "publication_delay_minutes": 1,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Session opens at 9:30 a.m. Eastern (NYSE core session hours). The one-minute delay is an assumption. Yahoo is an aggregator, not the exchange: values are restated on the current split basis after every split and exclude dividends."
+    },
+    {
+      "series_id": "yahoo:qqq:close",
+      "label": "QQQ daily close, regular session",
+      "anchors": [
+        "fund:qqq"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/QQQ",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ."
+    },
+    {
+      "series_id": "treasury:real_yield_10y",
+      "label": "US Treasury 10-year par real yield, daily",
+      "anchors": [
+        "concept:macro_liquidity:real_yields"
+      ],
+      "source_url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_real_yield_curve",
+      "availability": "official_archive",
+      "timezone": "America/New_York",
+      "value_time": "15:30:00",
+      "publication_delay_minutes": 150,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Value time and delay are assumptions chosen to be late: the value is treated as knowable from 6:00 p.m. Eastern on its date. No Treasury document stating the publication time was opened. Published values can be corrected later; a snapshot holds the values visible on its download date. Its sessions follow the bond market, not the equity calendar."
     }
   ],
   "events": [

@@ -3,12 +3,13 @@
 Thin orchestration. Selection of sessions is ``quant_pit_data``; arithmetic is ``quant_evaluator``.
 """
 
-from datetime import date, timedelta
+from bisect import bisect_right
+from datetime import date, timedelta, timezone
 import hashlib
 from zoneinfo import ZoneInfo
 
 from quant_contracts.evaluation import EventOutcomeRow, EventTable, EventTime, Factor, FactorState
-from quant_contracts.pit import Observation, SeriesBinding, SessionCalendar
+from quant_contracts.pit import Cutoff, Observation, SeriesBinding, SessionCalendar
 from quant_contracts.research import CandidateFactorRecipe
 from quant_evaluator.alpha.event_window import return_pair
 from quant_evaluator.core.rolling import sessions_needed, windowed_value
@@ -29,57 +30,92 @@ DEFINITION = ("Entry is the open of the first US regular session that opens afte
               "shortened.")
 
 
+class SeriesIndex:
+    """Observations of each series in session order, so one decision reads only its recent ones."""
+
+    def __init__(self, observations: list[Observation]):
+        self.by_series: dict[str, list[Observation]] = {}
+        for item in observations:
+            self.by_series.setdefault(item.series_id, []).append(item)
+        for items in self.by_series.values():
+            items.sort(key=lambda o: o.session)
+            if any(a.session == b.session for a, b in zip(items, items[1:])):
+                raise ValueError(f"duplicate observation for {items[0].series_id}")
+        self.sessions = {i: [o.session for o in items] for i, items in self.by_series.items()}
+
+    def recent(self, series_id: str, cutoff: Cutoff, count: int) -> list[Observation]:
+        """The last ``count`` observations up to the day after the cutoff's UTC date.
+
+        A slice for speed only: what may be used is still decided by ``available_at``.
+        """
+        items = self.by_series.get(series_id, [])
+        end = bisect_right(self.sessions.get(series_id, []), cutoff.time.astimezone(timezone.utc).date() + timedelta(days=1))
+        return items[max(0, end - count):end]
+
+
+def factor_states(factors: list[Factor], bindings: dict[str, SeriesBinding], index: SeriesIndex, state_cutoff: Cutoff,
+                  calendar: SessionCalendar, series_calendars: dict[str, SessionCalendar]) -> tuple[FactorState, ...]:
+    """Every factor as knowable before ``state_cutoff``, each independent of the others.
+
+    A series is read on its own calendar when ``series_calendars`` names one, otherwise on
+    ``calendar``. So a lookback counts that series' own sessions: a day on which its market
+    was closed is neither a missing value nor a repeated one.
+    """
+    states = []
+    for factor in factors:
+        limit, value, reason, first, inputs = timedelta(days=factor.max_age_days), None, None, None, None
+        own = [series_calendars.get(i, calendar) for i in factor.series_ids]
+        if factor.measure == "ratio":
+            if own[0] != own[1]:
+                raise ValueError(f"{factor.factor_id}: the two series of a ratio must share a calendar")
+            selected, _ = latest_common([bindings[i] for i in factor.series_ids],
+                                        [o for i in factor.series_ids for o in index.recent(i, state_cutoff, 40)],
+                                        state_cutoff, own[0], limit)
+            picked = {o.series_id: o.value for o in selected.observations}
+            if picked and picked[factor.series_ids[1]] == 0:
+                reason = f"ratio undefined: {factor.series_ids[1]} is zero on {selected.session}"
+            elif picked:
+                value = picked[factor.series_ids[0]] / picked[factor.series_ids[1]]
+        else:
+            needed = sessions_needed(factor.measure, factor.lookback_sessions, factor.rank_sessions)
+            window = trailing_window(bindings[factor.series_ids[0]], index.recent(factor.series_ids[0], state_cutoff, needed + 40),
+                                     state_cutoff, own[0], needed, limit)
+            selected, reason = window.anchor, window.reason
+            if window.observations:
+                first, inputs = (window.observations[0].session if needed > 1 else None), window.observations
+                try:
+                    value = windowed_value(factor.measure, factor.lookback_sessions, factor.rank_sessions,
+                                           [o.value for o in window.observations])
+                except ValueError as error:
+                    reason = f"{factor.measure} undefined: {error}"
+        assumed = sum(o.availability_basis == "assumed" for o in inputs or selected.observations)
+        states.append(FactorState(factor_id=factor.factor_id, state=selected, value=value, reason=reason,
+                                  window_first=first, assumed_inputs=assumed))
+    return tuple(states)
+
+
 def build_table(recipe: CandidateFactorRecipe, events: list[EventTime], factors: list[Factor],
                 bindings: dict[str, SeriesBinding], subject: tuple[SeriesBinding, SeriesBinding],
                 benchmark: tuple[SeriesBinding, SeriesBinding], observations: list[Observation],
                 calendar: SessionCalendar, corporate_actions: dict[str, list[date]],
-                snapshot_sha256: dict[str, str]) -> EventTable:
+                snapshot_sha256: dict[str, str],
+                series_calendars: dict[str, SessionCalendar] | None = None) -> EventTable:
     """``subject`` and ``benchmark`` are (open, close) bindings; ``bindings`` holds every factor series by id.
 
     Factors are independent of each other and of the returns: one without data before the
     state cutoff is a gap on that row and nothing else changes. ``corporate_actions`` maps a label
     such as "ex-dividend TSM" to dates; a row is flagged for each date inside its span.
+    ``series_calendars`` gives a factor series its own calendar; returns always use ``calendar``.
     """
-    prices: dict[tuple[str, date], float] = {}
-    by_series: dict[str, list[Observation]] = {}
-    for item in observations:
-        if (item.series_id, item.session) in prices:
-            raise ValueError(f"duplicate observation for {item.series_id} on {item.session}")
-        prices[(item.series_id, item.session)] = item.value
-        by_series.setdefault(item.series_id, []).append(item)
+    index = SeriesIndex(observations)
+    prices = {(o.series_id, o.session): o.value for o in observations}
     horizon = recipe.horizons_sessions[0]
     rows = []
     for event in events:
         event_id, cutoff = event.event_id, event.cutoff
-        states = []
-        for factor in factors:
-            limit, value, reason, first, inputs = timedelta(days=factor.max_age_days), None, None, None, None
-            if factor.measure == "ratio":
-                selected, _ = latest_common([bindings[i] for i in factor.series_ids],
-                                            [o for i in factor.series_ids for o in by_series.get(i, ())],
-                                            event.state, calendar, limit)
-                picked = {o.series_id: o.value for o in selected.observations}
-                if picked and picked[factor.series_ids[1]] == 0:
-                    reason = f"ratio undefined: {factor.series_ids[1]} is zero on {selected.session}"
-                elif picked:
-                    value = picked[factor.series_ids[0]] / picked[factor.series_ids[1]]
-            else:
-                needed = sessions_needed(factor.measure, factor.lookback_sessions, factor.rank_sessions)
-                window = trailing_window(bindings[factor.series_ids[0]], by_series.get(factor.series_ids[0], []),
-                                         event.state, calendar, needed, limit)
-                selected, reason = window.anchor, window.reason
-                if window.observations:
-                    first, inputs = (window.observations[0].session if needed > 1 else None), window.observations
-                    try:
-                        value = windowed_value(factor.measure, factor.lookback_sessions, factor.rank_sessions,
-                                               [o.value for o in window.observations])
-                    except ValueError as error:
-                        reason = f"{factor.measure} undefined: {error}"
-            assumed = sum(o.availability_basis == "assumed" for o in inputs or selected.observations)
-            states.append(FactorState(factor_id=factor.factor_id, state=selected, value=value, reason=reason,
-                                      window_first=first, assumed_inputs=assumed))
+        states = factor_states(factors, bindings, index, event.state, calendar, series_calendars or {})
         usable = [s for s in states if s.value is not None]
-        row = {"event_id": event_id, "cutoff": cutoff, "state_cutoff": event.state, "factors": tuple(states),
+        row = {"event_id": event_id, "cutoff": cutoff, "state_cutoff": event.state, "factors": states,
                "timing_verified": cutoff.basis == "exact" and bool(usable) and all(s.verified for s in usable),
                "prior_status": ("exploratory" if cutoff.time < recipe.prior_frozen_at
                                 else "prior_available_at_decision")}

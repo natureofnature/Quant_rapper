@@ -3,7 +3,7 @@
 Skipped when pydantic is not installed.
 """
 
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, time, timedelta
 import json
 from pathlib import Path
 import sys
@@ -19,6 +19,7 @@ try:
     from quant_contracts.pit import Cutoff, SeriesBinding, SessionCalendar
     from quant_evaluator.alpha.event_window import compare_groups, return_pair, simple_return
     from quant_evaluator.core.rolling import sessions_needed, windowed_value
+    from quant_loop.daily_states import daily_states
     from quant_loop.event_table import build_table
     from quant_pit_data.asof import observe, on_calendar
 except ModuleNotFoundError:
@@ -180,6 +181,26 @@ class EventTableTests(unittest.TestCase):
         state = self.table(when, rows=rising, factors=[long]).rows[0].factors[0]
         self.assertEqual((state.value, state.state.status), (None, "resolved"))
         self.assertIn("fewer than 4", state.reason)
+
+    def test_lookback_counts_the_series_own_sessions_when_its_market_is_closed_on_a_trading_day(self):
+        closed = date(2026, 11, 11)  # a session for prices, a holiday for this series
+        own = self.calendar.model_copy(update={"sessions": tuple(s for s in SESSIONS if s != closed), "calendar_id": "own"})
+        rows = [observe(self.state[0], r.session, float(r.session.day)) if r.series_id == "state:near" else r
+                for r in self.rows if not (r.series_id == "state:near" and r.session == closed)]
+        change = Factor(factor_id="near_change_2", measure="change", series_ids=("state:near",), max_age_days=5, lookback_sessions=2)
+        build = lambda calendars: build_table(
+            self.recipe, [EventTime(event_id="event:1", cutoff=Cutoff(time=datetime(2026, 11, 13, 17, 0, tzinfo=NEW_YORK),
+                                                                      basis="exact", source="Synthetic fixture."))],
+            [change], self.bindings, self.subject, self.benchmark, rows, self.calendar, {}, {"synthetic": "0" * 64},
+            series_calendars=calendars).rows[0].factors[0]
+        shared = build(None)  # on the price calendar the closed day is a hole, so the window is incomplete
+        self.assertEqual((shared.value, shared.state.session), (None, date(2026, 11, 13)))
+        state = build({"state:near": own})  # on its own calendar the lookback is 13, 12, 10: each value once
+        self.assertEqual((state.window_first, state.state.session, state.value), (date(2026, 11, 10), date(2026, 11, 13), 3.0))
+        day_of = daily_states([closed], time(17, 0), [change], self.bindings, rows, self.calendar, {"state:near": own})
+        cutoff, (held,) = day_of[0]  # on the closed day itself the previous value is carried, with its own date
+        self.assertEqual((cutoff.basis, held.state.session, held.state.status, held.value),
+                         ("exact", date(2026, 11, 10), "resolved", 4.0))
 
     def test_group_comparison(self):
         result = compare_groups("x", [0.01, 0.03], [0.0, 0.0, 0.03])
