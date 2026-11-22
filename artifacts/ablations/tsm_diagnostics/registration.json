@@ -1,0 +1,75 @@
+{
+  "kind": "diagnostic_registration",
+  "registration_id": "tsm_diagnostics",
+  "standing": "Exploratory throughout. The 289 revenue releases were already examined against VIX state on unadjusted returns, and every decision predates the frozen prior. These diagnostics describe where TSM's variance sits and whether a beta adjustment changes the earlier picture. They are not a test, and no result here licenses a trading rule.",
+  "data": {
+    "sample": "US equity sessions 2002-01-02 to 2026-11-20",
+    "prices": "TSM, SOXX, SPY daily closes and opens from snapshot 2026-11-22, excluding dividends",
+    "announcements": "announcement_dates_2002_2026.json and tsmc_monthly_revenue_events.json of the same snapshot"
+  },
+  "part_1_variance": {
+    "returns": "Daily close-to-close simple returns.",
+    "beta": "For each session t, betas are estimated on the 250 sessions ending at t-1 and applied to session t, so no residual uses its own day. Three versions: TSM on SPY, TSM on SOXX, and TSM on both.",
+    "reported": "For each version: the share of TSM's return variance left in the residual, over the whole sample and by calendar year.",
+    "catalyst_days": {
+      "definition": "The US session on which each announcement is first tradeable.",
+      "tsmc_monthly_revenue": "the first US session opening after the 6-K's EDGAR acceptance",
+      "tsmc_earnings": "the US session of the Taiwan release date, or the next session if that date is not one",
+      "cpi_ppi_fomc": "the session of the release date; an unscheduled FOMC statement on a non-session day counts on the next session",
+      "opex": "the third Friday of each month, or the Thursday before when that Friday is not a session",
+      "reported": "For the SOXX-adjusted residual: each catalyst type's share of squared residuals against its share of sessions, with counts."
+    },
+    "shock_audit": "Sessions that are no catalyst day and whose SOXX-adjusted residual exceeds 2.5 times the residual's standard deviation over the 250 sessions ending the day before. Listed one by one with date and size, for review against the research map; none is explained here."
+  },
+  "part_2_event_study": {
+    "events": "The 289 monthly revenue releases, with the cutoffs of the earlier history study: entry after the EDGAR acceptance, state read before the start of that US Eastern day.",
+    "outcomes": "For each event: the reaction (previous close to entry open), the entry session alone (open to close), and the 5-session window, each as TSM's raw return, TSM minus SOXX, and the abnormal return TSM minus beta times SOXX with the 250-session pre-event beta.",
+    "state": "VIX/VIX3M at or above 1 against below 1, and VIX at or above 20 against below 20: the thresholds already used.",
+    "question_1_window_mean": "Mean, median and share positive of each outcome by state, with the Welch standard error. Labelled announcement-window return, not drift.",
+    "question_2_volatility": "The absolute abnormal return of the entry session on announcement days, less the mean absolute abnormal return on non-announcement sessions in the same state, compared across the two states. A session's state is read the same way as an event's. Reported with and without sessions that are also a CPI, PPI, FOMC or TSMC earnings session; a collision is flagged COLLISION_CPI, COLLISION_PPI, COLLISION_FOMC or COLLISION_EARNINGS. The daily abnormal return used on both sides is the session's open-to-close return of TSM less beta times SOXX's, with beta from the 250 returns ending at the previous session.",
+    "small_groups": "A group with fewer than 30 events is listed event by event instead of summarised by a tail quantile. Each group reports how many separate stress episodes it spans: events fewer than 3 months apart count as one."
+  },
+  "data_gaps": [
+    "Key customer earnings dates: not collected, so they are not a catalyst type.",
+    "The guidance-surprise table of RFC-002 section 3.3: it needs TSMC's quarterly revenue guidance history and exchange rates as of each date, neither of which is held. It is recorded as not done, and revenue growth is not used in its place."
+  ],
+  "known_limits": [
+    "Prices exclude dividends and are Yahoo's.",
+    "Announcement times of day were not collected: a 08:30 release and a 14:00 statement are both assigned to their session.",
+    "TSMC earnings dates from 2013Q4 rest on one reading of the company's calendar.",
+    "Session-level volatility comparisons use sessions that are not independent."
+  ],
+  "registered_on": "2026-11-22",
+  "parameters": {
+    "first_session": "2002-01-02",
+    "last_session": "2026-11-20",
+    "beta_sessions": 250,
+    "shock_threshold": 2.5,
+    "list_individually_below": 30,
+    "episode_gap_months": 3,
+    "horizon_sessions": 5,
+    "thresholds": {
+      "vix_term_structure": 1.0,
+      "vix_level": 20.0
+    },
+    "state_max_age_days": 5
+  },
+  "accepted": "The owner accepted the four proposed numbers on 2026-11-22: a 250-session beta window, a 2.5 standard-deviation shock threshold, individual listing below 30 events, and three months between stress episodes.",
+  "inputs": {
+    "snapshot": "artifacts/snapshots/2026-11-22",
+    "sha256": {
+      "TSM.json": "a0b96ce2e7445a6cf021855c5c8a49e73a92523e12a043a616d7c901b0eb8aeb",
+      "SOXX.json": "70d87f085d41024734b8b4a9c0bd326567883370836de0646fca15883b956652",
+      "SPY.json": "f8d0f8444088538a4d40dfbf688aebe5e7a40282c2d47cb854056a375b934463",
+      "VIX.csv": "2a3b180ffb268b7805c17567c0ac7787c74898b0d99f62f550be67eafffd1c16",
+      "VIX3M.csv": "034fd5e08f9ce5ef806e600a51b28a76a1d85c6ea3ff978a29ca4abc67451a96",
+      "us_equity_sessions_2002_2026.json": "5d50274a820c310010d51b3823775804998ae35a934aabb0e46e12e436f55754",
+      "tsmc_monthly_revenue_events.json": "503fa0f1c5f91a5cd4d622694be7ec2f260a611dd93701dd0d737974e25483c3",
+      "announcement_dates_2002_2026.json": "59220008873006c1a887fb356cadb28964b0b86d7b7c706a9303716f03ec953c"
+    }
+  },
+  "code": {
+    "commit": "fc248d7df25205c92f23f9f71ea3db17a268402a",
+    "runner": "artifacts/ablations/tsm_diagnostics/run.py"
+  }
+}
