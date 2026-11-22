@@ -54,6 +54,9 @@ class ProspectiveRegistrationTests(unittest.TestCase):
                 for name, digest in registration["inputs"]["sha256"].items():
                     self.assertEqual(manifest["files"][name]["sha256"], digest, name)
                 self.assertRegex(registration["code"]["commit"], r"^[0-9a-f]{40}$")
+                if registration["kind"] == "diagnostic_registration":  # exploratory: pinned inputs, code and frozen outputs only
+                    self.frozen_record_matches(folder, registration)
+                    continue
                 if registration["kind"] == "comparison_registration":  # it also pins the frozen baseline it compares with
                     sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
                     for name, digest in registration["rule_baseline"]["sha256"].items():

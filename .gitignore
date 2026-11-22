@@ -60,3 +60,6 @@ artifacts/**
 !/artifacts/ablations/*/output/report.json
 !/artifacts/ablations/*/output/report.md
 !/artifacts/ablations/*/output/positions_*.csv
+!/artifacts/ablations/*/output/shocks.csv
+!/artifacts/ablations/*/output/events.csv
+!/artifacts/ablations/*/output/surprise.csv
