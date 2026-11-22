@@ -2,7 +2,13 @@
 
 A mid/low-frequency quant research workspace built around a point-in-time causal graph. An LLM proposes economic hypotheses and supply-chain relationships; a pure-math evaluator tests them on beta-adjusted returns; a post-market loop scores forecasts only after they mature.
 
-> **Status:** scaffold only. The packages and folders exist, but no modules are implemented yet. Everything below describes the target architecture.
+> **Status (2026-11-22):** the point-in-time data layer, the causal-map generator, the event and daily evaluators and the forecast-ticket loop are implemented and tested. No LLM is called anywhere yet: the research prior is curated by hand and candidates are generated mechanically from it. Results so far, all under `artifacts/`:
+>
+> - A three-signal rule for SOXX and QQQ reduced maximum drawdown against buy and hold and gave up a large part of the return (`ablations/sector_risk_baseline`). It is the gate that issues forecast tickets.
+> - Two fitted models on the same inputs did not improve on that rule, and adding TSMC's revenue growth changed nothing measurable (`ablations/soxx_qqq_model_a`, `ablations/soxx_qqq_model_c`).
+> - TSMC's monthly revenue releases show no dependable difference in TSM's return by market state, with or without a beta adjustment (`ablations/tsm_diagnostics`). A prospective version of that comparison is registered and starts with the release of 10 December 2026 (`prospective/tsm_monthly_revenue_risk_state`).
+>
+> No tradeable edge has been found. The sections below describe the design; where they describe something not yet built, such as LLM-proposed hypotheses and a multi-stock panel, they are the target and not the present state.
 
 ## Design principles
 

@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-11-22",
-  "retrieval_note": "The raw market files (VIX.csv, VIX3M.csv, TSM.json, SOXX.json, QQQ.json) are downloaded market data and are not in the repository. They exist only on the machine that built this snapshot; no durable copy has been arranged. Their source URLs serve changing histories, so exact replay requires the saved bytes matching the hashes below, and a fresh download must be pinned as a new snapshot.",
+  "retrieval_note": "The raw market files (VIX.csv, VIX3M.csv, TSM.json, SOXX.json, QQQ.json, SPY.json, USDTWD.json) are downloaded market data and are not in the repository. They exist only on the machine that built this snapshot; no durable copy has been arranged. Their source URLs serve changing histories, so exact replay requires the saved bytes matching the hashes below, and a fresh download must be pinned as a new snapshot.",
   "files": {
     "VIX.csv": {
       "source": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
@@ -27,6 +27,13 @@
       "first_session": "1993-01-29",
       "last_session": "2026-11-20",
       "sha256": "f8d0f8444088538a4d40dfbf688aebe5e7a40282c2d47cb854056a375b934463"
+    },
+    "USDTWD.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/TWD=X",
+      "note": "New Taiwan dollars per US dollar, daily. 447 of 5914 rows have no close. Not an official fixing.",
+      "first_session": "2004-03-24",
+      "last_session": "2026-11-22",
+      "sha256": "e802c48eb7c3cebe420426149e2337e01a4ca493519a460901fe5f39ae6d796a"
     },
     "SOXX.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX",
