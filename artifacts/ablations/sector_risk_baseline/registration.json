@@ -2,6 +2,15 @@
   "kind": "baseline_registration",
   "registration_id": "sector_risk_baseline",
   "registered_on": "2026-11-22",
+  "amendments": [
+    {
+      "amended_on": "2026-11-22",
+      "before_any_result": true,
+      "change": "The two comparison groups are defined once: ordinary means the stretches between merged episodes, and decisions at 100% inside a merged episode are in neither group and are counted. The runner is now in the repository beside this file and pinned by the code commit, which is repointed. The retrieval status of the raw inputs is stated. Signals, thresholds, exposure mapping, missing-data policy, costs and reading rule are as registered. The sample is stated as two periods, one for positions and one for the forward measure, with the episode count taken from the first.",
+      "reason": "The first text described ordinary sessions both as decisions at 100% and as the stretches between episodes, which differ when exposure briefly returns to 100% between two cuts. The runner lived only in an untracked folder. The code that reads recent observations could return a gap where reading all history found a value, for age limits far longer than the five days registered here; it now reads every observation the selector can reach. The first text gave one end date although the forward measure cannot be computed for the last 20 sessions.",
+      "code_commit_before": "9196091e2dcc9bcd5ee0bf1a0023f1267a35f326"
+    }
+  ],
   "describe": "Fixes a rule-based exposure gate for SOXX and QQQ, and how it is scored, before it is run. The commit that adds this file is the proof of when the rule was chosen. On that date the input files below were on disk and their dates had been read to build the calendars; no signal, target or drawdown had been computed for either fund.",
   "question": "Do market-state rules fixed in advance separate ordinary periods from left-tail drawdown periods for SOXX and QQQ, and would acting on them have reduced drawdown after costs?",
   "subjects": [
@@ -94,8 +103,9 @@
     "report": "For each fund: the number of sessions that held the previous target, and the longest such run."
   },
   "sample": {
-    "first": "The start defined above, expected in September 2009 when VIX3M begins.",
-    "last_decision": "2026-11-20 less what the 20-session forward measure needs; the equity curve runs to 2026-11-20."
+    "position_period": "From the fund's first decision with all three signals (expected in September 2009, when VIX3M begins) to the decision after the session of 2026-11-20. Targets, the equity curve, maximum drawdown, held sessions, episodes, the whipsaw rate and the re-entry lag cost are counted over this period.",
+    "forward_period": "The same start, to the last decision with 20 further sessions in the data: 2026-10-23. The forward-drawdown groups, their run counts and the interval use only decisions in this period.",
+    "episodes": "The episode count comes from the position period. An episode with no decision in the forward period adds nothing to the forward-drawdown comparison, and one that crosses its end adds only its decisions up to that date; the number of each is reported."
   },
   "accounting": {
     "initial_position": 1.0,
@@ -105,8 +115,8 @@
   },
   "metrics": {
     "max_drawdown": "Largest fall from a running peak of closing equity, for the gate and for buy and hold over the same sessions.",
-    "forward_drawdown": "For each decision: the lowest close of the next 20 sessions over the next session's open, minus one. Reported for decisions with a target below 100% (stressed) and at 100% (ordinary): mean, median, 5th percentile, number of sessions, number of runs.",
-    "episode": "A run of decisions with a target below 100%. Runs fewer than 20 decisions apart are one episode. Ordinary runs are the stretches between episodes.",
+    "forward_drawdown": "For each decision: the lowest close of the next 20 sessions over the next session's open, minus one. Reported for two groups: stressed, the decisions with a target below 100%; and ordinary, the decisions in the stretches between episodes. For each: mean, median, 5th percentile, number of sessions, number of runs.",
+    "episode": "A run of decisions with a target below 100%. Runs fewer than 20 decisions apart are one episode. Ordinary runs are the stretches between episodes. A decision at 100% inside a merged episode (a short return to full exposure between two cuts) belongs to neither group; the number of such decisions is reported.",
     "whipsaw_rate": "Share of finished episodes whose re-entry open (the open after the first decision back at 100%) is above the open at which exposure was first cut.",
     "reentry_lag_cost": "Mean of re-entry open over first-cut open, minus one, over the whipsaw episodes; also given over all finished episodes.",
     "interval": "For mean stressed forward drawdown minus mean ordinary: a 90% interval from 2000 resamples of whole episodes and whole ordinary runs with replacement, seed 20261122.",
@@ -130,13 +140,15 @@
       "treasury_real_yield_10y.csv": "6a1e7435e15bfe93eca94ddbef679c200e5b974fb0fe31ad11ad2cad2983cf60",
       "us_equity_sessions_2002_2026.json": "5d50274a820c310010d51b3823775804998ae35a934aabb0e46e12e436f55754",
       "us_treasury_yield_sessions_2003_2026.json": "79c15162e8306b525ad57b8ba8766177f8e5ce4752698f9e0ef645ccf42cacd4"
-    }
+    },
+    "retrieval": "The curated files are in the repository. VIX.csv, VIX3M.csv, SOXX.json and QQQ.json are not: they are downloaded market data, kept on the machine that ran the baseline. Their sources serve changing histories, so a new download will not match these hashes and must be pinned as a new snapshot. No durable copy has been arranged yet."
   },
   "bindings_revision": "2026-11-22.4",
   "code": {
-    "commit": "9196091e2dcc9bcd5ee0bf1a0023f1267a35f326",
+    "commit": "816deb4aa3fc0428f46f42b9bf9927a58b3bcae0",
     "selection": "quant_loop.daily_states.daily_states",
-    "arithmetic": "quant_evaluator.beta.risk_gate"
+    "arithmetic": "quant_evaluator.beta.risk_gate",
+    "runner": "artifacts/ablations/sector_risk_baseline/run.py"
   },
   "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9"
 }
