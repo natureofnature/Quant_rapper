@@ -20,8 +20,8 @@ try:
     from quant_evaluator.alpha.event_window import compare_groups, return_pair, simple_return
     from quant_evaluator.core.rolling import sessions_needed, windowed_value
     from quant_loop.daily_states import daily_states
-    from quant_loop.event_table import build_table
-    from quant_pit_data.asof import observe, on_calendar
+    from quant_loop.event_table import SeriesIndex, build_table, factor_states
+    from quant_pit_data.asof import latest_common, observe, on_calendar, trailing_window
 except ModuleNotFoundError:
     SeriesBinding = None
 
@@ -201,6 +201,28 @@ class EventTableTests(unittest.TestCase):
         cutoff, (held,) = day_of[0]  # on the closed day itself the previous value is carried, with its own date
         self.assertEqual((cutoff.basis, held.state.session, held.state.status, held.value),
                          ("exact", date(2026, 11, 10), "resolved", 4.0))
+
+    def test_reading_recent_observations_gives_what_reading_all_history_gives(self):
+        days = [date(2026, 1, 1) + timedelta(days=n) for n in range(300)]
+        long = SessionCalendar(calendar_id="long", timezone="America/New_York", first=days[0], last=days[-1],
+                               sessions=tuple(d for d in days if d.weekday() < 5), basis_note="Synthetic.")
+        when = Cutoff(time=datetime(2026, 9, 30, 17, 0, tzinfo=NEW_YORK), basis="exact", source="Synthetic fixture.")
+        late = datetime(2026, 10, 15, 9, 0, tzinfo=NEW_YORK)  # the last 60 sessions were only published after the cutoff
+        recent = [s for s in long.sessions if s <= date(2026, 9, 30)][-60:]
+        rows = [observe(b, s, float(n + k), late if s in recent else None)
+                for n, s in enumerate(long.sessions) for k, b in enumerate(self.state)]
+        factors = [Factor(factor_id="level", measure="level", series_ids=("state:near",), max_age_days=100),
+                   Factor(factor_id="ratio", measure="ratio", series_ids=("state:near", "state:far"), max_age_days=100),
+                   Factor(factor_id="change", measure="change", series_ids=("state:near",), max_age_days=100, lookback_sessions=30),
+                   Factor(factor_id="short", measure="level", series_ids=("state:near",), max_age_days=5)]
+        level, ratio, change, short = factor_states(factors, self.bindings, SeriesIndex(rows), when, long, {})
+        limit = timedelta(days=100)
+        self.assertEqual(level.state, latest_common([self.state[0]], rows, when, long, limit)[0])
+        self.assertEqual(ratio.state, latest_common(list(self.state), rows, when, long, limit)[0])
+        window = trailing_window(self.state[0], rows, when, long, 31, limit)
+        self.assertEqual((change.state, change.window_first), (window.anchor, window.observations[0].session))
+        self.assertEqual(short.state, latest_common([self.state[0]], rows, when, long, timedelta(days=5))[0])
+        self.assertEqual((level.state.status, short.state.status), ("fallback", "gap"))  # found far back; out of reach at 5 days
 
     def test_group_comparison(self):
         result = compare_groups("x", [0.01, 0.03], [0.0, 0.0, 0.03])

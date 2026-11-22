@@ -26,3 +26,4 @@ artifacts/**
 !/artifacts/prospective/*/registration.json
 !/artifacts/prospective/*/recipe.json
 !/artifacts/ablations/*/registration.json
+!/artifacts/ablations/*/run.py

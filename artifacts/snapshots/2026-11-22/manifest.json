@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-11-22",
-  "retrieval_note": "The raw market files (VIX, VIX3M, TSM, SOXX, QQQ) are stored locally. Their source URLs serve changing histories. Exact replay requires the saved bytes matching the hashes below.",
+  "retrieval_note": "The raw market files (VIX.csv, VIX3M.csv, TSM.json, SOXX.json, QQQ.json) are downloaded market data and are not in the repository. They exist only on the machine that built this snapshot; no durable copy has been arranged. Their source URLs serve changing histories, so exact replay requires the saved bytes matching the hashes below, and a fresh download must be pinned as a new snapshot.",
   "files": {
     "VIX.csv": {
       "source": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",

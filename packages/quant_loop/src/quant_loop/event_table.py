@@ -3,7 +3,7 @@
 Thin orchestration. Selection of sessions is ``quant_pit_data``; arithmetic is ``quant_evaluator``.
 """
 
-from bisect import bisect_right
+from bisect import bisect_left, bisect_right
 from datetime import date, timedelta, timezone
 import hashlib
 from zoneinfo import ZoneInfo
@@ -43,14 +43,22 @@ class SeriesIndex:
                 raise ValueError(f"duplicate observation for {items[0].series_id}")
         self.sessions = {i: [o.session for o in items] for i, items in self.by_series.items()}
 
-    def recent(self, series_id: str, cutoff: Cutoff, count: int) -> list[Observation]:
-        """The last ``count`` observations up to the day after the cutoff's UTC date.
+    def reachable(self, series_id: str, cutoff: Cutoff, calendar: SessionCalendar, limit: timedelta,
+                  sessions: int) -> list[Observation]:
+        """Every observation the selector could use for this cutoff, and none it could not.
 
-        A slice for speed only: what may be used is still decided by ``available_at``.
+        The selector never picks a session older than ``limit`` before the cutoff, and a
+        window reaches ``sessions`` calendar sessions back from the one it picks. So the
+        slice runs from that many sessions before the oldest pickable one to the day after
+        the cutoff, with a day's margin at each end for timezones. It is by session date,
+        never by count: a value published late is still inside it. The result is the same
+        as reading the whole history; only rows on days outside the slice go unchecked.
         """
-        items = self.by_series.get(series_id, [])
-        end = bisect_right(self.sessions.get(series_id, []), cutoff.time.astimezone(timezone.utc).date() + timedelta(days=1))
-        return items[max(0, end - count):end]
+        items, days = self.by_series.get(series_id, []), self.sessions.get(series_id, [])
+        moment = cutoff.time.astimezone(timezone.utc)
+        oldest = bisect_left(calendar.sessions, (moment - limit).date() - timedelta(days=1))
+        first = calendar.sessions[oldest - sessions] if oldest >= sessions else date.min
+        return items[bisect_left(days, first):bisect_right(days, moment.date() + timedelta(days=1))]
 
 
 def factor_states(factors: list[Factor], bindings: dict[str, SeriesBinding], index: SeriesIndex, state_cutoff: Cutoff,
@@ -69,7 +77,7 @@ def factor_states(factors: list[Factor], bindings: dict[str, SeriesBinding], ind
             if own[0] != own[1]:
                 raise ValueError(f"{factor.factor_id}: the two series of a ratio must share a calendar")
             selected, _ = latest_common([bindings[i] for i in factor.series_ids],
-                                        [o for i in factor.series_ids for o in index.recent(i, state_cutoff, 40)],
+                                        [o for i in factor.series_ids for o in index.reachable(i, state_cutoff, own[0], limit, 1)],
                                         state_cutoff, own[0], limit)
             picked = {o.series_id: o.value for o in selected.observations}
             if picked and picked[factor.series_ids[1]] == 0:
@@ -78,7 +86,8 @@ def factor_states(factors: list[Factor], bindings: dict[str, SeriesBinding], ind
                 value = picked[factor.series_ids[0]] / picked[factor.series_ids[1]]
         else:
             needed = sessions_needed(factor.measure, factor.lookback_sessions, factor.rank_sessions)
-            window = trailing_window(bindings[factor.series_ids[0]], index.recent(factor.series_ids[0], state_cutoff, needed + 40),
+            window = trailing_window(bindings[factor.series_ids[0]],
+                                     index.reachable(factor.series_ids[0], state_cutoff, own[0], limit, needed),
                                      state_cutoff, own[0], needed, limit)
             selected, reason = window.anchor, window.reason
             if window.observations:
