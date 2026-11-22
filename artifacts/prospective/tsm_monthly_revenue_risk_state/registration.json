@@ -2,14 +2,30 @@
   "kind": "prospective_registration",
   "registration_id": "tsm_monthly_revenue_risk_state",
   "registered_on": "2026-11-22",
+  "amendments": [
+    {
+      "amended_on": "2026-11-22",
+      "before_first_event": true,
+      "change": "Cutoff rule 3 now reads the factors before a separate state cutoff instead of before the EDGAR acceptance time. The outcome definition is replaced by the table builder's current text, which adds the state cutoff and measures over a lookback. Nothing else changed: factors, thresholds, benchmark, window, statistic and reading rule are as registered.",
+      "reason": "The EDGAR acceptance time is an upper bound on the release time. If the release came earlier, a value published between the two already reflects it, so it must not count as pre-event state. In the 289 historical releases this moved the factor session in 2 rows (the March 2005 and June 2006 reports, both accepted after the US close) and changed no return.",
+      "table_builder_commit_before": "8113c3837749ba44de6b6cb821d78b8975ae4d75",
+      "verification": "Rebuilt from a clean checkout of the new table_builder_commit on 2026-11-22. For the two historical filings accepted after the US close, the VIX level is read from the session before the acceptance day: 2005-04-06 (13.15) for the March 2005 report, accepted 2005-04-07 21:32 Eastern, and 2006-07-07 (13.97) for the June 2006 report, accepted 2006-07-10 17:11 Eastern. The commit pinned before selected the acceptance day's own close in both. The October 2026 row is unchanged: session 2026-11-09, ratio 0.9554, entry 2026-11-10, exit 2026-11-16."
+    }
+  ],
   "describe": "Fixes, before the events happen, what is measured around each TSMC monthly revenue release from the November 2026 report onward. The commit that adds this file is the proof of when the comparison was chosen. The recipe's prior status is the proof of when the research map was frozen. They are two separate facts.",
   "recipe_file": "recipe.json",
   "recipe_sha256": "d11a1dca97f4f351d6880ec58d95aa22e634c45ee2015bec0603f9c30612124d",
-  "table_builder_commit": "8113c3837749ba44de6b6cb821d78b8975ae4d75",
+  "table_builder_commit": "55f1c81c9596f9b90e2ae97f44c880f956927623",
   "bindings_revision": "2026-11-22.3",
   "price_series": {
-    "subject": ["yahoo:tsm:open", "yahoo:tsm:close"],
-    "benchmark": ["yahoo:soxx:open", "yahoo:soxx:close"],
+    "subject": [
+      "yahoo:tsm:open",
+      "yahoo:tsm:close"
+    ],
+    "benchmark": [
+      "yahoo:soxx:open",
+      "yahoo:soxx:close"
+    ],
     "note": "Every series is bound in knowledge_base/prior_knowledge/bindings/series_bindings.json at table_builder_commit, and read with quant_pit_data.connectors.yahoo_chart. The October 2026 row was rebuilt from a clean checkout of that commit on 2026-11-22 and equalled the exploratory table's row."
   },
   "first_event": {
@@ -25,7 +41,7 @@
     "benchmark": "SOXX",
     "horizon_sessions": 5,
     "measure": "window.relative",
-    "definition": "Entry is the open of the first US regular session that opens after the cutoff. Exit is the close of session number N counting the entry session as 1, with N the recipe's horizon. window is the simple return from entry open to exit close; reaction is the simple return from the previous session's close to the entry open. relative is subject minus benchmark with no beta adjustment. Prices are on the snapshot's split basis and exclude dividends; a row is flagged when an ex-dividend or split date falls in its span, and when its cutoff falls at or after the open of a session, since an upper-bound cutoff that late means the event may already have been traded on. Each factor is the latest value knowable before the cutoff and no older than its own age limit; otherwise it is a recorded gap and the row keeps its returns. A ratio whose denominator is zero has no value and keeps its inputs."
+    "definition": "Entry is the open of the first US regular session that opens after the cutoff. Exit is the close of session number N counting the entry session as 1, with N the recipe's horizon. window is the simple return from entry open to exit close; reaction is the simple return from the previous session's close to the entry open. relative is subject minus benchmark with no beta adjustment. Prices are on the snapshot's split basis and exclude dividends; a row is flagged when an ex-dividend or split date falls in its span, and when its cutoff falls at or after the open of a session, since an upper-bound cutoff that late means the event may already have been traded on. Factors are read before the state cutoff, which is the cutoff itself unless the cutoff is only an upper bound on the event's time; then it is a separate time no later than the event. Each factor is the latest value knowable before the state cutoff and no older than its own age limit; otherwise it is a recorded gap and the row keeps its returns. A ratio whose denominator is zero has no value and keeps its inputs. A measure over a lookback reads every expected session of its window; if one has no value knowable before the state cutoff the factor has no value, and the window is never shortened."
   },
   "factors": [
     {
@@ -62,7 +78,7 @@
   "cutoff_rule": [
     "1. If a dated and timed record of the actual release is found (the Taiwan exchange disclosure or a timestamped company release), the cutoff is that time, basis exact, and the source is recorded.",
     "2. Otherwise the cutoff is the scheduled release time from the company's financial calendar, basis assumed, provided the EDGAR acceptance of the Form 6-K follows it on the same US Eastern calendar day.",
-    "3. Otherwise the cutoff is the EDGAR acceptance time of the Form 6-K, basis upper_bound.",
+    "3. Otherwise the cutoff is the EDGAR acceptance time of the Form 6-K, basis upper_bound, and the entry follows it. The factors are then read before a separate state cutoff, basis assumed: the earlier of the scheduled release time and the start of the US Eastern day of the EDGAR acceptance. An upper bound is never used to select the factors.",
     "The EDGAR acceptance time is recorded in every case. If rules 2 and 3 would select a different factor session or a different entry session, the row is flagged as timing-sensitive.",
     "A row whose cutoff falls at or after a session's open is flagged by the table builder. Flagged rows count in the main comparison and are removed in the sensitivity repeat."
   ],
