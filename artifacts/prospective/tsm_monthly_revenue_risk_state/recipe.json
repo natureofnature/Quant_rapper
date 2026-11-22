@@ -1,0 +1,73 @@
+{
+  "recipe_id": "recipe:tsmc:monthly_revenue:risk_state:soxx_relative_5:prospective",
+  "subject_id": "company:tsmc",
+  "decision_time": "2026-11-22T07:51:57Z",
+  "leads": [
+    {
+      "lead_id": "lead:economy:risk_appetite:sector_beta:sector",
+      "subject_id": "company:tsmc",
+      "source": {
+        "sector_id": "semiconductors",
+        "sector_revision": "2026-11-21.2",
+        "sector_sha256": "519bb6818135c480521df4585d316ff323c9543204da86e8b7000cc60cf90d8f",
+        "profile_id": "company:tsmc",
+        "profile_revision": "2026-11-21.2",
+        "profile_sha256": "c2f475ffabd3b526e44aeb069d0196b5706c910f2ffac6f39ea19a401c2ebb5d",
+        "frozen_at": "2026-11-21T13:23:01-04:00"
+      },
+      "relation_kind": "mechanism_hypothesis",
+      "scope": "sector",
+      "hop": "direct",
+      "from_id": "concept:economy:risk_appetite",
+      "to_id": "company:tsmc",
+      "mechanism": "Changes in investor risk appetite can contribute to sector-wide moves",
+      "test_criteria": null
+    }
+  ],
+  "evidence": [],
+  "trigger": "TSMC monthly revenue report (profile observable: monthly revenue release)",
+  "trigger_availability": "filing",
+  "expected_direction": "unspecified",
+  "benchmark": "SOXX",
+  "horizons_sessions": [
+    5
+  ],
+  "data_requirements": [
+    {
+      "series": "cboe:vix",
+      "availability": "official_archive",
+      "typical_lag": null,
+      "status": "observable"
+    },
+    {
+      "series": "cboe:vix3m",
+      "availability": "official_archive",
+      "typical_lag": null,
+      "status": "observable"
+    },
+    {
+      "series": "yahoo:tsm:open",
+      "availability": "news_only",
+      "typical_lag": null,
+      "status": "observable"
+    },
+    {
+      "series": "yahoo:tsm:close",
+      "availability": "news_only",
+      "typical_lag": null,
+      "status": "observable"
+    },
+    {
+      "series": "yahoo:soxx:open",
+      "availability": "news_only",
+      "typical_lag": null,
+      "status": "observable"
+    },
+    {
+      "series": "yahoo:soxx:close",
+      "availability": "news_only",
+      "typical_lag": null,
+      "status": "observable"
+    }
+  ]
+}

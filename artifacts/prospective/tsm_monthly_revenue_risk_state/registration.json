@@ -1,0 +1,84 @@
+{
+  "kind": "prospective_registration",
+  "registration_id": "tsm_monthly_revenue_risk_state",
+  "registered_on": "2026-11-22",
+  "describe": "Fixes, before the events happen, what is measured around each TSMC monthly revenue release from the November 2026 report onward. The commit that adds this file is the proof of when the comparison was chosen. The recipe's prior status is the proof of when the research map was frozen. They are two separate facts.",
+  "recipe_file": "recipe.json",
+  "recipe_sha256": "d11a1dca97f4f351d6880ec58d95aa22e634c45ee2015bec0603f9c30612124d",
+  "table_builder_commit": "8113c3837749ba44de6b6cb821d78b8975ae4d75",
+  "bindings_revision": "2026-11-22.3",
+  "price_series": {
+    "subject": ["yahoo:tsm:open", "yahoo:tsm:close"],
+    "benchmark": ["yahoo:soxx:open", "yahoo:soxx:close"],
+    "note": "Every series is bound in knowledge_base/prior_knowledge/bindings/series_bindings.json at table_builder_commit, and read with quant_pit_data.connectors.yahoo_chart. The October 2026 row was rebuilt from a clean checkout of that commit on 2026-11-22 and equalled the exploratory table's row."
+  },
+  "first_event": {
+    "event_id": "tsmc:monthly_revenue:2026-11",
+    "scheduled_release": "2026-12-10T13:30:00+08:00",
+    "schedule_source": "https://investor.tsmc.com/english/financial-calendar",
+    "schedule_read_on": "2026-11-22",
+    "schedule_note": "Entry 'TSMC Monthly Sales - November 2026', 2026-12-10 13:30 Asia/Taipei. The next entry is 2027-01-08 13:30 for December 2026."
+  },
+  "applies_to": "Every monthly revenue release from the November 2026 report onward, in order, with none left out.",
+  "outcome": {
+    "subject": "TSM",
+    "benchmark": "SOXX",
+    "horizon_sessions": 5,
+    "measure": "window.relative",
+    "definition": "Entry is the open of the first US regular session that opens after the cutoff. Exit is the close of session number N counting the entry session as 1, with N the recipe's horizon. window is the simple return from entry open to exit close; reaction is the simple return from the previous session's close to the entry open. relative is subject minus benchmark with no beta adjustment. Prices are on the snapshot's split basis and exclude dividends; a row is flagged when an ex-dividend or split date falls in its span, and when its cutoff falls at or after the open of a session, since an upper-bound cutoff that late means the event may already have been traded on. Each factor is the latest value knowable before the cutoff and no older than its own age limit; otherwise it is a recorded gap and the row keeps its returns. A ratio whose denominator is zero has no value and keeps its inputs."
+  },
+  "factors": [
+    {
+      "factor_id": "vix_term_structure",
+      "measure": "ratio",
+      "series_ids": [
+        "cboe:vix",
+        "cboe:vix3m"
+      ],
+      "max_age_days": 5
+    },
+    {
+      "factor_id": "vix_level",
+      "measure": "level",
+      "series_ids": [
+        "cboe:vix"
+      ],
+      "max_age_days": 5
+    }
+  ],
+  "comparisons": [
+    {
+      "factor_id": "vix_term_structure",
+      "group_a": "value >= 1.0",
+      "group_b": "value < 1.0"
+    },
+    {
+      "factor_id": "vix_level",
+      "group_a": "value >= 20.0",
+      "group_b": "value < 20.0"
+    }
+  ],
+  "statistic": "Difference of the two group means of the outcome, with its unequal-variance standard error. No direction is expected. An event enters a comparison only if that factor has a value.",
+  "cutoff_rule": [
+    "1. If a dated and timed record of the actual release is found (the Taiwan exchange disclosure or a timestamped company release), the cutoff is that time, basis exact, and the source is recorded.",
+    "2. Otherwise the cutoff is the scheduled release time from the company's financial calendar, basis assumed, provided the EDGAR acceptance of the Form 6-K follows it on the same US Eastern calendar day.",
+    "3. Otherwise the cutoff is the EDGAR acceptance time of the Form 6-K, basis upper_bound.",
+    "The EDGAR acceptance time is recorded in every case. If rules 2 and 3 would select a different factor session or a different entry session, the row is flagged as timing-sensitive.",
+    "A row whose cutoff falls at or after a session's open is flagged by the table builder. Flagged rows count in the main comparison and are removed in the sensitivity repeat."
+  ],
+  "sensitivity": "Repeat both comparisons with flagged rows removed.",
+  "reading_rule": "Rows are recorded as they complete, with no conclusion drawn. The first reading is after 36 prospective events. The study has no directional hypothesis, so each reading is two-sided: abs(mean_a - mean_b) / standard_error. Two comparisons are made, so the bar is 2.3; below it the difference is treated as nothing. At or above it, in either direction, it is a reason to continue or to design a stronger test, not a trading rule. A comparison in which either group has fewer than two events, or whose standard error is zero or undefined, is reported as insufficient data and is not read.",
+  "known_limits": [
+    "In the 2009-2026 history the term-structure ratio was at or above 1 before 16 of 206 releases. At that rate 36 events give about three in that group, so that comparison is unlikely to be readable at the first reading.",
+    "The historical comparisons (run on 2026-11-22, all exploratory) showed differences of -0.40 and +1.09 standard errors. The thresholds were chosen before that run and are kept unchanged.",
+    "Prices come from Yahoo Finance and were not checked against an exchange. Cboe publication delays are assumptions, so a row can be timing-verified only if those are sourced.",
+    "The session calendar must cover each window. The 2026 calendar covers the first event; a 2027 calendar is needed before the January release."
+  ],
+  "to_record_per_event": [
+    "the cutoff, its basis and source",
+    "the EDGAR acceptance time",
+    "the hash of every input file",
+    "the completed row"
+  ],
+  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9"
+}
