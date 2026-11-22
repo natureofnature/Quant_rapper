@@ -7,7 +7,7 @@ makes no claim that one explains the other.
 from datetime import date
 from typing import Literal, Self
 
-from pydantic import Field, computed_field, model_validator
+from pydantic import AwareDatetime, Field, computed_field, model_validator
 
 from quant_contracts.pit import AsOfResult, Cutoff
 from quant_contracts.research import Contract, PriorStatus, Text
@@ -214,6 +214,28 @@ class EventTable(Contract):
         """The events for which the factor has a value: the only rows it may be judged on."""
         return tuple(row.event_id for row in self.rows
                      for state in row.factors if state.factor_id == factor_id and state.value is not None)
+
+
+class PanelRow(Contract):
+    """One subject at one decision: every feature as it was knowable then. Keyed (session, subject, as_of).
+
+    A feature with no value is None and stays None; nothing is filled in. ``sources`` gives the
+    session each value was read from, which can be earlier than ``session``. A row holds no
+    outcome: targets are joined later, by the model's own purge rule.
+    """
+
+    session: date
+    subject_id: Text
+    as_of: AwareDatetime
+    features: dict[Text, float | None]
+    sources: dict[Text, date | None]
+    assumed_inputs: dict[Text, int]  # per feature, how many observations behind it had an assumed publication time
+
+    @model_validator(mode="after")
+    def keys_agree(self) -> Self:
+        if not (set(self.features) == set(self.sources) == set(self.assumed_inputs)):
+            raise ValueError("features, sources and assumed_inputs must name the same features")
+        return self
 
 
 class GroupComparison(Contract):

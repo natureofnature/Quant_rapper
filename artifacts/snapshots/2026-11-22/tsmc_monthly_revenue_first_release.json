@@ -1,0 +1,4950 @@
+{
+ "describe": "TSMC monthly revenue as each press release stated it on its issue date, for the reports of September 2003 to October 2026 (278 releases, none missing in that span). Read from https://pr.tsmc.com/english/news/<id> on 2026-11-22 through a page reader that returns quoted fragments, then parsed. Figures are in NT$ million; a release that stated billions to one or two decimals is exact only to that rounding.",
+ "not_covered": "January 2002 to August 2003 were not read. No release states a time of day.",
+ "basis": "From the April 2006 report to the December 2012 report a release gives an unconsolidated and a consolidated figure; from January 2013 consolidated only; before April 2006 the release names no basis. The consolidated year-on-year change is first stated in the April 2007 report.",
+ "checks": "Every stated revenue figure and every stated year-on-year change was compared with tsmc_monthly_revenue_figures.json of this snapshot (the investor site's values on 2026-11-22). All agree within the rounding of the release, so no restatement of a monthly figure is visible in this span. One year-on-year change (November 2004, given only in a table) is left empty. Each issue date was compared with the EDGAR acceptance date in tsmc_monthly_revenue_events.json.",
+ "reader_caveat": "The page reader paraphrased two year references (April 2013, April 2006 year-to-date); the figures in those rows agree with the check above. Wording was not otherwise verified against the pages.",
+ "observations_rule": "observations holds the consolidated year-on-year change for the series tsmc:monthly_revenue:yoy_pct_as_released, one per release that states it, dated on the reported month's last day. A release states a date and no time, so each is available from noon UTC on the day after its issue date, with availability_basis assumed.",
+ "releases": [
+  {
+   "month": "2003-09",
+   "issue_date": "2003-10-09",
+   "url": "https://pr.tsmc.com/english/news/1261",
+   "title": "TSMC September 2003 Sales Hit New Record High",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 18911.0,
+   "unconsolidated_or_unspecified_yoy_pct": 48.3
+  },
+  {
+   "month": "2003-10",
+   "issue_date": "2003-11-07",
+   "url": "https://pr.tsmc.com/english/news/1264",
+   "title": "TSMC October 2003 Sales Exceed NT$ 20 Billion",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 20304.0,
+   "unconsolidated_or_unspecified_yoy_pct": 33.3
+  },
+  {
+   "month": "2003-11",
+   "issue_date": "2003-12-09",
+   "url": "https://pr.tsmc.com/english/news/1268",
+   "title": "TSMC Monthly Sales Report – November 2003",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 18510.0,
+   "unconsolidated_or_unspecified_yoy_pct": 26.9
+  },
+  {
+   "month": "2003-12",
+   "issue_date": "2004-01-08",
+   "url": "https://pr.tsmc.com/english/news/1272",
+   "title": "TSMC Monthly Sales Report – December 2003",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 18965.0,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2004-01",
+   "issue_date": "2004-02-09",
+   "url": "https://pr.tsmc.com/english/news/1277",
+   "title": "TSMC Monthly Sales Report – January 2004",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 19156.0,
+   "unconsolidated_or_unspecified_yoy_pct": 45.9
+  },
+  {
+   "month": "2004-02",
+   "issue_date": "2004-03-09",
+   "url": "https://pr.tsmc.com/english/news/1281",
+   "title": "TSMC Monthly Sales Report – February 2004",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 18385.0,
+   "unconsolidated_or_unspecified_yoy_pct": 48.9
+  },
+  {
+   "month": "2004-03",
+   "issue_date": "2004-04-08",
+   "url": "https://pr.tsmc.com/english/news/1286",
+   "title": "TSMC Monthly Sales Report - March 2004",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 19972.0,
+   "unconsolidated_or_unspecified_yoy_pct": 44.2
+  },
+  {
+   "month": "2004-04",
+   "issue_date": "2004-05-07",
+   "url": "https://pr.tsmc.com/english/news/1294",
+   "title": "TSMC April 2004 Sales Set New Record High",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 20631.0,
+   "unconsolidated_or_unspecified_yoy_pct": 35.2
+  },
+  {
+   "month": "2004-05",
+   "issue_date": "2004-06-09",
+   "url": "https://pr.tsmc.com/english/news/1298",
+   "title": "TSMC May Sales Set Record High",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 21720.0,
+   "unconsolidated_or_unspecified_yoy_pct": 29.2
+  },
+  {
+   "month": "2004-06",
+   "issue_date": "2004-07-08",
+   "url": "https://pr.tsmc.com/english/news/1301",
+   "title": "TSMC June Sales Set Record High",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 22519.0,
+   "unconsolidated_or_unspecified_yoy_pct": 26.2
+  },
+  {
+   "month": "2004-07",
+   "issue_date": "2004-08-09",
+   "url": "https://pr.tsmc.com/english/news/1304",
+   "title": "TSMC July Sales Set Record High",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 23148.0,
+   "unconsolidated_or_unspecified_yoy_pct": 31.2
+  },
+  {
+   "month": "2004-08",
+   "issue_date": "2004-09-09",
+   "url": "https://pr.tsmc.com/english/news/1306",
+   "title": "TSMC August Sales Set Record High",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 23414.0,
+   "unconsolidated_or_unspecified_yoy_pct": 27.8
+  },
+  {
+   "month": "2004-09",
+   "issue_date": "2004-10-07",
+   "url": "https://pr.tsmc.com/english/news/1309",
+   "title": "TSMC September Sales Report",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 23174.0,
+   "unconsolidated_or_unspecified_yoy_pct": 22.5
+  },
+  {
+   "month": "2004-10",
+   "issue_date": "2004-11-09",
+   "url": "https://pr.tsmc.com/english/news/1314",
+   "title": "TSMC October Sales Report",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 22970.0,
+   "unconsolidated_or_unspecified_yoy_pct": 13.1
+  },
+  {
+   "month": "2004-11",
+   "issue_date": "2004-12-09",
+   "url": "https://pr.tsmc.com/english/news/1316",
+   "title": "TSMC November Sales Report",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 20986.0,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2004-12",
+   "issue_date": "2005-01-07",
+   "url": "https://pr.tsmc.com/english/news/1320",
+   "title": "TSMC December 2004 Sales Report",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 19919.0,
+   "unconsolidated_or_unspecified_yoy_pct": 5.0
+  },
+  {
+   "month": "2005-01",
+   "issue_date": "2005-02-14",
+   "url": "https://pr.tsmc.com/english/news/1326",
+   "title": "TSMC Monthly Sales Report - January 2005",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 20843.0,
+   "unconsolidated_or_unspecified_yoy_pct": 8.8
+  },
+  {
+   "month": "2005-02",
+   "issue_date": "2005-03-09",
+   "url": "https://pr.tsmc.com/english/news/1328",
+   "title": "TSMC Monthly Sales Report - February 2005",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 17200.0,
+   "unconsolidated_or_unspecified_yoy_pct": -6.4
+  },
+  {
+   "month": "2005-03",
+   "issue_date": "2005-04-07",
+   "url": "https://pr.tsmc.com/english/news/1329",
+   "title": "TSMC Monthly Sales Report - March 2005",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 17610.0,
+   "unconsolidated_or_unspecified_yoy_pct": -11.8
+  },
+  {
+   "month": "2005-04",
+   "issue_date": "2005-05-09",
+   "url": "https://pr.tsmc.com/english/news/1332",
+   "title": "TSMC Monthly Sales Report - April 2005",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 18903.0,
+   "unconsolidated_or_unspecified_yoy_pct": -8.4
+  },
+  {
+   "month": "2005-05",
+   "issue_date": "2005-06-08",
+   "url": "https://pr.tsmc.com/english/news/1338",
+   "title": "TSMC Announce May 2005 Sales and Revise Upward 2Q2005 Guidance",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 19508.0,
+   "unconsolidated_or_unspecified_yoy_pct": -10.2
+  },
+  {
+   "month": "2005-06",
+   "issue_date": "2005-07-07",
+   "url": "https://pr.tsmc.com/english/news/1345",
+   "title": "TSMC Monthly Sales Report - June 2005",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 20105.0,
+   "unconsolidated_or_unspecified_yoy_pct": -10.7
+  },
+  {
+   "month": "2005-07",
+   "issue_date": "2005-08-09",
+   "url": "https://pr.tsmc.com/english/news/1349",
+   "title": "TSMC Monthly Sales Report - July 2005",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 20847.0,
+   "unconsolidated_or_unspecified_yoy_pct": -9.9
+  },
+  {
+   "month": "2005-08",
+   "issue_date": "2005-09-08",
+   "url": "https://pr.tsmc.com/english/news/1351",
+   "title": "TSMC Monthly Sales Report - August 2005",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 23182.0,
+   "unconsolidated_or_unspecified_yoy_pct": -1.0
+  },
+  {
+   "month": "2005-09",
+   "issue_date": "2005-10-07",
+   "url": "https://pr.tsmc.com/english/news/1357",
+   "title": "TSMC September 2005 Sales Set Record High",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 25229.0,
+   "unconsolidated_or_unspecified_yoy_pct": 8.9
+  },
+  {
+   "month": "2005-10",
+   "issue_date": "2005-11-09",
+   "url": "https://pr.tsmc.com/english/news/1362",
+   "title": "TSMC October 2005 Sales Set Record High",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 26227.0,
+   "unconsolidated_or_unspecified_yoy_pct": 14.2
+  },
+  {
+   "month": "2005-11",
+   "issue_date": "2005-12-08",
+   "url": "https://pr.tsmc.com/english/news/1366",
+   "title": "TSMC November 2005 Sales Set Record High",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 27518.0,
+   "unconsolidated_or_unspecified_yoy_pct": 31.1
+  },
+  {
+   "month": "2005-12",
+   "issue_date": "2006-01-09",
+   "url": "https://pr.tsmc.com/english/news/1368",
+   "title": "TSMC December 2005 Sales Report",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 27416.0,
+   "unconsolidated_or_unspecified_yoy_pct": 37.6
+  },
+  {
+   "month": "2006-01",
+   "issue_date": "2006-02-10",
+   "url": "https://pr.tsmc.com/english/news/1371",
+   "title": "TSMC January 2006 Sales Report",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 26178.0,
+   "unconsolidated_or_unspecified_yoy_pct": 25.6
+  },
+  {
+   "month": "2006-02",
+   "issue_date": "2006-03-10",
+   "url": "https://pr.tsmc.com/english/news/1374",
+   "title": "TSMC February 2006 Sales Report",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 24009.0,
+   "unconsolidated_or_unspecified_yoy_pct": 39.6
+  },
+  {
+   "month": "2006-03",
+   "issue_date": "2006-04-10",
+   "url": "https://pr.tsmc.com/english/news/1380",
+   "title": "TSMC March 2006 Sales Report",
+   "basis_stated": null,
+   "consolidated_nt_million": null,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 27107.0,
+   "unconsolidated_or_unspecified_yoy_pct": 53.9
+  },
+  {
+   "month": "2006-04",
+   "issue_date": "2006-05-10",
+   "url": "https://pr.tsmc.com/english/news/1384",
+   "title": "TSMC April 2006 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 27388.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 27162.0,
+   "unconsolidated_or_unspecified_yoy_pct": 43.7
+  },
+  {
+   "month": "2006-05",
+   "issue_date": "2006-06-09",
+   "url": "https://pr.tsmc.com/english/news/1394",
+   "title": "TSMC May 2006 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 27124.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 26770.0,
+   "unconsolidated_or_unspecified_yoy_pct": 37.2
+  },
+  {
+   "month": "2006-06",
+   "issue_date": "2006-07-10",
+   "url": "https://pr.tsmc.com/english/news/1396",
+   "title": "TSMC June 2006 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 27647.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 27295.0,
+   "unconsolidated_or_unspecified_yoy_pct": 35.8
+  },
+  {
+   "month": "2006-07",
+   "issue_date": "2006-08-10",
+   "url": "https://pr.tsmc.com/english/news/1404",
+   "title": "TSMC July 2006 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 27959.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 27567.0,
+   "unconsolidated_or_unspecified_yoy_pct": 32.2
+  },
+  {
+   "month": "2006-08",
+   "issue_date": "2006-09-08",
+   "url": "https://pr.tsmc.com/english/news/1405",
+   "title": "TSMC August 2006 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 27284.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 27000.0,
+   "unconsolidated_or_unspecified_yoy_pct": 16.5
+  },
+  {
+   "month": "2006-09",
+   "issue_date": "2006-10-09",
+   "url": "https://pr.tsmc.com/english/news/1407",
+   "title": "TSMC September 2006 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 27198.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 26859.0,
+   "unconsolidated_or_unspecified_yoy_pct": 6.5
+  },
+  {
+   "month": "2006-10",
+   "issue_date": "2006-11-10",
+   "url": "https://pr.tsmc.com/english/news/1411",
+   "title": "TSMC October 2006 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 27032.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 26850.0,
+   "unconsolidated_or_unspecified_yoy_pct": 2.4
+  },
+  {
+   "month": "2006-11",
+   "issue_date": "2006-12-08",
+   "url": "https://pr.tsmc.com/english/news/1412",
+   "title": "TSMC November 2006 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 25060.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 24709.0,
+   "unconsolidated_or_unspecified_yoy_pct": -10.2
+  },
+  {
+   "month": "2006-12",
+   "issue_date": "2007-01-10",
+   "url": "https://pr.tsmc.com/english/news/1415",
+   "title": "TSMC December 2006 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 22871.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 22376.0,
+   "unconsolidated_or_unspecified_yoy_pct": -18.4
+  },
+  {
+   "month": "2007-01",
+   "issue_date": "2007-02-09",
+   "url": "https://pr.tsmc.com/english/news/1420",
+   "title": "TSMC January 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 21389.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 20851.0,
+   "unconsolidated_or_unspecified_yoy_pct": -20.3
+  },
+  {
+   "month": "2007-02",
+   "issue_date": "2007-03-09",
+   "url": "https://pr.tsmc.com/english/news/1424",
+   "title": "TSMC February 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 20948.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 20577.0,
+   "unconsolidated_or_unspecified_yoy_pct": -14.3
+  },
+  {
+   "month": "2007-03",
+   "issue_date": "2007-04-10",
+   "url": "https://pr.tsmc.com/english/news/1430",
+   "title": "TSMC March 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 22560.0,
+   "consolidated_yoy_pct": null,
+   "unconsolidated_or_unspecified_nt_million": 21918.0,
+   "unconsolidated_or_unspecified_yoy_pct": -19.1
+  },
+  {
+   "month": "2007-04",
+   "issue_date": "2007-05-10",
+   "url": "https://pr.tsmc.com/english/news/1437",
+   "title": "TSMC April 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 23094.0,
+   "consolidated_yoy_pct": -15.7,
+   "unconsolidated_or_unspecified_nt_million": 22513.0,
+   "unconsolidated_or_unspecified_yoy_pct": -17.1
+  },
+  {
+   "month": "2007-05",
+   "issue_date": "2007-06-08",
+   "url": "https://pr.tsmc.com/english/news/1448",
+   "title": "TSMC May 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 25712.0,
+   "consolidated_yoy_pct": -5.2,
+   "unconsolidated_or_unspecified_nt_million": 25093.0,
+   "unconsolidated_or_unspecified_yoy_pct": -6.3
+  },
+  {
+   "month": "2007-06",
+   "issue_date": "2007-07-10",
+   "url": "https://pr.tsmc.com/english/news/1452",
+   "title": "TSMC June 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 26112.0,
+   "consolidated_yoy_pct": -5.4,
+   "unconsolidated_or_unspecified_nt_million": 25246.0,
+   "unconsolidated_or_unspecified_yoy_pct": -7.5
+  },
+  {
+   "month": "2007-07",
+   "issue_date": "2007-08-10",
+   "url": "https://pr.tsmc.com/english/news/1456",
+   "title": "TSMC July 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 29483.0,
+   "consolidated_yoy_pct": 5.5,
+   "unconsolidated_or_unspecified_nt_million": 28766.0,
+   "unconsolidated_or_unspecified_yoy_pct": 4.3
+  },
+  {
+   "month": "2007-08",
+   "issue_date": "2007-09-10",
+   "url": "https://pr.tsmc.com/english/news/1462",
+   "title": "TSMC August 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 30019.0,
+   "consolidated_yoy_pct": 10.0,
+   "unconsolidated_or_unspecified_nt_million": 29199.0,
+   "unconsolidated_or_unspecified_yoy_pct": 8.1
+  },
+  {
+   "month": "2007-09",
+   "issue_date": "2007-10-09",
+   "url": "https://pr.tsmc.com/english/news/1467",
+   "title": "TSMC September 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 29453.0,
+   "consolidated_yoy_pct": 8.2,
+   "unconsolidated_or_unspecified_nt_million": 28496.0,
+   "unconsolidated_or_unspecified_yoy_pct": 6.1
+  },
+  {
+   "month": "2007-10",
+   "issue_date": "2007-11-09",
+   "url": "https://pr.tsmc.com/english/news/1470",
+   "title": "TSMC October 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 32606.0,
+   "consolidated_yoy_pct": 20.6,
+   "unconsolidated_or_unspecified_nt_million": 31725.0,
+   "unconsolidated_or_unspecified_yoy_pct": 18.2
+  },
+  {
+   "month": "2007-11",
+   "issue_date": "2007-12-10",
+   "url": "https://pr.tsmc.com/english/news/1476",
+   "title": "TSMC November 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 31265.0,
+   "consolidated_yoy_pct": 24.8,
+   "unconsolidated_or_unspecified_nt_million": 30143.0,
+   "unconsolidated_or_unspecified_yoy_pct": 22.0
+  },
+  {
+   "month": "2007-12",
+   "issue_date": "2008-01-10",
+   "url": "https://pr.tsmc.com/english/news/1482",
+   "title": "TSMC December 2007 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 29988.0,
+   "consolidated_yoy_pct": 31.1,
+   "unconsolidated_or_unspecified_nt_million": 29120.0,
+   "unconsolidated_or_unspecified_yoy_pct": 30.1
+  },
+  {
+   "month": "2008-01",
+   "issue_date": "2008-02-14",
+   "url": "https://pr.tsmc.com/english/news/1485",
+   "title": "TSMC January 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 31069.0,
+   "consolidated_yoy_pct": 45.3,
+   "unconsolidated_or_unspecified_nt_million": 30286.0,
+   "unconsolidated_or_unspecified_yoy_pct": 45.2
+  },
+  {
+   "month": "2008-02",
+   "issue_date": "2008-03-10",
+   "url": "https://pr.tsmc.com/english/news/1489",
+   "title": "TSMC February 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 29282.0,
+   "consolidated_yoy_pct": 39.8,
+   "unconsolidated_or_unspecified_nt_million": 28382.0,
+   "unconsolidated_or_unspecified_yoy_pct": 37.9
+  },
+  {
+   "month": "2008-03",
+   "issue_date": "2008-04-10",
+   "url": "https://pr.tsmc.com/english/news/1491",
+   "title": "TSMC March 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 27128.0,
+   "consolidated_yoy_pct": 20.2,
+   "unconsolidated_or_unspecified_nt_million": 26562.0,
+   "unconsolidated_or_unspecified_yoy_pct": 21.2
+  },
+  {
+   "month": "2008-04",
+   "issue_date": "2008-05-09",
+   "url": "https://pr.tsmc.com/english/news/1498",
+   "title": "TSMC April 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 28863.0,
+   "consolidated_yoy_pct": 25.0,
+   "unconsolidated_or_unspecified_nt_million": 28094.0,
+   "unconsolidated_or_unspecified_yoy_pct": 24.8
+  },
+  {
+   "month": "2008-05",
+   "issue_date": "2008-06-10",
+   "url": "https://pr.tsmc.com/english/news/1502",
+   "title": "TSMC May 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 29801.0,
+   "consolidated_yoy_pct": 15.9,
+   "unconsolidated_or_unspecified_nt_million": 28990.0,
+   "unconsolidated_or_unspecified_yoy_pct": 15.5
+  },
+  {
+   "month": "2008-06",
+   "issue_date": "2008-07-10",
+   "url": "https://pr.tsmc.com/english/news/1509",
+   "title": "TSMC June 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 29473.0,
+   "consolidated_yoy_pct": 12.9,
+   "unconsolidated_or_unspecified_nt_million": 28510.0,
+   "unconsolidated_or_unspecified_yoy_pct": 12.9
+  },
+  {
+   "month": "2008-07",
+   "issue_date": "2008-08-08",
+   "url": "https://pr.tsmc.com/english/news/1512",
+   "title": "TSMC July 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 31814.0,
+   "consolidated_yoy_pct": 7.9,
+   "unconsolidated_or_unspecified_nt_million": 30869.0,
+   "unconsolidated_or_unspecified_yoy_pct": 7.3
+  },
+  {
+   "month": "2008-08",
+   "issue_date": "2008-09-10",
+   "url": "https://pr.tsmc.com/english/news/1515",
+   "title": "TSMC August 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 31850.0,
+   "consolidated_yoy_pct": 6.1,
+   "unconsolidated_or_unspecified_nt_million": 30995.0,
+   "unconsolidated_or_unspecified_yoy_pct": 6.2
+  },
+  {
+   "month": "2008-09",
+   "issue_date": "2008-10-09",
+   "url": "https://pr.tsmc.com/english/news/1518",
+   "title": "TSMC September 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 29315.0,
+   "consolidated_yoy_pct": -0.5,
+   "unconsolidated_or_unspecified_nt_million": 28252.0,
+   "unconsolidated_or_unspecified_yoy_pct": -0.9
+  },
+  {
+   "month": "2008-10",
+   "issue_date": "2008-11-10",
+   "url": "https://pr.tsmc.com/english/news/1523",
+   "title": "TSMC October 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 29490.0,
+   "consolidated_yoy_pct": -9.6,
+   "unconsolidated_or_unspecified_nt_million": 28371.0,
+   "unconsolidated_or_unspecified_yoy_pct": -10.6
+  },
+  {
+   "month": "2008-11",
+   "issue_date": "2008-12-10",
+   "url": "https://pr.tsmc.com/english/news/1530",
+   "title": "TSMC November 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 20644.0,
+   "consolidated_yoy_pct": -34.0,
+   "unconsolidated_or_unspecified_nt_million": 19295.0,
+   "unconsolidated_or_unspecified_yoy_pct": -36.0
+  },
+  {
+   "month": "2008-12",
+   "issue_date": "2009-01-09",
+   "url": "https://pr.tsmc.com/english/news/1531",
+   "title": "TSMC December 2008 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 14429.0,
+   "consolidated_yoy_pct": -51.9,
+   "unconsolidated_or_unspecified_nt_million": 13161.0,
+   "unconsolidated_or_unspecified_yoy_pct": -54.8
+  },
+  {
+   "month": "2009-01",
+   "issue_date": "2009-02-10",
+   "url": "https://pr.tsmc.com/english/news/1534",
+   "title": "TSMC January 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 13130.0,
+   "consolidated_yoy_pct": -57.8,
+   "unconsolidated_or_unspecified_nt_million": 12440.0,
+   "unconsolidated_or_unspecified_yoy_pct": -58.9
+  },
+  {
+   "month": "2009-02",
+   "issue_date": "2009-03-10",
+   "url": "https://pr.tsmc.com/english/news/1539",
+   "title": "TSMC Announces February 2009 Sales Report and Revises First-Quarter Business Guidance",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 12180.0,
+   "consolidated_yoy_pct": -58.4,
+   "unconsolidated_or_unspecified_nt_million": 11500.0,
+   "unconsolidated_or_unspecified_yoy_pct": -59.5
+  },
+  {
+   "month": "2009-03",
+   "issue_date": "2009-04-10",
+   "url": "https://pr.tsmc.com/english/news/1543",
+   "title": "TSMC March 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 14200.0,
+   "consolidated_yoy_pct": -47.7,
+   "unconsolidated_or_unspecified_nt_million": 13620.0,
+   "unconsolidated_or_unspecified_yoy_pct": -48.7
+  },
+  {
+   "month": "2009-04",
+   "issue_date": "2009-05-08",
+   "url": "https://pr.tsmc.com/english/news/1551",
+   "title": "TSMC April 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 22450.0,
+   "consolidated_yoy_pct": -22.2,
+   "unconsolidated_or_unspecified_nt_million": 21750.0,
+   "unconsolidated_or_unspecified_yoy_pct": -22.6
+  },
+  {
+   "month": "2009-05",
+   "issue_date": "2009-06-10",
+   "url": "https://pr.tsmc.com/english/news/1553",
+   "title": "TSMC May 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 25250.0,
+   "consolidated_yoy_pct": -15.3,
+   "unconsolidated_or_unspecified_nt_million": 24470.0,
+   "unconsolidated_or_unspecified_yoy_pct": -15.6
+  },
+  {
+   "month": "2009-06",
+   "issue_date": "2009-07-10",
+   "url": "https://pr.tsmc.com/english/news/1563",
+   "title": "TSMC June 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 26520.0,
+   "consolidated_yoy_pct": -10.0,
+   "unconsolidated_or_unspecified_nt_million": 25780.0,
+   "unconsolidated_or_unspecified_yoy_pct": -9.6
+  },
+  {
+   "month": "2009-07",
+   "issue_date": "2009-08-10",
+   "url": "https://pr.tsmc.com/english/news/1570",
+   "title": "TSMC July 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 31170.0,
+   "consolidated_yoy_pct": -2.0,
+   "unconsolidated_or_unspecified_nt_million": 30280.0,
+   "unconsolidated_or_unspecified_yoy_pct": -1.9
+  },
+  {
+   "month": "2009-08",
+   "issue_date": "2009-09-10",
+   "url": "https://pr.tsmc.com/english/news/1576",
+   "title": "TSMC August 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 29830.0,
+   "consolidated_yoy_pct": -6.4,
+   "unconsolidated_or_unspecified_nt_million": 28890.0,
+   "unconsolidated_or_unspecified_yoy_pct": -6.8
+  },
+  {
+   "month": "2009-09",
+   "issue_date": "2009-10-09",
+   "url": "https://pr.tsmc.com/english/news/1581",
+   "title": "TSMC September 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 28940.0,
+   "consolidated_yoy_pct": -1.3,
+   "unconsolidated_or_unspecified_nt_million": 28020.0,
+   "unconsolidated_or_unspecified_yoy_pct": -0.8
+  },
+  {
+   "month": "2009-10",
+   "issue_date": "2009-11-10",
+   "url": "https://pr.tsmc.com/english/news/1585",
+   "title": "TSMC October 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 30220.0,
+   "consolidated_yoy_pct": 2.5,
+   "unconsolidated_or_unspecified_nt_million": 29180.0,
+   "unconsolidated_or_unspecified_yoy_pct": 2.9
+  },
+  {
+   "month": "2009-11",
+   "issue_date": "2009-12-10",
+   "url": "https://pr.tsmc.com/english/news/1592",
+   "title": "TSMC November 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 30320.0,
+   "consolidated_yoy_pct": 46.9,
+   "unconsolidated_or_unspecified_nt_million": 29350.0,
+   "unconsolidated_or_unspecified_yoy_pct": 52.1
+  },
+  {
+   "month": "2009-12",
+   "issue_date": "2010-01-08",
+   "url": "https://pr.tsmc.com/english/news/1596",
+   "title": "TSMC December 2009 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 31550.0,
+   "consolidated_yoy_pct": 118.7,
+   "unconsolidated_or_unspecified_nt_million": 30470.0,
+   "unconsolidated_or_unspecified_yoy_pct": 131.5
+  },
+  {
+   "month": "2010-01",
+   "issue_date": "2010-02-10",
+   "url": "https://pr.tsmc.com/english/news/1601",
+   "title": "TSMC January 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 30140.0,
+   "consolidated_yoy_pct": 129.6,
+   "unconsolidated_or_unspecified_nt_million": 29160.0,
+   "unconsolidated_or_unspecified_yoy_pct": 134.4
+  },
+  {
+   "month": "2010-02",
+   "issue_date": "2010-03-10",
+   "url": "https://pr.tsmc.com/english/news/1607",
+   "title": "TSMC February 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 30130.0,
+   "consolidated_yoy_pct": 147.5,
+   "unconsolidated_or_unspecified_nt_million": 29200.0,
+   "unconsolidated_or_unspecified_yoy_pct": 153.8
+  },
+  {
+   "month": "2010-03",
+   "issue_date": "2010-04-09",
+   "url": "https://pr.tsmc.com/english/news/1610",
+   "title": "TSMC March 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 31920.0,
+   "consolidated_yoy_pct": 124.8,
+   "unconsolidated_or_unspecified_nt_million": 30820.0,
+   "unconsolidated_or_unspecified_yoy_pct": 126.3
+  },
+  {
+   "month": "2010-04",
+   "issue_date": "2010-05-10",
+   "url": "https://pr.tsmc.com/english/news/1616",
+   "title": "TSMC April 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 33810.0,
+   "consolidated_yoy_pct": 50.6,
+   "unconsolidated_or_unspecified_nt_million": 32680.0,
+   "unconsolidated_or_unspecified_yoy_pct": 50.3
+  },
+  {
+   "month": "2010-05",
+   "issue_date": "2010-06-10",
+   "url": "https://pr.tsmc.com/english/news/1621",
+   "title": "TSMC May 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 34820.0,
+   "consolidated_yoy_pct": 37.9,
+   "unconsolidated_or_unspecified_nt_million": 33840.0,
+   "unconsolidated_or_unspecified_yoy_pct": 38.3
+  },
+  {
+   "month": "2010-06",
+   "issue_date": "2010-07-09",
+   "url": "https://pr.tsmc.com/english/news/1628",
+   "title": "TSMC June 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 36330.0,
+   "consolidated_yoy_pct": 37.0,
+   "unconsolidated_or_unspecified_nt_million": 35110.0,
+   "unconsolidated_or_unspecified_yoy_pct": 36.2
+  },
+  {
+   "month": "2010-07",
+   "issue_date": "2010-08-10",
+   "url": "https://pr.tsmc.com/english/news/1632",
+   "title": "TSMC July 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 37220.0,
+   "consolidated_yoy_pct": 19.4,
+   "unconsolidated_or_unspecified_nt_million": 36160.0,
+   "unconsolidated_or_unspecified_yoy_pct": 19.4
+  },
+  {
+   "month": "2010-08",
+   "issue_date": "2010-09-10",
+   "url": "https://pr.tsmc.com/english/news/1635",
+   "title": "TSMC August 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 37390.0,
+   "consolidated_yoy_pct": 25.4,
+   "unconsolidated_or_unspecified_nt_million": 36500.0,
+   "unconsolidated_or_unspecified_yoy_pct": 26.3
+  },
+  {
+   "month": "2010-09",
+   "issue_date": "2010-10-08",
+   "url": "https://pr.tsmc.com/english/news/1640",
+   "title": "TSMC September 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 37640.0,
+   "consolidated_yoy_pct": 30.1,
+   "unconsolidated_or_unspecified_nt_million": 36650.0,
+   "unconsolidated_or_unspecified_yoy_pct": 30.8
+  },
+  {
+   "month": "2010-10",
+   "issue_date": "2010-11-10",
+   "url": "https://pr.tsmc.com/english/news/1644",
+   "title": "TSMC October 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 38430.0,
+   "consolidated_yoy_pct": 27.2,
+   "unconsolidated_or_unspecified_nt_million": 37370.0,
+   "unconsolidated_or_unspecified_yoy_pct": 28.1
+  },
+  {
+   "month": "2010-11",
+   "issue_date": "2010-12-10",
+   "url": "https://pr.tsmc.com/english/news/1649",
+   "title": "TSMC November 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 36850.0,
+   "consolidated_yoy_pct": 21.5,
+   "unconsolidated_or_unspecified_nt_million": 35720.0,
+   "unconsolidated_or_unspecified_yoy_pct": 21.7
+  },
+  {
+   "month": "2010-12",
+   "issue_date": "2011-01-10",
+   "url": "https://pr.tsmc.com/english/news/1651",
+   "title": "TSMC December 2010 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 34870.0,
+   "consolidated_yoy_pct": 10.5,
+   "unconsolidated_or_unspecified_nt_million": 33750.0,
+   "unconsolidated_or_unspecified_yoy_pct": 10.8
+  },
+  {
+   "month": "2011-01",
+   "issue_date": "2011-02-10",
+   "url": "https://pr.tsmc.com/english/news/1656",
+   "title": "TSMC January 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 35370.0,
+   "consolidated_yoy_pct": 17.4,
+   "unconsolidated_or_unspecified_nt_million": 34420.0,
+   "unconsolidated_or_unspecified_yoy_pct": 18.1
+  },
+  {
+   "month": "2011-02",
+   "issue_date": "2011-03-10",
+   "url": "https://pr.tsmc.com/english/news/1660",
+   "title": "TSMC February 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 32689.999999999996,
+   "consolidated_yoy_pct": 8.5,
+   "unconsolidated_or_unspecified_nt_million": 31750.0,
+   "unconsolidated_or_unspecified_yoy_pct": 8.8
+  },
+  {
+   "month": "2011-03",
+   "issue_date": "2011-04-08",
+   "url": "https://pr.tsmc.com/english/news/1662",
+   "title": "TSMC March 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 37320.0,
+   "consolidated_yoy_pct": 16.9,
+   "unconsolidated_or_unspecified_nt_million": 36370.0,
+   "unconsolidated_or_unspecified_yoy_pct": 18.0
+  },
+  {
+   "month": "2011-04",
+   "issue_date": "2011-05-10",
+   "url": "https://pr.tsmc.com/english/news/1666",
+   "title": "TSMC April 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 37130.0,
+   "consolidated_yoy_pct": 9.8,
+   "unconsolidated_or_unspecified_nt_million": 36230.0,
+   "unconsolidated_or_unspecified_yoy_pct": 10.9
+  },
+  {
+   "month": "2011-05",
+   "issue_date": "2011-06-10",
+   "url": "https://pr.tsmc.com/english/news/1674",
+   "title": "TSMC May 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 36710.0,
+   "consolidated_yoy_pct": 5.4,
+   "unconsolidated_or_unspecified_nt_million": 35960.0,
+   "unconsolidated_or_unspecified_yoy_pct": 6.3
+  },
+  {
+   "month": "2011-06",
+   "issue_date": "2011-07-08",
+   "url": "https://pr.tsmc.com/english/news/1676",
+   "title": "TSMC June 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 36670.0,
+   "consolidated_yoy_pct": 0.9,
+   "unconsolidated_or_unspecified_nt_million": 35650.0,
+   "unconsolidated_or_unspecified_yoy_pct": 1.5
+  },
+  {
+   "month": "2011-07",
+   "issue_date": "2011-08-10",
+   "url": "https://pr.tsmc.com/english/news/1680",
+   "title": "TSMC July 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 35430.0,
+   "consolidated_yoy_pct": -4.8,
+   "unconsolidated_or_unspecified_nt_million": 34920.0,
+   "unconsolidated_or_unspecified_yoy_pct": -3.4
+  },
+  {
+   "month": "2011-08",
+   "issue_date": "2011-09-09",
+   "url": "https://pr.tsmc.com/english/news/1682",
+   "title": "TSMC August 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 37640.0,
+   "consolidated_yoy_pct": 0.7,
+   "unconsolidated_or_unspecified_nt_million": 37040.0,
+   "unconsolidated_or_unspecified_yoy_pct": 1.5
+  },
+  {
+   "month": "2011-09",
+   "issue_date": "2011-10-07",
+   "url": "https://pr.tsmc.com/english/news/1685",
+   "title": "TSMC September 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 33410.0,
+   "consolidated_yoy_pct": -11.2,
+   "unconsolidated_or_unspecified_nt_million": 32860.0,
+   "unconsolidated_or_unspecified_yoy_pct": -10.3
+  },
+  {
+   "month": "2011-10",
+   "issue_date": "2011-11-10",
+   "url": "https://pr.tsmc.com/english/news/1693",
+   "title": "TSMC October 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 37610.0,
+   "consolidated_yoy_pct": -2.1,
+   "unconsolidated_or_unspecified_nt_million": 37250.0,
+   "unconsolidated_or_unspecified_yoy_pct": -0.3
+  },
+  {
+   "month": "2011-11",
+   "issue_date": "2011-12-09",
+   "url": "https://pr.tsmc.com/english/news/1699",
+   "title": "TSMC November 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 35860.0,
+   "consolidated_yoy_pct": -2.7,
+   "unconsolidated_or_unspecified_nt_million": 35220.0,
+   "unconsolidated_or_unspecified_yoy_pct": -1.4
+  },
+  {
+   "month": "2011-12",
+   "issue_date": "2012-01-10",
+   "url": "https://pr.tsmc.com/english/news/1703",
+   "title": "TSMC December 2011 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 31240.0,
+   "consolidated_yoy_pct": -10.4,
+   "unconsolidated_or_unspecified_nt_million": 30570.0,
+   "unconsolidated_or_unspecified_yoy_pct": -9.4
+  },
+  {
+   "month": "2012-01",
+   "issue_date": "2012-02-10",
+   "url": "https://pr.tsmc.com/english/news/1706",
+   "title": "TSMC January 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 34570.0,
+   "consolidated_yoy_pct": -2.3,
+   "unconsolidated_or_unspecified_nt_million": 34050.0,
+   "unconsolidated_or_unspecified_yoy_pct": -1.1
+  },
+  {
+   "month": "2012-02",
+   "issue_date": "2012-03-09",
+   "url": "https://pr.tsmc.com/english/news/1709",
+   "title": "TSMC February 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 33860.0,
+   "consolidated_yoy_pct": 3.6,
+   "unconsolidated_or_unspecified_nt_million": 33580.0,
+   "unconsolidated_or_unspecified_yoy_pct": 5.8
+  },
+  {
+   "month": "2012-03",
+   "issue_date": "2012-04-10",
+   "url": "https://pr.tsmc.com/english/news/1715",
+   "title": "TSMC March 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 37080.0,
+   "consolidated_yoy_pct": -0.6,
+   "unconsolidated_or_unspecified_nt_million": 36610.0,
+   "unconsolidated_or_unspecified_yoy_pct": 0.7
+  },
+  {
+   "month": "2012-04",
+   "issue_date": "2012-05-10",
+   "url": "https://pr.tsmc.com/english/news/1721",
+   "title": "TSMC April 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 40500.0,
+   "consolidated_yoy_pct": 9.1,
+   "unconsolidated_or_unspecified_nt_million": 40010.0,
+   "unconsolidated_or_unspecified_yoy_pct": 10.4
+  },
+  {
+   "month": "2012-05",
+   "issue_date": "2012-06-08",
+   "url": "https://pr.tsmc.com/english/news/1723",
+   "title": "TSMC May 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 44140.0,
+   "consolidated_yoy_pct": 20.2,
+   "unconsolidated_or_unspecified_nt_million": 43620.0,
+   "unconsolidated_or_unspecified_yoy_pct": 21.3
+  },
+  {
+   "month": "2012-06",
+   "issue_date": "2012-07-10",
+   "url": "https://pr.tsmc.com/english/news/1730",
+   "title": "TSMC June 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 43430.0,
+   "consolidated_yoy_pct": 18.4,
+   "unconsolidated_or_unspecified_nt_million": 42870.0,
+   "unconsolidated_or_unspecified_yoy_pct": 20.2
+  },
+  {
+   "month": "2012-07",
+   "issue_date": "2012-08-10",
+   "url": "https://pr.tsmc.com/english/news/1736",
+   "title": "TSMC July 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 48530.0,
+   "consolidated_yoy_pct": 37.0,
+   "unconsolidated_or_unspecified_nt_million": 47920.0,
+   "unconsolidated_or_unspecified_yoy_pct": 37.3
+  },
+  {
+   "month": "2012-08",
+   "issue_date": "2012-09-10",
+   "url": "https://pr.tsmc.com/english/news/1740",
+   "title": "TSMC August 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 49500.0,
+   "consolidated_yoy_pct": 31.5,
+   "unconsolidated_or_unspecified_nt_million": 48900.0,
+   "unconsolidated_or_unspecified_yoy_pct": 32.0
+  },
+  {
+   "month": "2012-09",
+   "issue_date": "2012-10-09",
+   "url": "https://pr.tsmc.com/english/news/1744",
+   "title": "TSMC September 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 43350.0,
+   "consolidated_yoy_pct": 29.8,
+   "unconsolidated_or_unspecified_nt_million": 42820.0,
+   "unconsolidated_or_unspecified_yoy_pct": 30.3
+  },
+  {
+   "month": "2012-10",
+   "issue_date": "2012-11-09",
+   "url": "https://pr.tsmc.com/english/news/1751",
+   "title": "TSMC October 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 49940.0,
+   "consolidated_yoy_pct": 32.8,
+   "unconsolidated_or_unspecified_nt_million": 49280.0,
+   "unconsolidated_or_unspecified_yoy_pct": 32.3
+  },
+  {
+   "month": "2012-11",
+   "issue_date": "2012-12-10",
+   "url": "https://pr.tsmc.com/english/news/1755",
+   "title": "TSMC November 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 44250.0,
+   "consolidated_yoy_pct": 23.4,
+   "unconsolidated_or_unspecified_nt_million": 43640.0,
+   "unconsolidated_or_unspecified_yoy_pct": 23.9
+  },
+  {
+   "month": "2012-12",
+   "issue_date": "2013-01-10",
+   "url": "https://pr.tsmc.com/english/news/1757",
+   "title": "TSMC December 2012 Sales Report",
+   "basis_stated": "both (unconsolidated stated first, then consolidated)",
+   "consolidated_nt_million": 37110.0,
+   "consolidated_yoy_pct": 18.8,
+   "unconsolidated_or_unspecified_nt_million": 36560.0,
+   "unconsolidated_or_unspecified_yoy_pct": 19.6
+  },
+  {
+   "month": "2013-01",
+   "issue_date": "2013-02-08",
+   "url": "https://pr.tsmc.com/english/news/1760",
+   "title": "TSMC January 2013 Sales Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 47440.0,
+   "consolidated_yoy_pct": 37.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-02",
+   "issue_date": "2013-03-08",
+   "url": "https://pr.tsmc.com/english/news/1763",
+   "title": "TSMC February 2013 Sales Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 41180.0,
+   "consolidated_yoy_pct": 21.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-03",
+   "issue_date": "2013-04-10",
+   "url": "https://pr.tsmc.com/english/news/1770",
+   "title": "TSMC March 2013 Sales Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 44130.0,
+   "consolidated_yoy_pct": 18.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-04",
+   "issue_date": "2013-05-10",
+   "url": "https://pr.tsmc.com/english/news/1774",
+   "title": "TSMC April 2013 Sales Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 50070.0,
+   "consolidated_yoy_pct": 23.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-05",
+   "issue_date": "2013-06-10",
+   "url": "https://pr.tsmc.com/english/news/1777",
+   "title": "TSMC May 2013 Sales Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 51790.0,
+   "consolidated_yoy_pct": 17.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-06",
+   "issue_date": "2013-07-10",
+   "url": "https://pr.tsmc.com/english/news/1781",
+   "title": "TSMC June 2013 Sales Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 54030.0,
+   "consolidated_yoy_pct": 24.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-07",
+   "issue_date": "2013-08-09",
+   "url": "https://pr.tsmc.com/english/news/1783",
+   "title": "TSMC July 2013 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 52100.0,
+   "consolidated_yoy_pct": 7.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-08",
+   "issue_date": "2013-09-10",
+   "url": "https://pr.tsmc.com/english/news/1786",
+   "title": "TSMC August 2013 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 55090.0,
+   "consolidated_yoy_pct": 11.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-09",
+   "issue_date": "2013-10-09",
+   "url": "https://pr.tsmc.com/english/news/1790",
+   "title": "TSMC September 2013 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 55380.0,
+   "consolidated_yoy_pct": 27.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-10",
+   "issue_date": "2013-11-08",
+   "url": "https://pr.tsmc.com/english/news/1794",
+   "title": "TSMC October 2013 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 51800.0,
+   "consolidated_yoy_pct": 3.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-11",
+   "issue_date": "2013-12-10",
+   "url": "https://pr.tsmc.com/english/news/1796",
+   "title": "TSMC November 2013 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 44330.0,
+   "consolidated_yoy_pct": 0.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2013-12",
+   "issue_date": "2014-01-10",
+   "url": "https://pr.tsmc.com/english/news/1798",
+   "title": "TSMC December 2013 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 49680.0,
+   "consolidated_yoy_pct": 33.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-01",
+   "issue_date": "2014-02-10",
+   "url": "https://pr.tsmc.com/english/news/1801",
+   "title": "TSMC January 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 51430.0,
+   "consolidated_yoy_pct": 8.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-02",
+   "issue_date": "2014-03-10",
+   "url": "https://pr.tsmc.com/english/news/1803",
+   "title": "TSMC February 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 46830.0,
+   "consolidated_yoy_pct": 13.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-03",
+   "issue_date": "2014-04-10",
+   "url": "https://pr.tsmc.com/english/news/1806",
+   "title": "TSMC March 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 49960.0,
+   "consolidated_yoy_pct": 13.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-04",
+   "issue_date": "2014-05-09",
+   "url": "https://pr.tsmc.com/english/news/1811",
+   "title": "TSMC April 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 61890.0,
+   "consolidated_yoy_pct": 23.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-05",
+   "issue_date": "2014-06-10",
+   "url": "https://pr.tsmc.com/english/news/1813",
+   "title": "TSMC May 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 60790.0,
+   "consolidated_yoy_pct": 17.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-06",
+   "issue_date": "2014-07-10",
+   "url": "https://pr.tsmc.com/english/news/1817",
+   "title": "TSMC June 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 60340.0,
+   "consolidated_yoy_pct": 11.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-07",
+   "issue_date": "2014-08-08",
+   "url": "https://pr.tsmc.com/english/news/1819",
+   "title": "TSMC July 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 64930.00000000001,
+   "consolidated_yoy_pct": 24.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-08",
+   "issue_date": "2014-09-10",
+   "url": "https://pr.tsmc.com/english/news/1822",
+   "title": "TSMC August 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 69280.0,
+   "consolidated_yoy_pct": 25.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-09",
+   "issue_date": "2014-10-09",
+   "url": "https://pr.tsmc.com/english/news/1831",
+   "title": "TSMC September 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 74850.0,
+   "consolidated_yoy_pct": 35.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-10",
+   "issue_date": "2014-11-10",
+   "url": "https://pr.tsmc.com/english/news/1833",
+   "title": "TSMC October 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 80740.0,
+   "consolidated_yoy_pct": 55.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-11",
+   "issue_date": "2014-12-10",
+   "url": "https://pr.tsmc.com/english/news/1837",
+   "title": "TSMC November 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 72280.0,
+   "consolidated_yoy_pct": 63.0,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2014-12",
+   "issue_date": "2015-01-09",
+   "url": "https://pr.tsmc.com/english/news/1839",
+   "title": "TSMC December 2014 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 69510.0,
+   "consolidated_yoy_pct": 39.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-01",
+   "issue_date": "2015-02-10",
+   "url": "https://pr.tsmc.com/english/news/1842",
+   "title": "TSMC January 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 87120.0,
+   "consolidated_yoy_pct": 69.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-02",
+   "issue_date": "2015-03-10",
+   "url": "https://pr.tsmc.com/english/news/1844",
+   "title": "TSMC February 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 62650.0,
+   "consolidated_yoy_pct": 33.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-03",
+   "issue_date": "2015-04-10",
+   "url": "https://pr.tsmc.com/english/news/1846",
+   "title": "TSMC March 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 72270.0,
+   "consolidated_yoy_pct": 44.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-04",
+   "issue_date": "2015-05-08",
+   "url": "https://pr.tsmc.com/english/news/1850",
+   "title": "TSMC April 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 75330.0,
+   "consolidated_yoy_pct": 21.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-05",
+   "issue_date": "2015-06-10",
+   "url": "https://pr.tsmc.com/english/news/1854",
+   "title": "TSMC May 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 70160.0,
+   "consolidated_yoy_pct": 15.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-06",
+   "issue_date": "2015-07-10",
+   "url": "https://pr.tsmc.com/english/news/1858",
+   "title": "TSMC June 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 59960.0,
+   "consolidated_yoy_pct": -0.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-07",
+   "issue_date": "2015-08-10",
+   "url": "https://pr.tsmc.com/english/news/1861",
+   "title": "TSMC July 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 80950.0,
+   "consolidated_yoy_pct": 24.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-08",
+   "issue_date": "2015-09-10",
+   "url": "https://pr.tsmc.com/english/news/1864",
+   "title": "TSMC August 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 67040.0,
+   "consolidated_yoy_pct": -3.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-09",
+   "issue_date": "2015-10-08",
+   "url": "https://pr.tsmc.com/english/news/1867",
+   "title": "TSMC September 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 64510.00000000001,
+   "consolidated_yoy_pct": -13.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-10",
+   "issue_date": "2015-11-10",
+   "url": "https://pr.tsmc.com/english/news/1869",
+   "title": "TSMC October 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 81740.0,
+   "consolidated_yoy_pct": 1.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-11",
+   "issue_date": "2015-12-10",
+   "url": "https://pr.tsmc.com/english/news/1876",
+   "title": "TSMC November 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 63430.0,
+   "consolidated_yoy_pct": -12.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2015-12",
+   "issue_date": "2016-01-08",
+   "url": "https://pr.tsmc.com/english/news/1878",
+   "title": "TSMC December 2015 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 58350.0,
+   "consolidated_yoy_pct": -16.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-01",
+   "issue_date": "2016-02-15",
+   "url": "https://pr.tsmc.com/english/news/1882",
+   "title": "TSMC January 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 70860.0,
+   "consolidated_yoy_pct": -18.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-02",
+   "issue_date": "2016-03-10",
+   "url": "https://pr.tsmc.com/english/news/1884",
+   "title": "TSMC February 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 59550.0,
+   "consolidated_yoy_pct": -4.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-03",
+   "issue_date": "2016-04-08",
+   "url": "https://pr.tsmc.com/english/news/1888",
+   "title": "TSMC March 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 73090.0,
+   "consolidated_yoy_pct": 1.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-04",
+   "issue_date": "2016-05-10",
+   "url": "https://pr.tsmc.com/english/news/1893",
+   "title": "TSMC April 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 66840.0,
+   "consolidated_yoy_pct": -11.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-05",
+   "issue_date": "2016-06-08",
+   "url": "https://pr.tsmc.com/english/news/1897",
+   "title": "TSMC May 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 73580.0,
+   "consolidated_yoy_pct": 4.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-06",
+   "issue_date": "2016-07-11",
+   "url": "https://pr.tsmc.com/english/news/1899",
+   "title": "TSMC June 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 81390.0,
+   "consolidated_yoy_pct": 35.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-07",
+   "issue_date": "2016-08-10",
+   "url": "https://pr.tsmc.com/english/news/1902",
+   "title": "TSMC July 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 76390.0,
+   "consolidated_yoy_pct": -5.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-08",
+   "issue_date": "2016-09-09",
+   "url": "https://pr.tsmc.com/english/news/1904",
+   "title": "TSMC August 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 94310.0,
+   "consolidated_yoy_pct": 40.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-09",
+   "issue_date": "2016-10-07",
+   "url": "https://pr.tsmc.com/english/news/1905",
+   "title": "TSMC September 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 89700.0,
+   "consolidated_yoy_pct": 39.0,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-10",
+   "issue_date": "2016-11-10",
+   "url": "https://pr.tsmc.com/english/news/1908",
+   "title": "TSMC October 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 91090.0,
+   "consolidated_yoy_pct": 11.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-11",
+   "issue_date": "2016-12-09",
+   "url": "https://pr.tsmc.com/english/news/1910",
+   "title": "TSMC November 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 93030.0,
+   "consolidated_yoy_pct": 46.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2016-12",
+   "issue_date": "2017-01-10",
+   "url": "https://pr.tsmc.com/english/news/1911",
+   "title": "TSMC December 2016 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 78110.0,
+   "consolidated_yoy_pct": 33.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-01",
+   "issue_date": "2017-02-10",
+   "url": "https://pr.tsmc.com/english/news/1913",
+   "title": "TSMC January 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 76620.0,
+   "consolidated_yoy_pct": 8.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-02",
+   "issue_date": "2017-03-10",
+   "url": "https://pr.tsmc.com/english/news/1916",
+   "title": "TSMC February 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 71420.0,
+   "consolidated_yoy_pct": 19.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-03",
+   "issue_date": "2017-04-10",
+   "url": "https://pr.tsmc.com/english/news/1917",
+   "title": "TSMC March 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 85880.0,
+   "consolidated_yoy_pct": 17.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-04",
+   "issue_date": "2017-05-10",
+   "url": "https://pr.tsmc.com/english/news/1924",
+   "title": "TSMC April 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 56870.0,
+   "consolidated_yoy_pct": -14.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-05",
+   "issue_date": "2017-06-09",
+   "url": "https://pr.tsmc.com/english/news/1928",
+   "title": "TSMC May 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 72800.0,
+   "consolidated_yoy_pct": -1.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-06",
+   "issue_date": "2017-07-10",
+   "url": "https://pr.tsmc.com/english/news/1929",
+   "title": "TSMC June 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 84190.0,
+   "consolidated_yoy_pct": 3.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-07",
+   "issue_date": "2017-08-10",
+   "url": "https://pr.tsmc.com/english/news/1932",
+   "title": "TSMC July 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 71610.0,
+   "consolidated_yoy_pct": -6.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-08",
+   "issue_date": "2017-09-08",
+   "url": "https://pr.tsmc.com/english/news/1934",
+   "title": "TSMC August 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 91920.0,
+   "consolidated_yoy_pct": -2.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-09",
+   "issue_date": "2017-10-06",
+   "url": "https://pr.tsmc.com/english/news/1939",
+   "title": "TSMC September 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 88580.0,
+   "consolidated_yoy_pct": -1.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-10",
+   "issue_date": "2017-11-10",
+   "url": "https://pr.tsmc.com/english/news/1944",
+   "title": "TSMC October 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 94520.0,
+   "consolidated_yoy_pct": 3.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-11",
+   "issue_date": "2017-12-08",
+   "url": "https://pr.tsmc.com/english/news/1947",
+   "title": "TSMC November 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 93150.0,
+   "consolidated_yoy_pct": 0.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2017-12",
+   "issue_date": "2018-01-10",
+   "url": "https://pr.tsmc.com/english/news/1948",
+   "title": "TSMC December 2017 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 89900.0,
+   "consolidated_yoy_pct": 15.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-01",
+   "issue_date": "2018-02-09",
+   "url": "https://pr.tsmc.com/english/news/1953",
+   "title": "TSMC January 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 79740.0,
+   "consolidated_yoy_pct": 4.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-02",
+   "issue_date": "2018-03-09",
+   "url": "https://pr.tsmc.com/english/news/1956",
+   "title": "TSMC February 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 64640.0,
+   "consolidated_yoy_pct": -9.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-03",
+   "issue_date": "2018-04-10",
+   "url": "https://pr.tsmc.com/english/news/1957",
+   "title": "TSMC March 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 103700.0,
+   "consolidated_yoy_pct": 20.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-04",
+   "issue_date": "2018-05-10",
+   "url": "https://pr.tsmc.com/english/news/1962",
+   "title": "TSMC April 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 81870.0,
+   "consolidated_yoy_pct": 44.0,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-05",
+   "issue_date": "2018-06-08",
+   "url": "https://pr.tsmc.com/english/news/1965",
+   "title": "TSMC May 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 80970.0,
+   "consolidated_yoy_pct": 11.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-06",
+   "issue_date": "2018-07-10",
+   "url": "https://pr.tsmc.com/english/news/1966",
+   "title": "TSMC June 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 70440.0,
+   "consolidated_yoy_pct": -16.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-07",
+   "issue_date": "2018-08-10",
+   "url": "https://pr.tsmc.com/english/news/1970",
+   "title": "TSMC July 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 74370.0,
+   "consolidated_yoy_pct": 3.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-08",
+   "issue_date": "2018-09-10",
+   "url": "https://pr.tsmc.com/english/news/1972",
+   "title": "TSMC August 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 91060.0,
+   "consolidated_yoy_pct": -0.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-09",
+   "issue_date": "2018-10-09",
+   "url": "https://pr.tsmc.com/english/news/1975",
+   "title": "TSMC September 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 94920.0,
+   "consolidated_yoy_pct": 7.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-10",
+   "issue_date": "2018-11-09",
+   "url": "https://pr.tsmc.com/english/news/1977",
+   "title": "TSMC October 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 101550.0,
+   "consolidated_yoy_pct": 7.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-11",
+   "issue_date": "2018-12-10",
+   "url": "https://pr.tsmc.com/english/news/1980",
+   "title": "TSMC November 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 98390.0,
+   "consolidated_yoy_pct": 5.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2018-12",
+   "issue_date": "2019-01-10",
+   "url": "https://pr.tsmc.com/english/news/1981",
+   "title": "TSMC December 2018 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 89830.0,
+   "consolidated_yoy_pct": -0.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-01",
+   "issue_date": "2019-02-15",
+   "url": "https://pr.tsmc.com/english/news/1983",
+   "title": "TSMC January 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 78090.0,
+   "consolidated_yoy_pct": -2.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-02",
+   "issue_date": "2019-03-08",
+   "url": "https://pr.tsmc.com/english/news/1986",
+   "title": "TSMC February 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 60890.0,
+   "consolidated_yoy_pct": -5.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-03",
+   "issue_date": "2019-04-10",
+   "url": "https://pr.tsmc.com/english/news/1988",
+   "title": "TSMC March 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 79720.0,
+   "consolidated_yoy_pct": -23.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-04",
+   "issue_date": "2019-05-10",
+   "url": "https://pr.tsmc.com/english/news/1994",
+   "title": "TSMC April 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 74690.0,
+   "consolidated_yoy_pct": -8.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-05",
+   "issue_date": "2019-06-10",
+   "url": "https://pr.tsmc.com/english/news/1998",
+   "title": "TSMC May 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 80440.0,
+   "consolidated_yoy_pct": -0.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-06",
+   "issue_date": "2019-07-10",
+   "url": "https://pr.tsmc.com/english/news/2001",
+   "title": "TSMC June 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 85870.0,
+   "consolidated_yoy_pct": 21.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-07",
+   "issue_date": "2019-08-12",
+   "url": "https://pr.tsmc.com/english/news/2004",
+   "title": "TSMC July 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 84760.0,
+   "consolidated_yoy_pct": 14.0,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-08",
+   "issue_date": "2019-09-10",
+   "url": "https://pr.tsmc.com/english/news/2007",
+   "title": "TSMC August 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 106120.0,
+   "consolidated_yoy_pct": 16.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-09",
+   "issue_date": "2019-10-09",
+   "url": "https://pr.tsmc.com/english/news/2011",
+   "title": "TSMC September 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 102170.0,
+   "consolidated_yoy_pct": 7.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-10",
+   "issue_date": "2019-11-08",
+   "url": "https://pr.tsmc.com/english/news/2014",
+   "title": "TSMC October 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 106040.0,
+   "consolidated_yoy_pct": 4.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-11",
+   "issue_date": "2019-12-10",
+   "url": "https://pr.tsmc.com/english/news/2019",
+   "title": "TSMC November 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 107880.0,
+   "consolidated_yoy_pct": 9.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2019-12",
+   "issue_date": "2020-01-10",
+   "url": "https://pr.tsmc.com/english/news/2020",
+   "title": "TSMC December 2019 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 103310.0,
+   "consolidated_yoy_pct": 15.0,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-01",
+   "issue_date": "2020-02-10",
+   "url": "https://pr.tsmc.com/english/news/2023",
+   "title": "TSMC January 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 103680.0,
+   "consolidated_yoy_pct": 32.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-02",
+   "issue_date": "2020-03-10",
+   "url": "https://pr.tsmc.com/english/news/2027",
+   "title": "TSMC February 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 93390.0,
+   "consolidated_yoy_pct": 53.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-03",
+   "issue_date": "2020-04-10",
+   "url": "https://pr.tsmc.com/english/news/2028",
+   "title": "TSMC March 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 113520.0,
+   "consolidated_yoy_pct": 42.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-04",
+   "issue_date": "2020-05-08",
+   "url": "https://pr.tsmc.com/english/news/2031",
+   "title": "TSMC April 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 96000.0,
+   "consolidated_yoy_pct": 28.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-05",
+   "issue_date": "2020-06-10",
+   "url": "https://pr.tsmc.com/english/news/2717",
+   "title": "TSMC May 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 93820.0,
+   "consolidated_yoy_pct": 16.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-06",
+   "issue_date": "2020-07-10",
+   "url": "https://pr.tsmc.com/english/news/2720",
+   "title": "TSMC June 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 120880.0,
+   "consolidated_yoy_pct": 40.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-07",
+   "issue_date": "2020-08-10",
+   "url": "https://pr.tsmc.com/english/news/2727",
+   "title": "TSMC July 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 105960.0,
+   "consolidated_yoy_pct": 25.0,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-08",
+   "issue_date": "2020-09-10",
+   "url": "https://pr.tsmc.com/english/news/2730",
+   "title": "TSMC August 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 122880.0,
+   "consolidated_yoy_pct": 15.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-09",
+   "issue_date": "2020-10-08",
+   "url": "https://pr.tsmc.com/english/news/2732",
+   "title": "TSMC September 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 127590.0,
+   "consolidated_yoy_pct": 24.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-10",
+   "issue_date": "2020-11-10",
+   "url": "https://pr.tsmc.com/english/news/2753",
+   "title": "TSMC October 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 119300.0,
+   "consolidated_yoy_pct": 12.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-11",
+   "issue_date": "2020-12-10",
+   "url": "https://pr.tsmc.com/english/news/2769",
+   "title": "TSMC November 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 124870.0,
+   "consolidated_yoy_pct": 15.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2020-12",
+   "issue_date": "2021-01-08",
+   "url": "https://pr.tsmc.com/english/news/2774",
+   "title": "TSMC December 2020 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 117370.0,
+   "consolidated_yoy_pct": 13.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-01",
+   "issue_date": "2021-02-09",
+   "url": "https://pr.tsmc.com/english/news/2787",
+   "title": "TSMC January 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 126750.0,
+   "consolidated_yoy_pct": 22.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-02",
+   "issue_date": "2021-03-10",
+   "url": "https://pr.tsmc.com/english/news/2796",
+   "title": "TSMC February 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 106530.0,
+   "consolidated_yoy_pct": 14.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-03",
+   "issue_date": "2021-04-09",
+   "url": "https://pr.tsmc.com/english/news/2803",
+   "title": "TSMC March 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 129130.0,
+   "consolidated_yoy_pct": 13.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-04",
+   "issue_date": "2021-05-10",
+   "url": "https://pr.tsmc.com/english/news/2828",
+   "title": "TSMC April 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 111320.0,
+   "consolidated_yoy_pct": 16.0,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-05",
+   "issue_date": "2021-06-10",
+   "url": "https://pr.tsmc.com/english/news/2841",
+   "title": "TSMC May 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 112360.0,
+   "consolidated_yoy_pct": 19.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-06",
+   "issue_date": "2021-07-09",
+   "url": "https://pr.tsmc.com/english/news/2844",
+   "title": "TSMC June 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 148470.0,
+   "consolidated_yoy_pct": 22.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-07",
+   "issue_date": "2021-08-10",
+   "url": "https://pr.tsmc.com/english/news/2856",
+   "title": "TSMC July 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 124560.0,
+   "consolidated_yoy_pct": 17.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-08",
+   "issue_date": "2021-09-10",
+   "url": "https://pr.tsmc.com/english/news/2862",
+   "title": "TSMC August 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 137430.0,
+   "consolidated_yoy_pct": 11.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-09",
+   "issue_date": "2021-10-08",
+   "url": "https://pr.tsmc.com/english/news/2868",
+   "title": "TSMC September 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 152690.0,
+   "consolidated_yoy_pct": 19.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-10",
+   "issue_date": "2021-11-10",
+   "url": "https://pr.tsmc.com/english/news/2886",
+   "title": "TSMC October 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 134540.0,
+   "consolidated_yoy_pct": 12.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-11",
+   "issue_date": "2021-12-10",
+   "url": "https://pr.tsmc.com/english/news/2892",
+   "title": "TSMC November 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 148270.0,
+   "consolidated_yoy_pct": 18.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2021-12",
+   "issue_date": "2022-01-10",
+   "url": "https://pr.tsmc.com/english/news/2901",
+   "title": "TSMC December 2021 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 155380.0,
+   "consolidated_yoy_pct": 32.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-01",
+   "issue_date": "2022-02-10",
+   "url": "https://pr.tsmc.com/english/news/2907",
+   "title": "TSMC January 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 172180.0,
+   "consolidated_yoy_pct": 35.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-02",
+   "issue_date": "2022-03-10",
+   "url": "https://pr.tsmc.com/english/news/2916",
+   "title": "TSMC February 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 146930.0,
+   "consolidated_yoy_pct": 37.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-03",
+   "issue_date": "2022-04-08",
+   "url": "https://pr.tsmc.com/english/news/2919",
+   "title": "TSMC March 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 171970.0,
+   "consolidated_yoy_pct": 33.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-04",
+   "issue_date": "2022-05-10",
+   "url": "https://pr.tsmc.com/english/news/2926",
+   "title": "TSMC April 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 172560.0,
+   "consolidated_yoy_pct": 55.0,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-05",
+   "issue_date": "2022-06-10",
+   "url": "https://pr.tsmc.com/english/news/2936",
+   "title": "TSMC May 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 185710.0,
+   "consolidated_yoy_pct": 65.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-06",
+   "issue_date": "2022-07-08",
+   "url": "https://pr.tsmc.com/english/news/2945",
+   "title": "TSMC June 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 175870.0,
+   "consolidated_yoy_pct": 18.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-07",
+   "issue_date": "2022-08-10",
+   "url": "https://pr.tsmc.com/english/news/2956",
+   "title": "TSMC July 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 186760.0,
+   "consolidated_yoy_pct": 49.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-08",
+   "issue_date": "2022-09-08",
+   "url": "https://pr.tsmc.com/english/news/2959",
+   "title": "TSMC August 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 218130.0,
+   "consolidated_yoy_pct": 58.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-09",
+   "issue_date": "2022-10-07",
+   "url": "https://pr.tsmc.com/english/news/2962",
+   "title": "TSMC September 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 208250.0,
+   "consolidated_yoy_pct": 36.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-10",
+   "issue_date": "2022-11-10",
+   "url": "https://pr.tsmc.com/english/news/2974",
+   "title": "TSMC October 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 210270.0,
+   "consolidated_yoy_pct": 56.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-11",
+   "issue_date": "2022-12-09",
+   "url": "https://pr.tsmc.com/english/news/2983",
+   "title": "TSMC November 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 222710.0,
+   "consolidated_yoy_pct": 50.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2022-12",
+   "issue_date": "2023-01-10",
+   "url": "https://pr.tsmc.com/english/news/2989",
+   "title": "TSMC December 2022 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 192560.0,
+   "consolidated_yoy_pct": 23.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-01",
+   "issue_date": "2023-02-10",
+   "url": "https://pr.tsmc.com/english/news/3001",
+   "title": "TSMC January 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 200050.0,
+   "consolidated_yoy_pct": 16.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-02",
+   "issue_date": "2023-03-10",
+   "url": "https://pr.tsmc.com/english/news/3007",
+   "title": "TSMC February 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 163170.0,
+   "consolidated_yoy_pct": 11.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-03",
+   "issue_date": "2023-04-10",
+   "url": "https://pr.tsmc.com/english/news/3010",
+   "title": "TSMC March 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 145410.0,
+   "consolidated_yoy_pct": -15.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-04",
+   "issue_date": "2023-05-10",
+   "url": "https://pr.tsmc.com/english/news/3027",
+   "title": "TSMC April 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 147900.0,
+   "consolidated_yoy_pct": -14.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-05",
+   "issue_date": "2023-06-09",
+   "url": "https://pr.tsmc.com/english/news/3034",
+   "title": "TSMC May 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 176540.0,
+   "consolidated_yoy_pct": -4.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-06",
+   "issue_date": "2023-07-10",
+   "url": "https://pr.tsmc.com/english/news/3037",
+   "title": "TSMC June 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 156400.0,
+   "consolidated_yoy_pct": -11.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-07",
+   "issue_date": "2023-08-10",
+   "url": "https://pr.tsmc.com/english/news/3055",
+   "title": "TSMC July 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 177620.0,
+   "consolidated_yoy_pct": -4.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-08",
+   "issue_date": "2023-09-08",
+   "url": "https://pr.tsmc.com/english/news/3061",
+   "title": "TSMC August 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 188690.0,
+   "consolidated_yoy_pct": -13.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-09",
+   "issue_date": "2023-10-06",
+   "url": "https://pr.tsmc.com/english/news/3073",
+   "title": "TSMC September 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 180430.0,
+   "consolidated_yoy_pct": -13.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-10",
+   "issue_date": "2023-11-10",
+   "url": "https://pr.tsmc.com/english/news/3079",
+   "title": "TSMC October 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 243200.0,
+   "consolidated_yoy_pct": 15.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-11",
+   "issue_date": "2023-12-08",
+   "url": "https://pr.tsmc.com/english/news/3089",
+   "title": "TSMC November 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 206030.0,
+   "consolidated_yoy_pct": -7.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2023-12",
+   "issue_date": "2024-01-10",
+   "url": "https://pr.tsmc.com/english/news/3098",
+   "title": "TSMC December 2023 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 176300.0,
+   "consolidated_yoy_pct": -8.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-01",
+   "issue_date": "2024-02-07",
+   "url": "https://pr.tsmc.com/english/news/3110",
+   "title": "TSMC January 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 215790.0,
+   "consolidated_yoy_pct": 7.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-02",
+   "issue_date": "2024-03-08",
+   "url": "https://pr.tsmc.com/english/news/3119",
+   "title": "TSMC February 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 181650.0,
+   "consolidated_yoy_pct": 11.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-03",
+   "issue_date": "2024-04-10",
+   "url": "https://pr.tsmc.com/english/news/3125",
+   "title": "TSMC March 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 195210.0,
+   "consolidated_yoy_pct": 34.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-04",
+   "issue_date": "2024-05-10",
+   "url": "https://pr.tsmc.com/english/news/3140",
+   "title": "TSMC April 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 236020.0,
+   "consolidated_yoy_pct": 59.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-05",
+   "issue_date": "2024-06-07",
+   "url": "https://pr.tsmc.com/english/news/3154",
+   "title": "TSMC May 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 229620.0,
+   "consolidated_yoy_pct": 30.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-06",
+   "issue_date": "2024-07-10",
+   "url": "https://pr.tsmc.com/english/news/3157",
+   "title": "TSMC June 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 207870.0,
+   "consolidated_yoy_pct": 32.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-07",
+   "issue_date": "2024-08-09",
+   "url": "https://pr.tsmc.com/english/news/3163",
+   "title": "TSMC July 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 256950.0,
+   "consolidated_yoy_pct": 44.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-08",
+   "issue_date": "2024-09-10",
+   "url": "https://pr.tsmc.com/english/news/3171",
+   "title": "TSMC August 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 250870.0,
+   "consolidated_yoy_pct": 33.0,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-09",
+   "issue_date": "2024-10-09",
+   "url": "https://pr.tsmc.com/english/news/3177",
+   "title": "TSMC September 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 251870.0,
+   "consolidated_yoy_pct": 39.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-10",
+   "issue_date": "2024-11-08",
+   "url": "https://pr.tsmc.com/english/news/3183",
+   "title": "TSMC October 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 314240.0,
+   "consolidated_yoy_pct": 29.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-11",
+   "issue_date": "2024-12-10",
+   "url": "https://pr.tsmc.com/english/news/3195",
+   "title": "TSMC November 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 276060.0,
+   "consolidated_yoy_pct": 34.0,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2024-12",
+   "issue_date": "2025-01-10",
+   "url": "https://pr.tsmc.com/english/news/3198",
+   "title": "TSMC December 2024 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 278160.0,
+   "consolidated_yoy_pct": 57.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-01",
+   "issue_date": "2025-02-10",
+   "url": "https://pr.tsmc.com/english/news/3204",
+   "title": "TSMC January 2025 Revenue Report and the Statement on the Impact of Earthquake",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 293290.0,
+   "consolidated_yoy_pct": 35.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-02",
+   "issue_date": "2025-03-10",
+   "url": "https://pr.tsmc.com/english/news/3213",
+   "title": "TSMC February 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 260010.0,
+   "consolidated_yoy_pct": 43.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-03",
+   "issue_date": "2025-04-10",
+   "url": "https://pr.tsmc.com/english/news/3219",
+   "title": "TSMC March 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 285960.0,
+   "consolidated_yoy_pct": 46.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-04",
+   "issue_date": "2025-05-09",
+   "url": "https://pr.tsmc.com/english/news/3231",
+   "title": "TSMC April 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 349570.0,
+   "consolidated_yoy_pct": 48.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-05",
+   "issue_date": "2025-06-10",
+   "url": "https://pr.tsmc.com/english/news/3240",
+   "title": "TSMC May 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 320520.0,
+   "consolidated_yoy_pct": 39.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-06",
+   "issue_date": "2025-07-10",
+   "url": "https://pr.tsmc.com/english/news/3246",
+   "title": "TSMC June 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 263710.0,
+   "consolidated_yoy_pct": 26.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-07",
+   "issue_date": "2025-08-08",
+   "url": "https://pr.tsmc.com/english/news/3252",
+   "title": "TSMC July 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 323170.0,
+   "consolidated_yoy_pct": 25.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-08",
+   "issue_date": "2025-09-10",
+   "url": "https://pr.tsmc.com/english/news/3258",
+   "title": "TSMC August 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 335770.0,
+   "consolidated_yoy_pct": 33.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-09",
+   "issue_date": "2025-10-09",
+   "url": "https://pr.tsmc.com/english/news/3261",
+   "title": "TSMC September 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 330980.0,
+   "consolidated_yoy_pct": 31.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-10",
+   "issue_date": "2025-11-10",
+   "url": "https://pr.tsmc.com/english/news/3267",
+   "title": "TSMC October 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 367470.0,
+   "consolidated_yoy_pct": 16.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-11",
+   "issue_date": "2025-12-10",
+   "url": "https://pr.tsmc.com/english/news/3275",
+   "title": "TSMC November 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 343610.0,
+   "consolidated_yoy_pct": 24.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2025-12",
+   "issue_date": "2026-01-09",
+   "url": "https://pr.tsmc.com/english/news/3278",
+   "title": "TSMC December 2025 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 335000.0,
+   "consolidated_yoy_pct": 20.4,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2026-01",
+   "issue_date": "2026-02-10",
+   "url": "https://pr.tsmc.com/english/news/3284",
+   "title": "TSMC January 2026 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 401260.0,
+   "consolidated_yoy_pct": 36.8,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2026-02",
+   "issue_date": "2026-03-10",
+   "url": "https://pr.tsmc.com/english/news/3290",
+   "title": "TSMC February 2026 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 317660.0,
+   "consolidated_yoy_pct": 22.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2026-03",
+   "issue_date": "2026-04-10",
+   "url": "https://pr.tsmc.com/english/news/3294",
+   "title": "TSMC March 2026 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 415190.0,
+   "consolidated_yoy_pct": 45.2,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2026-04",
+   "issue_date": "2026-05-08",
+   "url": "https://pr.tsmc.com/english/news/3305",
+   "title": "TSMC April 2026 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 410730.0,
+   "consolidated_yoy_pct": 17.5,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2026-05",
+   "issue_date": "2026-06-10",
+   "url": "https://pr.tsmc.com/english/news/3320",
+   "title": "TSMC May 2026 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 416980.0,
+   "consolidated_yoy_pct": 30.1,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2026-06",
+   "issue_date": "2026-07-13",
+   "url": "https://pr.tsmc.com/english/news/3323",
+   "title": "TSMC June 2026 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 442680.0,
+   "consolidated_yoy_pct": 67.9,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2026-07",
+   "issue_date": "2026-08-10",
+   "url": "https://pr.tsmc.com/english/news/3329",
+   "title": "TSMC July 2026 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 467580.0,
+   "consolidated_yoy_pct": 44.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2026-08",
+   "issue_date": "2026-09-10",
+   "url": "https://pr.tsmc.com/english/news/3340",
+   "title": "TSMC August 2026 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 514809.99999999994,
+   "consolidated_yoy_pct": 53.3,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2026-09",
+   "issue_date": "2026-10-08",
+   "url": "https://pr.tsmc.com/english/news/3343",
+   "title": "TSMC September 2026 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 511860.0,
+   "consolidated_yoy_pct": 54.6,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  },
+  {
+   "month": "2026-10",
+   "issue_date": "2026-11-10",
+   "url": "https://pr.tsmc.com/english/news/3349",
+   "title": "TSMC October 2026 Revenue Report",
+   "basis_stated": "consolidated",
+   "consolidated_nt_million": 586890.0,
+   "consolidated_yoy_pct": 59.7,
+   "unconsolidated_or_unspecified_nt_million": null,
+   "unconsolidated_or_unspecified_yoy_pct": null
+  }
+ ],
+ "observations": [
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2007-04-30",
+   "value": -15.7,
+   "available_at": "2007-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1437"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2007-05-31",
+   "value": -5.2,
+   "available_at": "2007-06-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1448"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2007-06-30",
+   "value": -5.4,
+   "available_at": "2007-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1452"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2007-07-31",
+   "value": 5.5,
+   "available_at": "2007-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1456"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2007-08-31",
+   "value": 10.0,
+   "available_at": "2007-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1462"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2007-09-30",
+   "value": 8.2,
+   "available_at": "2007-10-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1467"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2007-10-31",
+   "value": 20.6,
+   "available_at": "2007-11-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1470"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2007-11-30",
+   "value": 24.8,
+   "available_at": "2007-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1476"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2007-12-31",
+   "value": 31.1,
+   "available_at": "2008-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1482"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-01-31",
+   "value": 45.3,
+   "available_at": "2008-02-15T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1485"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-02-29",
+   "value": 39.8,
+   "available_at": "2008-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1489"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-03-31",
+   "value": 20.2,
+   "available_at": "2008-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1491"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-04-30",
+   "value": 25.0,
+   "available_at": "2008-05-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1498"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-05-31",
+   "value": 15.9,
+   "available_at": "2008-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1502"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-06-30",
+   "value": 12.9,
+   "available_at": "2008-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1509"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-07-31",
+   "value": 7.9,
+   "available_at": "2008-08-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1512"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-08-31",
+   "value": 6.1,
+   "available_at": "2008-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1515"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-09-30",
+   "value": -0.5,
+   "available_at": "2008-10-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1518"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-10-31",
+   "value": -9.6,
+   "available_at": "2008-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1523"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-11-30",
+   "value": -34.0,
+   "available_at": "2008-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1530"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2008-12-31",
+   "value": -51.9,
+   "available_at": "2009-01-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1531"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-01-31",
+   "value": -57.8,
+   "available_at": "2009-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1534"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-02-28",
+   "value": -58.4,
+   "available_at": "2009-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1539"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-03-31",
+   "value": -47.7,
+   "available_at": "2009-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1543"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-04-30",
+   "value": -22.2,
+   "available_at": "2009-05-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1551"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-05-31",
+   "value": -15.3,
+   "available_at": "2009-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1553"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-06-30",
+   "value": -10.0,
+   "available_at": "2009-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1563"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-07-31",
+   "value": -2.0,
+   "available_at": "2009-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1570"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-08-31",
+   "value": -6.4,
+   "available_at": "2009-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1576"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-09-30",
+   "value": -1.3,
+   "available_at": "2009-10-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1581"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-10-31",
+   "value": 2.5,
+   "available_at": "2009-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1585"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-11-30",
+   "value": 46.9,
+   "available_at": "2009-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1592"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2009-12-31",
+   "value": 118.7,
+   "available_at": "2010-01-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1596"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-01-31",
+   "value": 129.6,
+   "available_at": "2010-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1601"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-02-28",
+   "value": 147.5,
+   "available_at": "2010-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1607"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-03-31",
+   "value": 124.8,
+   "available_at": "2010-04-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1610"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-04-30",
+   "value": 50.6,
+   "available_at": "2010-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1616"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-05-31",
+   "value": 37.9,
+   "available_at": "2010-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1621"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-06-30",
+   "value": 37.0,
+   "available_at": "2010-07-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1628"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-07-31",
+   "value": 19.4,
+   "available_at": "2010-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1632"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-08-31",
+   "value": 25.4,
+   "available_at": "2010-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1635"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-09-30",
+   "value": 30.1,
+   "available_at": "2010-10-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1640"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-10-31",
+   "value": 27.2,
+   "available_at": "2010-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1644"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-11-30",
+   "value": 21.5,
+   "available_at": "2010-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1649"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2010-12-31",
+   "value": 10.5,
+   "available_at": "2011-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1651"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-01-31",
+   "value": 17.4,
+   "available_at": "2011-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1656"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-02-28",
+   "value": 8.5,
+   "available_at": "2011-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1660"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-03-31",
+   "value": 16.9,
+   "available_at": "2011-04-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1662"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-04-30",
+   "value": 9.8,
+   "available_at": "2011-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1666"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-05-31",
+   "value": 5.4,
+   "available_at": "2011-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1674"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-06-30",
+   "value": 0.9,
+   "available_at": "2011-07-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1676"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-07-31",
+   "value": -4.8,
+   "available_at": "2011-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1680"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-08-31",
+   "value": 0.7,
+   "available_at": "2011-09-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1682"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-09-30",
+   "value": -11.2,
+   "available_at": "2011-10-08T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1685"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-10-31",
+   "value": -2.1,
+   "available_at": "2011-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1693"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-11-30",
+   "value": -2.7,
+   "available_at": "2011-12-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1699"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2011-12-31",
+   "value": -10.4,
+   "available_at": "2012-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1703"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-01-31",
+   "value": -2.3,
+   "available_at": "2012-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1706"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-02-29",
+   "value": 3.6,
+   "available_at": "2012-03-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1709"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-03-31",
+   "value": -0.6,
+   "available_at": "2012-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1715"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-04-30",
+   "value": 9.1,
+   "available_at": "2012-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1721"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-05-31",
+   "value": 20.2,
+   "available_at": "2012-06-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1723"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-06-30",
+   "value": 18.4,
+   "available_at": "2012-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1730"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-07-31",
+   "value": 37.0,
+   "available_at": "2012-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1736"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-08-31",
+   "value": 31.5,
+   "available_at": "2012-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1740"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-09-30",
+   "value": 29.8,
+   "available_at": "2012-10-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1744"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-10-31",
+   "value": 32.8,
+   "available_at": "2012-11-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1751"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-11-30",
+   "value": 23.4,
+   "available_at": "2012-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1755"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2012-12-31",
+   "value": 18.8,
+   "available_at": "2013-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1757"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-01-31",
+   "value": 37.1,
+   "available_at": "2013-02-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1760"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-02-28",
+   "value": 21.5,
+   "available_at": "2013-03-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1763"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-03-31",
+   "value": 18.9,
+   "available_at": "2013-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1770"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-04-30",
+   "value": 23.5,
+   "available_at": "2013-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1774"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-05-31",
+   "value": 17.2,
+   "available_at": "2013-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1777"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-06-30",
+   "value": 24.3,
+   "available_at": "2013-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1781"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-07-31",
+   "value": 7.3,
+   "available_at": "2013-08-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1783"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-08-31",
+   "value": 11.2,
+   "available_at": "2013-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1786"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-09-30",
+   "value": 27.6,
+   "available_at": "2013-10-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1790"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-10-31",
+   "value": 3.6,
+   "available_at": "2013-11-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1794"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-11-30",
+   "value": 0.1,
+   "available_at": "2013-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1796"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2013-12-31",
+   "value": 33.7,
+   "available_at": "2014-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1798"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-01-31",
+   "value": 8.4,
+   "available_at": "2014-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1801"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-02-28",
+   "value": 13.7,
+   "available_at": "2014-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1803"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-03-31",
+   "value": 13.2,
+   "available_at": "2014-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1806"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-04-30",
+   "value": 23.6,
+   "available_at": "2014-05-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1811"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-05-31",
+   "value": 17.4,
+   "available_at": "2014-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1813"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-06-30",
+   "value": 11.7,
+   "available_at": "2014-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1817"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-07-31",
+   "value": 24.6,
+   "available_at": "2014-08-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1819"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-08-31",
+   "value": 25.8,
+   "available_at": "2014-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1822"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-09-30",
+   "value": 35.1,
+   "available_at": "2014-10-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1831"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-10-31",
+   "value": 55.9,
+   "available_at": "2014-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1833"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-11-30",
+   "value": 63.0,
+   "available_at": "2014-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1837"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2014-12-31",
+   "value": 39.9,
+   "available_at": "2015-01-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1839"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-01-31",
+   "value": 69.4,
+   "available_at": "2015-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1842"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-02-28",
+   "value": 33.8,
+   "available_at": "2015-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1844"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-03-31",
+   "value": 44.7,
+   "available_at": "2015-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1846"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-04-30",
+   "value": 21.7,
+   "available_at": "2015-05-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1850"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-05-31",
+   "value": 15.4,
+   "available_at": "2015-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1854"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-06-30",
+   "value": -0.6,
+   "available_at": "2015-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1858"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-07-31",
+   "value": 24.7,
+   "available_at": "2015-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1861"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-08-31",
+   "value": -3.2,
+   "available_at": "2015-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1864"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-09-30",
+   "value": -13.8,
+   "available_at": "2015-10-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1867"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-10-31",
+   "value": 1.2,
+   "available_at": "2015-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1869"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-11-30",
+   "value": -12.2,
+   "available_at": "2015-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1876"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2015-12-31",
+   "value": -16.1,
+   "available_at": "2016-01-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1878"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-01-31",
+   "value": -18.7,
+   "available_at": "2016-02-16T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1882"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-02-29",
+   "value": -4.9,
+   "available_at": "2016-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1884"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-03-31",
+   "value": 1.1,
+   "available_at": "2016-04-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1888"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-04-30",
+   "value": -11.3,
+   "available_at": "2016-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1893"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-05-31",
+   "value": 4.9,
+   "available_at": "2016-06-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1897"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-06-30",
+   "value": 35.8,
+   "available_at": "2016-07-12T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1899"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-07-31",
+   "value": -5.6,
+   "available_at": "2016-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1902"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-08-31",
+   "value": 40.7,
+   "available_at": "2016-09-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1904"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-09-30",
+   "value": 39.0,
+   "available_at": "2016-10-08T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1905"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-10-31",
+   "value": 11.4,
+   "available_at": "2016-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1908"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-11-30",
+   "value": 46.7,
+   "available_at": "2016-12-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1910"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2016-12-31",
+   "value": 33.9,
+   "available_at": "2017-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1911"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-01-31",
+   "value": 8.1,
+   "available_at": "2017-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1913"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-02-28",
+   "value": 19.9,
+   "available_at": "2017-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1916"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-03-31",
+   "value": 17.5,
+   "available_at": "2017-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1917"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-04-30",
+   "value": -14.9,
+   "available_at": "2017-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1924"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-05-31",
+   "value": -1.1,
+   "available_at": "2017-06-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1928"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-06-30",
+   "value": 3.4,
+   "available_at": "2017-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1929"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-07-31",
+   "value": -6.3,
+   "available_at": "2017-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1932"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-08-31",
+   "value": -2.5,
+   "available_at": "2017-09-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1934"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-09-30",
+   "value": -1.3,
+   "available_at": "2017-10-07T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1939"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-10-31",
+   "value": 3.8,
+   "available_at": "2017-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1944"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-11-30",
+   "value": 0.1,
+   "available_at": "2017-12-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1947"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2017-12-31",
+   "value": 15.1,
+   "available_at": "2018-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1948"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-01-31",
+   "value": 4.1,
+   "available_at": "2018-02-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1953"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-02-28",
+   "value": -9.5,
+   "available_at": "2018-03-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1956"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-03-31",
+   "value": 20.8,
+   "available_at": "2018-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1957"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-04-30",
+   "value": 44.0,
+   "available_at": "2018-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1962"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-05-31",
+   "value": 11.2,
+   "available_at": "2018-06-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1965"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-06-30",
+   "value": -16.3,
+   "available_at": "2018-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1966"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-07-31",
+   "value": 3.9,
+   "available_at": "2018-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1970"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-08-31",
+   "value": -0.9,
+   "available_at": "2018-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1972"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-09-30",
+   "value": 7.2,
+   "available_at": "2018-10-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1975"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-10-31",
+   "value": 7.4,
+   "available_at": "2018-11-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1977"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-11-30",
+   "value": 5.6,
+   "available_at": "2018-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1980"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2018-12-31",
+   "value": -0.1,
+   "available_at": "2019-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1981"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-01-31",
+   "value": -2.1,
+   "available_at": "2019-02-16T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1983"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-02-28",
+   "value": -5.8,
+   "available_at": "2019-03-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1986"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-03-31",
+   "value": -23.1,
+   "available_at": "2019-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1988"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-04-30",
+   "value": -8.8,
+   "available_at": "2019-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1994"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-05-31",
+   "value": -0.7,
+   "available_at": "2019-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/1998"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-06-30",
+   "value": 21.9,
+   "available_at": "2019-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2001"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-07-31",
+   "value": 14.0,
+   "available_at": "2019-08-13T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2004"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-08-31",
+   "value": 16.5,
+   "available_at": "2019-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2007"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-09-30",
+   "value": 7.6,
+   "available_at": "2019-10-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2011"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-10-31",
+   "value": 4.4,
+   "available_at": "2019-11-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2014"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-11-30",
+   "value": 9.7,
+   "available_at": "2019-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2019"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2019-12-31",
+   "value": 15.0,
+   "available_at": "2020-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2020"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-01-31",
+   "value": 32.8,
+   "available_at": "2020-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2023"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-02-29",
+   "value": 53.4,
+   "available_at": "2020-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2027"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-03-31",
+   "value": 42.4,
+   "available_at": "2020-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2028"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-04-30",
+   "value": 28.5,
+   "available_at": "2020-05-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2031"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-05-31",
+   "value": 16.6,
+   "available_at": "2020-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2717"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-06-30",
+   "value": 40.8,
+   "available_at": "2020-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2720"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-07-31",
+   "value": 25.0,
+   "available_at": "2020-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2727"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-08-31",
+   "value": 15.8,
+   "available_at": "2020-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2730"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-09-30",
+   "value": 24.9,
+   "available_at": "2020-10-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2732"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-10-31",
+   "value": 12.5,
+   "available_at": "2020-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2753"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-11-30",
+   "value": 15.7,
+   "available_at": "2020-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2769"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2020-12-31",
+   "value": 13.6,
+   "available_at": "2021-01-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2774"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-01-31",
+   "value": 22.2,
+   "available_at": "2021-02-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2787"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-02-28",
+   "value": 14.1,
+   "available_at": "2021-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2796"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-03-31",
+   "value": 13.7,
+   "available_at": "2021-04-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2803"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-04-30",
+   "value": 16.0,
+   "available_at": "2021-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2828"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-05-31",
+   "value": 19.8,
+   "available_at": "2021-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2841"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-06-30",
+   "value": 22.8,
+   "available_at": "2021-07-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2844"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-07-31",
+   "value": 17.5,
+   "available_at": "2021-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2856"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-08-31",
+   "value": 11.8,
+   "available_at": "2021-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2862"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-09-30",
+   "value": 19.7,
+   "available_at": "2021-10-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2868"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-10-31",
+   "value": 12.8,
+   "available_at": "2021-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2886"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-11-30",
+   "value": 18.7,
+   "available_at": "2021-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2892"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2021-12-31",
+   "value": 32.4,
+   "available_at": "2022-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2901"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-01-31",
+   "value": 35.8,
+   "available_at": "2022-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2907"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-02-28",
+   "value": 37.9,
+   "available_at": "2022-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2916"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-03-31",
+   "value": 33.2,
+   "available_at": "2022-04-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2919"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-04-30",
+   "value": 55.0,
+   "available_at": "2022-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2926"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-05-31",
+   "value": 65.3,
+   "available_at": "2022-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2936"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-06-30",
+   "value": 18.5,
+   "available_at": "2022-07-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2945"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-07-31",
+   "value": 49.9,
+   "available_at": "2022-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2956"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-08-31",
+   "value": 58.7,
+   "available_at": "2022-09-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2959"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-09-30",
+   "value": 36.4,
+   "available_at": "2022-10-08T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2962"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-10-31",
+   "value": 56.3,
+   "available_at": "2022-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2974"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-11-30",
+   "value": 50.2,
+   "available_at": "2022-12-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2983"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2022-12-31",
+   "value": 23.9,
+   "available_at": "2023-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/2989"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-01-31",
+   "value": 16.2,
+   "available_at": "2023-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3001"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-02-28",
+   "value": 11.1,
+   "available_at": "2023-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3007"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-03-31",
+   "value": -15.4,
+   "available_at": "2023-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3010"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-04-30",
+   "value": -14.3,
+   "available_at": "2023-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3027"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-05-31",
+   "value": -4.9,
+   "available_at": "2023-06-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3034"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-06-30",
+   "value": -11.1,
+   "available_at": "2023-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3037"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-07-31",
+   "value": -4.9,
+   "available_at": "2023-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3055"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-08-31",
+   "value": -13.5,
+   "available_at": "2023-09-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3061"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-09-30",
+   "value": -13.4,
+   "available_at": "2023-10-07T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3073"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-10-31",
+   "value": 15.7,
+   "available_at": "2023-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3079"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-11-30",
+   "value": -7.5,
+   "available_at": "2023-12-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3089"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2023-12-31",
+   "value": -8.4,
+   "available_at": "2024-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3098"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-01-31",
+   "value": 7.9,
+   "available_at": "2024-02-08T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3110"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-02-29",
+   "value": 11.3,
+   "available_at": "2024-03-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3119"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-03-31",
+   "value": 34.3,
+   "available_at": "2024-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3125"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-04-30",
+   "value": 59.6,
+   "available_at": "2024-05-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3140"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-05-31",
+   "value": 30.1,
+   "available_at": "2024-06-08T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3154"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-06-30",
+   "value": 32.9,
+   "available_at": "2024-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3157"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-07-31",
+   "value": 44.7,
+   "available_at": "2024-08-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3163"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-08-31",
+   "value": 33.0,
+   "available_at": "2024-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3171"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-09-30",
+   "value": 39.6,
+   "available_at": "2024-10-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3177"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-10-31",
+   "value": 29.2,
+   "available_at": "2024-11-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3183"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-11-30",
+   "value": 34.0,
+   "available_at": "2024-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3195"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2024-12-31",
+   "value": 57.8,
+   "available_at": "2025-01-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3198"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-01-31",
+   "value": 35.9,
+   "available_at": "2025-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3204"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-02-28",
+   "value": 43.1,
+   "available_at": "2025-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3213"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-03-31",
+   "value": 46.5,
+   "available_at": "2025-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3219"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-04-30",
+   "value": 48.1,
+   "available_at": "2025-05-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3231"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-05-31",
+   "value": 39.6,
+   "available_at": "2025-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3240"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-06-30",
+   "value": 26.9,
+   "available_at": "2025-07-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3246"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-07-31",
+   "value": 25.8,
+   "available_at": "2025-08-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3252"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-08-31",
+   "value": 33.8,
+   "available_at": "2025-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3258"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-09-30",
+   "value": 31.4,
+   "available_at": "2025-10-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3261"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-10-31",
+   "value": 16.9,
+   "available_at": "2025-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3267"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-11-30",
+   "value": 24.5,
+   "available_at": "2025-12-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3275"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2025-12-31",
+   "value": 20.4,
+   "available_at": "2026-01-10T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3278"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-01-31",
+   "value": 36.8,
+   "available_at": "2026-02-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3284"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-02-28",
+   "value": 22.2,
+   "available_at": "2026-03-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3290"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-03-31",
+   "value": 45.2,
+   "available_at": "2026-04-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3294"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-04-30",
+   "value": 17.5,
+   "available_at": "2026-05-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3305"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-05-31",
+   "value": 30.1,
+   "available_at": "2026-06-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3320"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-06-30",
+   "value": 67.9,
+   "available_at": "2026-07-14T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3323"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-07-31",
+   "value": 44.7,
+   "available_at": "2026-08-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3329"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-08-31",
+   "value": 53.3,
+   "available_at": "2026-09-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3340"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-09-30",
+   "value": 54.6,
+   "available_at": "2026-10-09T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3343"
+  },
+  {
+   "series_id": "tsmc:monthly_revenue:yoy_pct_as_released",
+   "session": "2026-10-31",
+   "value": 59.7,
+   "available_at": "2026-11-11T12:00:00Z",
+   "availability_basis": "assumed",
+   "source_url": "https://pr.tsmc.com/english/news/3349"
+  }
+ ]
+}

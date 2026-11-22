@@ -53,6 +53,16 @@ class ProspectiveRegistrationTests(unittest.TestCase):
                 manifest = json.loads((ROOT / registration["inputs"]["snapshot"] / "manifest.json").read_text(encoding="utf-8"))
                 for name, digest in registration["inputs"]["sha256"].items():
                     self.assertEqual(manifest["files"][name]["sha256"], digest, name)
+                self.assertRegex(registration["code"]["commit"], r"^[0-9a-f]{40}$")
+                if registration["kind"] == "comparison_registration":  # it also pins the frozen baseline it compares with
+                    sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+                    for name, digest in registration["rule_baseline"]["sha256"].items():
+                        self.assertEqual(sha(ROOT / registration["rule_baseline"]["folder"] / name), digest, name)
+                    self.assertEqual(sha(folder / "coverage.json"), registration["coverage"]["coverage_json_sha256"])
+                    self.assertEqual(sha(ROOT / "knowledge_base/prior_knowledge/bindings/factor_definitions.json"),
+                                     registration["inputs"]["factor_definitions_sha256"])
+                    self.assertLessEqual(set(registration["parameters"]["comparison_2_subjects"]), set(registration["parameters"]["subjects"]))
+                    continue
                 closes = {s["close"] for s in registration["subjects"]}
                 self.assertLessEqual({i for s in registration["subjects"] for i in (s["open"], s["close"])}, bound)
                 for signal in registration["signals"]:

@@ -63,6 +63,12 @@
       "first_session": "2003-01-02",
       "last_session": "2026-12-31",
       "sha256": "79c15162e8306b525ad57b8ba8766177f8e5ce4752698f9e0ef645ccf42cacd4"
+    },
+    "tsmc_monthly_revenue_first_release.json": {
+      "source": "https://pr.tsmc.com/english/news/<id>, one press release per month; see describe in the file",
+      "first_month": "2003-09",
+      "last_month": "2026-10",
+      "sha256": "93ff6fac92e5c1531e69a177583ace108b940df6c96107228e035c13165e83f4"
     }
   }
 }

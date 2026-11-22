@@ -20,6 +20,7 @@ try:
     from quant_evaluator.alpha.event_window import compare_groups, return_pair, simple_return
     from quant_evaluator.core.rolling import sessions_needed, windowed_value
     from quant_loop.daily_states import daily_states
+    from quant_loop.feature_panel import feature_panel
     from quant_loop.event_table import SeriesIndex, build_table, factor_states
     from quant_pit_data.asof import latest_common, observe, on_calendar, trailing_window
 except ModuleNotFoundError:
@@ -223,6 +224,23 @@ class EventTableTests(unittest.TestCase):
         self.assertEqual((change.state, change.window_first), (window.anchor, window.observations[0].session))
         self.assertEqual(short.state, latest_common([self.state[0]], rows, when, long, timedelta(days=5))[0])
         self.assertEqual((level.state.status, short.state.status), ("fallback", "gap"))  # found far back; out of reach at 5 days
+
+    def test_feature_panel_holds_each_decision_as_it_was_knowable_and_leaves_gaps_empty(self):
+        rising = [observe(self.state[0], r.session, float(r.session.day)) if r.series_id == "state:near" else r
+                  for r in self.rows if not (r.series_id == "state:far" and r.session >= date(2026, 11, 12))]
+        factors = [Factor(factor_id="ratio", measure="ratio", series_ids=("state:near", "state:far"), max_age_days=2),
+                   Factor(factor_id="change_2", measure="change", series_ids=("state:near",), max_age_days=5, lookback_sessions=2)]
+        panel = feature_panel("fund:test", list(SESSIONS[3:7]), time(17, 0), factors, self.bindings, rising, self.calendar)
+        self.assertEqual([(r.session, r.subject_id, r.as_of.hour) for r in panel],
+                         [(s, "fund:test", 17) for s in SESSIONS[3:7]])
+        first, later = panel[0], panel[3]  # 10 November, then 13 November when the far series has been gone three days
+        self.assertEqual((first.features["ratio"], first.sources["ratio"], first.features["change_2"]), (10 / 20, date(2026, 11, 10), 4.0))
+        self.assertEqual((later.features["ratio"], later.sources["ratio"]), (None, None))  # a gap stays empty: no carry past the limit
+        self.assertEqual((later.features["change_2"], later.sources["change_2"]), (2.0, date(2026, 11, 13)))
+        self.assertEqual(first.assumed_inputs, {"ratio": 2, "change_2": 3})
+        self.assertFalse(hasattr(first, "target"))
+        again = feature_panel("fund:test", list(SESSIONS[3:7]), time(17, 0), factors, self.bindings, list(reversed(rising)), self.calendar)
+        self.assertEqual([r.model_dump_json() for r in panel], [r.model_dump_json() for r in again])
 
     def test_group_comparison(self):
         result = compare_groups("x", [0.01, 0.03], [0.0, 0.0, 0.03])
