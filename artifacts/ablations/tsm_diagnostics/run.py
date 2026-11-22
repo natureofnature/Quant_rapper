@@ -70,7 +70,8 @@ share = lambda mask, key: float(np.var(resid[key][mask]) / np.var(r_tsm[mask]))
 variance = {"sessions": int(ok.sum()), "first": str(sessions[int(np.argmax(ok))]),
             "residual_share_of_variance": {k: share(ok, k) for k in resid},
             "by_year": {str(y): {k: share(ok & np.array([s.year == y for s in sessions]), k) for k in resid}
-                        for y in sorted({s.year for s, g in zip(sessions, ok) if g})}}
+                        for y in sorted({s.year for s, g in zip(sessions, ok) if g})
+                        if (ok & np.array([s.year == y for s in sessions])).sum() > 1}}  # a year with one session has no variance
 
 # Catalyst sessions.
 def on_or_after(day):
@@ -206,5 +207,5 @@ report = {"status": "EXPLORATORY", "registration_sha256": hashlib.sha256((HERE /
                      "events_with_a_collision": sum(bool(r["collisions"]) for r in rows), "question_1_window_mean": question_1,
                      "question_2_volatility": question_2, "small_groups_listed_individually": small_groups},
           "data_gaps": reg["data_gaps"]}
-(HERE / "output/report.json").write_text(json.dumps(report, indent=1) + "\n")
+(HERE / "output/report.json").write_text(json.dumps(report, indent=1, allow_nan=False) + "\n")  # strict JSON or nothing
 print("done:", len(rows), "events,", len(shocks), "shocks listed")
