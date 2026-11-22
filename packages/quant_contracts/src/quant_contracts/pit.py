@@ -16,8 +16,8 @@ from pydantic import AwareDatetime, Field, model_validator
 from quant_contracts.research import Availability, Contract, Text
 
 # exact: a recorded first-publication time. upper_bound: the true time was no later.
-# assumed: a convention with no record behind it.
-CutoffBasis = Literal["exact", "upper_bound", "assumed"]
+# lower_bound: the true time was no earlier. assumed: a convention with no record behind it.
+CutoffBasis = Literal["exact", "upper_bound", "lower_bound", "assumed"]
 # sourced / assumed: from the binding's rule. recorded: this observation's own recorded time.
 AvailabilityBasis = Literal["sourced", "assumed", "recorded"]
 
@@ -132,6 +132,8 @@ class AsOfResult(Contract):
             return self
         if self.reason is not None:
             raise ValueError("reason is only for a gap")
+        if (self.status == "fallback") != bool(self.skipped):
+            raise ValueError("a fallback lists what it skipped, and a resolved result skipped nothing")
         if any(o.available_at >= self.cutoff.time for o in self.observations):
             raise ValueError("every observation must have been available strictly before the cutoff")
         if self.session is None or any(o.session != self.session for o in self.observations):
@@ -146,6 +148,40 @@ class AsOfResult(Contract):
         """Verify only a resolved session with an exact cutoff and documented availability."""
         return (self.status == "resolved" and self.cutoff.basis == "exact"
                 and all(o.availability_basis != "assumed" for o in self.observations))
+
+
+class WindowedAsOf(Contract):
+    """The trailing ``sessions`` expected sessions of one series, every one knowable before the cutoff.
+
+    ``anchor`` is the latest usable session and carries the cutoff, the age limit and what
+    was skipped. The window is the expected sessions ending there. It is never shortened:
+    if any of them has no value knowable before the cutoff, there are no observations and
+    ``reason`` says which.
+    """
+
+    anchor: AsOfResult
+    sessions: int = Field(gt=0)
+    observations: tuple[Observation, ...] = ()  # ascending by session, ending at the anchor's
+    reason: Text | None = None  # set when the anchor was found but the window is incomplete
+
+    @model_validator(mode="after")
+    def check_window(self) -> Self:
+        if len(self.anchor.series_ids) != 1:
+            raise ValueError("a window holds one series")
+        if self.anchor.status == "gap":
+            if self.observations or self.reason is not None:
+                raise ValueError("a gap has no window; its reason is in the anchor")
+            return self
+        if (self.reason is None) == (not self.observations):
+            raise ValueError("a window has its observations, or the reason it is incomplete")
+        if self.observations:
+            days = [o.session for o in self.observations]
+            if len(days) != self.sessions or days != sorted(set(days)) or self.observations[-1] != self.anchor.observations[0]:
+                raise ValueError("the window must hold the requested sessions, ascending, ending at the anchor")
+            if any(o.series_id != self.anchor.series_ids[0] or o.available_at >= self.anchor.cutoff.time
+                   for o in self.observations):
+                raise ValueError("every observation must be of the series and available strictly before the cutoff")
+        return self
 
 
 class AuditNote(Contract):

@@ -11,7 +11,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from quant_contracts.pit import (AsOfResult, AuditNote, Cutoff, Observation, SeriesBinding,
-                                 SessionCalendar, SkippedSession)
+                                 SessionCalendar, SkippedSession, WindowedAsOf)
 
 
 def fixed_at(binding: SeriesBinding, session: date) -> datetime:
@@ -94,6 +94,32 @@ def latest_common(bindings: list[SeriesBinding], observations: list[Observation]
         return result(status="fallback" if skipped else "resolved", session=session,
                       observations=tuple(table[(session, i)] for i in ids))
     return result(status="gap", reason="no expected session with every series available before the cutoff")
+
+
+def trailing_window(binding: SeriesBinding, observations: list[Observation], cutoff: Cutoff,
+                    calendar: SessionCalendar, sessions: int, max_age: timedelta) -> WindowedAsOf:
+    """The ``sessions`` expected sessions ending at the latest one usable before the cutoff.
+
+    The end is chosen by ``latest_common``, so the age limit and the skip rules are the same
+    as for a single value. Every session of the window must then have a value knowable
+    before the cutoff; one missing makes the window incomplete, never shorter.
+    """
+    anchor, _ = latest_common([binding], observations, cutoff, calendar, max_age)
+    if anchor.status == "gap":
+        return WindowedAsOf(anchor=anchor, sessions=sessions)
+    end = calendar.sessions.index(anchor.session) + 1
+    if end < sessions:
+        return WindowedAsOf(anchor=anchor, sessions=sessions,
+                            reason=f"the calendar holds {end} sessions up to {anchor.session}, fewer than {sessions}")
+    usable = {o.session: o for o in observations
+              if o.series_id == binding.series_id and o.available_at < cutoff.time}
+    wanted = calendar.sessions[end - sessions:end]
+    missing = [s for s in wanted if s not in usable]
+    if missing:
+        return WindowedAsOf(anchor=anchor, sessions=sessions,
+                            reason=f"{len(missing)} of the {sessions} sessions from {wanted[0]} have no value "
+                                   f"knowable before the cutoff, the latest being {missing[-1]}")
+    return WindowedAsOf(anchor=anchor, sessions=sessions, observations=tuple(usable[s] for s in wanted))
 
 
 def first_session_after(binding: SeriesBinding, calendar: SessionCalendar, cutoff: Cutoff) -> date | None:

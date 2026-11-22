@@ -88,6 +88,8 @@ Dependencies are one-way: everything depends on `quant_contracts`, and no core p
 
 ## Roadmap
 
+RFC-002 and RFC-003 can proceed in parallel using the versioned prior and PIT bindings from RFC-001. RFC-004 uses the frozen SOXX/QQQ rule baseline from RFC-002 to evaluate the sector risk model. [Prior and bindings](https://github.com/natureofnature/Quant_rapper/issues/1) · [Market diagnostics](https://github.com/natureofnature/Quant_rapper/issues/2) · [Event causal map](https://github.com/natureofnature/Quant_rapper/issues/3) · [Sector risk model](https://github.com/natureofnature/Quant_rapper/issues/4)
+
 | Phase | Goal | Packages touched |
 | --- | --- | --- |
 | 1 | Causal chain and PIT relationship graph for a single-stock semiconductor pilot. For any historical decision date, reproducibly output candidate factors and evidence, marking what is observable and what is a data gap. | `quant_contracts`, `quant_pit_data`, `quant_causal_graph`, `configs/sectors` |
