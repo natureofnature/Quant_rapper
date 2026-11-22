@@ -16,12 +16,14 @@
     },
     "TSM.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/TSM",
+      "corporate_action_counts": {"dividends": 45, "splits": 10},
       "first_session": "1997-10-09",
       "last_session": "2026-11-20",
       "sha256": "a0b96ce2e7445a6cf021855c5c8a49e73a92523e12a043a616d7c901b0eb8aeb"
     },
     "SOXX.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX",
+      "corporate_action_counts": {"dividends": 78, "splits": 2},
       "first_session": "2001-07-13",
       "last_session": "2026-11-20",
       "sha256": "70d87f085d41024734b8b4a9c0bd326567883370836de0646fca15883b956652"

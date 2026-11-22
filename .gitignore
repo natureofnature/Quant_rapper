@@ -38,6 +38,9 @@ artifacts/**
 # Prospective registrations: the recipe and what was fixed before the events
 !/artifacts/prospective/*/registration.json
 !/artifacts/prospective/*/recipe.json
+!/artifacts/prospective/*/record_event.py
+!/artifacts/prospective/*/rows/
+!/artifacts/prospective/*/rows/*.json
 !/artifacts/ablations/*/registration.json
 !/artifacts/ablations/*/run.py
 !/artifacts/ablations/*/report.py
