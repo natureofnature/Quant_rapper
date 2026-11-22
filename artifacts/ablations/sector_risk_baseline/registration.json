@@ -1,0 +1,142 @@
+{
+  "kind": "baseline_registration",
+  "registration_id": "sector_risk_baseline",
+  "registered_on": "2026-11-22",
+  "describe": "Fixes a rule-based exposure gate for SOXX and QQQ, and how it is scored, before it is run. The commit that adds this file is the proof of when the rule was chosen. On that date the input files below were on disk and their dates had been read to build the calendars; no signal, target or drawdown had been computed for either fund.",
+  "question": "Do market-state rules fixed in advance separate ordinary periods from left-tail drawdown periods for SOXX and QQQ, and would acting on them have reduced drawdown after costs?",
+  "subjects": [
+    {
+      "subject": "SOXX",
+      "open": "yahoo:soxx:open",
+      "close": "yahoo:soxx:close"
+    },
+    {
+      "subject": "QQQ",
+      "open": "yahoo:qqq:open",
+      "close": "yahoo:qqq:close"
+    }
+  ],
+  "decision": {
+    "time": "17:00:00",
+    "timezone": "America/New_York",
+    "basis": "exact",
+    "note": "One decision after every US equity session. A value counts only if its availability time is strictly before the decision time. The basis is exact because this is the rule's own decision time.",
+    "execution": "A target decided after session t is traded at the open of session t+1."
+  },
+  "signals": [
+    {
+      "factor": {
+        "factor_id": "vix_term_structure",
+        "measure": "ratio",
+        "series_ids": [
+          "cboe:vix",
+          "cboe:vix3m"
+        ],
+        "max_age_days": 5
+      },
+      "stressed_when": {
+        "op": ">",
+        "threshold": 1.0
+      },
+      "calendar": "us_equity_sessions_2002_2026"
+    },
+    {
+      "factor": {
+        "factor_id": "real_yield_10y_change_20_rank_250",
+        "measure": "change",
+        "series_ids": [
+          "treasury:real_yield_10y"
+        ],
+        "lookback_sessions": 20,
+        "rank_sessions": 250,
+        "max_age_days": 5
+      },
+      "stressed_when": {
+        "op": ">",
+        "threshold": 0.85
+      },
+      "calendar": "us_treasury_yield_sessions_2003_2026",
+      "note": "The 20-session change in the 10-year real yield, ranked against its own previous 250 values; stressed when above 85% of them. Sessions are the Treasury's own, so each published value is counted once."
+    },
+    {
+      "factor": {
+        "factor_id": "trend_200",
+        "measure": "trend_state",
+        "series_ids": [
+          "<the subject's close>"
+        ],
+        "lookback_sessions": 200,
+        "max_age_days": 5
+      },
+      "stressed_when": {
+        "op": "<",
+        "threshold": 0.0
+      },
+      "calendar": "us_equity_sessions_2002_2026",
+      "note": "The subject's own close against its 200-session average. A description of price, labelled trend_state; it measures no one's positioning."
+    }
+  ],
+  "data_gaps": [
+    "High-yield credit spread widening, named in RFC-002, is not in this version: the public history of the spread series is limited to a rolling three years. A later credit proxy takes its own factor id and its own evaluation; it does not join this rule."
+  ],
+  "exposure": {
+    "by_stressed_count": [
+      1.0,
+      0.5,
+      0.0
+    ],
+    "note": "No rule stressed: 100%. One: 50%. Two or three: 0%. The target follows the count at every decision, with no waiting period."
+  },
+  "missing_data": {
+    "freshness": "Each signal uses the latest observation already public at the decision time and no older than its factor's max_age_days, keeping that observation's own session and availability time.",
+    "start": "Each fund's run starts at the first decision at which all three signals have a value.",
+    "after_start": "If any signal has no value, the others are still computed, the session is flagged for that fund, and the previous target is carried forward. The exposure rule resumes at the first decision at which all three have a value again.",
+    "report": "For each fund: the number of sessions that held the previous target, and the longest such run."
+  },
+  "sample": {
+    "first": "The start defined above, expected in September 2009 when VIX3M begins.",
+    "last_decision": "2026-11-20 less what the 20-session forward measure needs; the equity curve runs to 2026-11-20."
+  },
+  "accounting": {
+    "initial_position": 1.0,
+    "cash_return": 0.0,
+    "cost_rate": 0.0005,
+    "note": "Both the gate and buy and hold start fully invested at the open after the first decision. A change of target costs 0.05% of the amount traded. Between changes the position is not rebalanced. Prices exclude dividends for both."
+  },
+  "metrics": {
+    "max_drawdown": "Largest fall from a running peak of closing equity, for the gate and for buy and hold over the same sessions.",
+    "forward_drawdown": "For each decision: the lowest close of the next 20 sessions over the next session's open, minus one. Reported for decisions with a target below 100% (stressed) and at 100% (ordinary): mean, median, 5th percentile, number of sessions, number of runs.",
+    "episode": "A run of decisions with a target below 100%. Runs fewer than 20 decisions apart are one episode. Ordinary runs are the stretches between episodes.",
+    "whipsaw_rate": "Share of finished episodes whose re-entry open (the open after the first decision back at 100%) is above the open at which exposure was first cut.",
+    "reentry_lag_cost": "Mean of re-entry open over first-cut open, minus one, over the whipsaw episodes; also given over all finished episodes.",
+    "interval": "For mean stressed forward drawdown minus mean ordinary: a 90% interval from 2000 resamples of whole episodes and whole ordinary runs with replacement, seed 20261122.",
+    "counts": "Sessions, episodes, unfinished episodes, held sessions."
+  },
+  "reading_rule": "No threshold, lookback, mapping or cost is changed after the run. The gate is said to have separated drawdown periods for a fund only if the 90% interval for stressed minus ordinary forward drawdown lies wholly below zero, and to have reduced drawdown only if its maximum drawdown is smaller than buy and hold's. Any other outcome, including a null result, is reported as it is. The rule, the input hashes and the daily targets are then frozen as the baseline that RFC-004 replays.",
+  "known_limits": [
+    "VIX/VIX3M at or above 1 was already examined against TSM minus SOXX around 289 TSMC revenue releases. It had not been examined against SOXX or QQQ drawdowns.",
+    "The thresholds come from RFC-002 and common practice, so they are not free of knowledge of this period, which includes 2020 and 2022.",
+    "Sessions inside one episode are not independent; the number of episodes, not of sessions, is the sample size.",
+    "Cboe, Yahoo and Treasury publication times are assumptions, so no decision is timing-verified.",
+    "Prices are Yahoo's on the snapshot's split basis, exclude dividends, and were not checked against an exchange. Treasury values are those visible on the download date."
+  ],
+  "inputs": {
+    "snapshot": "artifacts/snapshots/2026-11-22",
+    "sha256": {
+      "VIX.csv": "2a3b180ffb268b7805c17567c0ac7787c74898b0d99f62f550be67eafffd1c16",
+      "VIX3M.csv": "034fd5e08f9ce5ef806e600a51b28a76a1d85c6ea3ff978a29ca4abc67451a96",
+      "SOXX.json": "70d87f085d41024734b8b4a9c0bd326567883370836de0646fca15883b956652",
+      "QQQ.json": "59d8530794b0f02cbd466d9d1f37a95c40c0a6bfa4033557605ff8e496682de4",
+      "treasury_real_yield_10y.csv": "6a1e7435e15bfe93eca94ddbef679c200e5b974fb0fe31ad11ad2cad2983cf60",
+      "us_equity_sessions_2002_2026.json": "5d50274a820c310010d51b3823775804998ae35a934aabb0e46e12e436f55754",
+      "us_treasury_yield_sessions_2003_2026.json": "79c15162e8306b525ad57b8ba8766177f8e5ce4752698f9e0ef645ccf42cacd4"
+    }
+  },
+  "bindings_revision": "2026-11-22.4",
+  "code": {
+    "commit": "9196091e2dcc9bcd5ee0bf1a0023f1267a35f326",
+    "selection": "quant_loop.daily_states.daily_states",
+    "arithmetic": "quant_evaluator.beta.risk_gate"
+  },
+  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9"
+}

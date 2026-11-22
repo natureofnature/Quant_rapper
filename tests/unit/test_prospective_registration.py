@@ -42,6 +42,28 @@ class ProspectiveRegistrationTests(unittest.TestCase):
                 prices = registration["price_series"]
                 self.assertLessEqual({*prices["subject"], *prices["benchmark"]}, required)
 
+    def test_each_baseline_registration_names_valid_factors_and_pinned_inputs(self):
+        folders = sorted(p.parent for p in (ROOT / "artifacts/ablations").glob("*/registration.json"))
+        self.assertTrue(folders)
+        catalog = json.loads((ROOT / "knowledge_base/prior_knowledge/bindings/series_bindings.json").read_text(encoding="utf-8"))
+        bound = {s["series_id"] for s in catalog["series"]}
+        for folder in folders:
+            with self.subTest(folder=folder.name):
+                registration = json.loads((folder / "registration.json").read_text(encoding="utf-8"))
+                manifest = json.loads((ROOT / registration["inputs"]["snapshot"] / "manifest.json").read_text(encoding="utf-8"))
+                for name, digest in registration["inputs"]["sha256"].items():
+                    self.assertEqual(manifest["files"][name]["sha256"], digest, name)
+                closes = {s["close"] for s in registration["subjects"]}
+                self.assertLessEqual({i for s in registration["subjects"] for i in (s["open"], s["close"])}, bound)
+                for signal in registration["signals"]:
+                    self.assertIn(signal["calendar"] + ".json", registration["inputs"]["sha256"])
+                    series = signal["factor"]["series_ids"]
+                    for close in closes if series[0].startswith("<") else [None]:
+                        factor = Factor(**{**signal["factor"], "series_ids": [close] if close else series})
+                        self.assertLessEqual(set(factor.series_ids), bound)
+                self.assertEqual(len(registration["exposure"]["by_stressed_count"]), 3)
+                self.assertRegex(registration["code"]["commit"], r"^[0-9a-f]{40}$")
+
 
 if __name__ == "__main__":
     unittest.main()
