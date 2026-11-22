@@ -63,6 +63,13 @@ class ProspectiveRegistrationTests(unittest.TestCase):
                         self.assertLessEqual(set(factor.series_ids), bound)
                 self.assertEqual(len(registration["exposure"]["by_stressed_count"]), 3)
                 self.assertRegex(registration["code"]["commit"], r"^[0-9a-f]{40}$")
+                if (folder / "frozen.json").exists():  # a frozen baseline must still be the files beside it
+                    frozen = json.loads((folder / "frozen.json").read_text(encoding="utf-8"))
+                    digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+                    self.assertEqual(frozen["registration_sha256"], digest(folder / "registration.json"))
+                    self.assertEqual(frozen["code_commit"], registration["code"]["commit"])
+                    for name, expected in frozen["outputs_sha256"].items():
+                        self.assertEqual(digest(folder / "output" / name), expected, name)
 
 
 if __name__ == "__main__":

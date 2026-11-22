@@ -27,3 +27,9 @@ artifacts/**
 !/artifacts/prospective/*/recipe.json
 !/artifacts/ablations/*/registration.json
 !/artifacts/ablations/*/run.py
+!/artifacts/ablations/*/report.py
+!/artifacts/ablations/*/frozen.json
+!/artifacts/ablations/*/output/
+!/artifacts/ablations/*/output/report.json
+!/artifacts/ablations/*/output/report.md
+!/artifacts/ablations/*/output/positions_*.csv

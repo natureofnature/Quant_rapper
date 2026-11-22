@@ -1,0 +1,17 @@
+{
+  "kind": "frozen_baseline",
+  "registration_id": "sector_risk_baseline",
+  "frozen_on": "2026-11-22",
+  "describe": "The outputs of the first and only run of the registered rule, fixed as the baseline that RFC-004 replays. Replaying run.py on the pinned inputs at the pinned commit must reproduce positions_*.csv and report.json byte for byte; a second run on 2026-11-22 did. report.md is rendered from report.json by report.py.",
+  "registration_sha256": "f965d9d2f5db951f760a7a788b677ed4b15f0a51cc039d87cf5bc0fa32464306",
+  "code_commit": "816deb4aa3fc0428f46f42b9bf9927a58b3bcae0",
+  "outputs_sha256": {
+    "report.json": "0a904a49ea52ba1568d45cc9d78f5fdb3e5344f20e9a298eee6336bcc48e46a1",
+    "report.md": "f40c95e0d733beddcb02e96eb79ef045230052624f518ed7881b6b3d8e76a7fc",
+    "positions_SOXX.csv": "af48cb1db8d2fcfacca7707d2e700521f6beb2641885215af08f064f1f6de33d",
+    "positions_QQQ.csv": "9b541243beb15c10bb937e0e0abaec1838ccfc16e26897fdbb491cc0766c2685"
+  },
+  "open_items": [
+    "The raw market inputs exist only on the machine that ran the baseline; see the snapshot manifest. A durable copy is needed before another machine can replay it."
+  ]
+}
