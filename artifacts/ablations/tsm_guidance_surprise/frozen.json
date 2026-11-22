@@ -1,0 +1,18 @@
+{
+  "kind": "frozen_diagnostic",
+  "registration_id": "tsm_guidance_surprise",
+  "frozen_on": "2026-11-22",
+  "describe": "The outputs of the registered guidance-surprise table. Exploratory. report.md is rendered from the outputs by report.py.",
+  "registration_sha256": "f3dbcd4bf3b0403307dbcc95f15c0d1073f7769840fe5801da52a5ede523d330",
+  "code_commit": "7cdb7e884e7bb8be38f32519fbe55f40d2c84f63",
+  "outputs_sha256": {
+    "report.json": "25c3fe146168c2f842ef6e0d5bde13657a81fd5eed0a3fafbc4ebf8a4cfda05d",
+    "report.md": "2daf4b9ced4a19a742173f885e08dc81e4f48cb1342f5907ddc179b6551f5036",
+    "surprise.csv": "ca3a6e67e21e11a3fa290499c33081b481be2581c3c7d2e395d6468421085df9"
+  },
+  "report_renderer": {
+    "file": "report.py",
+    "sha256": "b0f8b7ecc8a4425a69ca2b8b31840830824839e051357ed6e6a7002d58b83c11",
+    "command": "python artifacts/ablations/tsm_guidance_surprise/report.py"
+  }
+}
