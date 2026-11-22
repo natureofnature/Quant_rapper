@@ -1,0 +1,210 @@
+{
+  "kind": "comparison_registration",
+  "registration_id": "soxx_qqq_model_c",
+  "registered_on": "2026-11-22",
+  "describe": "Completes RFC-004's comparison table: for SOXX and QQQ, Model C (a depth-2 boosted-tree model on threshold-expanded rows, monotone in the threshold) against the frozen rule, with Model A's frozen result shown beside it. Same features, target, classes, monthly folds, purge, gate, exposure, costs and promotion limits as the Model A registration. Only the model differs. The commit that adds this file is the proof of when the comparison was fixed. On that date Model C had been run only on synthetic prices.",
+  "what_was_known_when_this_was_written": [
+    "Everything listed in the Model A registration.",
+    "Model A's registered result: the rule was kept for both funds, and Model A's alerts caught the worst outcomes less often than its own alert rate.",
+    "An exploratory diagnostic made after that result: on these three inputs the forward-average target rewards the rebound after stress, so a model trained on it marks stressed days as low risk. Model C is trained on the same target and can be expected to learn the same thing. It is run because RFC-004 specifies it, not because that expectation has changed."
+  ],
+  "shared_setup": {
+    "subjects": [
+      "SOXX",
+      "QQQ"
+    ],
+    "decision": "Each US equity session at 17:00 America/New_York, basis exact; a value counts only if available strictly before it.",
+    "execution": "A target decided after session t is traded at the open of session t+1.",
+    "accounting": {
+      "cost_rate": 0.0005,
+      "cash_return": 0.0,
+      "sensitivity_cost_multiples": [
+        2,
+        3
+      ],
+      "note": "As the frozen baseline. Prices exclude dividends."
+    },
+    "inputs": "Snapshot 2026-11-22: the frozen baseline's inputs plus tsmc_monthly_revenue_first_release.json, each pinned by hash below.",
+    "target": {
+      "definition": "Mean close of sessions t+1..t+20 over the open of session t+1, minus one (quant_evaluator.beta.forward_target).",
+      "classes": "Four ordered classes with cut points r1 = -clip(0.8 * 0.6 * sigma_20 * sqrt(20), floor, cap), 0, -r1; sigma_20 is the sample standard deviation of the last 20 close-to-close returns through session t.",
+      "bounds": {
+        "SOXX": [
+          0.04,
+          0.07
+        ],
+        "QQQ": [
+          0.03,
+          0.055
+        ]
+      },
+      "bounds_source": "RFC-004 section 2.2"
+    },
+    "features_generic": [
+      {
+        "factor_id": "vix_term_structure",
+        "note": "the ratio itself, not a threshold"
+      },
+      {
+        "factor_id": "real_yield_10y_change_20_rank_250",
+        "note": "the rank, 0 to 1"
+      },
+      {
+        "factor_id": "trend_200",
+        "note": "the subject's own close over its 200-session average, minus one"
+      }
+    ],
+    "features_source": "knowledge_base/prior_knowledge/bindings/factor_definitions.json: the factors the causal-map generator marks measurable for the subject with timing decision_time. A row with a missing feature is not trained on and gets no forecast.",
+    "walk_forward": {
+      "refit": "monthly, frozen before the month's first session",
+      "purge": "a decision is trained on only if its target's last close is before the month's first session (21 sessions back)"
+    },
+    "gate": {
+      "score": "P_left = 1 - P(class >= 1), the probability of the left-tail class",
+      "states": "RED when P_left is at or above the trailing quantile for RED, YELLOW at or above the one for YELLOW, else GREEN. Quantiles are taken over the fund's own previous out-of-sample scores only.",
+      "missing_forecast": "the previous state is held and the session is counted, as in the frozen baseline"
+    },
+    "rule_arm": "The frozen rule's targets from artifacts/ablations/sector_risk_baseline, restricted to the comparison period, with equity restarted at 1 on its first session.",
+    "metrics": "As the frozen baseline: maximum drawdown, final equity, forward 20-session drawdown for stressed and ordinary decisions with a 90% interval from resampling whole episodes, whipsaw rate, re-entry cost, turnover, held sessions. Plus, per RFC-004: recall of gate alerts on the worst 15% of realised forward 20-session drawdowns, and the share of those windows labelled class 0.",
+    "end_dates": {
+      "equity_and_drawdown": "through the session of 2026-11-20, the last in the snapshot",
+      "forward_recall_and_forward_drawdown": "decisions through 2026-10-23, the last with a complete 20-session outcome"
+    },
+    "model": {
+      "name": "Model C, monotone threshold-expanded boosted trees (quant_evaluator.beta.tree_model)",
+      "row_weight": "1/3 per expanded row, so a day counts once",
+      "capacity": "depth 2, at most 4 leaves, a leaf holds at least 180 expanded rows (60 trading days), fixed number of trees, no early stopping"
+    }
+  },
+  "comparison": {
+    "applies_to": [
+      "SOXX",
+      "QQQ"
+    ],
+    "arms": [
+      "frozen rule",
+      "Model A as frozen (shown, decides nothing)",
+      "Model C gate on features_generic"
+    ],
+    "primary": "Maximum drawdown magnitude at base cost over the comparison period.",
+    "promotion": "Model C's gate replaces the rule for a fund only if every promotion limit holds: maximum drawdown smaller by at least 2 points, final equity at least 95% of the rule's, whipsaw rate no more than 5 points higher. A tie or any failed limit keeps the rule. Sensitivity runs decide nothing."
+  },
+  "settings_in_words": {
+    "tree": "RFC-004 section 3 gives depth 2, lambda in 5 to 20, column sampling 0.75, 40 to 80 trees and the 180-row leaf. The values inside those ranges, the learning rate of 0.05 and the seed are mine, fixed and not tuned. The owner accepted these settings on 2026-11-22.",
+    "sensitivities": "Reported and deciding nothing: costs at 2 and 3 times, a 5-year rolling window, a 5-session embargo."
+  },
+  "parameters": {
+    "subjects": [
+      "SOXX",
+      "QQQ"
+    ],
+    "first_session": "2009-01-02",
+    "last_session": "2026-11-20",
+    "decision_time": "17:00:00",
+    "horizon_sessions": 20,
+    "volatility_sessions": 20,
+    "class_bounds": {
+      "SOXX": [
+        0.04,
+        0.07
+      ],
+      "QQQ": [
+        0.03,
+        0.055
+      ]
+    },
+    "features_generic": [
+      "vix_term_structure",
+      "real_yield_10y_change_20_rank_250",
+      "trend_200"
+    ],
+    "l2_penalty": 10.0,
+    "tail_weight": 1.0,
+    "embargo_sessions": 0,
+    "min_train": 750,
+    "rolling_sessions": 1260,
+    "sensitivity_embargo": 5,
+    "gate": {
+      "red_quantile": 0.85,
+      "yellow_quantile": 0.7,
+      "window": 504,
+      "min_scores": 252,
+      "step_down_after": 3
+    },
+    "exposure_by_state": {
+      "GREEN": 1.0,
+      "YELLOW": 0.5,
+      "RED": 0.0
+    },
+    "episode_gap": 20,
+    "worst_share": 0.15,
+    "draws": 2000,
+    "seed": 20261122,
+    "promotion_limits": {
+      "drawdown_points": 2.0,
+      "equity_share": 0.95,
+      "whipsaw_points": 5.0
+    },
+    "comparison_2_subjects": [],
+    "tree": {
+      "n_estimators": 60,
+      "reg_lambda": 10.0,
+      "learning_rate": 0.05,
+      "min_child_days": 60,
+      "colsample_bytree": 0.75,
+      "seed": 0
+    }
+  },
+  "inputs": {
+    "snapshot": "artifacts/snapshots/2026-11-22",
+    "sha256": {
+      "VIX.csv": "2a3b180ffb268b7805c17567c0ac7787c74898b0d99f62f550be67eafffd1c16",
+      "VIX3M.csv": "034fd5e08f9ce5ef806e600a51b28a76a1d85c6ea3ff978a29ca4abc67451a96",
+      "SOXX.json": "70d87f085d41024734b8b4a9c0bd326567883370836de0646fca15883b956652",
+      "QQQ.json": "59d8530794b0f02cbd466d9d1f37a95c40c0a6bfa4033557605ff8e496682de4",
+      "treasury_real_yield_10y.csv": "6a1e7435e15bfe93eca94ddbef679c200e5b974fb0fe31ad11ad2cad2983cf60",
+      "us_equity_sessions_2002_2026.json": "5d50274a820c310010d51b3823775804998ae35a934aabb0e46e12e436f55754",
+      "us_treasury_yield_sessions_2003_2026.json": "79c15162e8306b525ad57b8ba8766177f8e5ce4752698f9e0ef645ccf42cacd4"
+    },
+    "factor_definitions_sha256": "afa6237303ab4c9fde8a1f10479fa379573d779a0cffa3ce0f30b500ff7cbb2c",
+    "retrieval": "As the frozen baseline: VIX.csv, VIX3M.csv, SOXX.json and QQQ.json are downloaded market data kept on the machine that ran it; the other files are in the repository."
+  },
+  "rule_baseline": {
+    "folder": "artifacts/ablations/sector_risk_baseline",
+    "sha256": {
+      "frozen.json": "84f7a561cb840feec1470db3e9c419e28fbfe612b1afc6a84311659c7eda64af",
+      "output/positions_SOXX.csv": "af48cb1db8d2fcfacca7707d2e700521f6beb2641885215af08f064f1f6de33d",
+      "output/positions_QQQ.csv": "9b541243beb15c10bb937e0e0abaec1838ccfc16e26897fdbb491cc0766c2685"
+    }
+  },
+  "model_a": {
+    "folder": "artifacts/ablations/soxx_qqq_model_a",
+    "sha256": {
+      "frozen.json": "d6e759b3bfa30e420d59cd5a9422f9b9354c90910972dd71c5c05ef2db304cb5",
+      "output/positions_SOXX_model_a.csv": "09b1b3e7876ac8a25dc3557994388dbe76ec1a51bd54c42c5f59faebc3493326",
+      "output/positions_QQQ_model_a.csv": "b51f2b1c1b1bcdd4210411aec9055843bbee650e668bd47a46cdd797291e4918"
+    }
+  },
+  "known_limits": [
+    "About 45 independent stress episodes per fund over the whole sample, fewer in the comparison period. That is the sample size for any difference between two gates.",
+    "The gate thresholds, class bounds and feature definitions come from RFC-002 and RFC-004, which were written knowing this period.",
+    "The rule's full-period results were known when this was drafted, so the promotion limits were set with that knowledge.",
+    "Cboe, Yahoo and Treasury publication times are assumptions. Prices exclude dividends.",
+    "The revenue factor changes once a month while outcomes span 20 sessions; a real effect would have to be large to show.",
+    "The first-release revenue values were read through a page reader that returns quoted fragments; the numbers were cross-checked, the wording was not.",
+    "Model A's penalty of 10 and the 750-decision minimum are judgements made without tuning; RFC-004 gives neither.",
+    "The same held-out months were already used for Model A, and the expected direction of this result was known in advance, so it is weak evidence either way."
+  ],
+  "not_in_this_registration": [
+    "the revenue-factor comparison",
+    "forecast tickets",
+    "any single-stock comparison"
+  ],
+  "code": {
+    "commit": "53545e2056a4ac3fedb4d27f67653688c36b4ab6",
+    "runner": "artifacts/ablations/soxx_qqq_model_c/run.py",
+    "model": "quant_evaluator.beta.tree_model",
+    "enforcement": "A run on real prices requires this file to be committed and unchanged, run.py to equal its version at code.commit, and imports the packages from an export of that commit. A --synthetic rehearsal uses local code."
+  },
+  "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9"
+}
