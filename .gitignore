@@ -8,6 +8,9 @@ dist/
 
 # run outputs: keep the folders, ignore their contents
 run/**
+
+# The daily loop's working files: logs, locks and scratch. Tickets and snapshots it produces go under artifacts/.
+/monitors/Daily/**
 artifacts/**
 !artifacts/**/
 !artifacts/**/.gitkeep

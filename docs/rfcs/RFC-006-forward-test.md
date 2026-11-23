@@ -112,7 +112,7 @@ Part B is developed in parallel with Part A and does not delay it.
 | A ticket emitter for a fitted gate | The emitter handles the rule only |
 | A session calendar past 2026 | Ends 2026-12-31 |
 | The FOMC schedule for 2027 | Not held |
-| A durable private backup of the snapshots | None; raw files exist on one machine |
+| A backup of the snapshots | A local copy in `run/backup/snapshots/` with checksums; same machine, not in the repository |
 | A scheduled job that runs the loop after each close | Nothing |
 | A check that reports a missed run the next morning | Nothing |
 
@@ -122,7 +122,7 @@ Part B is developed in parallel with Part A and does not delay it.
 2. Shadow-ticket emission for a registered fitted gate: score, state, model month, input hashes, decision cutoff, issuance time, and the live or replay marking.
 3. The missed-ticket record and the held-exposure rule of section 3.3, used by every equity and drawdown figure.
 4. A 2027 session calendar and FOMC schedule, each with its source recorded.
-5. A scheduled local job, a missed-run check, and a private backup of each snapshot.
+5. A scheduled local job working in `monitors/Daily/`, a missed-run check, and a copy of each new snapshot into `run/backup/snapshots/` with its checksums.
 6. Catalogue bindings and factor definitions for the added series, with anchors, and the generator's output for both funds.
 7. Registrations, each pushed before the first ticket it covers: the Part A shadow record with the review rule, and later the `G-dd` gate with its paired comparison.
 8. A maturity job that scores each ticket once its 20 sessions are in the data.
@@ -148,11 +148,12 @@ The RFC is complete when both forward records are running and registered. The re
 | --- | --- |
 | Which RFC-005 gates to shadow | Both |
 | Who runs the daily loop | A scheduled local job, with a missed-run check |
-| Raw files | A durable private backup of every snapshot, at a location the owner chooses |
+| Raw files | A backup copy of every snapshot in `run/backup/snapshots/`, git-ignored. It guards against deletion or overwriting; it is on the same machine, so it does not survive loss of the disk and gives nobody else a way to replay |
+| Where the daily job works | `monitors/Daily/`, git-ignored: logs, locks and scratch. Tickets and snapshots go under `artifacts/` |
 | Part B timing | In parallel, on its own clock |
 | Review | A review point at 250 sessions; passing gives eligibility only |
 
-Still open for the owner: where the private backup lives, and at what local time the job runs.
+Still open for the owner: the time the job runs. Proposed: 19:00 America/New_York on each session, which is after every same-day input is published and long before the next open.
 
 ## 10. Out of scope
 
