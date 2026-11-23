@@ -1,0 +1,1006 @@
+{
+ "registration_sha256": "dafbf47729746f0aba1880ddc3d811c35894105b7b5b8d932e2d1e80d59aa640",
+ "bindings_sha256": {
+  "cboe:vix": "c3cd336b1c55662c0c5869032b767793278ca65f91c8d0ff0cd80748049e5e58",
+  "cboe:vix3m": "d9f54baad10a2baa4a8b0655063959397f16d27c820ab154c8a20f289ed08966",
+  "treasury:real_yield_10y": "dfe5f300dd46fe56a75f644a991065b53eb17625fd9dd3e30914b08683eacb9d",
+  "yahoo:qqq:close": "86f96a8f68ecd7605799c595cd2650c7501b62521ca34b5adb69c84c81848366",
+  "yahoo:qqq:open": "0082751aef7aeba9c14b526c06c0d26171b6d38908b700a18891102ded7fbf96",
+  "yahoo:soxx:close": "43bc2bd433cbdb11ddcb9fd6369c424df520d7343bc9d10ff8bb23815b5d53f5",
+  "yahoo:soxx:open": "179a8807fc322766667f899a9748d8cfe373a9b7ae4d075a626529f6ff70962e",
+  "yahoo:spy:close": "22cfd27cb0db6de33d6fa24a1dc77c8d4301ca539fcaf9974129bf6efe4a0c55"
+ },
+ "inputs": [
+  "vix_term_structure",
+  "real_yield_10y_change_20_rank_250",
+  "trend_200",
+  "vix_log",
+  "vix_change_5",
+  "vvix_over_vix",
+  "skew",
+  "vxn_over_vix",
+  "move_log",
+  "move_change_20",
+  "slope_10y_3m",
+  "slope_30y_5y",
+  "nominal_10y_change_20",
+  "bill_3m_change_60",
+  "hyg_ief_roc_20",
+  "hyg_ief_roc_60",
+  "lqd_ief_roc_20",
+  "hyg_lqd_trend_200",
+  "dollar_roc_20",
+  "copper_gold_roc_60",
+  "oil_roc_20",
+  "equal_weight_roc_60",
+  "small_cap_roc_60",
+  "utilities_roc_60",
+  "spy_implied_minus_realised",
+  "sessions_to_fomc",
+  "soxx_over_qqq_roc_60",
+  "roc_20",
+  "roc_60",
+  "roc_120",
+  "below_250_high",
+  "realised_vol_20",
+  "realised_vol_ratio_20_120"
+ ],
+ "synthetic_prices": false,
+ "funds": {
+  "SOXX": {
+   "first_gate_decision": "2013-11-07",
+   "periods": {
+    "development": {
+     "rule": {
+      "first_decision": "2013-11-07",
+      "last_session": "2019-12-31",
+      "decisions": 1547,
+      "held_decisions": 0,
+      "max_drawdown": -0.25109571188896085,
+      "final_equity": 2.5100930541022572,
+      "buy_and_hold": {
+       "max_drawdown": -0.2613723151839743,
+       "final_equity": 3.7271779344439344
+      },
+      "turnover_per_year": 17.082962138084632,
+      "episodes": 18,
+      "unfinished_episodes": 0,
+      "whipsaw_rate": 0.6666666666666666,
+      "tail_recall": {
+       "decisions": 1527,
+       "cases": 229,
+       "recall": 0.4759825327510917,
+       "alert_rate": 0.32154551407989523
+      }
+     },
+     "arms": {
+      "N-avg": {
+       "first_decision": "2013-11-07",
+       "last_session": "2019-12-31",
+       "decisions": 1547,
+       "held_decisions": 0,
+       "max_drawdown": -0.28507636224490396,
+       "final_equity": 3.3502125450794757,
+       "buy_and_hold": {
+        "max_drawdown": -0.2613723151839743,
+        "final_equity": 3.7271779344439344
+       },
+       "turnover_per_year": 14.154454342984408,
+       "episodes": 14,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.6153846153846154,
+       "tail_recall": {
+        "decisions": 1527,
+        "cases": 229,
+        "recall": 0.3930131004366812,
+        "alert_rate": 0.3798297314996726
+       }
+      },
+      "W-avg": {
+       "first_decision": "2013-11-07",
+       "last_session": "2019-12-31",
+       "decisions": 1547,
+       "held_decisions": 0,
+       "max_drawdown": -0.2433169972895981,
+       "final_equity": 3.335952182856541,
+       "buy_and_hold": {
+        "max_drawdown": -0.2613723151839743,
+        "final_equity": 3.7271779344439344
+       },
+       "turnover_per_year": 11.388641425389753,
+       "episodes": 14,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.5384615384615384,
+       "tail_recall": {
+        "decisions": 1527,
+        "cases": 229,
+        "recall": 0.5065502183406113,
+        "alert_rate": 0.35494433529796987
+       }
+      },
+      "N-dd": {
+       "first_decision": "2013-11-07",
+       "last_session": "2019-12-31",
+       "decisions": 1547,
+       "held_decisions": 0,
+       "max_drawdown": -0.248259704625996,
+       "final_equity": 2.5421349330702294,
+       "buy_and_hold": {
+        "max_drawdown": -0.2613723151839743,
+        "final_equity": 3.7271779344439344
+       },
+       "turnover_per_year": 17.733741648106903,
+       "episodes": 11,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.6,
+       "tail_recall": {
+        "decisions": 1527,
+        "cases": 229,
+        "recall": 0.6157205240174672,
+        "alert_rate": 0.4538310412573674
+       }
+      },
+      "W-dd": {
+       "first_decision": "2013-11-07",
+       "last_session": "2019-12-31",
+       "decisions": 1547,
+       "held_decisions": 0,
+       "max_drawdown": -0.16519780798111183,
+       "final_equity": 3.084551302510428,
+       "buy_and_hold": {
+        "max_drawdown": -0.2613723151839743,
+        "final_equity": 3.7271779344439344
+       },
+       "turnover_per_year": 11.225946547884186,
+       "episodes": 11,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.6,
+       "tail_recall": {
+        "decisions": 1527,
+        "cases": 229,
+        "recall": 0.6593886462882096,
+        "alert_rate": 0.44204322200392926
+       }
+      }
+     },
+     "what_the_inputs_add": {
+      "avg: W minus N": {
+       "episodes": 15,
+       "cases": 229,
+       "recall_a": 0.3930131004366812,
+       "recall_b": 0.5065502183406113,
+       "difference": 0.11353711790393012,
+       "interval": [
+        0.0,
+        0.20704957059582604
+       ]
+      },
+      "dd: W minus N": {
+       "episodes": 15,
+       "cases": 229,
+       "recall_a": 0.6157205240174672,
+       "recall_b": 0.6593886462882096,
+       "difference": 0.04366812227074235,
+       "interval": [
+        -0.1062872942386831,
+        0.210348788007012
+       ]
+      }
+     },
+     "what_the_target_adds": {
+      "N: dd minus avg": {
+       "episodes": 15,
+       "cases": 229,
+       "recall_a": 0.3930131004366812,
+       "recall_b": 0.6157205240174672,
+       "difference": 0.22270742358078605,
+       "interval": [
+        0.014778299426186648,
+        0.4017973404157214
+       ]
+      },
+      "W: dd minus avg": {
+       "episodes": 15,
+       "cases": 229,
+       "recall_a": 0.5065502183406113,
+       "recall_b": 0.6593886462882096,
+       "difference": 0.15283842794759828,
+       "interval": [
+        0.013830037664783355,
+        0.3051014444351674
+       ]
+      }
+     },
+     "checks": {
+      "W-avg": {
+       "drawdown_smaller_by_points": false,
+       "final_equity_share_of_rule": true,
+       "whipsaw_within_points": true
+      },
+      "W-dd": {
+       "drawdown_smaller_by_points": true,
+       "final_equity_share_of_rule": true,
+       "whipsaw_within_points": true
+      }
+     },
+     "candidates_meeting_every_limit": [
+      "W-dd"
+     ],
+     "would_be_taken": "W-dd",
+     "sensitivity_decides_nothing": {
+      "cost_x2": {
+       "rule": {
+        "max_drawdown": -0.26017111782286106,
+        "final_equity": 2.3820664457686602,
+        "whipsaw_rate": 0.6666666666666666
+       },
+       "N-avg": {
+        "max_drawdown": -0.2932568577053488,
+        "final_equity": 3.2075272473272882,
+        "whipsaw_rate": 0.6153846153846154
+       },
+       "W-avg": {
+        "max_drawdown": -0.24634481367213668,
+        "final_equity": 3.2212790711569115,
+        "whipsaw_rate": 0.5384615384615384
+       },
+       "N-dd": {
+        "max_drawdown": -0.2598709358679646,
+        "final_equity": 2.4072685310040356,
+        "whipsaw_rate": 0.6
+       },
+       "W-dd": {
+        "max_drawdown": -0.16725244297074693,
+        "final_equity": 2.980121627417406,
+        "whipsaw_rate": 0.6
+       }
+      },
+      "cost_x3": {
+       "rule": {
+        "max_drawdown": -0.2691390386850093,
+        "final_equity": 2.26053886973027,
+        "whipsaw_rate": 0.6666666666666666
+       },
+       "N-avg": {
+        "max_drawdown": -0.3013462855311936,
+        "final_equity": 3.070870073453292,
+        "whipsaw_rate": 0.6153846153846154
+       },
+       "W-avg": {
+        "max_drawdown": -0.24936155116502923,
+        "final_equity": 3.1105128492382255,
+        "whipsaw_rate": 0.5384615384615384
+       },
+       "N-dd": {
+        "max_drawdown": -0.2714262611107089,
+        "final_equity": 2.279508616293684,
+        "whipsaw_rate": 0.6
+       },
+       "W-dd": {
+        "max_drawdown": -0.16930262988061262,
+        "final_equity": 2.8791929948252424,
+        "whipsaw_rate": 0.6
+       }
+      }
+     }
+    },
+    "test": {
+     "rule": {
+      "first_decision": "2020-01-02",
+      "last_session": "2026-11-20",
+      "decisions": 1732,
+      "held_decisions": 0,
+      "max_drawdown": -0.3800772790522422,
+      "final_equity": 4.064258722171143,
+      "buy_and_hold": {
+       "max_drawdown": -0.46244801236686073,
+       "final_equity": 4.401204609210517
+      },
+      "turnover_per_year": 13.947494033412887,
+      "episodes": 16,
+      "unfinished_episodes": 1,
+      "whipsaw_rate": 0.6,
+      "tail_recall": {
+       "decisions": 1712,
+       "cases": 256,
+       "recall": 0.56640625,
+       "alert_rate": 0.3796728971962617
+      }
+     },
+     "arms": {
+      "N-avg": {
+       "first_decision": "2020-01-02",
+       "last_session": "2026-11-20",
+       "decisions": 1732,
+       "held_decisions": 5,
+       "max_drawdown": -0.41948733532312554,
+       "final_equity": 1.5157344009949687,
+       "buy_and_hold": {
+        "max_drawdown": -0.46244801236686073,
+        "final_equity": 4.401204609210517
+       },
+       "turnover_per_year": 14.383353221957039,
+       "episodes": 13,
+       "unfinished_episodes": 0,
+       "whipsaw_rate": 0.7692307692307693,
+       "tail_recall": {
+        "decisions": 1712,
+        "cases": 256,
+        "recall": 0.32421875,
+        "alert_rate": 0.4696261682242991
+       }
+      },
+      "W-avg": {
+       "first_decision": "2020-01-02",
+       "last_session": "2026-11-20",
+       "decisions": 1732,
+       "held_decisions": 5,
+       "max_drawdown": -0.3716970046210889,
+       "final_equity": 3.9133171214100613,
+       "buy_and_hold": {
+        "max_drawdown": -0.46244801236686073,
+        "final_equity": 4.401204609210517
+       },
+       "turnover_per_year": 11.041766109785202,
+       "episodes": 15,
+       "unfinished_episodes": 0,
+       "whipsaw_rate": 0.6,
+       "tail_recall": {
+        "decisions": 1712,
+        "cases": 256,
+        "recall": 0.421875,
+        "alert_rate": 0.38317757009345793
+       }
+      },
+      "N-dd": {
+       "first_decision": "2020-01-02",
+       "last_session": "2026-11-20",
+       "decisions": 1732,
+       "held_decisions": 5,
+       "max_drawdown": -0.42157467698541706,
+       "final_equity": 1.8812743127522384,
+       "buy_and_hold": {
+        "max_drawdown": -0.46244801236686073,
+        "final_equity": 4.401204609210517
+       },
+       "turnover_per_year": 18.596658711217184,
+       "episodes": 13,
+       "unfinished_episodes": 0,
+       "whipsaw_rate": 0.6923076923076923,
+       "tail_recall": {
+        "decisions": 1712,
+        "cases": 256,
+        "recall": 0.46484375,
+        "alert_rate": 0.49065420560747663
+       }
+      },
+      "W-dd": {
+       "first_decision": "2020-01-02",
+       "last_session": "2026-11-20",
+       "decisions": 1732,
+       "held_decisions": 5,
+       "max_drawdown": -0.40373927634643036,
+       "final_equity": 4.535417776586452,
+       "buy_and_hold": {
+        "max_drawdown": -0.46244801236686073,
+        "final_equity": 4.401204609210517
+       },
+       "turnover_per_year": 11.041766109785202,
+       "episodes": 11,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.6,
+       "tail_recall": {
+        "decisions": 1712,
+        "cases": 256,
+        "recall": 0.5234375,
+        "alert_rate": 0.40654205607476634
+       }
+      }
+     },
+     "what_the_inputs_add": {
+      "avg: W minus N": {
+       "episodes": 13,
+       "cases": 256,
+       "recall_a": 0.32421875,
+       "recall_b": 0.421875,
+       "difference": 0.09765625,
+       "interval": [
+        -0.1953527336860671,
+        0.3277419861722187
+       ]
+      },
+      "dd: W minus N": {
+       "episodes": 13,
+       "cases": 256,
+       "recall_a": 0.46484375,
+       "recall_b": 0.5234375,
+       "difference": 0.05859375,
+       "interval": [
+        -0.2684594829729057,
+        0.3113673652024759
+       ]
+      }
+     },
+     "what_the_target_adds": {
+      "N: dd minus avg": {
+       "episodes": 13,
+       "cases": 256,
+       "recall_a": 0.32421875,
+       "recall_b": 0.46484375,
+       "difference": 0.140625,
+       "interval": [
+        -0.035901125253643223,
+        0.34641830065359475
+       ]
+      },
+      "W: dd minus avg": {
+       "episodes": 13,
+       "cases": 256,
+       "recall_a": 0.421875,
+       "recall_b": 0.5234375,
+       "difference": 0.1015625,
+       "interval": [
+        -0.11075689783743482,
+        0.31175137811828457
+       ]
+      }
+     },
+     "checks": {
+      "W-avg": {
+       "drawdown_smaller_by_points": false,
+       "final_equity_share_of_rule": true,
+       "whipsaw_within_points": true
+      },
+      "W-dd": {
+       "drawdown_smaller_by_points": false,
+       "final_equity_share_of_rule": true,
+       "whipsaw_within_points": true
+      }
+     },
+     "candidates_meeting_every_limit": [],
+     "would_be_taken": null,
+     "sensitivity_decides_nothing": {
+      "cost_x2": {
+       "rule": {
+        "max_drawdown": -0.38605551840572516,
+        "final_equity": 3.8746239462792986,
+        "whipsaw_rate": 0.6
+       },
+       "N-avg": {
+        "max_drawdown": -0.42340778562215486,
+        "final_equity": 1.442473453495781,
+        "whipsaw_rate": 0.7692307692307693
+       },
+       "W-avg": {
+        "max_drawdown": -0.37327023205839627,
+        "final_equity": 3.7670709014650585,
+        "whipsaw_rate": 0.6
+       },
+       "N-dd": {
+        "max_drawdown": -0.4241724756441476,
+        "final_equity": 1.764410637543608,
+        "whipsaw_rate": 0.6923076923076923
+       },
+       "W-dd": {
+        "max_drawdown": -0.40553208353389325,
+        "final_equity": 4.36585189785621,
+        "whipsaw_rate": 0.6
+       }
+      },
+      "cost_x3": {
+       "rule": {
+        "max_drawdown": -0.3919777234294406,
+        "final_equity": 3.6937910986691085,
+        "whipsaw_rate": 0.6
+       },
+       "N-avg": {
+        "max_drawdown": -0.427303164235902,
+        "final_equity": 1.3727297431176149,
+        "whipsaw_rate": 0.7692307692307693
+       },
+       "W-avg": {
+        "max_drawdown": -0.374839991642425,
+        "final_equity": 3.6262482162961955,
+        "whipsaw_rate": 0.6
+       },
+       "N-dd": {
+        "max_drawdown": -0.426759683548266,
+        "final_equity": 1.654768051680673,
+        "whipsaw_rate": 0.6923076923076923
+       },
+       "W-dd": {
+        "max_drawdown": -0.4073200224614212,
+        "final_equity": 4.2025748950744335,
+        "whipsaw_rate": 0.6
+       }
+      }
+     }
+    }
+   },
+   "decision": "the rule is kept",
+   "positions_sha256": {
+    "N-avg": "1ad73bc203a06b00fd584da1dc648207f18b9521cdea5af122b4acf46587df6b",
+    "W-avg": "08cc40139b081ff75a034b525c9395892e788e610ffda0545eb3688f75dc694a",
+    "N-dd": "3b8817dee966083d616a083cab06ff28bc0b26a36a4cb27b0e2bfe10296079b8",
+    "W-dd": "86bc455e95fc3646e2c415be6ee47afbd3b0cb81511616955538b80c2fb51af7"
+   }
+  },
+  "QQQ": {
+   "first_gate_decision": "2013-11-07",
+   "periods": {
+    "development": {
+     "rule": {
+      "first_decision": "2013-11-07",
+      "last_session": "2019-12-31",
+      "decisions": 1547,
+      "held_decisions": 0,
+      "max_drawdown": -0.17653933452329007,
+      "final_equity": 2.017916674610073,
+      "buy_and_hold": {
+       "max_drawdown": -0.2315519129335516,
+       "final_equity": 2.601052191910919
+      },
+      "turnover_per_year": 16.920267260579063,
+      "episodes": 19,
+      "unfinished_episodes": 0,
+      "whipsaw_rate": 0.5789473684210527,
+      "tail_recall": {
+       "decisions": 1527,
+       "cases": 229,
+       "recall": 0.43231441048034935,
+       "alert_rate": 0.29927963326784546
+      }
+     },
+     "arms": {
+      "N-avg": {
+       "first_decision": "2013-11-07",
+       "last_session": "2019-12-31",
+       "decisions": 1547,
+       "held_decisions": 0,
+       "max_drawdown": -0.23926333607705763,
+       "final_equity": 1.4150450568527062,
+       "buy_and_hold": {
+        "max_drawdown": -0.2315519129335516,
+        "final_equity": 2.601052191910919
+       },
+       "turnover_per_year": 12.202115812917594,
+       "episodes": 14,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.7692307692307693,
+       "tail_recall": {
+        "decisions": 1527,
+        "cases": 229,
+        "recall": 0.3537117903930131,
+        "alert_rate": 0.3254747871643746
+       }
+      },
+      "W-avg": {
+       "first_decision": "2013-11-07",
+       "last_session": "2019-12-31",
+       "decisions": 1547,
+       "held_decisions": 0,
+       "max_drawdown": -0.17035621348782048,
+       "final_equity": 1.743111502574796,
+       "buy_and_hold": {
+        "max_drawdown": -0.2315519129335516,
+        "final_equity": 2.601052191910919
+       },
+       "turnover_per_year": 13.096937639198217,
+       "episodes": 11,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.6,
+       "tail_recall": {
+        "decisions": 1527,
+        "cases": 229,
+        "recall": 0.34934497816593885,
+        "alert_rate": 0.3948919449901768
+       }
+      },
+      "N-dd": {
+       "first_decision": "2013-11-07",
+       "last_session": "2019-12-31",
+       "decisions": 1547,
+       "held_decisions": 0,
+       "max_drawdown": -0.167194655469863,
+       "final_equity": 1.3783918208934591,
+       "buy_and_hold": {
+        "max_drawdown": -0.2315519129335516,
+        "final_equity": 2.601052191910919
+       },
+       "turnover_per_year": 16.920267260579063,
+       "episodes": 16,
+       "unfinished_episodes": 0,
+       "whipsaw_rate": 0.8125,
+       "tail_recall": {
+        "decisions": 1527,
+        "cases": 229,
+        "recall": 0.5895196506550219,
+        "alert_rate": 0.41912246234446626
+       }
+      },
+      "W-dd": {
+       "first_decision": "2013-11-07",
+       "last_session": "2019-12-31",
+       "decisions": 1547,
+       "held_decisions": 0,
+       "max_drawdown": -0.12118567664128399,
+       "final_equity": 1.658141340228433,
+       "buy_and_hold": {
+        "max_drawdown": -0.2315519129335516,
+        "final_equity": 2.601052191910919
+       },
+       "turnover_per_year": 13.422327394209352,
+       "episodes": 10,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.7777777777777778,
+       "tail_recall": {
+        "decisions": 1527,
+        "cases": 229,
+        "recall": 0.7336244541484717,
+        "alert_rate": 0.48461034708578915
+       }
+      }
+     },
+     "what_the_inputs_add": {
+      "avg: W minus N": {
+       "episodes": 10,
+       "cases": 229,
+       "recall_a": 0.3537117903930131,
+       "recall_b": 0.34934497816593885,
+       "difference": -0.004366812227074246,
+       "interval": [
+        -0.1765078183172003,
+        0.1330542289807716
+       ]
+      },
+      "dd: W minus N": {
+       "episodes": 10,
+       "cases": 229,
+       "recall_a": 0.5895196506550219,
+       "recall_b": 0.7336244541484717,
+       "difference": 0.14410480349344978,
+       "interval": [
+        -0.04869176824177657,
+        0.3281366604477612
+       ]
+      }
+     },
+     "what_the_target_adds": {
+      "N: dd minus avg": {
+       "episodes": 10,
+       "cases": 229,
+       "recall_a": 0.3537117903930131,
+       "recall_b": 0.5895196506550219,
+       "difference": 0.23580786026200878,
+       "interval": [
+        -0.025791725624957917,
+        0.4015941022078122
+       ]
+      },
+      "W: dd minus avg": {
+       "episodes": 10,
+       "cases": 229,
+       "recall_a": 0.34934497816593885,
+       "recall_b": 0.7336244541484717,
+       "difference": 0.3842794759825328,
+       "interval": [
+        0.2222222222222222,
+        0.4944839654582112
+       ]
+      }
+     },
+     "checks": {
+      "W-avg": {
+       "drawdown_smaller_by_points": false,
+       "final_equity_share_of_rule": false,
+       "whipsaw_within_points": true
+      },
+      "W-dd": {
+       "drawdown_smaller_by_points": true,
+       "final_equity_share_of_rule": false,
+       "whipsaw_within_points": false
+      }
+     },
+     "candidates_meeting_every_limit": [],
+     "would_be_taken": null,
+     "sensitivity_decides_nothing": {
+      "cost_x2": {
+       "rule": {
+        "max_drawdown": -0.18164268280102025,
+        "final_equity": 1.9158536850909134,
+        "whipsaw_rate": 0.5789473684210527
+       },
+       "N-avg": {
+        "max_drawdown": -0.24040228923662554,
+        "final_equity": 1.363014981048023,
+        "whipsaw_rate": 0.7692307692307693
+       },
+       "W-avg": {
+        "max_drawdown": -0.171822222840198,
+        "final_equity": 1.674284361103647,
+        "whipsaw_rate": 0.6
+       },
+       "N-dd": {
+        "max_drawdown": -0.18673257118354547,
+        "final_equity": 1.3086175645457148,
+        "whipsaw_rate": 0.8125
+       },
+       "W-dd": {
+        "max_drawdown": -0.12502723546014471,
+        "final_equity": 1.5911547368600085,
+        "whipsaw_rate": 0.7777777777777778
+       }
+      },
+      "cost_x3": {
+       "rule": {
+        "max_drawdown": -0.18748299284270353,
+        "final_equity": 1.8189279455914513,
+        "whipsaw_rate": 0.5789473684210527
+       },
+       "N-avg": {
+        "max_drawdown": -0.2415398210800188,
+        "final_equity": 1.3128812814074404,
+        "whipsaw_rate": 0.7692307692307693
+       },
+       "W-avg": {
+        "max_drawdown": -0.1732860112825646,
+        "final_equity": 1.6081544276420727,
+        "whipsaw_rate": 0.6
+       },
+       "N-dd": {
+        "max_drawdown": -0.20581941994251962,
+        "final_equity": 1.2423520027404082,
+        "whipsaw_rate": 0.8125
+       },
+       "W-dd": {
+        "max_drawdown": -0.12895045680593709,
+        "final_equity": 1.5268526285482693,
+        "whipsaw_rate": 0.7777777777777778
+       }
+      }
+     }
+    },
+    "test": {
+     "rule": {
+      "first_decision": "2020-01-02",
+      "last_session": "2026-11-20",
+      "decisions": 1732,
+      "held_decisions": 0,
+      "max_drawdown": -0.1785023873443845,
+      "final_equity": 2.823337020225376,
+      "buy_and_hold": {
+       "max_drawdown": -0.3561721518084682,
+       "final_equity": 2.852555103149198
+      },
+      "turnover_per_year": 12.204057279236276,
+      "episodes": 19,
+      "unfinished_episodes": 1,
+      "whipsaw_rate": 0.6666666666666666,
+      "tail_recall": {
+       "decisions": 1712,
+       "cases": 256,
+       "recall": 0.62890625,
+       "alert_rate": 0.3469626168224299
+      }
+     },
+     "arms": {
+      "N-avg": {
+       "first_decision": "2020-01-02",
+       "last_session": "2026-11-20",
+       "decisions": 1732,
+       "held_decisions": 5,
+       "max_drawdown": -0.28809362939144934,
+       "final_equity": 2.248029331620048,
+       "buy_and_hold": {
+        "max_drawdown": -0.3561721518084682,
+        "final_equity": 2.852555103149198
+       },
+       "turnover_per_year": 11.69555489260143,
+       "episodes": 14,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.6153846153846154,
+       "tail_recall": {
+        "decisions": 1712,
+        "cases": 256,
+        "recall": 0.5078125,
+        "alert_rate": 0.45560747663551404
+       }
+      },
+      "W-avg": {
+       "first_decision": "2020-01-02",
+       "last_session": "2026-11-20",
+       "decisions": 1732,
+       "held_decisions": 5,
+       "max_drawdown": -0.26276093735086337,
+       "final_equity": 2.381385347409328,
+       "buy_and_hold": {
+        "max_drawdown": -0.3561721518084682,
+        "final_equity": 2.852555103149198
+       },
+       "turnover_per_year": 8.717183770883054,
+       "episodes": 13,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.6666666666666666,
+       "tail_recall": {
+        "decisions": 1712,
+        "cases": 256,
+        "recall": 0.48828125,
+        "alert_rate": 0.4287383177570093
+       }
+      },
+      "N-dd": {
+       "first_decision": "2020-01-02",
+       "last_session": "2026-11-20",
+       "decisions": 1732,
+       "held_decisions": 5,
+       "max_drawdown": -0.2406203178819145,
+       "final_equity": 2.0990001163705987,
+       "buy_and_hold": {
+        "max_drawdown": -0.3561721518084682,
+        "final_equity": 2.852555103149198
+       },
+       "turnover_per_year": 12.204057279236276,
+       "episodes": 13,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.5,
+       "tail_recall": {
+        "decisions": 1712,
+        "cases": 256,
+        "recall": 0.484375,
+        "alert_rate": 0.3446261682242991
+       }
+      },
+      "W-dd": {
+       "first_decision": "2020-01-02",
+       "last_session": "2026-11-20",
+       "decisions": 1732,
+       "held_decisions": 5,
+       "max_drawdown": -0.22324090415593456,
+       "final_equity": 2.780420631766108,
+       "buy_and_hold": {
+        "max_drawdown": -0.3561721518084682,
+        "final_equity": 2.852555103149198
+       },
+       "turnover_per_year": 9.879474940334129,
+       "episodes": 10,
+       "unfinished_episodes": 1,
+       "whipsaw_rate": 0.5555555555555556,
+       "tail_recall": {
+        "decisions": 1712,
+        "cases": 256,
+        "recall": 0.6953125,
+        "alert_rate": 0.397196261682243
+       }
+      }
+     },
+     "what_the_inputs_add": {
+      "avg: W minus N": {
+       "episodes": 16,
+       "cases": 256,
+       "recall_a": 0.5078125,
+       "recall_b": 0.48828125,
+       "difference": -0.01953125,
+       "interval": [
+        -0.2500581395348838,
+        0.145590409313499
+       ]
+      },
+      "dd: W minus N": {
+       "episodes": 16,
+       "cases": 256,
+       "recall_a": 0.484375,
+       "recall_b": 0.6953125,
+       "difference": 0.2109375,
+       "interval": [
+        0.05223350074273182,
+        0.3157980456026059
+       ]
+      }
+     },
+     "what_the_target_adds": {
+      "N: dd minus avg": {
+       "episodes": 16,
+       "cases": 256,
+       "recall_a": 0.5078125,
+       "recall_b": 0.484375,
+       "difference": -0.0234375,
+       "interval": [
+        -0.22473314606741573,
+        0.11494657600777074
+       ]
+      },
+      "W: dd minus avg": {
+       "episodes": 16,
+       "cases": 256,
+       "recall_a": 0.48828125,
+       "recall_b": 0.6953125,
+       "difference": 0.20703125,
+       "interval": [
+        -0.050962387837649344,
+        0.35238485558157684
+       ]
+      }
+     },
+     "checks": {
+      "W-avg": {
+       "drawdown_smaller_by_points": false,
+       "final_equity_share_of_rule": false,
+       "whipsaw_within_points": true
+      },
+      "W-dd": {
+       "drawdown_smaller_by_points": false,
+       "final_equity_share_of_rule": true,
+       "whipsaw_within_points": true
+      }
+     },
+     "candidates_meeting_every_limit": [],
+     "would_be_taken": null,
+     "sensitivity_decides_nothing": {
+      "cost_x2": {
+       "rule": {
+        "max_drawdown": -0.18191257941415273,
+        "final_equity": 2.707424200223788,
+        "whipsaw_rate": 0.6666666666666666
+       },
+       "N-avg": {
+        "max_drawdown": -0.28809362939144945,
+        "final_equity": 2.1592232179761712,
+        "whipsaw_rate": 0.6153846153846154
+       },
+       "W-avg": {
+        "max_drawdown": -0.2640415033194422,
+        "final_equity": 2.310909483725812,
+        "whipsaw_rate": 0.6666666666666666
+       },
+       "N-dd": {
+        "max_drawdown": -0.24269095133676166,
+        "final_equity": 2.012718879379724,
+        "whipsaw_rate": 0.5
+       },
+       "W-dd": {
+        "max_drawdown": -0.2303897752157874,
+        "final_equity": 2.687436157238587,
+        "whipsaw_rate": 0.5555555555555556
+       }
+      },
+      "cost_x3": {
+       "rule": {
+        "max_drawdown": -0.18617496884475937,
+        "final_equity": 2.596241739189358,
+        "whipsaw_rate": 0.6666666666666666
+       },
+       "N-avg": {
+        "max_drawdown": -0.28809362939144934,
+        "final_equity": 2.073895791005338,
+        "whipsaw_rate": 0.6153846153846154
+       },
+       "W-avg": {
+        "max_drawdown": -0.2653201623054451,
+        "final_equity": 2.242498513102447,
+        "whipsaw_rate": 0.6666666666666666
+       },
+       "N-dd": {
+        "max_drawdown": -0.24475654548449677,
+        "final_equity": 1.9299539057974722,
+        "whipsaw_rate": 0.5
+       },
+       "W-dd": {
+        "max_drawdown": -0.23747490106043678,
+        "final_equity": 2.597534987938149,
+        "whipsaw_rate": 0.5555555555555556
+       }
+      }
+     }
+    }
+   },
+   "decision": "the rule is kept",
+   "positions_sha256": {
+    "N-avg": "fee0b73ad5dae544f0f1843c16cfd2925960af1b6f1f10f06b9de2a72ec52af2",
+    "W-avg": "bced8477d80c391fd00d7740e9846af4c47bdae4e4c98f3ceccdfc58be9e000c",
+    "N-dd": "997d0efaaaf09d432c3e8079dc0c09bebcb6e564bfb06d52bdde628f7fc7910b",
+    "W-dd": "969a15d47d26e9fdd42fe37929db0f35ef6dbc47149b60c5a64ecd943c677344"
+   }
+  }
+ },
+ "stopping_rule": "met: no candidate is promoted for either fund; no variant of this list, these targets or this model is tried on the test period"
+}

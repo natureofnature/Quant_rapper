@@ -1,0 +1,30 @@
+{
+  "kind": "frozen_comparison",
+  "registration_id": "soxx_qqq_wide_inputs",
+  "frozen_on": "2026-11-23",
+  "describe": "The outputs of the registered RFC-005 comparison, run once from code exported at the registered commit. The rule is kept for both funds and the stopping rule is met. report.md is rendered from report.json by report.py.",
+  "registration_sha256": "dafbf47729746f0aba1880ddc3d811c35894105b7b5b8d932e2d1e80d59aa640",
+  "code_commit": "a86e9a8036835cbe5bfc94344b9e25b47c99ceb5",
+  "decisions": {
+    "SOXX": "the rule is kept",
+    "QQQ": "the rule is kept"
+  },
+  "stopping_rule": "met: no candidate is promoted for either fund; no variant of this list, these targets or this model is tried on the test period",
+  "outputs_sha256": {
+    "positions_QQQ_N-avg.csv": "fee0b73ad5dae544f0f1843c16cfd2925960af1b6f1f10f06b9de2a72ec52af2",
+    "positions_QQQ_N-dd.csv": "997d0efaaaf09d432c3e8079dc0c09bebcb6e564bfb06d52bdde628f7fc7910b",
+    "positions_QQQ_W-avg.csv": "bced8477d80c391fd00d7740e9846af4c47bdae4e4c98f3ceccdfc58be9e000c",
+    "positions_QQQ_W-dd.csv": "969a15d47d26e9fdd42fe37929db0f35ef6dbc47149b60c5a64ecd943c677344",
+    "positions_SOXX_N-avg.csv": "1ad73bc203a06b00fd584da1dc648207f18b9521cdea5af122b4acf46587df6b",
+    "positions_SOXX_N-dd.csv": "3b8817dee966083d616a083cab06ff28bc0b26a36a4cb27b0e2bfe10296079b8",
+    "positions_SOXX_W-avg.csv": "08cc40139b081ff75a034b525c9395892e788e610ffda0545eb3688f75dc694a",
+    "positions_SOXX_W-dd.csv": "86bc455e95fc3646e2c415be6ee47afbd3b0cb81511616955538b80c2fb51af7",
+    "report.json": "629d4acabc9cfdf7d14a13c5c10e9d0cf94e7ea625f09fe86d56f1ba6b1651a9",
+    "report.md": "8eb3451a17ae1ca4eb23633af9aaac7de7ed5070c69f47a9b7e0ee2f67fe9005"
+  },
+  "report_renderer": {
+    "file": "report.py",
+    "sha256": "aba642faa7ef56ffbccb148ce5df96eb68559cd56479490e5e62079e47ae501f",
+    "command": "python artifacts/ablations/soxx_qqq_wide_inputs/report.py"
+  }
+}
