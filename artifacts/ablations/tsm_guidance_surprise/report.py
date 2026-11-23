@@ -21,7 +21,15 @@ for key, title in (("all_quarters", "All quarters"), ("without_revised_quarters"
         lines.append(f"| {name} | {pct(x['mean_a'])} | {pct(x['mean_b'])} | {pct(x['inside_mean'])} | {pct(x['difference'])} | "
                      f"{'n/a' if not se else format(x['difference'] / se, '+.2f')} |")
     lines.append("")
-lines += ["Returns are TSM's beta-adjusted abnormal returns around the release of the quarter's third month.", "",
+lines += ["## Supplement, added after the registered result was seen: above against below the guidance midpoint", "",
+          "Not part of the registration as first written; see its amendment. TSMC's revenue is above the midpoint in most quarters, so this split is also uneven.", "",
+          "| Quarters | Window | n above / below | Mean, above | Mean, below | Above minus below | In standard errors |", "| --- | --- | ---: | ---: | ---: | ---: | ---: |"]
+for key, title in (("all_quarters", "All"), ("without_revised_quarters", "Without revised")):
+    for window, name in (("reaction", "Reaction"), ("entry_day", "Entry session"), ("window", "5 sessions")):
+        x = r["supplement_midpoint_post_hoc"][key][window]; se = x["standard_error"]
+        lines.append(f"| {title} | {name} | {x['n_a']} / {x['n_b']} | {pct(x['mean_a'])} | {pct(x['mean_b'])} | {pct(x['difference'])} | "
+                     f"{'n/a' if not se else format(x['difference'] / se, '+.2f')} |")
+lines += ["", "Returns are TSM's beta-adjusted abnormal returns around the release of the quarter's third month.", "",
           f"Currency check: of the {check['quarters_in_usd']} quarters guided in US dollars, {check['same_side_at_the_assumed_rate']} fall on the same side of the range "
           "when converted at the single rate the guidance assumed instead of month by month.", "",
           "## Every quarter", "", "| Quarter | Currency | Range | Actual | Against midpoint | Surprise | At assumed rate | Revised | Reaction | Entry session | 5 sessions |",
@@ -29,4 +37,5 @@ lines += ["Returns are TSM's beta-adjusted abnormal returns around the release o
 lines += [f"| {x['quarter']} | {x['currency']} | {float(x['low']):g} to {float(x['high']):g} | {float(x['actual']):.2f} | {pct(x['actual_over_midpoint'])} | {x['surprise']} | "
           f"{x['surprise_at_assumed_rate'] or ''} | {'yes' if x['revised_mid_quarter'] == 'True' else ''} | {pct(x['reaction'])} | {pct(x['entry_day'])} | {pct(x['window'])} |" for x in rows]
 lines += ["", "## Limits", ""] + [f"- {x}" for x in reg["known_limits"]]
+lines += ["", "## Amendments", ""] + [f"- {a['amended_on']}: {a['change']} {a['reason']}" for a in reg.get("amendments", [])]
 (HERE / "output/report.md").write_text("\n".join(lines) + "\n")

@@ -13,7 +13,7 @@ for package in ("quant_contracts", "quant_pit_data"):
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 try:
     from quant_contracts.pit import SeriesBinding
-    from quant_pit_data.connectors.yahoo_chart import ex_dividend_dates, load_daily, split_dates
+    from quant_pit_data.connectors.yahoo_chart import ex_dividend_dates, load_daily, monthly_mean_closes, split_dates
 except ModuleNotFoundError:
     SeriesBinding = None
 
@@ -50,3 +50,16 @@ class YahooChartTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_a_month_is_read_in_the_exchange_timezone(self):
+        """Midnight in London on 1 July is 23:00 UTC on 30 June: the quote belongs to July."""
+        london = ZoneInfo("Europe/London")
+        local_midnight = lambda month, day: int(datetime(2024, month, day, tzinfo=london).timestamp())
+        chart = {"chart": {"result": [{
+            "meta": {"exchangeTimezoneName": "Europe/London"},
+            "timestamp": [local_midnight(6, 28), local_midnight(7, 1), local_midnight(7, 2)],
+            "indicators": {"quote": [{"close": [30.0, 32.0, None]}]}}]}}
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "chart.json"
+            path.write_text(json.dumps(chart), encoding="utf-8")
+            self.assertEqual(monthly_mean_closes(path), {"2024-06": 30.0, "2024-07": 32.0})

@@ -3,7 +3,6 @@
 Usage: run.py   Writes output/report.json and output/surprise.csv.
 """
 import csv
-from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
@@ -11,9 +10,10 @@ import re
 import sys
 
 ROOT, HERE = Path(__file__).resolve().parents[3], Path(__file__).resolve().parent
-for package in ("quant_contracts", "quant_evaluator"):
+for package in ("quant_contracts", "quant_evaluator", "quant_pit_data"):
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 from quant_evaluator.alpha.event_window import compare_groups
+from quant_pit_data.connectors.yahoo_chart import monthly_mean_closes
 
 reg = json.loads((HERE / "registration.json").read_text()); P = reg["parameters"]
 if not re.fullmatch(r"[0-9a-f]{40}", reg["code"]["commit"]):
@@ -29,12 +29,7 @@ guidance = {r["guided_quarter"]: r for r in json.loads((SNAP / "tsmc_quarterly_g
 monthly = {r["month"]: r for r in json.loads((SNAP / "tsmc_monthly_revenue_first_release.json").read_text())["releases"]}
 with (ROOT / reg["inputs"]["returns"]["file"]).open(newline="") as handle:
     returns = {r["event_id"][-7:]: r for r in csv.DictReader(handle)}
-chart = json.loads((SNAP / "USDTWD.json").read_text())["chart"]["result"][0]
-by_month: dict[str, list[float]] = {}
-for stamp, close in zip(chart["timestamp"], chart["indicators"]["quote"][0]["close"]):
-    if close is not None:
-        by_month.setdefault(datetime.fromtimestamp(stamp, timezone.utc).strftime("%Y-%m"), []).append(close)
-rate = {m: sum(v) / len(v) for m, v in by_month.items()}
+rate = monthly_mean_closes(SNAP / "USDTWD.json")  # each quote in the month of its own local date, not the UTC date
 quarters = [f"{y}Q{q}" for y in range(2005, 2027) for q in range(1, 5)]
 quarters = [q for q in quarters if P["first_guided_quarter"] <= q <= P["last_guided_quarter"]]
 rows, skipped = [], []
@@ -76,10 +71,19 @@ def compare(subset, label):
         inside = pick("inside")
         out[window]["inside_mean"] = sum(inside) / len(inside) if inside else None
     return out
+def midpoint(subset, label):  # SUPPLEMENT, added after the registered result was seen: see the registration's amendment
+    out = {"counts": {"above": sum(r["actual_over_midpoint"] > 0 for r in subset), "at": sum(r["actual_over_midpoint"] == 0 for r in subset),
+                      "below": sum(r["actual_over_midpoint"] < 0 for r in subset)}}
+    for window in ("reaction", "entry_day", "window"):
+        pick = lambda sign: [r[window] for r in subset if sign * r["actual_over_midpoint"] > 0 and r[window] is not None]
+        out[window] = compare_groups(f"{label}: {window}, above the midpoint against below it", pick(1), pick(-1)).model_dump()
+    return out
 usd = [r for r in rows if r["surprise_at_assumed_rate"] is not None]
 report = {"status": "EXPLORATORY", "registration_sha256": digest(HERE / "registration.json"), "quarters": len(rows), "skipped": skipped,
           "all_quarters": compare(rows, "all quarters"),
           "without_revised_quarters": compare([r for r in rows if not r["revised_mid_quarter"]], "without revised quarters"),
+          "supplement_midpoint_post_hoc": {"all_quarters": midpoint(rows, "all quarters"),
+                                           "without_revised_quarters": midpoint([r for r in rows if not r["revised_mid_quarter"]], "without revised quarters")},
           "currency_check": {"quarters_in_usd": len(usd), "same_side_at_the_assumed_rate": sum(r["surprise"] == r["surprise_at_assumed_rate"] for r in usd)}}
 (HERE / "output/report.json").write_text(json.dumps(report, indent=1, allow_nan=False) + "\n")
 print("done:", len(rows), "quarters,", len(skipped), "skipped")

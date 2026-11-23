@@ -105,11 +105,12 @@ def concentration(ids):
 catalyst_report = {k: concentration(v) for k, v in catalysts.items()} | {"any_catalyst": concentration(any_catalyst)}
 
 # Shock audit: non-catalyst sessions whose residual exceeds the threshold times its own trailing standard deviation.
-shocks = []
+shocks, screened = [], 0
 for t in range(N):
     window = resid["soxx"][t - K:t] if t >= K else np.array([np.nan])
     if t in any_catalyst or not np.isfinite(resid["soxx"][t]) or not np.isfinite(window).all():
         continue
+    screened += 1  # the denominator: every session the screen could have flagged
     scale = float(np.std(window, ddof=1))
     if abs(resid["soxx"][t]) > P["shock_threshold"] * scale:
         shocks.append((sessions[t], float(resid["soxx"][t]), float(resid["soxx"][t] / scale), float(r_tsm[t]), float(r_soxx[t])))
@@ -148,18 +149,24 @@ for row in table.rows:
                  "reaction": {"raw": row.reaction.subject, "relative": row.reaction.relative, "abnormal": row.reaction.beta_adjusted},
                  "entry_day": {"raw": day_s, "relative": day_s - day_b, "abnormal": None if beta is None else day_s - beta * day_b},
                  "window": {"raw": row.window.subject, "relative": row.window.relative, "abnormal": row.window.beta_adjusted}})
+def months_later(day, months):
+    month = day.month - 1 + months
+    year, month = day.year + month // 12, month % 12 + 1
+    return date(year, month, min(day.day, month_lengths.monthrange(year, month)[1]))
 def episodes_of(group):
-    months = sorted(int(r["event_id"][-7:-3]) * 12 + int(r["event_id"][-2:]) for r in group)
-    return sum(1 for k, m in enumerate(months) if k == 0 or m - months[k - 1] >= P["episode_gap_months"])
+    """Separate episodes among these events, by entry date: an event starts one unless it enters fewer than the gap in calendar months after the one before."""
+    days = sorted(r["entry"] for r in group)
+    return sum(1 for k, day in enumerate(days) if k == 0 or day >= months_later(days[k - 1], P["episode_gap_months"]))
 question_1, small_groups = {}, {}
 for factor_id, cut in P["thresholds"].items():
     have = [r for r in rows if r["state"][factor_id] is not None]
     high, low = [r for r in have if r["state"][factor_id] >= cut], [r for r in have if r["state"][factor_id] < cut]
     for outcome in ("reaction", "entry_day", "window"):
         for measure in ("raw", "relative", "abnormal"):
-            a = [r[outcome][measure] for r in high if r[outcome][measure] is not None]; c = [r[outcome][measure] for r in low if r[outcome][measure] is not None]
-            result = compare_groups(f"{outcome} {measure}: {factor_id} >= {cut} against < {cut}", a, c).model_dump()
-            result["episodes_a"], result["episodes_b"] = episodes_of(high), episodes_of(low)
+            used_a = [r for r in high if r[outcome][measure] is not None]; used_c = [r for r in low if r[outcome][measure] is not None]
+            result = compare_groups(f"{outcome} {measure}: {factor_id} >= {cut} against < {cut}", [r[outcome][measure] for r in used_a],
+                                    [r[outcome][measure] for r in used_c]).model_dump()
+            result["episodes_a"], result["episodes_b"] = episodes_of(used_a), episodes_of(used_c)  # only the events behind this outcome
             question_1[f"{factor_id}|{outcome}|{measure}"] = result
     for name, group in (("at_or_above", high), ("below", low)):
         if len(group) < P["list_individually_below"]:
@@ -202,7 +209,7 @@ with (HERE / "output/events.csv").open("w", newline="") as handle:
                     " ".join(r["collisions"])] + ["" if r[o][m] is None else f"{r[o][m]:.6f}" for o in ("reaction", "entry_day", "window") for m in ("raw", "relative", "abnormal")])
 report = {"status": "EXPLORATORY", "registration_sha256": hashlib.sha256((HERE / "registration.json").read_bytes()).hexdigest(),
           "part_1": {"variance": variance, "catalyst_concentration_in_soxx_adjusted_residual": catalyst_report,
-                     "shock_audit": {"sessions_listed": len(shocks), "eligible_sessions": int(sum(1 for t in range(N) if t not in any_catalyst and np.isfinite(resid['soxx'][t]))), "file": "shocks.csv"}},
+                     "shock_audit": {"sessions_listed": len(shocks), "eligible_sessions": screened, "file": "shocks.csv"}},
           "part_2": {"events": len(rows), "events_with_a_pre_event_beta": sum(r["pre_beta"] is not None for r in rows),
                      "events_with_a_collision": sum(bool(r["collisions"]) for r in rows), "question_1_window_mean": question_1,
                      "question_2_volatility": question_2, "small_groups_listed_individually": small_groups},

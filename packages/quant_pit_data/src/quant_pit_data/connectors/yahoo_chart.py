@@ -32,6 +32,20 @@ def load_daily(path: Path, open_binding: SeriesBinding, close_binding: SeriesBin
     return rows
 
 
+def monthly_mean_closes(path: Path) -> dict[str, float]:
+    """Mean of the daily closes of each month, keyed "YYYY-MM", with a quote's month read in the exchange's timezone.
+
+    A daily row is stamped at the local start of its day. In UTC that can be the evening
+    before, so reading the month from the UTC date puts a month's first quote in the month before.
+    """
+    data = _result(path)
+    zone, months = ZoneInfo(data["meta"]["exchangeTimezoneName"]), {}
+    for stamp, closed in zip(data["timestamp"], data["indicators"]["quote"][0]["close"]):
+        if closed is not None:
+            months.setdefault(datetime.fromtimestamp(stamp, zone).strftime("%Y-%m"), []).append(closed)
+    return {month: sum(values) / len(values) for month, values in months.items()}
+
+
 def ex_dividend_dates(path: Path) -> list[date]:
     data = _result(path)
     zone = ZoneInfo(data["meta"]["exchangeTimezoneName"])

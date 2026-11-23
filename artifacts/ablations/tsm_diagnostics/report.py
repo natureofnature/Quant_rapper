@@ -44,4 +44,5 @@ for name, group in q["small_groups_listed_individually"].items():
     lines += [f"| {e['event_id'][-7:]} | {e['entry']} | {e['state']:.3f} | {'n/a' if e['pre_beta'] is None else format(e['pre_beta'], '.2f')} | {pct(e['reaction_abnormal'])} | "
               f"{pct(e['entry_day_abnormal'])} | {pct(e['window_abnormal'])} | {' '.join(e['collisions'])} |" for e in group] + [""]
 lines += ["## Not done", ""] + [f"- {g}" for g in r["data_gaps"]] + ["", "## Limits", ""] + [f"- {x}" for x in reg["known_limits"]]
+lines += ["", "## Amendments", ""] + [f"- {a['amended_on']}: {a['change']} {a['reason']}" for a in reg.get("amendments", [])]
 (HERE / "output/report.md").write_text("\n".join(lines) + "\n")
