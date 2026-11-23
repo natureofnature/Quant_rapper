@@ -1,0 +1,1049 @@
+{
+ "kind": "comparison_registration",
+ "registration_id": "soxx_qqq_wide_inputs",
+ "registered_on": "2026-11-22",
+ "rfc": "https://github.com/natureofnature/Quant_rapper/issues/5 (docs/rfcs/RFC-005-wide-inputs.md, revision 2)",
+ "describe": "RFC-005: for SOXX and QQQ, one fixed tree model in four arms, the rule's 3 inputs against a wider hand-picked set, under the forward-average and the forward-drawdown target, each as a gate against the frozen rule. The commit that adds this file is the proof of when the comparison was fixed. On that date the runner had been run on real prices only in its coverage mode, which reads no outcome, and on synthetic fund prices.",
+ "what_was_known_when_this_was_written": [
+  "RFC-004's frozen results for the whole period to 2026-11-20: the rule's, Model A's and Model C's, on the rule's three inputs. So how the rule and those models behaved on the 2020-2026 market outcomes was known.",
+  "A local exploration with every series cut at 2019-12-31 (run/wide_factors_2026-11-22, not registered): twelve gates per fund on 3 against 33 inputs. On SOXX the wider set raised equity in 6 of 6 pairs and 4 of 6 wide gates met the promotion limits against 0 of 6 narrow; on QQQ equity rose in 6 of 6 pairs, drawdown was mixed and no gate met the limits.",
+  "The model (depth-2 trees), the input list and the 15% share were fixed after that exploration was seen.",
+  "No outcome from 2020 onward has been read together with any of the added inputs."
+ ],
+ "arms": {
+  "N-avg": "the rule's 3 inputs, label: forward-average left tail (RFC-004's class 0). Control.",
+  "N-dd": "the rule's 3 inputs, label: forward drawdown below the 15th percentile of the fold's training outcomes. Control.",
+  "W-avg": "all inputs, forward-average label. Candidate.",
+  "W-dd": "all inputs, forward-drawdown label. Candidate.",
+  "matched_sample": "The narrow arms are trained and scored only on decisions where every wide input has a value, so all four arms cover the same decisions."
+ },
+ "periods": {
+  "test": "Decisions from 2020-01-02 to 2026-11-20. A later-period test of the added inputs, not untouched data.",
+  "development": "From the first gate decision to 2019-12-31. Already seen; reported beside the test period and deciding nothing.",
+  "refitting": "Monthly, on every decision whose 20-session outcome had matured before the month began, expanding window, as in RFC-004."
+ },
+ "reading_rule": {
+  "promotion": "Only W-avg and W-dd can replace the rule, each judged on the test period at base cost against the frozen rule over the same decisions: maximum drawdown smaller by at least 2 points, final equity at least 95% of the rule's, whipsaw rate no more than 5 points higher. Any failed limit keeps the rule. Funds are decided separately.",
+  "tie_break": "If both candidates meet every limit for a fund, the one with the smaller maximum drawdown is taken.",
+  "descriptive_only": "W against N under each target and dd against avg at each input set: drawdown, equity, tail recall read with alert rate, and the paired recall difference on realised drawdown episodes. The development period, and costs at 2 and 3 times. None of these promotes anything.",
+  "stopping_rule": "If no candidate is promoted for either fund, no variant of this input list, these targets or this model is tried on 2020-2026. Further work goes to factor selection through the causal-map generator, judged on live tickets.",
+  "on_a_pass": "The promoted gate issues live tickets beside the rule's. It does not replace the rule's tickets."
+ },
+ "accepted": "The owner accepted RFC-005 revision 2, chose to keep SKEW and MOVE with a one-day lag instead of dropping them, and gave the go-ahead for the single run, all on 2026-11-22. The remaining open choices of RFC-005 section 8 stand at their defaults: trees only, the smaller-drawdown tie-break, tickets beside the rule's.",
+ "departures_from_the_rfc_text": [
+  "33 inputs, not 30: RFC-005's default was to drop an input whose series has no established publication time. The owner chose the alternative for SKEW and MOVE, a one-day lag, so skew, move_log and move_change_20 are kept. In the exploration they were read with no lag.",
+  "Ten series with their own holidays are read on the dates their source file has a value, so a lookback counts that series' own observations and nothing is filled. The exploration filled gaps of up to five sessions. Through 2019 the inputs from this pipeline and the exploration's agree at a correlation of 0.999 or better.",
+  "The scheduled FOMC meeting of 2026-12-09 is added here because the pinned announcement file ends in October 2026.",
+  "The first gate decision is 2013-11-01; the exploration's was 2013-12-03."
+ ],
+ "coverage": {
+  "coverage_json_sha256": "4bdcfa3e050c98d5bc8a81e5c7f988d4cf7db77a3e26944867ffc06e263f0d12",
+  "summary": "Computed without reading any outcome. Every input has a value from 2009-09-18. Decisions missing an input: 4 of 2,589 through 2019 (MOVE), 5 of 1,732 from 2020 (the 3-month yield index in 2020). Such a decision gets no forecast and the gate holds its previous state."
+ },
+ "known_limits": [
+  "2020-2026 is a later-period test of the added inputs. RFC-004 already showed how the rule and two models behaved on those outcomes, and the promotion limits were set knowing the rule's results.",
+  "The model, the input list and the 15% share were fixed after the development-period results were seen.",
+  "Seven years hold few large drawdowns (2020, 2022, 2025). A result rests mostly on those.",
+  "Every publication time of the added series is an assumption; none is sourced. Yahoo is an aggregator, and its histories of indices and futures can be restated.",
+  "The inputs were chosen by hand and several share a series (five use VIX, four use HYG or LQD). This tests broader inputs, not graph-based factor selection.",
+  "VVIX, SKEW and VXN histories include values back-calculated by the exchange before each index was launched.",
+  "The futures series are continuous front-month prices and jump at contract rolls.",
+  "The FOMC schedule is treated as known in advance at every decision; the publication date of each year's schedule was not checked.",
+  "Prices exclude dividends."
+ ],
+ "inputs": {
+  "snapshots": [
+   {
+    "folder": "artifacts/snapshots/2026-11-22",
+    "sha256": {
+     "VIX.csv": "2a3b180ffb268b7805c17567c0ac7787c74898b0d99f62f550be67eafffd1c16",
+     "VIX3M.csv": "034fd5e08f9ce5ef806e600a51b28a76a1d85c6ea3ff978a29ca4abc67451a96",
+     "SOXX.json": "70d87f085d41024734b8b4a9c0bd326567883370836de0646fca15883b956652",
+     "QQQ.json": "59d8530794b0f02cbd466d9d1f37a95c40c0a6bfa4033557605ff8e496682de4",
+     "SPY.json": "f8d0f8444088538a4d40dfbf688aebe5e7a40282c2d47cb854056a375b934463",
+     "treasury_real_yield_10y.csv": "6a1e7435e15bfe93eca94ddbef679c200e5b974fb0fe31ad11ad2cad2983cf60",
+     "us_equity_sessions_2002_2026.json": "5d50274a820c310010d51b3823775804998ae35a934aabb0e46e12e436f55754",
+     "us_treasury_yield_sessions_2003_2026.json": "79c15162e8306b525ad57b8ba8766177f8e5ce4752698f9e0ef645ccf42cacd4",
+     "announcement_dates_2002_2026.json": "59220008873006c1a887fb356cadb28964b0b86d7b7c706a9303716f03ec953c"
+    }
+   },
+   {
+    "folder": "artifacts/snapshots/2026-11-22-wide-inputs",
+    "sha256": {
+     "VVIX.json": "e49c6e07e0c96715e580e003c1c3e3456aa9f6c17f2848104e54c67dad29d33b",
+     "SKEW.json": "eec8f257520f9fff1b3ad1a8cd44431a0bad40d873d4243c87781e24beeb8212",
+     "VXN.json": "6090fe502ca5253fad116dd9ffff93cd2b618dcfb40e39cfffe3ecbf9137099d",
+     "MOVE.json": "e0a89531115204a92ee5a28dec0d9f913274cf5505a0d523962002769665dceb",
+     "TNX.json": "c5de785985b1a00c8b5f3d17814419fd9c89a6cd2c132cbe84e411cfdcb25fc8",
+     "IRX.json": "6f1ae70d7bc8d6e2a4e3ace23043e137ccc4b5a866701462292d12afa0b29a79",
+     "FVX.json": "144c6ebb2f3c98c2c3ab1ab2441434b7cc339ac94611817181546096f2d75102",
+     "TYX.json": "17fc99224a10ee889b6e230c482587939e1a81c56b2794a0b7518b2f1e7862e4",
+     "HYG.json": "5c49ec5eba1ef469c6bd9eb9d3b4652c5e55a7649db07da332bb67e190bee9c0",
+     "LQD.json": "456e1b6718ab79605c9c1585d6a92bcbf0968afa7192ff38e3b977fb16ecdd7e",
+     "IEF.json": "5d0259483f4a0550253c935637f665a1e3da276ed50b433aa527faa56ec1b596",
+     "DX-Y.NYB.json": "3bc12263954e11e946ab777b53b31e96e60eb7b11a6e212415737c73b0836951",
+     "HGF.json": "c8746dbcfd95f3764d70340de161f85d01bfc919f528de93a67401b8b4f34eb9",
+     "GCF.json": "dd8958df842544d3f2443cf4b4cda4d7e8da5d765e9f7e6c0dd605829a2959bc",
+     "CLF.json": "01b037fb6a86fdb2b94866f588bda6af661837f61cdcee0199c80dcfc065488c",
+     "RSP.json": "17ea8d183c3c999f2266cbf194626cb0201af5224b36fff68502e23e0e7ada0e",
+     "IWM.json": "6f2acac723c354c82a3c875f4f994bffa6aadb7e0cedb23544083fb2c62c281a",
+     "XLU.json": "a64fd845143e0471c5a1a7c5ea745e41415e54756e3ea5885568d314fac6130f"
+    }
+   }
+  ],
+  "factor_definitions_sha256": "afa6237303ab4c9fde8a1f10479fa379573d779a0cffa3ce0f30b500ff7cbb2c"
+ },
+ "code": {
+  "commit": "a86e9a8036835cbe5bfc94344b9e25b47c99ceb5",
+  "runner": "artifacts/ablations/soxx_qqq_wide_inputs/run.py"
+ },
+ "bindings": [
+  {
+   "series_id": "yahoo:hyg:close",
+   "label": "HYG daily close, regular session",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/HYG",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends.",
+   "file": "HYG.json"
+  },
+  {
+   "series_id": "yahoo:lqd:close",
+   "label": "LQD daily close, regular session",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/LQD",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends.",
+   "file": "LQD.json"
+  },
+  {
+   "series_id": "yahoo:ief:close",
+   "label": "IEF daily close, regular session",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/IEF",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends.",
+   "file": "IEF.json"
+  },
+  {
+   "series_id": "yahoo:rsp:close",
+   "label": "RSP daily close, regular session",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/RSP",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends.",
+   "file": "RSP.json"
+  },
+  {
+   "series_id": "yahoo:iwm:close",
+   "label": "IWM daily close, regular session",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/IWM",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends.",
+   "file": "IWM.json"
+  },
+  {
+   "series_id": "yahoo:xlu:close",
+   "label": "XLU daily close, regular session",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/XLU",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends.",
+   "file": "XLU.json"
+  },
+  {
+   "series_id": "cboe:vvix",
+   "label": "Cboe VVIX Index, daily close",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^VVIX",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:15:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "Cboe index, treated as fixed at 4:15 p.m. Eastern with an assumed 15-minute delay, as for VIX. Not sourced. Values before the index's 2012 launch were back-calculated by Cboe from option prices of the day.",
+   "file": "VVIX.json"
+  },
+  {
+   "series_id": "cboe:vxn",
+   "label": "Cboe Nasdaq-100 Volatility Index (VXN), daily close",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^VXN",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:15:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "Cboe index, treated as fixed at 4:15 p.m. Eastern with an assumed 15-minute delay, as for VIX. Not sourced.",
+   "file": "VXN.json"
+  },
+  {
+   "series_id": "cboe:tnx",
+   "label": "Cboe 10-Year Treasury yield index (TNX), daily close",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^TNX",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for.",
+   "file": "TNX.json"
+  },
+  {
+   "series_id": "cboe:irx",
+   "label": "Cboe 13-week Treasury bill yield index (IRX), daily close",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^IRX",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for.",
+   "file": "IRX.json"
+  },
+  {
+   "series_id": "cboe:fvx",
+   "label": "Cboe 5-Year Treasury yield index (FVX), daily close",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^FVX",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for.",
+   "file": "FVX.json"
+  },
+  {
+   "series_id": "cboe:tyx",
+   "label": "Cboe 30-Year Treasury yield index (TYX), daily close",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^TYX",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for.",
+   "file": "TYX.json"
+  },
+  {
+   "series_id": "ice:dollar_index",
+   "label": "ICE US Dollar Index, daily value",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "17:00:00",
+   "publication_delay_minutes": 60,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "Yahoo's daily bar for a nearly round-the-clock market does not state when its close is taken. The value is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value. Read on the dates Yahoo has a value for.",
+   "file": "DX-Y.NYB.json"
+  },
+  {
+   "series_id": "cme:copper_front",
+   "label": "Copper front-month future, daily value",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/HG=F",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "17:00:00",
+   "publication_delay_minutes": 60,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "Yahoo's daily bar for a nearly round-the-clock market does not state when its close is taken. The value is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value. Read on the dates Yahoo has a value for. A continuous front-month series: it jumps at contract rolls.",
+   "file": "HGF.json"
+  },
+  {
+   "series_id": "cme:gold_front",
+   "label": "Gold front-month future, daily value",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "17:00:00",
+   "publication_delay_minutes": 60,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "Yahoo's daily bar for a nearly round-the-clock market does not state when its close is taken. The value is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value. Read on the dates Yahoo has a value for. A continuous front-month series: it jumps at contract rolls.",
+   "file": "GCF.json"
+  },
+  {
+   "series_id": "cme:crude_front",
+   "label": "WTI crude front-month future, daily value",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "17:00:00",
+   "publication_delay_minutes": 60,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "Yahoo's daily bar for a nearly round-the-clock market does not state when its close is taken. The value is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value. Read on the dates Yahoo has a value for. A continuous front-month series: it jumps at contract rolls, and its one non-positive close (April 2020) is left out.",
+   "file": "CLF.json"
+  },
+  {
+   "series_id": "cboe:skew",
+   "label": "Cboe SKEW Index, daily close",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^SKEW",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "17:00:00",
+   "publication_delay_minutes": 60,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "End-of-day index whose publication time was not established. It is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value: a one-day lag, accepted by the owner on 2026-11-22 in place of dropping the inputs built on it. Read on the dates Yahoo has a value for.",
+   "file": "SKEW.json"
+  },
+  {
+   "series_id": "ice:move",
+   "label": "ICE BofA MOVE Index, daily close",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^MOVE",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "17:00:00",
+   "publication_delay_minutes": 60,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "End-of-day index whose publication time was not established. It is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value: a one-day lag, accepted by the owner on 2026-11-22 in place of dropping the inputs built on it. Read on the dates Yahoo has a value for.",
+   "file": "MOVE.json"
+  }
+ ],
+ "derived_bindings": [
+  {
+   "series_id": "derived:hyg_over_lqd",
+   "label": "HYG close over LQD close",
+   "anchors": [
+    "study:soxx_qqq_wide_inputs"
+   ],
+   "source_url": "derived from yahoo:hyg:close and yahoo:lqd:close",
+   "availability": "news_only",
+   "timezone": "America/New_York",
+   "value_time": "16:00:00",
+   "publication_delay_minutes": 15,
+   "availability_basis": "assumed",
+   "revisable": true,
+   "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is."
+  }
+ ],
+ "series_on_their_own_dates": [
+  "cboe:tnx",
+  "cboe:irx",
+  "cboe:fvx",
+  "cboe:tyx",
+  "ice:dollar_index",
+  "cme:copper_front",
+  "cme:gold_front",
+  "cme:crude_front",
+  "cboe:skew",
+  "ice:move"
+ ],
+ "base_factors": {
+  "from_factor_definitions": [
+   "vix_term_structure",
+   "real_yield_10y_change_20_rank_250",
+   "trend_200"
+  ],
+  "shared": [
+   {
+    "factor_id": "vix_level",
+    "measure": "level",
+    "series_ids": [
+     "cboe:vix"
+    ],
+    "max_age_days": 5
+   },
+   {
+    "factor_id": "vix_roc_5",
+    "measure": "roc",
+    "series_ids": [
+     "cboe:vix"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 5
+   },
+   {
+    "factor_id": "vvix_over_vix",
+    "measure": "ratio",
+    "series_ids": [
+     "cboe:vvix",
+     "cboe:vix"
+    ],
+    "max_age_days": 5
+   },
+   {
+    "factor_id": "vxn_over_vix",
+    "measure": "ratio",
+    "series_ids": [
+     "cboe:vxn",
+     "cboe:vix"
+    ],
+    "max_age_days": 5
+   },
+   {
+    "factor_id": "skew",
+    "measure": "level",
+    "series_ids": [
+     "cboe:skew"
+    ],
+    "max_age_days": 5
+   },
+   {
+    "factor_id": "move_level",
+    "measure": "level",
+    "series_ids": [
+     "ice:move"
+    ],
+    "max_age_days": 5
+   },
+   {
+    "factor_id": "move_roc_20",
+    "measure": "roc",
+    "series_ids": [
+     "ice:move"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20
+   },
+   {
+    "factor_id": "tnx_level",
+    "measure": "level",
+    "series_ids": [
+     "cboe:tnx"
+    ],
+    "max_age_days": 5
+   },
+   {
+    "factor_id": "irx_level",
+    "measure": "level",
+    "series_ids": [
+     "cboe:irx"
+    ],
+    "max_age_days": 5
+   },
+   {
+    "factor_id": "fvx_level",
+    "measure": "level",
+    "series_ids": [
+     "cboe:fvx"
+    ],
+    "max_age_days": 5
+   },
+   {
+    "factor_id": "tyx_level",
+    "measure": "level",
+    "series_ids": [
+     "cboe:tyx"
+    ],
+    "max_age_days": 5
+   },
+   {
+    "factor_id": "nominal_10y_change_20",
+    "measure": "change",
+    "series_ids": [
+     "cboe:tnx"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20
+   },
+   {
+    "factor_id": "bill_3m_change_60",
+    "measure": "change",
+    "series_ids": [
+     "cboe:irx"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "hyg_roc_20",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:hyg:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20
+   },
+   {
+    "factor_id": "ief_roc_20",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:ief:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20
+   },
+   {
+    "factor_id": "hyg_roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:hyg:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "ief_roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:ief:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "lqd_roc_20",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:lqd:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20
+   },
+   {
+    "factor_id": "hyg_lqd_trend_200",
+    "measure": "trend_state",
+    "series_ids": [
+     "derived:hyg_over_lqd"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 200
+   },
+   {
+    "factor_id": "dollar_roc_20",
+    "measure": "roc",
+    "series_ids": [
+     "ice:dollar_index"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20
+   },
+   {
+    "factor_id": "copper_roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "cme:copper_front"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "gold_roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "cme:gold_front"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "oil_roc_20",
+    "measure": "roc",
+    "series_ids": [
+     "cme:crude_front"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20
+   },
+   {
+    "factor_id": "rsp_roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:rsp:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "iwm_roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:iwm:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "xlu_roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:xlu:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "spy_roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:spy:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "spy_realized_vol_20",
+    "measure": "realized_vol",
+    "series_ids": [
+     "yahoo:spy:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20
+   },
+   {
+    "factor_id": "soxx_roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:soxx:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "qqq_roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "yahoo:qqq:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   }
+  ],
+  "per_subject": [
+   {
+    "factor_id": "roc_20",
+    "measure": "roc",
+    "series_ids": [
+     "subject:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20
+   },
+   {
+    "factor_id": "roc_60",
+    "measure": "roc",
+    "series_ids": [
+     "subject:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 60
+   },
+   {
+    "factor_id": "roc_120",
+    "measure": "roc",
+    "series_ids": [
+     "subject:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 120
+   },
+   {
+    "factor_id": "below_250_high",
+    "measure": "below_high",
+    "series_ids": [
+     "subject:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 250
+   },
+   {
+    "factor_id": "realised_vol_20",
+    "measure": "realized_vol",
+    "series_ids": [
+     "subject:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 20
+   },
+   {
+    "factor_id": "realised_vol_120",
+    "measure": "realized_vol",
+    "series_ids": [
+     "subject:close"
+    ],
+    "max_age_days": 5,
+    "lookback_sessions": 120
+   }
+  ]
+ },
+ "input_definitions": {
+  "vix_term_structure": {
+   "op": "base",
+   "of": [
+    "vix_term_structure"
+   ]
+  },
+  "real_yield_10y_change_20_rank_250": {
+   "op": "base",
+   "of": [
+    "real_yield_10y_change_20_rank_250"
+   ]
+  },
+  "trend_200": {
+   "op": "base",
+   "of": [
+    "trend_200"
+   ]
+  },
+  "vix_log": {
+   "op": "log",
+   "of": [
+    "vix_level"
+   ]
+  },
+  "vix_change_5": {
+   "op": "log1p",
+   "of": [
+    "vix_roc_5"
+   ]
+  },
+  "vvix_over_vix": {
+   "op": "base",
+   "of": [
+    "vvix_over_vix"
+   ]
+  },
+  "skew": {
+   "op": "base",
+   "of": [
+    "skew"
+   ]
+  },
+  "vxn_over_vix": {
+   "op": "base",
+   "of": [
+    "vxn_over_vix"
+   ]
+  },
+  "move_log": {
+   "op": "log",
+   "of": [
+    "move_level"
+   ]
+  },
+  "move_change_20": {
+   "op": "log1p",
+   "of": [
+    "move_roc_20"
+   ]
+  },
+  "slope_10y_3m": {
+   "op": "minus",
+   "of": [
+    "tnx_level",
+    "irx_level"
+   ]
+  },
+  "slope_30y_5y": {
+   "op": "minus",
+   "of": [
+    "tyx_level",
+    "fvx_level"
+   ]
+  },
+  "nominal_10y_change_20": {
+   "op": "base",
+   "of": [
+    "nominal_10y_change_20"
+   ]
+  },
+  "bill_3m_change_60": {
+   "op": "base",
+   "of": [
+    "bill_3m_change_60"
+   ]
+  },
+  "hyg_ief_roc_20": {
+   "op": "relative",
+   "of": [
+    "hyg_roc_20",
+    "ief_roc_20"
+   ]
+  },
+  "hyg_ief_roc_60": {
+   "op": "relative",
+   "of": [
+    "hyg_roc_60",
+    "ief_roc_60"
+   ]
+  },
+  "lqd_ief_roc_20": {
+   "op": "relative",
+   "of": [
+    "lqd_roc_20",
+    "ief_roc_20"
+   ]
+  },
+  "hyg_lqd_trend_200": {
+   "op": "base",
+   "of": [
+    "hyg_lqd_trend_200"
+   ]
+  },
+  "dollar_roc_20": {
+   "op": "base",
+   "of": [
+    "dollar_roc_20"
+   ]
+  },
+  "copper_gold_roc_60": {
+   "op": "relative",
+   "of": [
+    "copper_roc_60",
+    "gold_roc_60"
+   ]
+  },
+  "oil_roc_20": {
+   "op": "base",
+   "of": [
+    "oil_roc_20"
+   ]
+  },
+  "equal_weight_roc_60": {
+   "op": "relative",
+   "of": [
+    "rsp_roc_60",
+    "spy_roc_60"
+   ]
+  },
+  "small_cap_roc_60": {
+   "op": "relative",
+   "of": [
+    "iwm_roc_60",
+    "spy_roc_60"
+   ]
+  },
+  "utilities_roc_60": {
+   "op": "relative",
+   "of": [
+    "xlu_roc_60",
+    "spy_roc_60"
+   ]
+  },
+  "spy_implied_minus_realised": {
+   "op": "implied_minus_realised",
+   "of": [
+    "vix_level",
+    "spy_realized_vol_20"
+   ]
+  },
+  "sessions_to_fomc": {
+   "op": "calendar",
+   "of": []
+  },
+  "soxx_over_qqq_roc_60": {
+   "op": "relative",
+   "of": [
+    "soxx_roc_60",
+    "qqq_roc_60"
+   ]
+  },
+  "roc_20": {
+   "op": "base",
+   "of": [
+    "roc_20"
+   ]
+  },
+  "roc_60": {
+   "op": "base",
+   "of": [
+    "roc_60"
+   ]
+  },
+  "roc_120": {
+   "op": "base",
+   "of": [
+    "roc_120"
+   ]
+  },
+  "below_250_high": {
+   "op": "base",
+   "of": [
+    "below_250_high"
+   ]
+  },
+  "realised_vol_20": {
+   "op": "base",
+   "of": [
+    "realised_vol_20"
+   ]
+  },
+  "realised_vol_ratio_20_120": {
+   "op": "over",
+   "of": [
+    "realised_vol_20",
+    "realised_vol_120"
+   ]
+  }
+ },
+ "composite_operations": {
+  "base": "the base factor itself",
+  "log": "natural log of a",
+  "log1p": "log(1 + a): the change in log level from a rate of change",
+  "minus": "a - b",
+  "relative": "(1 + a) / (1 + b) - 1: the rate of change of the ratio of two series from their own rates of change",
+  "over": "a / b",
+  "implied_minus_realised": "a / 100 - b * sqrt(252): VIX as a fraction less annualised realised volatility",
+  "calendar": "sessions from the decision's session to the next scheduled FOMC meeting, 0 on the meeting day, counted on the equity calendar"
+ },
+ "parameters": {
+  "subjects": [
+   "SOXX",
+   "QQQ"
+  ],
+  "first_session": "2009-01-02",
+  "last_session": "2026-11-20",
+  "decision_time": "17:00:00",
+  "horizon_sessions": 20,
+  "volatility_sessions": 20,
+  "class_bounds": {
+   "SOXX": [
+    0.04,
+    0.07
+   ],
+   "QQQ": [
+    0.03,
+    0.055
+   ]
+  },
+  "narrow_inputs": [
+   "vix_term_structure",
+   "real_yield_10y_change_20_rank_250",
+   "trend_200"
+  ],
+  "dropped_inputs": [],
+  "min_train": 750,
+  "min_positive": 20,
+  "worst_share": 0.15,
+  "tree": {
+   "n_estimators": 60,
+   "reg_lambda": 10.0,
+   "learning_rate": 0.05,
+   "min_child_days": 60,
+   "colsample_bytree": 0.75,
+   "seed": 0
+  },
+  "gate": {
+   "red_quantile": 0.85,
+   "yellow_quantile": 0.7,
+   "window": 504,
+   "min_scores": 252,
+   "step_down_after": 3
+  },
+  "exposure_by_state": {
+   "GREEN": 1.0,
+   "YELLOW": 0.5,
+   "RED": 0.0
+  },
+  "episode_gap": 20,
+  "draws": 2000,
+  "seed": 20261122,
+  "cost_rate": 0.0005,
+  "sensitivity_cost_multiples": [
+   2,
+   3
+  ],
+  "promotion_limits": {
+   "drawdown_points": 2.0,
+   "equity_share": 0.95,
+   "whipsaw_points": 5.0
+  },
+  "development_last": "2019-12-31",
+  "test_first": "2020-01-02",
+  "fomc_scheduled_after_file": [
+   "2026-12-09"
+  ]
+ },
+ "rule_baseline": {
+  "folder": "artifacts/ablations/sector_risk_baseline",
+  "sha256": {
+   "frozen.json": "84f7a561cb840feec1470db3e9c419e28fbfe612b1afc6a84311659c7eda64af",
+   "output/positions_SOXX.csv": "af48cb1db8d2fcfacca7707d2e700521f6beb2641885215af08f064f1f6de33d",
+   "output/positions_QQQ.csv": "9b541243beb15c10bb937e0e0abaec1838ccfc16e26897fdbb491cc0766c2685"
+  }
+ },
+ "not_in_this_registration": [
+  "graph-based or automated factor selection",
+  "any single-stock comparison",
+  "any change to the frozen rule",
+  "forecast tickets from a promoted gate, which follow only on a pass"
+ ]
+}

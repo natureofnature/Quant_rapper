@@ -1,0 +1,152 @@
+{
+ "inputs": [
+  "vix_term_structure",
+  "real_yield_10y_change_20_rank_250",
+  "trend_200",
+  "vix_log",
+  "vix_change_5",
+  "vvix_over_vix",
+  "skew",
+  "vxn_over_vix",
+  "move_log",
+  "move_change_20",
+  "slope_10y_3m",
+  "slope_30y_5y",
+  "nominal_10y_change_20",
+  "bill_3m_change_60",
+  "hyg_ief_roc_20",
+  "hyg_ief_roc_60",
+  "lqd_ief_roc_20",
+  "hyg_lqd_trend_200",
+  "dollar_roc_20",
+  "copper_gold_roc_60",
+  "oil_roc_20",
+  "equal_weight_roc_60",
+  "small_cap_roc_60",
+  "utilities_roc_60",
+  "spy_implied_minus_realised",
+  "sessions_to_fomc",
+  "soxx_over_qqq_roc_60",
+  "roc_20",
+  "roc_60",
+  "roc_120",
+  "below_250_high",
+  "realised_vol_20",
+  "realised_vol_ratio_20_120"
+ ],
+ "dropped_inputs": [],
+ "funds": {
+  "SOXX": {
+   "first_decision_with_every_input": "2009-09-18",
+   "first_decision_per_input": {
+    "vix_term_structure": "2009-09-18",
+    "real_yield_10y_change_20_rank_250": "2009-01-02",
+    "trend_200": "2009-01-02",
+    "vix_log": "2009-01-02",
+    "vix_change_5": "2009-01-02",
+    "vvix_over_vix": "2009-01-02",
+    "skew": "2009-01-02",
+    "vxn_over_vix": "2009-01-02",
+    "move_log": "2009-01-02",
+    "move_change_20": "2009-01-02",
+    "slope_10y_3m": "2009-01-02",
+    "slope_30y_5y": "2009-01-02",
+    "nominal_10y_change_20": "2009-01-02",
+    "bill_3m_change_60": "2009-01-02",
+    "hyg_ief_roc_20": "2009-01-02",
+    "hyg_ief_roc_60": "2009-01-02",
+    "lqd_ief_roc_20": "2009-01-02",
+    "hyg_lqd_trend_200": "2009-01-02",
+    "dollar_roc_20": "2009-01-02",
+    "copper_gold_roc_60": "2009-01-02",
+    "oil_roc_20": "2009-01-02",
+    "equal_weight_roc_60": "2009-01-02",
+    "small_cap_roc_60": "2009-01-02",
+    "utilities_roc_60": "2009-01-02",
+    "spy_implied_minus_realised": "2009-01-02",
+    "sessions_to_fomc": "2009-01-02",
+    "soxx_over_qqq_roc_60": "2009-01-02",
+    "roc_20": "2009-01-02",
+    "roc_60": "2009-01-02",
+    "roc_120": "2009-01-02",
+    "below_250_high": "2009-01-02",
+    "realised_vol_20": "2009-01-02",
+    "realised_vol_ratio_20_120": "2009-01-02"
+   },
+   "decisions_missing_an_input": {
+    "development_through_2019-12-31": {
+     "decisions": 2589,
+     "missing_any": 4,
+     "by_input": {
+      "move_log": 4,
+      "move_change_20": 4
+     }
+    },
+    "test_from_2020-01-02": {
+     "decisions": 1732,
+     "missing_any": 5,
+     "by_input": {
+      "slope_10y_3m": 5,
+      "bill_3m_change_60": 5
+     }
+    }
+   }
+  },
+  "QQQ": {
+   "first_decision_with_every_input": "2009-09-18",
+   "first_decision_per_input": {
+    "vix_term_structure": "2009-09-18",
+    "real_yield_10y_change_20_rank_250": "2009-01-02",
+    "trend_200": "2009-01-02",
+    "vix_log": "2009-01-02",
+    "vix_change_5": "2009-01-02",
+    "vvix_over_vix": "2009-01-02",
+    "skew": "2009-01-02",
+    "vxn_over_vix": "2009-01-02",
+    "move_log": "2009-01-02",
+    "move_change_20": "2009-01-02",
+    "slope_10y_3m": "2009-01-02",
+    "slope_30y_5y": "2009-01-02",
+    "nominal_10y_change_20": "2009-01-02",
+    "bill_3m_change_60": "2009-01-02",
+    "hyg_ief_roc_20": "2009-01-02",
+    "hyg_ief_roc_60": "2009-01-02",
+    "lqd_ief_roc_20": "2009-01-02",
+    "hyg_lqd_trend_200": "2009-01-02",
+    "dollar_roc_20": "2009-01-02",
+    "copper_gold_roc_60": "2009-01-02",
+    "oil_roc_20": "2009-01-02",
+    "equal_weight_roc_60": "2009-01-02",
+    "small_cap_roc_60": "2009-01-02",
+    "utilities_roc_60": "2009-01-02",
+    "spy_implied_minus_realised": "2009-01-02",
+    "sessions_to_fomc": "2009-01-02",
+    "soxx_over_qqq_roc_60": "2009-01-02",
+    "roc_20": "2009-01-02",
+    "roc_60": "2009-01-02",
+    "roc_120": "2009-01-02",
+    "below_250_high": "2009-01-02",
+    "realised_vol_20": "2009-01-02",
+    "realised_vol_ratio_20_120": "2009-01-02"
+   },
+   "decisions_missing_an_input": {
+    "development_through_2019-12-31": {
+     "decisions": 2589,
+     "missing_any": 4,
+     "by_input": {
+      "move_log": 4,
+      "move_change_20": 4
+     }
+    },
+    "test_from_2020-01-02": {
+     "decisions": 1732,
+     "missing_any": 5,
+     "by_input": {
+      "slope_10y_3m": 5,
+      "bill_3m_change_60": 5
+     }
+    }
+   }
+  }
+ }
+}
