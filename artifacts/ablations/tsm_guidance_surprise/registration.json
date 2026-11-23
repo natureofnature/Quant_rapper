@@ -39,7 +39,23 @@
     "Revisions to guidance before 2012 were not searched for."
   ],
   "code": {
-    "commit": "7cdb7e884e7bb8be38f32519fbe55f40d2c84f63",
+    "commit": "e38529d52964c9d697e308d4da1261e5d604dcd5",
     "runner": "artifacts/ablations/tsm_guidance_surprise/run.py"
-  }
+  },
+  "amendments": [
+    {
+      "amended_on": "2026-11-22",
+      "after_first_run": true,
+      "change": "(1) Correction: a USD/TWD quote is assigned to the month of its date in the source's timezone (Europe/London), not its UTC date. (2) Supplement: above against below the guidance midpoint is reported for the same three windows, in a block marked post hoc. The registered comparison, above against below the range, is unchanged and remains the registered reading.",
+      "reason": "An outside review found that daily quotes stamped at London midnight fall on the previous UTC date in summer time, so a month's first quote was averaged into the month before. Effect: the converted revenue changes for 32 of the 37 US-dollar quarters and one classification changes, 2024Q4 from inside to above. The same review asked for the midpoint comparison because the range comparison leaves the inside quarters out and has 3 quarters below. It was added after the range result was known, contrary to the registration's 'no other split is tried', and carries no weight beyond description.",
+      "code_commit_before": "7cdb7e884e7bb8be38f32519fbe55f40d2c84f63",
+      "registration_sha256_before": "f3dbcd4bf3b0403307dbcc95f15c0d1073f7769840fe5801da52a5ede523d330",
+      "outputs_sha256_before": {
+        "report.json": "25c3fe146168c2f842ef6e0d5bde13657a81fd5eed0a3fafbc4ebf8a4cfda05d",
+        "report.md": "2daf4b9ced4a19a742173f885e08dc81e4f48cb1342f5907ddc179b6551f5036",
+        "surprise.csv": "ca3a6e67e21e11a3fa290499c33081b481be2581c3c7d2e395d6468421085df9"
+      },
+      "frozen_at_commit_before": "b7fd68b"
+    }
+  ]
 }
