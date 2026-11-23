@@ -1,0 +1,16 @@
+{
+  "id": "feature:option_gamma",
+  "kind": "feature_method",
+  "name": "Option gamma exposure",
+  "name_zh": "期权 Gamma 敞口",
+  "description": "Aggregate option gamma under an explicit position and contract-size convention to estimate how delta exposure changes with the underlying. Open interest alone does not identify dealer direction.",
+  "inputs": [
+    "option gamma",
+    "contract multipliers",
+    "position sizes or a signed-position assumption"
+  ],
+  "sources": [
+    "https://www.optionseducation.org/advancedconcepts/understanding-options-greeks"
+  ],
+  "links": []
+}

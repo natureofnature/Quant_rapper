@@ -1,0 +1,15 @@
+{
+  "id": "predictor:state_space",
+  "kind": "predictor",
+  "name": "State-space models and Kalman filtering",
+  "name_zh": "状态空间与卡尔曼滤波",
+  "description": "Update latent states from noisy observations. Use the filtered state at each decision; a smoothed state incorporates later observations.",
+  "inputs": [
+    "ordered observations",
+    "transition and observation equations"
+  ],
+  "sources": [
+    "https://www.statsmodels.org/stable/statespace.html"
+  ],
+  "links": []
+}

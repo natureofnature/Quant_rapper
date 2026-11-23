@@ -1,0 +1,32 @@
+{
+  "id": "tool:scikit_learn",
+  "kind": "tool",
+  "name": "scikit-learn",
+  "name_zh": "通用机器学习工具",
+  "description": "Provides regression, classifiers and feature transformations under a common estimator API.",
+  "inputs": [
+    "training features",
+    "targets as required"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/supervised_learning.html"
+  ],
+  "links": [
+    {
+      "relation": "implements",
+      "target": "predictor:logistic"
+    },
+    {
+      "relation": "implements",
+      "target": "predictor:random_forest"
+    },
+    {
+      "relation": "implements",
+      "target": "feature:principal_components"
+    },
+    {
+      "relation": "implements",
+      "target": "predictor:svm"
+    }
+  ]
+}

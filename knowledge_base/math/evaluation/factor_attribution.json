@@ -1,0 +1,20 @@
+{
+  "id": "evaluation:factor_attribution",
+  "kind": "evaluation_method",
+  "name": "Factor return attribution",
+  "name_zh": "因子收益归因",
+  "description": "Decompose portfolio returns into estimated factor exposures times factor returns plus a residual. Exposures and benchmark definition determine the interpretation.",
+  "inputs": [
+    "portfolio and factor returns",
+    "estimated exposures"
+  ],
+  "sources": [
+    "https://docs.mosek.com/portfolio-cookbook/factormodels.html"
+  ],
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "predictor:linear_regression"
+    }
+  ]
+}

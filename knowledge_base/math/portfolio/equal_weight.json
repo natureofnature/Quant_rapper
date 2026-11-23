@@ -1,0 +1,15 @@
+{
+  "id": "portfolio:equal_weight",
+  "kind": "portfolio_method",
+  "name": "Equal weight (1/N)",
+  "name_zh": "等权组合",
+  "description": "Allocate the same capital to each eligible asset at rebalance. Universe turnover, trading costs and return drift affect results.",
+  "inputs": [
+    "dated eligible universe",
+    "rebalance schedule"
+  ],
+  "sources": [
+    "https://doi.org/10.1093/rfs/hhm075"
+  ],
+  "links": []
+}

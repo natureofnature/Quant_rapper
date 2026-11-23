@@ -2,6 +2,8 @@
   "id": "predictor:gradient_boosted_trees",
   "kind": "predictor",
   "name": "Gradient-boosted tree classifier",
+  "name_zh": "梯度提升树",
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/beta/tree_model.py",
   "description": "Fit an additive sequence of decision trees to reduce a classification loss. In binary classification the fitted score can be mapped to the probability of the designated positive class.",
   "inputs": ["feature vectors available at decision time", "class labels for training"],
   "sources": ["https://lightgbm.readthedocs.io/en/stable/Features.html"],

@@ -195,6 +195,17 @@ def check_bindings(series_ids: set[str], bindings: dict[str, SeriesBinding], pin
     return {i: pinned[i] for i in sorted(series_ids)}
 
 
+def check_frozen_prior(relationships: Path, commit: str) -> None:
+    """Freeze map data and the code that projects it, independently of the visualizer."""
+    git = ["git", "-C", str(relationships)]
+    paths = [":(glob)**/*.json", "utils/research_map.py"]
+    tracked = subprocess.run([*git, "diff", "--quiet", commit, "--", *paths])
+    # Projection also discovers new profiles on disk, including untracked ones.
+    new = subprocess.check_output([*git, "ls-files", "--others", "--", *paths])
+    if tracked.returncode or new:
+        raise ValueError("the research prior differs from the commit the factor definitions pin")
+
+
 def generate_from_files(root: Path, subject: str, decision_time: datetime,
                         packet_path: Path | None = None) -> tuple[CausalMap, tuple[CandidateFactorRecipe, ...]]:
     """The documented entry point: everything is resolved from the repository at ``root``.
@@ -207,8 +218,7 @@ def generate_from_files(root: Path, subject: str, decision_time: datetime,
     bindings_dir = relationships.parent / "bindings"
     definitions_path = bindings_dir / "factor_definitions.json"
     inputs = ResearchInputs.model_validate_json(definitions_path.read_text(encoding="utf-8"))
-    if subprocess.run(["git", "-C", str(root), "diff", "--quiet", inputs.prior_commit, "--", str(relationships)]).returncode:
-        raise ValueError("the research prior differs from the commit the factor definitions pin")
+    check_frozen_prior(relationships, inputs.prior_commit)
     frozen_at = datetime.fromisoformat(subprocess.run(
         ["git", "-C", str(root), "log", "-1", "--format=%cI", inputs.prior_commit], check=True, capture_output=True,
         text=True).stdout.strip())

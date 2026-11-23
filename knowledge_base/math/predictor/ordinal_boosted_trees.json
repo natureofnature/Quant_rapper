@@ -1,0 +1,25 @@
+{
+  "id": "predictor:ordinal_boosted_trees",
+  "kind": "predictor",
+  "name": "Threshold-expanded ordinal trees",
+  "name_zh": "阈值展开的有序树",
+  "description": "Expand each date into threshold comparisons and constrain the threshold feature monotonically. Set row weights and minimum leaf sizes in units of original decisions.",
+  "inputs": [
+    "feature panel",
+    "ordered labels"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/beta/tree_model.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/beta/tree_model.py",
+  "links": [
+    {
+      "relation": "uses_predictor",
+      "target": "predictor:gradient_boosted_trees"
+    },
+    {
+      "relation": "uses_tool",
+      "target": "tool:lightgbm"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "portfolio:vol_target",
+  "kind": "portfolio_method",
+  "name": "Volatility targeting",
+  "name_zh": "目标波动率仓位",
+  "description": "Scale exposure by target volatility divided by forecast volatility. Specify caps and how stale or very small forecasts are handled.",
+  "inputs": [
+    "volatility estimate",
+    "target risk",
+    "leverage cap"
+  ],
+  "sources": [
+    "https://www.nber.org/papers/w22208"
+  ],
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "risk:realized_vol"
+    },
+    {
+      "relation": "can_use",
+      "target": "predictor:garch"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "evaluation:tail_recall",
+  "kind": "evaluation_method",
+  "name": "Tail recall and alert rate",
+  "name_zh": "尾部召回率与预警率",
+  "description": "Compare the fraction of the worst future outcomes flagged with the fraction of all eligible decisions under alert. Use identical dates across arms.",
+  "inputs": [
+    "matured outcomes",
+    "dated risk flags",
+    "tail fraction"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/beta/model_gate.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/beta/model_gate.py",
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "label:forward_downside"
+    }
+  ]
+}

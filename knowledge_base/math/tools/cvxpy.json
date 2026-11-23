@@ -1,0 +1,21 @@
+{
+  "id": "tool:cvxpy",
+  "kind": "tool",
+  "name": "CVXPY",
+  "name_zh": "凸优化建模工具",
+  "description": "Express portfolio objectives and constraints as convex programs and dispatch to a compatible numerical solver.",
+  "inputs": [
+    "variables",
+    "objective",
+    "constraints"
+  ],
+  "sources": [
+    "https://www.cvxpy.org/examples/index.html"
+  ],
+  "links": [
+    {
+      "relation": "supports",
+      "target": "optimizer:quadratic_programming"
+    }
+  ]
+}

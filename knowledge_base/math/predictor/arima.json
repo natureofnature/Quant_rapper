@@ -1,0 +1,15 @@
+{
+  "id": "predictor:arima",
+  "kind": "predictor",
+  "name": "ARIMA / SARIMAX",
+  "name_zh": "自回归与季节性时间序列",
+  "description": "Forecast a series from lagged changes and innovations, optionally with seasonal terms and known regressors. Any future exogenous inputs must be available at forecast time.",
+  "inputs": [
+    "regularly spaced series",
+    "orders and optional exogenous inputs"
+  ],
+  "sources": [
+    "https://otexts.com/fpp3/arima.html"
+  ],
+  "links": []
+}

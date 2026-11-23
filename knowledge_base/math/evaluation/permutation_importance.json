@@ -1,0 +1,16 @@
+{
+  "id": "evaluation:permutation_importance",
+  "kind": "evaluation_method",
+  "name": "Permutation feature importance",
+  "name_zh": "置换特征重要性",
+  "description": "Measure the deterioration of a chosen score when one column is shuffled. Correlated substitutes can hide importance; choose a permutation scheme consistent with the temporal or panel structure.",
+  "inputs": [
+    "fitted model",
+    "evaluation panel",
+    "evaluation metric"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/modules/permutation_importance.html"
+  ],
+  "links": []
+}

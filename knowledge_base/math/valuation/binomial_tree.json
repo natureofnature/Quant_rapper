@@ -1,0 +1,17 @@
+{
+  "id": "valuation:binomial_tree",
+  "kind": "valuation_method",
+  "name": "Binomial option pricing",
+  "name_zh": "二叉树期权定价",
+  "description": "Discretise underlying moves in a recombining lattice and work backward from payoffs. At an allowed early exercise date compare immediate exercise with continuation.",
+  "inputs": [
+    "contract payoff",
+    "exercise schedule",
+    "model inputs",
+    "time steps"
+  ],
+  "sources": [
+    "https://github.com/lballabio/QuantLib/blob/master/ql/pricingengines/vanilla/binomialengine.hpp"
+  ],
+  "links": []
+}

@@ -158,6 +158,8 @@ Generate all maps and switch between them using the page's map selector:
 python3 knowledge_base/prior_knowledge/Relationships/relationship_visualizer.py
 ```
 
+Browse the [quantitative methods index](knowledge_base/math/README.md) on GitHub. The same command builds the interactive catalogue at `knowledge_base/math/methods.html`.
+
 `tests/invariants/` holds the rules that must never break, such as "a decision cannot use evidence or data that was unavailable at its decision time", "a result from before the research map was frozen is labelled exploratory" and "labels never cross into the held-out window".
 
 ## Setup

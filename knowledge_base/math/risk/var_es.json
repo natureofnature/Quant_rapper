@@ -1,0 +1,15 @@
+{
+  "id": "risk:var_es",
+  "kind": "risk_method",
+  "name": "Value at risk and expected shortfall",
+  "name_zh": "风险价值与预期损失",
+  "description": "Estimate a loss quantile (VaR) and the average loss in the corresponding tail (ES). Define the horizon, loss sign and scenario weights.",
+  "inputs": [
+    "portfolio loss scenarios",
+    "confidence level"
+  ],
+  "sources": [
+    "https://docs.mosek.com/portfolio-cookbook/index.html"
+  ],
+  "links": []
+}

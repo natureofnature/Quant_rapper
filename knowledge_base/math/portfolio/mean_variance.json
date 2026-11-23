@@ -1,0 +1,25 @@
+{
+  "id": "portfolio:mean_variance",
+  "kind": "portfolio_method",
+  "name": "Mean-variance allocation",
+  "name_zh": "均值方差配置",
+  "description": "Trade expected return against portfolio variance subject to position constraints. Estimated means can dominate the allocation.",
+  "inputs": [
+    "expected returns",
+    "covariance matrix",
+    "portfolio constraints"
+  ],
+  "sources": [
+    "https://docs.mosek.com/portfolio-cookbook/index.html"
+  ],
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "risk:covariance_shrinkage"
+    },
+    {
+      "relation": "can_use",
+      "target": "optimizer:quadratic_programming"
+    }
+  ]
+}

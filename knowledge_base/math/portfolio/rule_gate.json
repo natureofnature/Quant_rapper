@@ -1,0 +1,25 @@
+{
+  "id": "portfolio:rule_gate",
+  "kind": "portfolio_method",
+  "name": "Rule-based exposure gate",
+  "name_zh": "规则仓位控制",
+  "description": "Map a count of stressed indicators to preset exposure levels. The repository baseline records the thresholds and transaction costs before scoring.",
+  "inputs": [
+    "decision-time indicators",
+    "exposure mapping"
+  ],
+  "sources": [
+    "artifacts/ablations/sector_risk_baseline/registration.json"
+  ],
+  "repository_example": "artifacts/ablations/sector_risk_baseline/registration.json",
+  "links": [
+    {
+      "relation": "uses_method",
+      "target": "feature:volatility_curve"
+    },
+    {
+      "relation": "uses_method",
+      "target": "feature:moving_average"
+    }
+  ]
+}

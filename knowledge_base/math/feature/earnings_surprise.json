@@ -1,0 +1,16 @@
+{
+  "id": "feature:earnings_surprise",
+  "kind": "feature_method",
+  "name": "Announcement surprise",
+  "name_zh": "公告预期差",
+  "description": "Compare the released value with an expectation available before the announcement, in consistent units. Preserve the release timestamp and expectation vintage.",
+  "inputs": [
+    "published result",
+    "dated expectation"
+  ],
+  "sources": [
+    "artifacts/ablations/tsm_guidance_surprise/registration.json"
+  ],
+  "repository_example": "artifacts/ablations/tsm_guidance_surprise/registration.json",
+  "links": []
+}

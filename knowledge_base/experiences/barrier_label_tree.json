@@ -1,13 +1,15 @@
 {
   "id": "study:barrier_label_tree_2026_11_23",
   "kind": "study",
-  "name": "Predicting a lower-barrier first touch with LightGBM",
+  "name": "Triple-barrier labeling with LightGBM",
+  "name_zh": "三重屏障标注与 LightGBM 下界先触预测",
+  "description": "An exploratory SOXX and QQQ study using 33 inputs to predict whether the lower price barrier is reached first within 20 sessions.",
   "status": "exploratory",
   "period": {"first_decision": "2013-11-07", "last_session": "2019-12-31"},
   "features": "The 33 inputs in the RFC-005 registration.",
   "label": "Start at the next session's open. Set symmetric barriers using the decision day's trailing volatility and the fund's registered volatility bounds. Examine the next 20 session closes in order. The binary target is positive if a close touches or crosses the lower barrier first. An upper-first touch or expiry counts as negative. An incomplete window has no label.",
   "prediction": "The depth-2 boosted trees estimate the probability of a lower-first touch. The exposure gate uses that score to set the position.",
-  "finding": "In this development period the binary barrier tree met the frozen rule's comparison limits for SOXX. For QQQ it missed the whipsaw limit. These are exploratory results from the local study.",
+  "finding": "Among labeled decision windows, the lower barrier was reached first in 32.2% of SOXX windows and 28.9% of QQQ windows. In the development period ending in 2019, the gate met the frozen rule's comparison limits for SOXX and missed the whipsaw limit for QQQ. This study did not evaluate the gate on 2020–2026.",
   "feature_registration": "artifacts/ablations/soxx_qqq_wide_inputs/registration.json",
   "local_evidence": "run/model_exploration_2026-11-23/exploration.json",
   "links": [

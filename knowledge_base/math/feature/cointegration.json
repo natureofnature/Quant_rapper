@@ -1,0 +1,15 @@
+{
+  "id": "feature:cointegration",
+  "kind": "feature_method",
+  "name": "Cointegration and spread construction",
+  "name_zh": "协整与价差",
+  "description": "Estimate a long-run linear relation and test whether its residual is stationary. A regime change can break that relation.",
+  "inputs": [
+    "aligned price series",
+    "estimation window"
+  ],
+  "sources": [
+    "https://www.statsmodels.org/stable/generated/statsmodels.tsa.stattools.coint.html"
+  ],
+  "links": []
+}

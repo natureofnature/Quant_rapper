@@ -1,0 +1,15 @@
+{
+  "id": "evaluation:sharpe",
+  "kind": "evaluation_method",
+  "name": "Sharpe ratio",
+  "name_zh": "夏普比率",
+  "description": "Measure average excess return per unit of excess-return volatility. State the cash benchmark and sampling frequency; serial correlation affects annualisation.",
+  "inputs": [
+    "net return history",
+    "matched cash returns"
+  ],
+  "sources": [
+    "https://web.stanford.edu/~wfsharpe/art/sr/sr.htm"
+  ],
+  "links": []
+}

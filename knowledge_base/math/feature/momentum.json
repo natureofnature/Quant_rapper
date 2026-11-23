@@ -1,0 +1,16 @@
+{
+  "id": "feature:momentum",
+  "kind": "feature_method",
+  "name": "Price momentum (ROC)",
+  "name_zh": "价格动量",
+  "description": "Measure the change from a past price to the decision price. Fix the lookback, any skipped recent period and the price adjustment convention.",
+  "inputs": [
+    "price history",
+    "lookback"
+  ],
+  "sources": [
+    "https://ta-lib.org/functions/"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/core/rolling.py",
+  "links": []
+}

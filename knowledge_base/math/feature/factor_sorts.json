@@ -1,0 +1,16 @@
+{
+  "id": "feature:factor_sorts",
+  "kind": "feature_method",
+  "name": "Cross-sectional factor sorts",
+  "name_zh": "横截面因子分组",
+  "description": "Rank the eligible universe by characteristics such as value or momentum and form portfolios by rank. Universe membership and accounting data must be known at formation.",
+  "inputs": [
+    "dated universe",
+    "available characteristics",
+    "rebalance dates"
+  ],
+  "sources": [
+    "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html"
+  ],
+  "links": []
+}

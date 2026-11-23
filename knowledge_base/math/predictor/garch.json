@@ -1,0 +1,15 @@
+{
+  "id": "predictor:garch",
+  "kind": "predictor",
+  "name": "ARCH / GARCH volatility",
+  "name_zh": "条件波动率模型",
+  "description": "Forecast conditional variance from past return shocks and variances. The innovation distribution affects tail forecasts.",
+  "inputs": [
+    "return history",
+    "innovation distribution"
+  ],
+  "sources": [
+    "https://arch.readthedocs.io/en/latest/univariate/univariate_volatility_modeling.html"
+  ],
+  "links": []
+}

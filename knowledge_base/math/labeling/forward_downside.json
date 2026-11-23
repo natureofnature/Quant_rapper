@@ -1,0 +1,18 @@
+{
+  "id": "label:forward_downside",
+  "kind": "labeling_method",
+  "name": "Forward loss from entry",
+  "aliases": ["forward_drawdown"],
+  "name_zh": "未来相对入场价的最深跌幅",
+  "description": "Compare the lowest forward close with the next open. A path's peak-to-trough drawdown can differ from this entry-relative measure.",
+  "inputs": [
+    "next open",
+    "forward closes",
+    "horizon"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/beta/risk_gate.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/beta/risk_gate.py",
+  "links": []
+}

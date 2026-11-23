@@ -1,0 +1,16 @@
+{
+  "id": "evaluation:episode_bootstrap",
+  "kind": "evaluation_method",
+  "name": "Episode bootstrap",
+  "name_zh": "按风险事件重采样",
+  "description": "Resample whole stress episodes to estimate uncertainty in a paired metric. Report the number of episodes because adjacent decision days can describe the same selloff.",
+  "inputs": [
+    "episode definitions",
+    "paired observations"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/beta/model_gate.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/beta/model_gate.py",
+  "links": []
+}

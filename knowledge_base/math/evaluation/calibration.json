@@ -1,0 +1,15 @@
+{
+  "id": "evaluation:calibration",
+  "kind": "evaluation_method",
+  "name": "Probability calibration",
+  "name_zh": "概率校准",
+  "description": "Compare predicted probabilities with observed event frequencies or the Brier score. Fit any calibration map on past validation data separate from the final test.",
+  "inputs": [
+    "predicted probabilities",
+    "observed outcomes"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/modules/calibration.html"
+  ],
+  "links": []
+}

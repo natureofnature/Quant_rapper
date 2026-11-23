@@ -1,0 +1,21 @@
+{
+  "id": "strategy:pairs_trading",
+  "kind": "strategy_method",
+  "name": "Pairs trading and mean reversion",
+  "name_zh": "配对与均值回归",
+  "description": "Trade relative deviations between linked assets under a specified hedge and exit rule. A stable spread in the selection period may break after entry.",
+  "inputs": [
+    "point-in-time pair universe",
+    "price histories",
+    "hedge ratio"
+  ],
+  "sources": [
+    "https://www.nber.org/papers/w7032"
+  ],
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "feature:cointegration"
+    }
+  ]
+}

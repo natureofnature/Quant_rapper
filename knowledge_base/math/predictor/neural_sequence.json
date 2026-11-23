@@ -1,0 +1,15 @@
+{
+  "id": "predictor:neural_sequence",
+  "kind": "predictor",
+  "name": "Recurrent sequence models (LSTM / GRU)",
+  "name_zh": "循环神经网络",
+  "description": "Model sequential dependence with learned recurrent states. Construct training sequences within the time split and compare with a simpler temporal baseline.",
+  "inputs": [
+    "timestamped sequences",
+    "training targets"
+  ],
+  "sources": [
+    "https://pytorch.org/docs/stable/nn.html"
+  ],
+  "links": []
+}

@@ -1,0 +1,21 @@
+{
+  "id": "portfolio:cvar",
+  "kind": "portfolio_method",
+  "name": "Conditional value-at-risk allocation",
+  "name_zh": "尾部损失优化配置",
+  "description": "Minimise expected shortfall over weighted scenarios under portfolio constraints. Sparse tail scenarios make the weights unstable.",
+  "inputs": [
+    "return scenarios",
+    "confidence level",
+    "weight constraints"
+  ],
+  "sources": [
+    "https://docs.mosek.com/portfolio-cookbook/index.html"
+  ],
+  "links": [
+    {
+      "relation": "uses_method",
+      "target": "risk:var_es"
+    }
+  ]
+}

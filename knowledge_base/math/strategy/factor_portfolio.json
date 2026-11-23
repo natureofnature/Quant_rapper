@@ -1,0 +1,25 @@
+{
+  "id": "strategy:factor_portfolio",
+  "kind": "strategy_method",
+  "name": "Long-short factor portfolios",
+  "name_zh": "多空因子组合",
+  "description": "Buy and sell groups formed from dated characteristics. Report borrow, turnover and universe constraints when translating research portfolios into a strategy.",
+  "inputs": [
+    "eligible assets",
+    "dated factor ranks",
+    "weighting rule"
+  ],
+  "sources": [
+    "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html"
+  ],
+  "links": [
+    {
+      "relation": "uses_method",
+      "target": "feature:factor_sorts"
+    },
+    {
+      "relation": "can_use",
+      "target": "execution:impact"
+    }
+  ]
+}

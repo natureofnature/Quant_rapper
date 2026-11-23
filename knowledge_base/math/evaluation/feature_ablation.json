@@ -1,0 +1,21 @@
+{
+  "id": "evaluation:feature_ablation",
+  "kind": "evaluation_method",
+  "name": "Matched feature ablation",
+  "name_zh": "同条件因子消融",
+  "description": "Fit the same learning procedure with and without an input set; compare on identical dates, costs and labels. Record which variations were chosen after inspecting results.",
+  "inputs": [
+    "matched input panels",
+    "fixed training and evaluation recipe"
+  ],
+  "sources": [
+    "artifacts/ablations/soxx_qqq_wide_inputs/registration.json"
+  ],
+  "repository_example": "artifacts/ablations/soxx_qqq_wide_inputs/registration.json",
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "evaluation:walkforward"
+    }
+  ]
+}

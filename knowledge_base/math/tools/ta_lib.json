@@ -1,0 +1,28 @@
+{
+  "id": "tool:ta_lib",
+  "kind": "tool",
+  "name": "TA-Lib",
+  "name_zh": "技术指标工具",
+  "description": "Provides standard technical indicator implementations with explicit lookback and warm-up behaviour.",
+  "inputs": [
+    "price or OHLCV series",
+    "indicator parameters"
+  ],
+  "sources": [
+    "https://ta-lib.org/functions/"
+  ],
+  "links": [
+    {
+      "relation": "implements",
+      "target": "feature:rsi"
+    },
+    {
+      "relation": "implements",
+      "target": "feature:atr"
+    },
+    {
+      "relation": "implements",
+      "target": "feature:bollinger"
+    }
+  ]
+}

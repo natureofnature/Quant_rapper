@@ -2,6 +2,7 @@
   "id": "label:triple_barrier",
   "kind": "labeling_method",
   "name": "Triple-barrier labeling",
+  "name_zh": "三重屏障标注",
   "description": "Label a price path by the first event among an upper price barrier, a lower price barrier and a time limit.",
   "inputs": ["entry price", "upper and lower barriers", "ordered price observations", "time limit"],
   "outcomes": ["lower first", "time expired", "upper first"],

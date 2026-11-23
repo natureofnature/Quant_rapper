@@ -1,0 +1,15 @@
+{
+  "id": "feature:text_sentiment",
+  "kind": "feature_method",
+  "name": "Text sentiment scoring",
+  "name_zh": "文本情绪打分",
+  "description": "Aggregate polarity scores from dated filings, earnings calls or news. Use the first available version of each text and deduplicate syndication before aggregation.",
+  "inputs": [
+    "timestamped text",
+    "scoring model or financial lexicon"
+  ],
+  "sources": [
+    "https://sraf.nd.edu/loughranmcdonald-master-dictionary/"
+  ],
+  "links": []
+}

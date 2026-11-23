@@ -1,0 +1,15 @@
+{
+  "id": "risk:covariance_shrinkage",
+  "kind": "risk_method",
+  "name": "Covariance shrinkage",
+  "name_zh": "协方差收缩估计",
+  "description": "Blend the sample covariance matrix with a structured target to stabilise risk estimates when the asset count is large relative to history.",
+  "inputs": [
+    "aligned return panel",
+    "shrinkage target"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/modules/covariance.html"
+  ],
+  "links": []
+}

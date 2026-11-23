@@ -1,0 +1,17 @@
+{
+  "id": "evaluation:walkforward",
+  "kind": "evaluation_method",
+  "name": "Purged walk-forward evaluation",
+  "name_zh": "清除重叠标签的滚动前推",
+  "description": "Refit on expanding or rolling history and evaluate on later dates. Exclude training labels whose outcome windows cross the test boundary.",
+  "inputs": [
+    "decision calendar",
+    "label maturity",
+    "training policy"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/beta/walkforward.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/beta/walkforward.py",
+  "links": []
+}

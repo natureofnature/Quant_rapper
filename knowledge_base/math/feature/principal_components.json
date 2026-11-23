@@ -1,0 +1,15 @@
+{
+  "id": "feature:principal_components",
+  "kind": "feature_method",
+  "name": "Principal component analysis (PCA)",
+  "name_zh": "主成分分析",
+  "description": "Project correlated inputs onto orthogonal directions estimated on the training window. Component signs and loadings may change after refitting.",
+  "inputs": [
+    "training feature panel",
+    "scaling convention"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/modules/decomposition.html"
+  ],
+  "links": []
+}

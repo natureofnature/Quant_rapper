@@ -1,0 +1,15 @@
+{
+  "id": "feature:rsi",
+  "kind": "feature_method",
+  "name": "Relative strength index (RSI)",
+  "name_zh": "相对强弱指标",
+  "description": "Compare smoothed gains with smoothed losses over a trailing window. High RSI can persist during a trend.",
+  "inputs": [
+    "past price changes",
+    "smoothing period"
+  ],
+  "sources": [
+    "https://ta-lib.org/functions/"
+  ],
+  "links": []
+}

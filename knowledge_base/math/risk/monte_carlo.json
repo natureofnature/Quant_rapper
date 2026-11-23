@@ -1,0 +1,16 @@
+{
+  "id": "risk:monte_carlo",
+  "kind": "risk_method",
+  "name": "Monte Carlo simulation",
+  "name_zh": "蒙特卡洛模拟",
+  "description": "Sample dependent risk-factor paths and revalue portfolios to estimate a distribution. Scenario assumptions and simulation error affect tail estimates.",
+  "inputs": [
+    "stochastic process",
+    "dependence model",
+    "valuation rule"
+  ],
+  "sources": [
+    "https://docs.mosek.com/portfolio-cookbook/index.html"
+  ],
+  "links": []
+}

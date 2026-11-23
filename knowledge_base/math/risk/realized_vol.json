@@ -1,0 +1,16 @@
+{
+  "id": "risk:realized_vol",
+  "kind": "risk_method",
+  "name": "Realized volatility",
+  "name_zh": "已实现波动率",
+  "description": "Estimate dispersion of observed returns over a trailing window. Specify sampling interval and annualisation convention.",
+  "inputs": [
+    "price or return history",
+    "window"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/core/rolling.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/core/rolling.py",
+  "links": []
+}

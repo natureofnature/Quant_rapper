@@ -1,0 +1,16 @@
+{
+  "id": "execution:impact",
+  "kind": "execution_method",
+  "name": "Transaction costs and market impact",
+  "name_zh": "交易成本与市场冲击",
+  "description": "Estimate total trading cost from commissions, spread and size-dependent impact. Calibrate by liquidity and trade size before using the model in a backtest.",
+  "inputs": [
+    "trade sizes",
+    "spreads",
+    "liquidity estimates"
+  ],
+  "sources": [
+    "https://docs.mosek.com/portfolio-cookbook/index.html"
+  ],
+  "links": []
+}

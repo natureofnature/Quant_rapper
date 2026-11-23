@@ -1,0 +1,15 @@
+{
+  "id": "predictor:linear_regression",
+  "kind": "predictor",
+  "name": "Linear regression and regularization",
+  "name_zh": "线性回归与正则化",
+  "description": "Fit a conditional mean with OLS, ridge, lasso or elastic net. Fit scaling and any penalty selection inside each training fold.",
+  "inputs": [
+    "feature panel",
+    "continuous training outcomes"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/modules/linear_model.html"
+  ],
+  "links": []
+}

@@ -1,0 +1,20 @@
+{
+  "id": "evaluation:information_coefficient",
+  "kind": "evaluation_method",
+  "name": "Rank information coefficient (IC)",
+  "name_zh": "横截面秩相关",
+  "description": "Compute per-date Spearman correlations between a feature and forward returns across assets. Respect membership, sector exposures and overlapping horizons.",
+  "inputs": [
+    "dated cross-sectional scores",
+    "matured returns"
+  ],
+  "sources": [
+    "https://quantopian.github.io/alphalens/alphalens.html"
+  ],
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "label:forward_return"
+    }
+  ]
+}

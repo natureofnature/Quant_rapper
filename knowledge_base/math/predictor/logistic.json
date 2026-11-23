@@ -1,0 +1,15 @@
+{
+  "id": "predictor:logistic",
+  "kind": "predictor",
+  "name": "Logistic regression",
+  "name_zh": "逻辑回归",
+  "description": "Estimate the probability of a binary target with a linear log-odds model. Penalisation controls coefficient size when inputs are collinear.",
+  "inputs": [
+    "feature panel",
+    "binary labels"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/modules/linear_model.html"
+  ],
+  "links": []
+}

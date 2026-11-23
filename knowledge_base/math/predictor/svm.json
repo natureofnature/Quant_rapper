@@ -1,0 +1,15 @@
+{
+  "id": "predictor:svm",
+  "kind": "predictor",
+  "name": "Support vector machines (SVC / SVR)",
+  "name_zh": "支持向量机",
+  "description": "Fit a margin-based classifier or regressor, optionally with a nonlinear kernel. Feature scales affect distances and regularization.",
+  "inputs": [
+    "scaled features",
+    "training targets"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/modules/svm.html"
+  ],
+  "links": []
+}

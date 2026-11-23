@@ -1,0 +1,25 @@
+{
+  "id": "feature:implied_volatility",
+  "kind": "feature_method",
+  "name": "Implied volatility inversion",
+  "name_zh": "期权隐含波动率反解",
+  "description": "Infer the volatility parameter consistent with an option quote and a specified pricing model. Check contract style, dividends and bid-ask bounds.",
+  "inputs": [
+    "option quotes",
+    "contract details",
+    "pricing model"
+  ],
+  "sources": [
+    "https://www.optionseducation.org/advancedconcepts/volatility-the-greeks"
+  ],
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "valuation:black_scholes"
+    },
+    {
+      "relation": "can_use",
+      "target": "optimizer:newton"
+    }
+  ]
+}

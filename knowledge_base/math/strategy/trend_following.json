@@ -1,0 +1,25 @@
+{
+  "id": "strategy:trend_following",
+  "kind": "strategy_method",
+  "name": "Time-series trend following",
+  "name_zh": "趋势跟随",
+  "description": "Set a directional position using the asset's past price trend. Specify signal horizon, risk scaling and execution lag before scoring.",
+  "inputs": [
+    "trailing price history",
+    "signal horizon",
+    "position sizing rule"
+  ],
+  "sources": [
+    "https://www.aqr.com/Insights/Research/Journal-Article/Time-Series-Momentum"
+  ],
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "feature:momentum"
+    },
+    {
+      "relation": "can_use",
+      "target": "portfolio:vol_target"
+    }
+  ]
+}

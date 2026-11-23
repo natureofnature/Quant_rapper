@@ -1,0 +1,17 @@
+{
+  "id": "optimizer:newton",
+  "kind": "optimizer",
+  "name": "Newton and quasi-Newton methods",
+  "name_zh": "牛顿法与拟牛顿法",
+  "description": "Use derivatives and local curvature, or a curvature approximation, to update model parameters. Check convergence and conditioning.",
+  "inputs": [
+    "differentiable objective",
+    "gradient",
+    "initial parameters"
+  ],
+  "sources": [
+    "https://docs.scipy.org/doc/scipy/reference/optimize.html"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/beta/ordinal_model.py",
+  "links": []
+}

@@ -1,0 +1,17 @@
+{
+  "id": "label:forward_return",
+  "kind": "labeling_method",
+  "name": "Fixed-horizon return",
+  "name_zh": "固定期限收益",
+  "description": "Measure the return between a specified executable entry and exit. State how dividends, missing sessions and currency conversion are treated.",
+  "inputs": [
+    "entry price",
+    "exit price",
+    "horizon"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/alpha/event_window.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/alpha/event_window.py",
+  "links": []
+}

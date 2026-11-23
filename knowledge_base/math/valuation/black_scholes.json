@@ -1,0 +1,17 @@
+{
+  "id": "valuation:black_scholes",
+  "kind": "valuation_method",
+  "name": "Black–Scholes–Merton pricing",
+  "name_zh": "欧式期权解析定价",
+  "description": "Compute a European vanilla option value under a specified lognormal model and carry assumptions. Early exercise and a volatility smile require additional modeling choices.",
+  "inputs": [
+    "spot and strike",
+    "time to expiry",
+    "rates and dividends",
+    "volatility"
+  ],
+  "sources": [
+    "https://github.com/lballabio/QuantLib/blob/master/ql/pricingengines/vanilla/analyticeuropeanengine.hpp"
+  ],
+  "links": []
+}

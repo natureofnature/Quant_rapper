@@ -1,0 +1,20 @@
+{
+  "id": "feature:cross_sectional_neutralization",
+  "kind": "feature_method",
+  "name": "Factor neutralization",
+  "name_zh": "因子中性化",
+  "description": "Regress a cross section of signals on known exposures and retain the residual scores. Changing the universe or regression weights changes the residuals.",
+  "inputs": [
+    "dated signal panel",
+    "contemporaneous industry or style exposures"
+  ],
+  "sources": [
+    "https://docs.mosek.com/portfolio-cookbook/factormodels.html"
+  ],
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "predictor:linear_regression"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "feature:bollinger",
+  "kind": "feature_method",
+  "name": "Bollinger Bands",
+  "name_zh": "布林带",
+  "description": "Measure price relative to a moving average and volatility bands. Use the same trailing window convention at training and decision time.",
+  "inputs": [
+    "price history",
+    "rolling dispersion",
+    "band multiplier"
+  ],
+  "sources": [
+    "https://ta-lib.org/functions/"
+  ],
+  "links": []
+}

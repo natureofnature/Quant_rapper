@@ -1,0 +1,26 @@
+{
+  "id": "evaluation:event_study",
+  "kind": "evaluation_method",
+  "name": "Event study",
+  "name_zh": "事件研究",
+  "description": "Align observations by the first usable announcement time and compare subsequent returns with a benchmark or matched observations. Overlapping events complicate attribution.",
+  "inputs": [
+    "dated events",
+    "session calendar",
+    "price histories"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/alpha/event_window.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/alpha/event_window.py",
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "label:benchmark_relative"
+    },
+    {
+      "relation": "can_use",
+      "target": "label:residual_return"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "risk:rolling_beta",
+  "kind": "risk_method",
+  "name": "Rolling market beta",
+  "name_zh": "滚动市场 Beta",
+  "description": "Estimate the historical slope of asset returns on benchmark returns. The benchmark, date alignment and lookback determine the exposure estimate.",
+  "inputs": [
+    "aligned asset and benchmark returns",
+    "lookback"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/alpha/event_window.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/alpha/event_window.py",
+  "links": []
+}

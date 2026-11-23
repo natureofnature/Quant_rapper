@@ -1,0 +1,21 @@
+{
+  "id": "predictor:ordinal_classifier",
+  "kind": "predictor",
+  "name": "Ordinal classification (ordered logit / CORAL)",
+  "name_zh": "有序分类",
+  "description": "Estimate cumulative probabilities for ordered outcomes with shared slopes and ordered thresholds. Inspect calibration at each threshold before turning a score into exposure.",
+  "inputs": [
+    "feature panel",
+    "ordered labels"
+  ],
+  "sources": [
+    "https://arxiv.org/abs/1901.07884"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/beta/ordinal_model.py",
+  "links": [
+    {
+      "relation": "can_use",
+      "target": "optimizer:newton"
+    }
+  ]
+}

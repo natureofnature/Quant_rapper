@@ -1,0 +1,15 @@
+{
+  "id": "predictor:regime_switching",
+  "kind": "predictor",
+  "name": "Markov regime switching",
+  "name_zh": "马尔可夫状态切换",
+  "description": "Estimate latent regimes and transition probabilities. Use filtered regime probabilities in live decisions and check regime stability across refits.",
+  "inputs": [
+    "time series",
+    "regime count"
+  ],
+  "sources": [
+    "https://www.statsmodels.org/stable/tsa.html"
+  ],
+  "links": []
+}

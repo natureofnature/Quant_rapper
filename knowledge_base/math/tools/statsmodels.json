@@ -1,0 +1,31 @@
+{
+  "id": "tool:statsmodels",
+  "kind": "tool",
+  "name": "statsmodels",
+  "name_zh": "统计建模工具",
+  "description": "Provides statistical time-series models, inference and specification diagnostics.",
+  "inputs": [
+    "time series or design matrix"
+  ],
+  "sources": [
+    "https://www.statsmodels.org/stable/tsa.html"
+  ],
+  "links": [
+    {
+      "relation": "implements",
+      "target": "predictor:arima"
+    },
+    {
+      "relation": "implements",
+      "target": "predictor:state_space"
+    },
+    {
+      "relation": "implements",
+      "target": "predictor:regime_switching"
+    },
+    {
+      "relation": "implements",
+      "target": "feature:cointegration"
+    }
+  ]
+}

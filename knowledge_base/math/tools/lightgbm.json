@@ -2,6 +2,8 @@
   "id": "tool:lightgbm",
   "kind": "tool",
   "name": "LightGBM",
+  "name_zh": "梯度提升树工具",
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/beta/tree_model.py",
   "description": "Gradient boosting framework used by the evaluator to fit shallow trees with a binary classification objective.",
   "sources": ["https://lightgbm.readthedocs.io/en/stable/", "packages/quant_evaluator/src/quant_evaluator/beta/tree_model.py"],
   "links": [

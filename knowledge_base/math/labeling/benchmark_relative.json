@@ -1,0 +1,21 @@
+{
+  "id": "label:benchmark_relative",
+  "kind": "labeling_method",
+  "name": "Benchmark-relative return",
+  "name_zh": "相对基准收益",
+  "description": "Subtract the benchmark return over the same entry and exit. A simple spread implicitly assigns the benchmark a coefficient of one.",
+  "inputs": [
+    "asset return",
+    "benchmark return"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/alpha/event_window.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/alpha/event_window.py",
+  "links": [
+    {
+      "relation": "uses_label",
+      "target": "label:forward_return"
+    }
+  ]
+}

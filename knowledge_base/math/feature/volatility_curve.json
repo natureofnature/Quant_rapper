@@ -1,0 +1,16 @@
+{
+  "id": "feature:volatility_curve",
+  "kind": "feature_method",
+  "name": "Volatility term structure",
+  "name_zh": "波动率期限结构",
+  "description": "Compare implied volatility at two maturities. Record the ratio direction and use comparable index conventions.",
+  "inputs": [
+    "short-maturity volatility index",
+    "long-maturity volatility index"
+  ],
+  "sources": [
+    "artifacts/ablations/sector_risk_baseline/registration.json"
+  ],
+  "repository_example": "artifacts/ablations/sector_risk_baseline/registration.json",
+  "links": []
+}

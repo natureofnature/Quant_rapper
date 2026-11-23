@@ -1,0 +1,16 @@
+{
+  "id": "risk:stress_testing",
+  "kind": "risk_method",
+  "name": "Scenario and stress testing",
+  "name_zh": "情景与压力测试",
+  "description": "Revalue holdings under specified joint shocks. Record which correlations, liquidity and positions are assumed to hold under stress.",
+  "inputs": [
+    "positions",
+    "joint shocks",
+    "valuation model"
+  ],
+  "sources": [
+    "https://docs.mosek.com/portfolio-cookbook/index.html"
+  ],
+  "links": []
+}

@@ -1,0 +1,24 @@
+{
+  "id": "predictor:gbdt_coral",
+  "kind": "predictor",
+  "name": "GBDT + CORAL (proposed Model B)",
+  "name_zh": "共享分数的有序提升树",
+  "description": "Use a boosted tree score shared across ordered thresholds. The proposed training procedure alternates tree updates and threshold fitting; evaluate on ordered targets under the same splits as the other ordinal models.",
+  "inputs": [
+    "ordered targets",
+    "feature panel"
+  ],
+  "sources": [
+    "https://github.com/natureofnature/Quant_rapper/issues/4"
+  ],
+  "links": [
+    {
+      "relation": "uses_predictor",
+      "target": "predictor:gradient_boosted_trees"
+    },
+    {
+      "relation": "extends",
+      "target": "predictor:ordinal_classifier"
+    }
+  ]
+}

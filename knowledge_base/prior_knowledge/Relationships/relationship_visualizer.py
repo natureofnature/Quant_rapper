@@ -2,7 +2,8 @@
 
     python relationship_visualizer.py semiconductor     # a sector folder
     python relationship_visualizer.py Institutions      # the institution registry
-    python relationship_visualizer.py                   # every sector folder and the registry
+    python relationship_visualizer.py methods           # the quantitative methods catalogue
+    python relationship_visualizer.py                   # all maps and the catalogue
 
 Sector folders live beside this script. A sector folder holds <sector>/<sector>.json and one <sector>/<SYMBOL>/company.json per
 stock. The page is written to <sector>/<sector>.html and has:
@@ -36,6 +37,7 @@ Loading, validation and company projection live in utils/research_map.py; this f
 import html
 import json
 import math
+import os
 import re
 import sys
 from pathlib import Path
@@ -550,12 +552,35 @@ openView(decodeURIComponent(initialView), new URLSearchParams(query).get('node')
 """
 
 
-def map_links(current: Path) -> list[dict]:
-    """Navigation between the generated sector and institution pages."""
-    sectors, registry = find_maps(current.parent.parent)
-    return [{"label": json.loads(path.read_text(encoding="utf-8")).get("label", path.stem),
-             "href": f"../{path.parent.name}/{path.stem}.html", "current": path.resolve() == current.resolve()}
-            for path in [*sectors, *([registry] if registry else [])]]
+def map_links(current: Path, root: Path | None = None) -> list[dict]:
+    root = root or current.parent.parent
+    sectors, registry = find_maps(root)
+    pages = [(json.loads(p.read_text(encoding="utf-8")).get("label", p.stem), p.with_suffix(".html"))
+             for p in [*sectors, *([registry] if registry else [])]]
+    methods = root.parent.parent / "math"
+    if next(methods.glob("*/*.json"), None):
+        pages.append(("Quantitative methods · 量化方法", methods / "methods.html"))
+    return [{"label": label, "href": os.path.relpath(path, current.parent),
+             "current": path.resolve() == current.with_suffix(".html").resolve()} for label, path in pages]
+
+
+def catalogue_subjects(root: Path):
+    for sector in find_maps(root)[0]:
+        for path in profile_paths(sector.parent):
+            profile = json.loads(path.read_text(encoding="utf-8"))
+            yield profile_id(profile), profile, path, sector.with_suffix(".html")
+
+
+def render_methods(root: Path) -> Path:
+    # Market-only copies of this script can build their pages independently.
+    repo = str(Path(__file__).resolve().parents[3])
+    if repo not in sys.path:
+        sys.path.append(repo)
+    from knowledge_base.math.method_catalogue import render_catalogue
+
+    knowledge = root.parent.parent
+    maps = map_links(knowledge / "math/methods.html", root)
+    return render_catalogue(knowledge, catalogue_subjects(root), maps, sector_svg, PALETTE)
 
 
 def resolve_related_concepts(source: Path, nodes: dict) -> list[dict]:
@@ -757,18 +782,23 @@ def sector_file(argument: str, here: Path) -> Path:
 
 
 def main(arguments: list[str]) -> None:
-    here = Path(__file__).parent  # the sector folders live beside this script
+    here = Path(__file__).resolve().parent  # the sector folders live beside this script
     sectors, registry = find_maps(here)
-    paths = [sector_file(a, here) for a in arguments] or [*sectors, *([registry] if registry else [])]
+    build_methods = "methods" in arguments
+    paths = ([sector_file(a, here) for a in arguments if a != "methods"] if arguments
+             else [*sectors, *([registry] if registry else [])])
+    roots = {p.resolve().parent.parent for p in paths}
+    if build_methods or not arguments:
+        roots.add(here)
     if arguments:
         # A first single-map build must also materialise its navigation targets.
-        for root in {p.resolve().parent.parent for p in paths}:
+        for root in roots:
             siblings, sibling_registry = find_maps(root)
             if sibling_registry:
                 siblings.append(sibling_registry)
             paths.extend(p for p in siblings if not p.with_suffix(".html").exists())
         paths = list(dict.fromkeys(p.resolve() for p in paths))
-    if not paths:
+    if not paths and not build_methods:
         raise SystemExit(f"No sector folders found under {here}")
     for path in paths:
         try:
@@ -776,6 +806,13 @@ def main(arguments: list[str]) -> None:
             print(f"wrote {render_institutions(path) if is_registry else render(path)}")
         except ValueError as problem:  # a validation failure: report it without a traceback
             raise SystemExit(f"error: {problem}") from None
+    for root in sorted(roots):
+        methods = root.parent.parent / "math"
+        if next(methods.glob("*/*.json"), None) and (not arguments or build_methods or not (methods / "methods.html").exists()):
+            try:
+                print(f"wrote {render_methods(root)}")
+            except ValueError as problem:
+                raise SystemExit(f"error: {problem}") from None
 
 
 if __name__ == "__main__":

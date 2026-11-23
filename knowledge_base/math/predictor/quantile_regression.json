@@ -1,0 +1,16 @@
+{
+  "id": "predictor:quantile_regression",
+  "kind": "predictor",
+  "name": "Quantile regression",
+  "name_zh": "分位数回归",
+  "description": "Fit a conditional quantile using asymmetric absolute loss. Check tail coverage across regimes and crossings when fitting several quantiles.",
+  "inputs": [
+    "feature panel",
+    "continuous outcomes",
+    "target quantile"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/modules/linear_model.html"
+  ],
+  "links": []
+}

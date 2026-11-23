@@ -5,6 +5,7 @@ dist/
 
 # Generated research-map previews
 /knowledge_base/prior_knowledge/Relationships/**/*.html
+/knowledge_base/math/methods.html
 
 # run outputs: keep the folders, ignore their contents
 run/**

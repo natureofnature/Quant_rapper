@@ -1,0 +1,15 @@
+{
+  "id": "predictor:random_forest",
+  "kind": "predictor",
+  "name": "Random forests",
+  "name_zh": "随机森林",
+  "description": "Average randomized decision trees to capture nonlinear interactions. Use time-ordered validation for financial panels.",
+  "inputs": [
+    "feature panel",
+    "training targets"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/modules/ensemble.html"
+  ],
+  "links": []
+}

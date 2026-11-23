@@ -1,0 +1,15 @@
+{
+  "id": "predictor:nearest_neighbors",
+  "kind": "predictor",
+  "name": "Nearest-neighbour forecasting",
+  "name_zh": "近邻情景预测",
+  "description": "Estimate outcomes from similar historical feature vectors. Restrict neighbors to observations with matured outcomes and scale features inside the training set.",
+  "inputs": [
+    "historical features and outcomes",
+    "distance definition"
+  ],
+  "sources": [
+    "https://scikit-learn.org/stable/modules/neighbors.html"
+  ],
+  "links": []
+}

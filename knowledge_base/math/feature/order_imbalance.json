@@ -1,0 +1,15 @@
+{
+  "id": "feature:order_imbalance",
+  "kind": "feature_method",
+  "name": "Order flow imbalance",
+  "name_zh": "订单流失衡",
+  "description": "Aggregate changes in displayed bid and ask supply at event time. Align quotes and trades before sampling and account for exchange latency.",
+  "inputs": [
+    "timestamped quote updates",
+    "sampling interval"
+  ],
+  "sources": [
+    "https://arxiv.org/abs/1011.6402"
+  ],
+  "links": []
+}

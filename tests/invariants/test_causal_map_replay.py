@@ -8,7 +8,9 @@ is not installed.
 from datetime import date, datetime, time, timedelta
 import json
 from pathlib import Path
+import subprocess
 import sys
+import tempfile
 import unittest
 from zoneinfo import ZoneInfo
 
@@ -16,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 for package in ("quant_contracts", "quant_pit_data", "quant_causal_graph", "quant_evaluator", "quant_loop"):
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 try:
-    from quant_causal_graph.causal_map import check_bindings, generate_from_files
+    from quant_causal_graph.causal_map import check_bindings, check_frozen_prior, generate_from_files
     from quant_contracts.causal_map import CausalMap, ResearchInputs, SourcePacket
     from quant_contracts.evaluation import EventTime
     from quant_contracts.pit import Cutoff, SeriesBinding, SessionCalendar
@@ -59,6 +61,33 @@ class CausalMapTests(unittest.TestCase):
             self.assertEqual(dumped(result), saved(CROSS / "output" / subject), subject)
         self.assertEqual(dumped(self.before), saved(PILOT / "output/2026-11-10"))
         self.assertEqual(dumped(self.after), saved(PILOT / "output/2026-11-11"))
+
+    def test_prior_freeze_distinguishes_projection_inputs_from_display_changes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            git = ["git", "-C", temp]
+            subprocess.run([*git, "init", "-q"], check=True)
+            maps = root / "Relationships"
+            projector = maps / "utils/research_map.py"
+            profile = maps / "sector/ABC/company.json"
+            display = maps / "relationship_visualizer.py"
+            for path in (projector, profile, display):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("original")
+            subprocess.run([*git, "add", "Relationships"], check=True)
+            subprocess.run([*git, "-c", "user.name=Test", "-c", "user.email=test@example.org",
+                            "commit", "-qm", "freeze prior"], check=True)
+            display.write_text("new layout")
+            check_frozen_prior(maps, "HEAD")
+            for path in (profile, projector):
+                with self.subTest(path=path.name):
+                    path.write_text("changed")
+                    with self.assertRaisesRegex(ValueError, "research prior differs"):
+                        check_frozen_prior(maps, "HEAD")
+                    path.write_text("original")
+            (profile.parent / "fund.json").write_text("{}")
+            with self.assertRaisesRegex(ValueError, "research prior differs"):
+                check_frozen_prior(maps, "HEAD")
 
     def test_five_subjects_go_through_one_entry_point_with_no_event_or_candidate_list(self):
         measurable = {}

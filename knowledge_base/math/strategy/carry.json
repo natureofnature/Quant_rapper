@@ -1,0 +1,16 @@
+{
+  "id": "strategy:carry",
+  "kind": "strategy_method",
+  "name": "Carry strategies",
+  "name_zh": "持有收益策略",
+  "description": "Estimate the return from holding a position if market conditions stay unchanged, then compare that carry across instruments. Financing conventions, rolls and crash exposure differ by asset class.",
+  "inputs": [
+    "contract terms",
+    "financing or forward curves",
+    "holding horizon"
+  ],
+  "sources": [
+    "https://www.nber.org/papers/w19325"
+  ],
+  "links": []
+}

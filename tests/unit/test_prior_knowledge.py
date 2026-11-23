@@ -235,6 +235,23 @@ class ResearchMapTests(unittest.TestCase):
 
 
 class MapBuildTests(unittest.TestCase):
+    def test_method_catalogue_resolves_study_links_and_market_navigation(self):
+        with tempfile.TemporaryDirectory() as temp:
+            kb = Path(temp) / "knowledge_base"
+            shutil.copytree(KNOWLEDGE, kb, ignore=shutil.ignore_patterns("*.html", "__pycache__"))
+            root = kb / BASE.relative_to(KNOWLEDGE)
+            subprocess.run([sys.executable, str(root / "relationship_visualizer.py"), "methods"],
+                           check=True, capture_output=True)
+            output = kb / "math/methods.html"
+            payload = json.loads(output.read_text().split('id="payload">', 1)[1].split("</script>", 1)[0])
+            for entry in payload["entries"].values():
+                for edge in entry["links"]:
+                    self.assertIn(edge["target"], payload["entries"])
+                if "market_page" in entry:
+                    self.assertTrue((output.parent / entry["market_page"].split("#")[0]).is_file())
+            for page in payload["maps"]:
+                self.assertTrue((output.parent / page["href"]).is_file())
+
     def test_first_single_map_build_and_input_provenance(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp) / "maps"

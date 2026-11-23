@@ -1,0 +1,16 @@
+{
+  "id": "feature:moving_average",
+  "kind": "feature_method",
+  "name": "Moving-average trend",
+  "name_zh": "均线趋势",
+  "description": "Compare the close with a trailing moving average. A small gap can change sign repeatedly in a sideways market.",
+  "inputs": [
+    "closing prices",
+    "lookback"
+  ],
+  "sources": [
+    "https://ta-lib.org/functions/"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/core/rolling.py",
+  "links": []
+}

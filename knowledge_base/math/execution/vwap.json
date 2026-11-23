@@ -1,0 +1,17 @@
+{
+  "id": "execution:vwap",
+  "kind": "execution_method",
+  "name": "VWAP and TWAP execution",
+  "name_zh": "成交量与时间加权执行",
+  "description": "Schedule child orders against expected volume or elapsed time. Compare execution with the appropriate benchmark and account for partial fills.",
+  "inputs": [
+    "parent order",
+    "execution horizon",
+    "volume profile for VWAP"
+  ],
+  "sources": [
+    "https://www.interactivebrokers.com/campus/trading-lessons/time-weighted-average-price-twap/",
+    "https://www.interactivebrokers.com/campus/trading-lessons/vwap-best-efforts/"
+  ],
+  "links": []
+}

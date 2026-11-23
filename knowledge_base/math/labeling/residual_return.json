@@ -1,0 +1,22 @@
+{
+  "id": "label:residual_return",
+  "kind": "labeling_method",
+  "name": "Beta-adjusted return",
+  "name_zh": "Beta 调整收益",
+  "description": "Subtract beta times the benchmark return from the asset return. Estimate beta with information available before the event.",
+  "inputs": [
+    "asset return",
+    "benchmark return",
+    "pre-event beta"
+  ],
+  "sources": [
+    "packages/quant_evaluator/src/quant_evaluator/alpha/event_window.py"
+  ],
+  "repository_example": "packages/quant_evaluator/src/quant_evaluator/alpha/event_window.py",
+  "links": [
+    {
+      "relation": "uses_method",
+      "target": "risk:rolling_beta"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "feature:atr",
+  "kind": "feature_method",
+  "name": "Average true range (ATR)",
+  "name_zh": "真实波幅",
+  "description": "Smooth the largest of the daily high-low range and the absolute gaps from the prior close. Normalise by price for cross-asset comparison.",
+  "inputs": [
+    "high and low prices",
+    "previous close",
+    "smoothing period"
+  ],
+  "sources": [
+    "https://ta-lib.org/functions/"
+  ],
+  "links": []
+}

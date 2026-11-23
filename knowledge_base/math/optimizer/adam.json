@@ -1,0 +1,16 @@
+{
+  "id": "optimizer:adam",
+  "kind": "optimizer",
+  "name": "Stochastic gradient descent and Adam",
+  "name_zh": "随机梯度下降与 Adam",
+  "description": "Update parameters from minibatch gradients. Adam scales updates using running gradient moments. Time ordering still matters when constructing validation data.",
+  "inputs": [
+    "differentiable loss",
+    "training batches",
+    "learning rate"
+  ],
+  "sources": [
+    "https://pytorch.org/docs/stable/optim.html"
+  ],
+  "links": []
+}

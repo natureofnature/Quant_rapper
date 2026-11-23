@@ -1,0 +1,15 @@
+{
+  "id": "optimizer:quadratic_programming",
+  "kind": "optimizer",
+  "name": "Quadratic programming (QP)",
+  "name_zh": "二次规划",
+  "description": "Solve a quadratic objective under linear constraints. A positive semidefinite objective matrix gives a convex minimisation problem.",
+  "inputs": [
+    "quadratic objective",
+    "linear constraints"
+  ],
+  "sources": [
+    "https://www.cvxpy.org/examples/basic/quadratic_program.html"
+  ],
+  "links": []
+}
