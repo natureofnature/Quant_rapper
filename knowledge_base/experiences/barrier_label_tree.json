@@ -1,0 +1,20 @@
+{
+  "id": "study:barrier_label_tree_2026_11_23",
+  "kind": "study",
+  "name": "Predicting a lower-barrier first touch with LightGBM",
+  "status": "exploratory",
+  "period": {"first_decision": "2013-11-07", "last_session": "2019-12-31"},
+  "features": "The 33 inputs in the RFC-005 registration.",
+  "label": "Start at the next session's open. Set symmetric barriers using the decision day's trailing volatility and the fund's registered volatility bounds. Examine the next 20 session closes in order. The binary target is positive if a close touches or crosses the lower barrier first. An upper-first touch or expiry counts as negative. An incomplete window has no label.",
+  "prediction": "The depth-2 boosted trees estimate the probability of a lower-first touch. The exposure gate uses that score to set the position.",
+  "finding": "In this development period the binary barrier tree met the frozen rule's comparison limits for SOXX. For QQQ it missed the whipsaw limit. These are exploratory results from the local study.",
+  "feature_registration": "artifacts/ablations/soxx_qqq_wide_inputs/registration.json",
+  "local_evidence": "run/model_exploration_2026-11-23/exploration.json",
+  "links": [
+    {"relation": "uses_label", "target": "label:triple_barrier"},
+    {"relation": "uses_predictor", "target": "predictor:gradient_boosted_trees"},
+    {"relation": "uses_tool", "target": "tool:lightgbm"},
+    {"relation": "studied_on", "target": "fund:soxx"},
+    {"relation": "studied_on", "target": "fund:qqq"}
+  ]
+}

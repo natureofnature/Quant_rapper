@@ -1,0 +1,11 @@
+{
+  "id": "label:triple_barrier",
+  "kind": "labeling_method",
+  "name": "Triple-barrier labeling",
+  "description": "Label a price path by the first event among an upper price barrier, a lower price barrier and a time limit.",
+  "inputs": ["entry price", "upper and lower barriers", "ordered price observations", "time limit"],
+  "outcomes": ["lower first", "time expired", "upper first"],
+  "usage": "Specify the price observation convention and how expiry is encoded. A close-only series can miss intraday touches. Training at a historical cutoff requires labels that have matured by that cutoff.",
+  "sources": ["https://mlfinpy.readthedocs.io/en/stable/_modules/mlfinpy/labeling/labeling.html"],
+  "links": []
+}

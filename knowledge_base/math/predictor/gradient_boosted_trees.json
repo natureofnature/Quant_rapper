@@ -1,0 +1,9 @@
+{
+  "id": "predictor:gradient_boosted_trees",
+  "kind": "predictor",
+  "name": "Gradient-boosted tree classifier",
+  "description": "Fit an additive sequence of decision trees to reduce a classification loss. In binary classification the fitted score can be mapped to the probability of the designated positive class.",
+  "inputs": ["feature vectors available at decision time", "class labels for training"],
+  "sources": ["https://lightgbm.readthedocs.io/en/stable/Features.html"],
+  "links": []
+}

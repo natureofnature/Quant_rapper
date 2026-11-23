@@ -113,7 +113,7 @@ apps/               cli/  workbench/
 tests/              unit/  invariants/  integration/
 artifacts/          snapshots/ for reusable inputs, ablations/ and prospective/ for formal benchmarks
 docs/rfcs/          design documents
-knowledge_base/     version-controlled research priors, maps and company profiles
+knowledge_base/     research priors, market maps, modeling methods and study notes
 ```
 
 Before downloading data, check the manifests in `artifacts/snapshots/<version>/` for the source and coverage you need. A study can reuse a frozen input by listing its SHA-256 and repository-relative path in `run/<study>/inputs.sha256`. Run `sha256sum -c run/<study>/inputs.sha256` from the repository root to verify the selected files. Save updated source data under a new snapshot version so earlier studies can replay their original inputs.
