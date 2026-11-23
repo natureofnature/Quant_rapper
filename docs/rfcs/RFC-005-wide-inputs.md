@@ -1,6 +1,6 @@
 # RFC-005: A Wider Input Set for the SOXX/QQQ Risk Gate
 
-* **Status**: Draft, revision 2. Nothing registered. One fenced local exploration has been run (section 2).
+* **Status**: Completed 2026-11-23. The rule is kept for both funds and the stopping rule is met. Result: `artifacts/ablations/soxx_qqq_wide_inputs/output/report.md`.
 * **Date**: 2026-11-22
 * **Repository**: `Quant_rapper`
 * **Depends on**: the frozen rule baseline (`artifacts/ablations/sector_risk_baseline`) and the frozen Model A and Model C comparisons of RFC-004.
