@@ -2,17 +2,17 @@
   "kind": "frozen_diagnostic",
   "registration_id": "tsm_guidance_surprise",
   "frozen_on": "2026-11-22",
-  "describe": "The outputs of the registered guidance-surprise table. Exploratory. report.md is rendered from the outputs by report.py.",
-  "registration_sha256": "f3dbcd4bf3b0403307dbcc95f15c0d1073f7769840fe5801da52a5ede523d330",
-  "code_commit": "7cdb7e884e7bb8be38f32519fbe55f40d2c84f63",
+  "describe": "The outputs of the registered guidance-surprise table. Exploratory. Rerun after the exchange-rate month correction recorded as an amendment in the registration, which also adds a midpoint comparison marked post hoc; the earlier output hashes are in that amendment. report.md is rendered from the outputs by report.py.",
+  "registration_sha256": "3b6c9741336d2647f1c1ecf22f2b1f36c626ca0d463fb93fc1701c81d8d88a03",
+  "code_commit": "e38529d52964c9d697e308d4da1261e5d604dcd5",
   "outputs_sha256": {
-    "report.json": "25c3fe146168c2f842ef6e0d5bde13657a81fd5eed0a3fafbc4ebf8a4cfda05d",
-    "report.md": "2daf4b9ced4a19a742173f885e08dc81e4f48cb1342f5907ddc179b6551f5036",
-    "surprise.csv": "ca3a6e67e21e11a3fa290499c33081b481be2581c3c7d2e395d6468421085df9"
+    "report.json": "8aea0073c498ac5c0e7349198ce8ed38041b25ede53feb7a6041808124000c67",
+    "report.md": "e4c6215c9ffbf37425a713027695b7f677b3b6f888b5470e58cb846605f8d312",
+    "surprise.csv": "a086331a720d9d83bfc35a5d6937a7eb7f21acb254381e2dc16f0e523d7205cf"
   },
   "report_renderer": {
     "file": "report.py",
-    "sha256": "b0f8b7ecc8a4425a69ca2b8b31840830824839e051357ed6e6a7002d58b83c11",
+    "sha256": "901838f9c99ace265ae168069015ff84b9fc11739ad74099b653df4dc01548c7",
     "command": "python artifacts/ablations/tsm_guidance_surprise/report.py"
   }
 }

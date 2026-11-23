@@ -1,32 +1,45 @@
 # TSM guidance surprise (exploratory)
 
-Produced by `run.py` from `registration.json` (sha256 `f3dbcd4bf3b0…`), code commit `7cdb7e8`. Every definition is in the registration. This file only formats the outputs.
+Produced by `run.py` from `registration.json` (sha256 `3b6c9741336d…`), code commit `e38529d`. Every definition is in the registration. This file only formats the outputs.
 
 Exploratory. It closes the directional-surprise part of RFC-002 section 3.3, which the TSM diagnostics recorded as a data gap. The returns used are the ones already frozen in tsm_diagnostics, whose results were known when this was written: no state split there reached two standard errors. Revenue growth is never used as a surprise here; the only benchmark is the company's own guidance.
 
 ## All quarters
 
-Above the range: 52. Inside: 29. Below: 3.
+Above the range: 53. Inside: 28. Below: 3.
 
 | Window | Mean, above | Mean, below | Mean, inside | Above minus below | In standard errors |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Reaction | +0.41% | -0.58% | +0.27% | +0.98% | +1.42 |
-| Entry session | -0.42% | +0.70% | -0.29% | -1.12% | -0.98 |
-| 5 sessions | -0.25% | +0.20% | +0.62% | -0.45% | -0.33 |
+| Reaction | +0.42% | -0.58% | +0.23% | +1.00% | +1.45 |
+| Entry session | -0.39% | +0.70% | -0.35% | -1.09% | -0.95 |
+| 5 sessions | -0.20% | +0.20% | +0.56% | -0.40% | -0.30 |
 
 ## Without the quarters whose guidance was revised mid-quarter
 
-Above the range: 50. Inside: 28. Below: 2.
+Above the range: 51. Inside: 27. Below: 2.
 
 | Window | Mean, above | Mean, below | Mean, inside | Above minus below | In standard errors |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Reaction | +0.40% | -0.97% | +0.26% | +1.37% | +1.41 |
-| Entry session | -0.42% | +1.24% | -0.28% | -1.66% | -0.96 |
-| 5 sessions | -0.26% | +1.08% | +0.73% | -1.34% | -0.80 |
+| Reaction | +0.42% | -0.97% | +0.22% | +1.39% | +1.43 |
+| Entry session | -0.38% | +1.24% | -0.35% | -1.62% | -0.94 |
+| 5 sessions | -0.21% | +1.08% | +0.67% | -1.29% | -0.77 |
+
+## Supplement, added after the registered result was seen: above against below the guidance midpoint
+
+Not part of the registration as first written; see its amendment. TSMC's revenue is above the midpoint in most quarters, so this split is also uneven.
+
+| Quarters | Window | n above / below | Mean, above | Mean, below | Above minus below | In standard errors |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| All | Reaction | 72 / 12 | +0.40% | -0.13% | +0.53% | +1.86 |
+| All | Entry session | 72 / 12 | -0.39% | -0.01% | -0.38% | -1.03 |
+| All | 5 sessions | 72 / 12 | -0.16% | +1.40% | -1.55% | -1.34 |
+| Without revised | Reaction | 70 / 10 | +0.40% | -0.22% | +0.62% | +1.92 |
+| Without revised | Entry session | 70 / 10 | -0.39% | +0.08% | -0.47% | -1.11 |
+| Without revised | 5 sessions | 70 / 10 | -0.16% | +2.07% | -2.23% | -1.77 |
 
 Returns are TSM's beta-adjusted abnormal returns around the release of the quarter's third month.
 
-Currency check: of the 37 quarters guided in US dollars, 20 fall on the same side of the range when converted at the single rate the guidance assumed instead of month by month.
+Currency check: of the 37 quarters guided in US dollars, 21 fall on the same side of the range when converted at the single rate the guidance assumed instead of month by month.
 
 ## Every quarter
 
@@ -79,43 +92,43 @@ Currency check: of the 37 quarters guided in US dollars, 20 fall on the same sid
 | 2016Q4 | NTD | 255 to 258 | 262.23 | +2.23% | above |  |  | -0.06% | -0.22% | -0.59% |
 | 2017Q1 | NTD | 236 to 239 | 233.92 | -1.51% | below |  |  | -0.01% | -0.48% | -0.51% |
 | 2017Q2 | NTD | 213 to 216 | 213.86 | -0.30% | inside |  |  | -0.30% | +0.64% | +2.03% |
-| 2017Q3 | USD | 8.12 to 8.22 | 8.34 | +2.05% | above | above |  | +0.08% | -0.31% | +3.84% |
+| 2017Q3 | USD | 8.12 to 8.22 | 8.34 | +2.03% | above | above |  | +0.08% | -0.31% | +3.84% |
 | 2017Q4 | USD | 9.1 to 9.2 | 9.22 | +0.75% | above | inside |  | -1.32% | -0.08% | +1.84% |
 | 2018Q1 | USD | 8.4 to 8.5 | 8.47 | +0.29% | inside | below |  | +0.29% | -1.26% | -3.81% |
-| 2018Q2 | USD | 7.8 to 7.9 | 7.85 | -0.04% | inside | above |  | -1.09% | +0.57% | +2.03% |
-| 2018Q3 | USD | 8.45 to 8.55 | 8.50 | -0.01% | inside | inside | yes | +0.52% | -0.58% | -2.41% |
-| 2018Q4 | USD | 9.35 to 9.45 | 9.41 | +0.10% | inside | inside |  | +0.31% | +1.31% | +0.01% |
+| 2018Q2 | USD | 7.8 to 7.9 | 7.85 | +0.00% | inside | above |  | -1.09% | +0.57% | +2.03% |
+| 2018Q3 | USD | 8.45 to 8.55 | 8.50 | -0.02% | inside | inside | yes | +0.52% | -0.58% | -2.41% |
+| 2018Q4 | USD | 9.35 to 9.45 | 9.41 | +0.12% | inside | inside |  | +0.31% | +1.31% | +0.01% |
 | 2019Q1 | USD | 7.3 to 7.4 | 7.10 | -3.41% | below | below | yes | +0.20% | -0.37% | -1.55% |
 | 2019Q2 | USD | 7.55 to 7.65 | 7.75 | +1.98% | above | above |  | +2.14% | -0.09% | +1.15% |
-| 2019Q3 | USD | 9.1 to 9.2 | 9.41 | +2.81% | above | above |  | -0.22% | +0.75% | +0.21% |
-| 2019Q4 | USD | 10.2 to 10.3 | 10.43 | +1.73% | above | above |  | +0.33% | -0.52% | -2.08% |
-| 2020Q1 | USD | 10.2 to 10.3 | 10.34 | +0.84% | above | above |  | +1.14% | -1.13% | +5.05% |
-| 2020Q2 | USD | 10.1 to 10.4 | 10.43 | +1.73% | above | inside |  | -0.68% | -0.51% | +4.16% |
-| 2020Q3 | USD | 11.2 to 11.5 | 12.17 | +7.21% | above | above |  | +1.53% | -1.44% | -2.60% |
-| 2020Q4 | USD | 12.4 to 12.7 | 12.70 | +1.21% | above | inside |  | +2.57% | -4.68% | -1.54% |
-| 2021Q1 | USD | 12.7 to 13 | 12.93 | +0.62% | inside | inside |  | +0.17% | -0.40% | -3.42% |
-| 2021Q2 | USD | 12.9 to 13.2 | 13.33 | +2.18% | above | inside |  | -0.20% | +0.96% | +0.11% |
-| 2021Q3 | USD | 14.6 to 14.9 | 14.91 | +1.07% | above | inside |  | -0.20% | +0.44% | +1.13% |
-| 2021Q4 | USD | 15.4 to 15.7 | 15.77 | +1.41% | above | inside |  | +2.42% | -1.25% | +8.85% |
-| 2022Q1 | USD | 16.6 to 17.2 | 17.57 | +3.98% | above | above |  | +0.71% | -0.10% | +1.15% |
-| 2022Q2 | USD | 17.6 to 18.2 | 18.19 | +1.60% | inside | above |  | +0.16% | +0.56% | +2.81% |
-| 2022Q3 | USD | 19.8 to 20.6 | 20.19 | -0.06% | inside | above |  | -1.27% | -0.62% | -1.94% |
+| 2019Q3 | USD | 9.1 to 9.2 | 9.41 | +2.84% | above | above |  | -0.22% | +0.75% | +0.21% |
+| 2019Q4 | USD | 10.2 to 10.3 | 10.43 | +1.71% | above | above |  | +0.33% | -0.52% | -2.08% |
+| 2020Q1 | USD | 10.2 to 10.3 | 10.34 | +0.85% | above | above |  | +1.14% | -1.13% | +5.05% |
+| 2020Q2 | USD | 10.1 to 10.4 | 10.42 | +1.68% | above | inside |  | -0.68% | -0.51% | +4.16% |
+| 2020Q3 | USD | 11.2 to 11.5 | 12.17 | +7.19% | above | above |  | +1.53% | -1.44% | -2.60% |
+| 2020Q4 | USD | 12.4 to 12.7 | 12.70 | +1.20% | above | inside |  | +2.57% | -4.68% | -1.54% |
+| 2021Q1 | USD | 12.7 to 13 | 12.93 | +0.63% | inside | inside |  | +0.17% | -0.40% | -3.42% |
+| 2021Q2 | USD | 12.9 to 13.2 | 13.33 | +2.17% | above | inside |  | -0.20% | +0.96% | +0.11% |
+| 2021Q3 | USD | 14.6 to 14.9 | 14.91 | +1.08% | above | inside |  | -0.20% | +0.44% | +1.13% |
+| 2021Q4 | USD | 15.4 to 15.7 | 15.77 | +1.42% | above | inside |  | +2.42% | -1.25% | +8.85% |
+| 2022Q1 | USD | 16.6 to 17.2 | 17.58 | +4.00% | above | above |  | +0.71% | -0.10% | +1.15% |
+| 2022Q2 | USD | 17.6 to 18.2 | 18.19 | +1.63% | inside | above |  | +0.16% | +0.56% | +2.81% |
+| 2022Q3 | USD | 19.8 to 20.6 | 20.20 | +0.01% | inside | above |  | -1.27% | -0.62% | -1.94% |
 | 2022Q4 | USD | 19.9 to 20.7 | 19.96 | -1.69% | inside | below |  | +0.50% | -0.27% | +7.02% |
 | 2023Q1 | USD | 16.7 to 17.5 | 16.76 | -2.02% | inside | below |  | -1.35% | -1.37% | -2.09% |
-| 2023Q2 | USD | 15.2 to 16 | 15.68 | +0.48% | inside | inside |  | -0.23% | -1.90% | +1.26% |
-| 2023Q3 | USD | 16.7 to 17.5 | 17.27 | +1.01% | inside | above |  | +1.64% | -0.83% | +1.00% |
+| 2023Q2 | USD | 15.2 to 16 | 15.68 | +0.50% | inside | inside |  | -0.23% | -1.90% | +1.26% |
+| 2023Q3 | USD | 16.7 to 17.5 | 17.28 | +1.05% | inside | above |  | +1.64% | -0.83% | +1.00% |
 | 2023Q4 | USD | 18.8 to 19.6 | 19.65 | +2.32% | above | inside |  | +0.44% | -1.23% | +0.54% |
-| 2024Q1 | USD | 18 to 18.8 | 18.88 | +2.63% | above | above |  | +2.29% | -0.14% | -3.13% |
-| 2024Q2 | USD | 19.6 to 20.4 | 20.84 | +4.22% | above | above |  | +1.22% | +0.25% | -1.16% |
-| 2024Q3 | USD | 22.4 to 23.2 | 23.57 | +3.38% | above | above |  | +1.03% | -1.38% | +1.63% |
-| 2024Q4 | USD | 26.1 to 26.9 | 26.90 | +1.50% | inside | above |  | +1.38% | +1.43% | +2.30% |
-| 2025Q1 | USD | 25 to 25.8 | 25.55 | +0.57% | inside | inside |  | +2.27% | +0.17% | +1.13% |
-| 2025Q2 | USD | 28.4 to 29.2 | 30.23 | +4.95% | above | inside |  | -0.40% | -1.34% | +2.34% |
-| 2025Q3 | USD | 31.8 to 33 | 33.05 | +2.02% | above | above |  | -0.59% | -0.55% | +1.79% |
-| 2025Q4 | USD | 32.2 to 33.4 | 33.74 | +2.86% | above | above |  | -0.27% | -0.36% | +3.09% |
-| 2026Q1 | USD | 34.6 to 35.8 | 35.87 | +1.91% | above | above |  | +1.85% | -2.21% | -8.46% |
+| 2024Q1 | USD | 18 to 18.8 | 18.89 | +2.64% | above | above |  | +2.29% | -0.14% | -3.13% |
+| 2024Q2 | USD | 19.6 to 20.4 | 20.85 | +4.24% | above | above |  | +1.22% | +0.25% | -1.16% |
+| 2024Q3 | USD | 22.4 to 23.2 | 23.56 | +3.35% | above | above |  | +1.03% | -1.38% | +1.63% |
+| 2024Q4 | USD | 26.1 to 26.9 | 26.90 | +1.52% | above | above |  | +1.38% | +1.43% | +2.30% |
+| 2025Q1 | USD | 25 to 25.8 | 25.55 | +0.59% | inside | inside |  | +2.27% | +0.17% | +1.13% |
+| 2025Q2 | USD | 28.4 to 29.2 | 30.17 | +4.76% | above | inside |  | -0.40% | -1.34% | +2.34% |
+| 2025Q3 | USD | 31.8 to 33 | 33.08 | +2.09% | above | above |  | -0.59% | -0.55% | +1.79% |
+| 2025Q4 | USD | 32.2 to 33.4 | 33.74 | +2.87% | above | above |  | -0.27% | -0.36% | +3.09% |
+| 2026Q1 | USD | 34.6 to 35.8 | 35.87 | +1.92% | above | above |  | +1.85% | -2.21% | -8.46% |
 | 2026Q2 | USD | 39 to 40.2 | 40.21 | +1.54% | above | inside |  | +2.12% | -1.56% | -2.87% |
-| 2026Q3 | USD | 44.6 to 45.8 | 46.74 | +3.41% | above | above |  | -0.11% | -0.58% | -1.28% |
+| 2026Q3 | USD | 44.6 to 45.8 | 46.75 | +3.42% | above | above |  | -0.11% | -0.58% | -1.28% |
 
 ## Limits
 
@@ -124,3 +137,7 @@ Currency check: of the 37 quarters guided in US dollars, 20 fall on the same sid
 - USD/TWD closes are Yahoo's, not an official fixing, and start in March 2004.
 - Guidance ranges and monthly figures were collected through page readers and PDF text extraction and cross-checked as their files describe.
 - Revisions to guidance before 2012 were not searched for.
+
+## Amendments
+
+- 2026-11-22: (1) Correction: a USD/TWD quote is assigned to the month of its date in the source's timezone (Europe/London), not its UTC date. (2) Supplement: above against below the guidance midpoint is reported for the same three windows, in a block marked post hoc. The registered comparison, above against below the range, is unchanged and remains the registered reading. An outside review found that daily quotes stamped at London midnight fall on the previous UTC date in summer time, so a month's first quote was averaged into the month before. Effect: the converted revenue changes for 32 of the 37 US-dollar quarters and one classification changes, 2024Q4 from inside to above. The same review asked for the midpoint comparison because the range comparison leaves the inside quarters out and has 3 quarters below. It was added after the range result was known, contrary to the registration's 'no other split is tried', and carries no weight beyond description.

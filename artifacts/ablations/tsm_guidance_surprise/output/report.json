@@ -1,120 +1,226 @@
 {
  "status": "EXPLORATORY",
- "registration_sha256": "f3dbcd4bf3b0403307dbcc95f15c0d1073f7769840fe5801da52a5ede523d330",
+ "registration_sha256": "3b6c9741336d2647f1c1ecf22f2b1f36c626ca0d463fb93fc1701c81d8d88a03",
  "quarters": 84,
  "skipped": [],
  "all_quarters": {
   "counts": {
-   "above": 52,
-   "inside": 29,
+   "above": 53,
+   "inside": 28,
    "below": 3
   },
   "reaction": {
    "label": "all quarters: reaction, above against below",
-   "n_a": 52,
+   "n_a": 53,
    "n_b": 3,
-   "mean_a": 0.00405625,
+   "mean_a": 0.004240641509433963,
    "mean_b": -0.005784333333333333,
-   "difference": 0.009840583333333333,
-   "standard_error": 0.006906358040368014,
-   "median_a": 0.002855,
+   "difference": 0.010024974842767296,
+   "standard_error": 0.006904239968121123,
+   "median_a": 0.003296,
    "median_b": -5.6e-05,
-   "positive_share_a": 0.6538461538461539,
+   "positive_share_a": 0.660377358490566,
    "positive_share_b": 0.3333333333333333,
    "episodes_a": null,
    "episodes_b": null,
-   "inside_mean": 0.002727103448275862
+   "inside_mean": 0.0023306071428571425
   },
   "entry_day": {
    "label": "all quarters: entry_day, above against below",
-   "n_a": 52,
+   "n_a": 53,
    "n_b": 3,
-   "mean_a": -0.004213038461538462,
+   "mean_a": -0.003864037735849057,
    "mean_b": 0.007030999999999999,
-   "difference": -0.011244038461538462,
-   "standard_error": 0.01149800558385917,
-   "median_a": -0.00281,
+   "difference": -0.010895037735849055,
+   "standard_error": 0.011495430438519158,
+   "median_a": -0.002768,
    "median_b": -0.003701,
-   "positive_share_a": 0.3076923076923077,
+   "positive_share_a": 0.32075471698113206,
    "positive_share_b": 0.3333333333333333,
    "episodes_a": null,
    "episodes_b": null,
-   "inside_mean": -0.0029313793103448275
+   "inside_mean": -0.003546214285714286
   },
   "window": {
    "label": "all quarters: window, above against below",
-   "n_a": 52,
+   "n_a": 53,
    "n_b": 3,
-   "mean_a": -0.0024912500000000004,
+   "mean_a": -0.002010735849056604,
    "mean_b": 0.002030666666666667,
-   "difference": -0.004521916666666667,
-   "standard_error": 0.013547418812751408,
-   "median_a": -0.0024075000000000004,
+   "difference": -0.004041402515723271,
+   "standard_error": 0.013524652692823085,
+   "median_a": 0.001076,
    "median_b": -0.005126,
-   "positive_share_a": 0.5,
+   "positive_share_a": 0.5094339622641509,
    "positive_share_b": 0.3333333333333333,
    "episodes_a": null,
    "episodes_b": null,
-   "inside_mean": 0.006170172413793104
+   "inside_mean": 0.005569964285714287
   }
  },
  "without_revised_quarters": {
   "counts": {
-   "above": 50,
-   "inside": 28,
+   "above": 51,
+   "inside": 27,
    "below": 2
   },
   "reaction": {
    "label": "without revised quarters: reaction, above against below",
-   "n_a": 50,
+   "n_a": 51,
    "n_b": 2,
-   "mean_a": 0.0040427200000000005,
+   "mean_a": 0.004234607843137255,
    "mean_b": -0.009678,
-   "difference": 0.013720720000000002,
-   "standard_error": 0.009715559828924962,
-   "median_a": 0.002855,
+   "difference": 0.013912607843137255,
+   "standard_error": 0.009713803270466025,
+   "median_a": 0.003296,
    "median_b": -0.009678,
-   "positive_share_a": 0.64,
+   "positive_share_a": 0.6470588235294118,
    "positive_share_b": 0.0,
    "episodes_a": null,
    "episodes_b": null,
-   "inside_mean": 0.002638892857142857
+   "inside_mean": 0.0022244444444444443
   },
   "entry_day": {
    "label": "without revised quarters: entry_day, above against below",
-   "n_a": 50,
+   "n_a": 51,
    "n_b": 2,
-   "mean_a": -0.00418752,
+   "mean_a": -0.003825333333333334,
    "mean_b": 0.012396999999999998,
-   "difference": -0.01658452,
-   "standard_error": 0.01734849531802051,
-   "median_a": -0.00281,
+   "difference": -0.01622233333333333,
+   "standard_error": 0.01734647748523085,
+   "median_a": -0.002768,
    "median_b": 0.012396999999999998,
-   "positive_share_a": 0.3,
+   "positive_share_a": 0.3137254901960784,
    "positive_share_b": 0.5,
    "episodes_a": null,
    "episodes_b": null,
-   "inside_mean": -0.0028286428571428573
+   "inside_mean": -0.0034624444444444446
   },
   "window": {
    "label": "without revised quarters: window, above against below",
-   "n_a": 50,
+   "n_a": 51,
    "n_b": 2,
-   "mean_a": -0.0025964800000000004,
+   "mean_a": -0.002095058823529412,
    "mean_b": 0.010787000000000001,
-   "difference": -0.013383480000000001,
-   "standard_error": 0.01664697743986761,
-   "median_a": -0.0024075000000000004,
+   "difference": -0.012882058823529413,
+   "standard_error": 0.016626367410842422,
+   "median_a": 0.001076,
    "median_b": 0.010787000000000001,
-   "positive_share_a": 0.5,
+   "positive_share_a": 0.5098039215686274,
    "positive_share_b": 0.5,
    "episodes_a": null,
    "episodes_b": null,
-   "inside_mean": 0.007250428571428572
+   "inside_mean": 0.006668
+  }
+ },
+ "supplement_midpoint_post_hoc": {
+  "all_quarters": {
+   "counts": {
+    "above": 72,
+    "at": 0,
+    "below": 12
+   },
+   "reaction": {
+    "label": "all quarters: reaction, above the midpoint against below it",
+    "n_a": 72,
+    "n_b": 12,
+    "mean_a": 0.003996861111111111,
+    "mean_b": -0.0012596666666666667,
+    "difference": 0.0052565277777777775,
+    "standard_error": 0.002823465269332895,
+    "median_a": 0.0030204999999999997,
+    "median_b": -0.0012375,
+    "positive_share_a": 0.6805555555555556,
+    "positive_share_b": 0.4166666666666667,
+    "episodes_a": null,
+    "episodes_b": null
+   },
+   "entry_day": {
+    "label": "all quarters: entry_day, above the midpoint against below it",
+    "n_a": 72,
+    "n_b": 12,
+    "mean_a": -0.003908694444444445,
+    "mean_b": -0.0001307500000000001,
+    "difference": -0.0037779444444444444,
+    "standard_error": 0.003661185926431884,
+    "median_a": -0.0029839999999999997,
+    "median_b": -0.0025125,
+    "positive_share_a": 0.3472222222222222,
+    "positive_share_b": 0.3333333333333333,
+    "episodes_a": null,
+    "episodes_b": null
+   },
+   "window": {
+    "label": "all quarters: window, above the midpoint against below it",
+    "n_a": 72,
+    "n_b": 12,
+    "mean_a": -0.001555166666666667,
+    "mean_b": 0.0139545,
+    "difference": -0.015509666666666666,
+    "standard_error": 0.011539534755060324,
+    "median_a": 0.000578,
+    "median_b": -0.0008935000000000002,
+    "positive_share_a": 0.5277777777777778,
+    "positive_share_b": 0.5,
+    "episodes_a": null,
+    "episodes_b": null
+   }
+  },
+  "without_revised_quarters": {
+   "counts": {
+    "above": 70,
+    "at": 0,
+    "below": 10
+   },
+   "reaction": {
+    "label": "without revised quarters: reaction, above the midpoint against below it",
+    "n_a": 70,
+    "n_b": 10,
+    "mean_a": 0.0039854999999999995,
+    "mean_b": -0.0022316000000000003,
+    "difference": 0.0062171,
+    "standard_error": 0.0032454073346657123,
+    "median_a": 0.0030204999999999997,
+    "median_b": -0.0024635,
+    "positive_share_a": 0.6714285714285714,
+    "positive_share_b": 0.3,
+    "episodes_a": null,
+    "episodes_b": null
+   },
+   "entry_day": {
+    "label": "without revised quarters: entry_day, above the midpoint against below it",
+    "n_a": 70,
+    "n_b": 10,
+    "mean_a": -0.003881771428571429,
+    "mean_b": 0.0007939999999999999,
+    "difference": -0.004675771428571429,
+    "standard_error": 0.004220880140744091,
+    "median_a": -0.0029839999999999997,
+    "median_b": -0.0017720000000000001,
+    "positive_share_a": 0.34285714285714286,
+    "positive_share_b": 0.4,
+    "episodes_a": null,
+    "episodes_b": null
+   },
+   "window": {
+    "label": "without revised quarters: window, above the midpoint against below it",
+    "n_a": 70,
+    "n_b": 10,
+    "mean_a": -0.0016035857142857146,
+    "mean_b": 0.0207013,
+    "difference": -0.022304885714285714,
+    "standard_error": 0.012579620104742634,
+    "median_a": 0.000578,
+    "median_b": 0.0118195,
+    "positive_share_a": 0.5285714285714286,
+    "positive_share_b": 0.6,
+    "episodes_a": null,
+    "episodes_b": null
+   }
   }
  },
  "currency_check": {
   "quarters_in_usd": 37,
-  "same_side_at_the_assumed_rate": 20
+  "same_side_at_the_assumed_rate": 21
  }
 }

@@ -1,6 +1,6 @@
 # TSM diagnostics (exploratory)
 
-Produced by `run.py` from `registration.json` (sha256 `b398e315f7f8…`), code commit `e4914a6`. Every definition is in the registration. This file only formats `report.json`.
+Produced by `run.py` from `registration.json` (sha256 `b397634f0a30…`), code commit `e38529d`. Every definition is in the registration. This file only formats `report.json`.
 
 Exploratory throughout. The 289 revenue releases were already examined against VIX state on unadjusted returns, and every decision predates the frozen prior. These diagnostics describe where TSM's variance sits and whether a beta adjustment changes the earlier picture. They are not a test, and no result here licenses a trading rule.
 
@@ -28,7 +28,7 @@ Residual after SOXX, by year: 2003 45.5%, 2004 42.9%, 2005 66.9%, 2006 48.6%, 20
 | opex | 287 | 4.8% | 4.3% | 0.89 |
 | any catalyst | 1314 | 21.9% | 28.4% | 1.30 |
 
-Shock audit: 76 of 4698 non-announcement sessions have a residual beyond 2.5 trailing standard deviations. They are listed in `shocks.csv` for review against the research map; none is explained here.
+Shock audit: 76 of 4501 non-announcement sessions have a residual beyond 2.5 trailing standard deviations. They are listed in `shocks.csv` for review against the research map; none is explained here.
 
 ## Part 2: the monthly revenue event study
 
@@ -38,24 +38,24 @@ Shock audit: 76 of 4698 non-announcement sessions have a residual beyond 2.5 tra
 
 | State split | Window | Measure | n high / low | Mean high | Mean low | Difference | In standard errors | Episodes high / low |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| vix_term_structure | reaction | raw | 16 / 190 | +0.34% | +0.22% | +0.12% | +0.27 | 11 / 4 |
-| vix_term_structure | reaction | relative | 16 / 190 | +0.00% | +0.18% | -0.18% | -0.61 | 11 / 4 |
-| vix_term_structure | reaction | abnormal | 16 / 190 | +0.21% | +0.18% | +0.03% | +0.13 | 11 / 4 |
-| vix_term_structure | entry day | raw | 16 / 190 | -0.36% | -0.10% | -0.25% | -0.69 | 11 / 4 |
-| vix_term_structure | entry day | relative | 16 / 190 | -0.38% | -0.11% | -0.27% | -0.86 | 11 / 4 |
-| vix_term_structure | entry day | abnormal | 16 / 190 | -0.32% | -0.11% | -0.21% | -0.70 | 11 / 4 |
-| vix_term_structure | window | raw | 16 / 190 | +0.02% | +0.58% | -0.56% | -0.39 | 11 / 4 |
-| vix_term_structure | window | relative | 16 / 190 | -0.49% | -0.17% | -0.32% | -0.40 | 11 / 4 |
-| vix_term_structure | window | abnormal | 16 / 190 | -0.36% | -0.02% | -0.34% | -0.45 | 11 / 4 |
-| vix_level | reaction | raw | 93 / 196 | +0.32% | +0.18% | +0.14% | +0.69 | 18 / 11 |
-| vix_level | reaction | relative | 93 / 196 | +0.17% | +0.14% | +0.03% | +0.17 | 18 / 11 |
-| vix_level | reaction | abnormal | 91 / 196 | +0.21% | +0.14% | +0.08% | +0.52 | 18 / 11 |
-| vix_level | entry day | raw | 93 / 196 | -0.13% | -0.14% | +0.01% | +0.03 | 18 / 11 |
-| vix_level | entry day | relative | 93 / 196 | +0.06% | -0.13% | +0.19% | +0.99 | 18 / 11 |
-| vix_level | entry day | abnormal | 91 / 196 | +0.04% | -0.13% | +0.16% | +0.89 | 18 / 11 |
-| vix_level | window | raw | 93 / 196 | +0.68% | -0.06% | +0.74% | +1.08 | 18 / 11 |
-| vix_level | window | relative | 93 / 196 | +0.06% | -0.44% | +0.50% | +1.09 | 18 / 11 |
-| vix_level | window | abnormal | 91 / 196 | +0.40% | -0.35% | +0.75% | +1.69 | 18 / 11 |
+| vix_term_structure | reaction | raw | 16 / 190 | +0.34% | +0.22% | +0.12% | +0.27 | 11 / 1 |
+| vix_term_structure | reaction | relative | 16 / 190 | +0.00% | +0.18% | -0.18% | -0.61 | 11 / 1 |
+| vix_term_structure | reaction | abnormal | 16 / 190 | +0.21% | +0.18% | +0.03% | +0.13 | 11 / 1 |
+| vix_term_structure | entry day | raw | 16 / 190 | -0.36% | -0.10% | -0.25% | -0.69 | 11 / 1 |
+| vix_term_structure | entry day | relative | 16 / 190 | -0.38% | -0.11% | -0.27% | -0.86 | 11 / 1 |
+| vix_term_structure | entry day | abnormal | 16 / 190 | -0.32% | -0.11% | -0.21% | -0.70 | 11 / 1 |
+| vix_term_structure | window | raw | 16 / 190 | +0.02% | +0.58% | -0.56% | -0.39 | 11 / 1 |
+| vix_term_structure | window | relative | 16 / 190 | -0.49% | -0.17% | -0.32% | -0.40 | 11 / 1 |
+| vix_term_structure | window | abnormal | 16 / 190 | -0.36% | -0.02% | -0.34% | -0.45 | 11 / 1 |
+| vix_level | reaction | raw | 93 / 196 | +0.32% | +0.18% | +0.14% | +0.69 | 18 / 10 |
+| vix_level | reaction | relative | 93 / 196 | +0.17% | +0.14% | +0.03% | +0.17 | 18 / 10 |
+| vix_level | reaction | abnormal | 91 / 196 | +0.21% | +0.14% | +0.08% | +0.52 | 18 / 10 |
+| vix_level | entry day | raw | 93 / 196 | -0.13% | -0.14% | +0.01% | +0.03 | 18 / 10 |
+| vix_level | entry day | relative | 93 / 196 | +0.06% | -0.13% | +0.19% | +0.99 | 18 / 10 |
+| vix_level | entry day | abnormal | 91 / 196 | +0.04% | -0.13% | +0.16% | +0.89 | 18 / 10 |
+| vix_level | window | raw | 93 / 196 | +0.68% | -0.06% | +0.74% | +1.08 | 18 / 10 |
+| vix_level | window | relative | 93 / 196 | +0.06% | -0.44% | +0.50% | +1.09 | 18 / 10 |
+| vix_level | window | abnormal | 91 / 196 | +0.40% | -0.35% | +0.75% | +1.69 | 18 / 10 |
 
 ### Announcement-day volatility against other sessions in the same state
 
@@ -102,3 +102,8 @@ The standard errors treat sessions as independent, which they are not, so they u
 - Announcement times of day were not collected: a 08:30 release and a 14:00 statement are both assigned to their session.
 - TSMC earnings dates from 2013Q4 rest on one reading of the company's calendar.
 - Session-level volatility comparisons use sessions that are not independent.
+
+## Amendments
+
+- 2026-11-22: The code pin moves to a runner that leaves out a year with a single evaluated session and writes strict JSON. No definition changed. The first run wrote NaN for 2002's variance share, which is not valid JSON. Every other figure of the first run is reproduced exactly by the corrected runner.
+- 2026-11-22: Two reported counts are corrected; no definition, return or listed session changes. (1) Stress episodes are counted from entry dates: an event starts a new episode unless it enters fewer than 3 calendar months after the one before, and each outcome's count uses only the events with a value for that outcome. (2) The shock audit's denominator counts the sessions the screen could flag: no catalyst day, a residual, and 250 residuals before it. An outside review found that episodes were counted from revenue-month numbers, which drops the day, and over every event of a group whether or not it had the outcome; and that the denominator required only the day's own residual. Effect: the below-1 term-structure group spans 1 episode, not 4; the VIX-below-20 group 10, not 11; the stressed groups are unchanged at 11 and 18. Eligible sessions are 4,501, not 4,698; the 76 listed sessions, events.csv and shocks.csv are identical.
