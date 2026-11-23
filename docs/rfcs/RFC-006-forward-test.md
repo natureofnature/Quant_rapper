@@ -1,10 +1,11 @@
 # RFC-006: A Forward Test of the Fitted Gates, and Graph-Selected Inputs
 
-* **Status**: Draft, revision 2. Nothing registered, no ticket issued.
+* **Status**: Draft, revision 3. Nothing registered, no ticket issued.
 * **Date**: 2026-11-23
 * **Repository**: `Quant_rapper`
 * **Depends on**: the frozen rule baseline, the frozen RFC-005 comparison (`artifacts/ablations/soxx_qqq_wide_inputs`), the ticket loop of RFC-004 (`quant_loop.tickets`) and the causal-map generator of RFC-003.
-* **Scope**: daily shadow tickets from fitted gates beside the rule's, a review point fixed now, and one new gate whose inputs are chosen by the causal-map generator. No backtest decides anything.
+* **Scope**: daily shadow tickets from fitted gates beside the rule's for SOXX, QQQ and TSM, a review point fixed now, and one new gate whose inputs are chosen by the causal-map generator. No backtest decides anything.
+* **Revision 3** adds TSM as a subject and a seed-averaged gate, after a local exploration on TSM (section 1.1).
 
 ---
 
@@ -30,6 +31,23 @@ RFC-005 left one finding worth following. Over 2020–2026 the 33-input gates be
 
 That history is now used up. A further model tried on it would be partly fitted to results already seen, and RFC-005's stopping rule forbids variants on 2020–2026. The only clean evidence left is a decision recorded before its outcome exists.
 
+### 1.1 What a local exploration on TSM showed
+
+Run on 2026-11-23 in `run/tsm_gate_2026-11-23` (local only, not registered). The frozen rule with TSM's own 200-session trend, and the RFC-005 tree gate on the drawdown label with TSM's own price inputs, over 2020-01-02 to 2026-11-20:
+
+| Arm | Max drawdown | Final equity |
+| --- | ---: | ---: |
+| Buy and hold | −57.1% | 5.40 |
+| Rule with TSM's own trend | −26.3% | 5.45 |
+| SOXX's rule positions applied to TSM | −36.2% | 5.31 |
+| 3 inputs, trees | −41.3% | 2.95 |
+| 33 inputs, trees, median of 7 seeds | −37.1% | 8.27 |
+
+* **The 33-input gate beat buy and hold on both return and drawdown in every one of seven seeds** (equity 6.76 to 9.20, drawdown −33.8% to −39.0%). It did not beat the rule on drawdown in any.
+* **The result moves with the random seed**, which is why a seed-averaged gate is added below.
+* **Three years carry it** (2021, 2022 and 2026), and TSM moves closely with SOXX, whose result on these years was already known. It is a description, not a fresh test.
+* TSM's own inputs were computed directly from its closes, not through the point-in-time pipeline.
+
 ## 2. Gates and their roles
 
 | Gate | Inputs | Label | Role |
@@ -37,17 +55,33 @@ That history is now used up. A further model tried on it would be partly fitted 
 | Rule | The 3 signals, frozen | none | The gate in force, and the benchmark for every promotion |
 | `W-avg` | RFC-005's 33 | forward average | Shadow (Part A) |
 | `W-dd` | RFC-005's 33 | forward drawdown | Shadow (Part A); also the reference for `G-dd` |
+| `E-dd` | RFC-005's 33 | forward drawdown | Shadow (Part A): `W-dd` with its score averaged over seeds 0 to 6 |
 | `G-dd` | Chosen by the causal-map generator, per fund | forward drawdown | Shadow (Part B) |
 
 A shadow ticket decides nothing. It vetoes no alpha ticket and moves no exposure.
 
 Keeping both `W-avg` and `W-dd` costs little, since they share data and schedule, and gives a forward comparison of the two training targets.
 
+**Why `E-dd`.** The tree model samples columns at random, so one seed is one draw. `E-dd` fits the same model with seeds 0 to 6 each month and uses the mean of the seven scores; everything else is `W-dd`. `W-avg` and `W-dd` stay at seed 0, exactly as registered in RFC-005, so the forward record remains comparable with that backtest.
+
+**Subjects.**
+
+| Subject | Gate in force | Shadow gates |
+| --- | --- | --- |
+| SOXX | Rule | `W-avg`, `W-dd`, `E-dd`, later `G-dd` |
+| QQQ | Rule | `W-avg`, `W-dd`, `E-dd`, later `G-dd` |
+| TSM | Rule, with TSM's own 200-session trend | `E-dd`, with TSM's own price inputs in place of the fund's |
+
+* **TSM's rule** is the frozen rule unchanged except that its trend signal reads TSM's close. Its thresholds, exposure levels and cost are the sector baseline's.
+* **TSM's inputs** are built through the same point-in-time panel as the funds', with TSM's bound close as the subject.
+* **The SOXX gate keeps its veto** over a bullish single-stock ticket, as the ticket code already enforces. TSM's own gates are recorded beside that; they do not override it.
+* **TSM is not independent evidence.** It shares 26 of its 33 inputs with SOXX and moves closely with it. Its record is reported separately and is never pooled with the funds' to claim a larger sample.
+
 ## 3. Part A: shadow tickets from the RFC-005 gates
 
 ### 3.1 What is issued
 
-After each US session, for SOXX and QQQ: the rule's ticket as now, and one shadow ticket each from `W-avg` and `W-dd`, exactly as registered in RFC-005. The same 33 inputs, bindings, labels, tree settings, monthly refit on matured outcomes, gate quantiles and step-down. The code is pinned by commit. Nothing is re-tuned.
+After each US session, for each subject: the rule's ticket, and one shadow ticket from each of its shadow gates in section 2. `W-avg` and `W-dd` are exactly as registered in RFC-005. The same 33 inputs, bindings, labels, tree settings, monthly refit on matured outcomes, gate quantiles and step-down. The code is pinned by commit. Nothing is re-tuned.
 
 ### 3.2 The information cutoff and the issuance time are two things
 
@@ -77,6 +111,7 @@ RFC-005's 33 inputs were picked by hand and overlap heavily: five use VIX, four 
 * **What must be built first**: the generator makes candidates only from `factor_definitions.json`, which holds four factors today. The 18 series bound inside the RFC-005 study need catalogue bindings with anchors in the research map, and their measures need factor definitions. A series with no honest anchor in the map stays out; that is a finding about the map, to be reported.
 * **Model**: the same fixed tree model, drawdown label, gate and trading costs as `W-dd`. Only the inputs differ.
 * **A backtest of `G-dd` on the old history** is reported once for description and decides nothing.
+* `G-dd` is built for SOXX and QQQ. Whether TSM gets one is decided when the generator's output for TSM is seen.
 
 Part B is developed in parallel with Part A and does not delay it.
 
@@ -84,7 +119,7 @@ Part B is developed in parallel with Part A and does not delay it.
 
 ### 5.1 Separate start dates
 
-* **Part A's clock** starts at the first session for which the rule, `W-avg` and `W-dd` all have a live ticket for both funds.
+* **Part A's clock** starts at the first session for which the rule and every Part A shadow gate have a live ticket for all three subjects.
 * **Part B's clock** starts at the first session for which `G-dd` also has one. From then, `G-dd` is compared with `W-dd` and with the rule over the same sessions.
 * Each clock counts sessions from its start whose 20-session outcome has matured. Missed tickets are inside the count, with held exposure.
 
@@ -93,6 +128,9 @@ Part B is developed in parallel with Part A and does not delay it.
 * **Against the rule (eligibility)**: RFC-004's three limits over the review sessions at base cost. Maximum drawdown smaller by at least 2 points, final equity at least 95% of the rule's, whipsaw rate no more than 5 points higher.
 * **`G-dd` against `W-dd` (what graph selection adds)**: on the same live dates, with the same target, model settings and costs: drawdown, equity, tail recall read with alert rate, and the paired recall difference on realised drawdown episodes. Descriptive. It makes nothing eligible.
 * **`W-dd` against `W-avg` (what the target adds)**: the same measures. Descriptive.
+* **`E-dd` against `W-dd` (what seed averaging adds)**: the same measures. Descriptive.
+* **Every gate against buy and hold**: maximum drawdown and final equity over the review sessions, for the rule and each shadow gate. Descriptive. A gate can have more return than the rule and a deeper drawdown; this table shows that trade-off, and the eligibility test above does not.
+* **How many gates were looked at** is stated in every review: with four or five shadow gates on three subjects, one meeting the limits by chance is likely, which is one reason a pass gives eligibility only.
 
 ### 5.3 The review point
 
@@ -123,8 +161,8 @@ Part B is developed in parallel with Part A and does not delay it.
 3. The missed-ticket record and the held-exposure rule of section 3.3, used by every equity and drawdown figure.
 4. A 2027 session calendar and FOMC schedule, each with its source recorded.
 5. A scheduled local job working in `monitors/Daily/`, a missed-run check, and a copy of each new snapshot into `run/backup/snapshots/` with its checksums.
-6. Catalogue bindings and factor definitions for the added series, with anchors, and the generator's output for both funds.
-7. Registrations, each pushed before the first ticket it covers: the Part A shadow record with the review rule, and later the `G-dd` gate with its paired comparison.
+6. Catalogue bindings and factor definitions for the added series, with anchors, and the generator's output for SOXX, QQQ and TSM.
+7. Registrations, each pushed before the first ticket it covers: the Part A shadow record with the review rule, TSM's rule and the `E-dd` seeds; and later the `G-dd` gate with its paired comparison.
 8. A maturity job that scores each ticket once its 20 sessions are in the data.
 9. Invariant tests:
    * a ticket uses no input that became knowable at or after its decision cutoff, whenever it is issued;
@@ -134,7 +172,7 @@ Part B is developed in parallel with Part A and does not delay it.
 
 ## 8. Acceptance criteria
 
-* The first live shadow tickets exist for both funds, each carrying its decision cutoff and an issuance time before the next open.
+* The first live shadow tickets exist for all three subjects, each carrying its decision cutoff and an issuance time before the next open.
 * Every registration predates the first ticket it covers.
 * The review rule cannot be changed without an amendment recorded before the review date.
 * Missed tickets are counted in every report, and every equity figure includes every trading day.
@@ -146,7 +184,8 @@ The RFC is complete when both forward records are running and registered. The re
 
 | Choice | Decision |
 | --- | --- |
-| Which RFC-005 gates to shadow | Both |
+| Which RFC-005 gates to shadow | Both, plus the seed-averaged `E-dd` |
+| Subjects | SOXX, QQQ and TSM |
 | Who runs the daily loop | A scheduled local job, with a missed-run check |
 | Raw files | A backup copy of every snapshot in `run/backup/snapshots/`, git-ignored. It guards against deletion or overwriting; it is on the same machine, so it does not survive loss of the disk and gives nobody else a way to replay |
 | Where the daily job works | `monitors/Daily/`, git-ignored: logs, locks and scratch. Tickets and snapshots go under `artifacts/` |
@@ -159,5 +198,7 @@ Still open for the owner: the time the job runs. Proposed: 19:00 America/New_Yor
 
 * Any further comparison on history to 2026-11-20 that decides something.
 * Tuning the tree, the targets or the gate.
-* TSM or any single stock, including the 10 December 2026 revenue release, which stays under its own registration.
+* A model of what is specific to TSM after removing its SOXX share. The TSM gates here read TSM's raw price.
+* The 10 December 2026 TSMC revenue release, which stays under its own registration.
+* Any single stock other than TSM.
 * Trading real money on any ticket.
