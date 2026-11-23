@@ -1,0 +1,17 @@
+{
+  "kind": "prediction_market_topics",
+  "describe": "Which prediction-market topics the daily briefing watches, and the research-map concept each points to. Selection is by tag and liquidity, fixed here, never by hand on the day. A briefing is context for a reader. No rule or gate reads it.",
+  "source": "https://gamma-api.polymarket.com/events",
+  "terms_note": "Read-only public market data, no key. Polymarket's terms restrict access from listed jurisdictions and restrict redistribution of its data, so raw downloads and briefings stay out of this repository; only this file is tracked.",
+  "min_liquidity_usd": 20000,
+  "thin_below_usd": 100000,
+  "events_per_tag": 40,
+  "topics": [
+    {"topic": "Fed and interest rates", "anchor": "concept:macro_liquidity:frb_policy", "tags": ["fed", "fed-rates"], "tags_verified": true},
+    {"topic": "Inflation and the economy", "anchor": "concept:economy:inflation", "tags": ["macro-indicators", "economy"], "tags_verified": true, "keywords": ["inflation", "cpi", "recession", "gdp", "unemployment", "jobs", "payroll"]},
+    {"topic": "Trade rules, tariffs and export controls", "anchor": "concept:technology_platforms:trade_rules", "tags": ["tariffs", "trade-war"], "tags_verified": false, "keywords": ["tariff", "export control", "chip", "semiconductor", "trade deal"]},
+    {"topic": "China", "anchor": "concept:politics:china", "tags": ["china"], "tags_verified": false},
+    {"topic": "Taiwan", "anchor": "concept:politics:taiwan", "tags": ["taiwan"], "tags_verified": false},
+    {"topic": "AI demand and large technology companies", "anchor": "concept:technology_platforms:ai_adoption", "tags": ["ai", "big-tech"], "tags_verified": false, "keywords": ["nvidia", "tsmc", "openai", "semiconductor", "largest company", "market cap", "earnings"]}
+  ]
+}
