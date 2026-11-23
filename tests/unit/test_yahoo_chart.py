@@ -47,10 +47,6 @@ class YahooChartTests(unittest.TestCase):
                               ("x:close", date(2026, 11, 10), 12.0)])
             self.assertEqual((ex_dividend_dates(path), split_dates(path)), ([date(2026, 11, 10)], [date(2026, 11, 9)]))
 
-
-if __name__ == "__main__":
-    unittest.main()
-
     def test_a_month_is_read_in_the_exchange_timezone(self):
         """Midnight in London on 1 July is 23:00 UTC on 30 June: the quote belongs to July."""
         london = ZoneInfo("Europe/London")
@@ -63,3 +59,7 @@ if __name__ == "__main__":
             path = Path(folder) / "chart.json"
             path.write_text(json.dumps(chart), encoding="utf-8")
             self.assertEqual(monthly_mean_closes(path), {"2024-06": 30.0, "2024-07": 32.0})
+
+
+if __name__ == "__main__":
+    unittest.main()
