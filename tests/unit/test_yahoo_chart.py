@@ -13,7 +13,8 @@ for package in ("quant_contracts", "quant_pit_data"):
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 try:
     from quant_contracts.pit import SeriesBinding
-    from quant_pit_data.connectors.yahoo_chart import ex_dividend_dates, load_daily, monthly_mean_closes, split_dates
+    from quant_pit_data.connectors.yahoo_chart import ex_dividend_dates, load_closes, load_daily, monthly_mean_closes, split_dates
+    from quant_pit_data.asof import ratio_series
 except ModuleNotFoundError:
     SeriesBinding = None
 
@@ -59,6 +60,26 @@ class YahooChartTests(unittest.TestCase):
             path = Path(folder) / "chart.json"
             path.write_text(json.dumps(chart), encoding="utf-8")
             self.assertEqual(monthly_mean_closes(path), {"2024-06": 30.0, "2024-07": 32.0})
+
+    def test_a_ratio_series_is_knowable_when_its_later_input_is(self):
+        def binding(series_id, value_time, delay):
+            return SeriesBinding(series_id=series_id, label=series_id, anchors=("test",), source_url="https://example.invalid",
+                                 availability="news_only", timezone="America/New_York", value_time=value_time,
+                                 publication_delay_minutes=delay, availability_basis="assumed", revisable=True, basis_note="Synthetic fixture.")
+        chart = lambda closes: {"chart": {"result": [{"meta": {"exchangeTimezoneName": "America/New_York"},
+                                                      "timestamp": [stamp(9), stamp(10), stamp(11)], "indicators": {"quote": [{"close": closes}]}}]}}
+        with tempfile.TemporaryDirectory() as folder:
+            paths = []
+            for name, closes in (("a", [10.0, None, 30.0]), ("b", [5.0, 4.0, 0.0])):
+                paths.append(Path(folder) / f"{name}.json")
+                paths[-1].write_text(json.dumps(chart(closes)), encoding="utf-8")
+            top, bottom = load_closes(paths[0], binding("a", "16:00", 15)), load_closes(paths[1], binding("b", "16:00", 120))
+            self.assertEqual([o.session.day for o in top], [9, 11])  # a row without a close is left out
+            self.assertEqual([o.session.day for o in bottom], [9, 10])  # and so is a close that is not positive
+            ratio = ratio_series(binding("a_over_b", "16:00", 0), top, bottom)
+            self.assertEqual([(o.session.day, o.value) for o in ratio], [(9, 2.0)])
+            self.assertEqual(ratio[0].available_at, bottom[0].available_at)  # 18:00, the later of the two
+            self.assertEqual(ratio[0].availability_basis, "assumed")
 
 
 if __name__ == "__main__":

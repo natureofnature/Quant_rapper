@@ -32,6 +32,14 @@ def load_daily(path: Path, open_binding: SeriesBinding, close_binding: SeriesBin
     return rows
 
 
+def load_closes(path: Path, binding: SeriesBinding) -> list[Observation]:
+    """One close observation per dated row that has a positive close, for a series read for its close only."""
+    data = _result(path)
+    zone = ZoneInfo(data["meta"]["exchangeTimezoneName"])
+    return [observe(binding, datetime.fromtimestamp(stamp, zone).date(), closed)
+            for stamp, closed in zip(data["timestamp"], data["indicators"]["quote"][0]["close"]) if closed is not None and closed > 0]
+
+
 def monthly_mean_closes(path: Path) -> dict[str, float]:
     """Mean of the daily closes of each month, keyed "YYYY-MM", with a quote's month read in the exchange's timezone.
 

@@ -215,3 +215,25 @@ def on_calendar(observations: list[Observation], calendar: SessionCalendar) -> t
         off = calendar.first <= item.session <= calendar.last and item.session not in expected
         (dropped if off else kept).append(item)
     return kept, dropped
+
+
+def ratio_series(binding: SeriesBinding, numerator: list[Observation], denominator: list[Observation]) -> list[Observation]:
+    """A derived series: numerator over denominator on each session both have, knowable when the later of the two is.
+
+    ``binding`` names the derived series. Each input list holds one series, one row per
+    session. The quotient is ``assumed`` if either input's time is, and inherits no vintage:
+    give it inputs already selected for the vintage wanted.
+    """
+    below = {o.session: o for o in denominator}
+    if len(below) != len(denominator) or len({o.session for o in numerator}) != len(numerator):
+        raise ValueError("each input must hold one row per session")
+    out = []
+    for top in numerator:
+        bottom = below.get(top.session)
+        if bottom is None or bottom.value == 0:
+            continue
+        basis = "assumed" if "assumed" in (top.availability_basis, bottom.availability_basis) else top.availability_basis
+        out.append(Observation(series_id=binding.series_id, session=top.session, value=top.value / bottom.value,
+                               available_at=max(top.available_at, bottom.available_at), availability_basis=basis,
+                               source_url=binding.source_url))
+    return out

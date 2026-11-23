@@ -43,9 +43,18 @@ def _trend_state(values: Sequence[float]) -> float:
     return values[-1] / mean - 1.0
 
 
+def _below_high(values: Sequence[float]) -> float:
+    """Latest value over the highest of the last k values (itself included), minus one. Zero at a k-session high."""
+    high = max(values)
+    if high <= 0:
+        raise ValueError("the window high is not positive")
+    return values[-1] / high - 1.0
+
+
 # measure -> (function, values needed for a lookback of k)
 MEASURES = {"level": (_level, lambda k: 1), "change": (_change, lambda k: k + 1), "roc": (_roc, lambda k: k + 1),
-            "realized_vol": (_realized_vol, lambda k: k + 1), "trend_state": (_trend_state, lambda k: k)}
+            "realized_vol": (_realized_vol, lambda k: k + 1), "trend_state": (_trend_state, lambda k: k),
+            "below_high": (_below_high, lambda k: k)}
 
 
 def sessions_needed(measure: str, lookback: int | None, rank: int | None) -> int:

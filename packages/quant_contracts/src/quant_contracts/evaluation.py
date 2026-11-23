@@ -63,9 +63,9 @@ class Factor(Contract):
 
     factor_id: Text
     # level: one series' latest value. ratio: numerator over denominator on one session.
-    # change, roc, realized_vol, trend_state: one series over ``lookback_sessions``, as defined
+    # change, roc, realized_vol, trend_state, below_high: one series over ``lookback_sessions``, as defined
     # in quant_evaluator.core.rolling.
-    measure: Literal["level", "ratio", "change", "roc", "realized_vol", "trend_state"]
+    measure: Literal["level", "ratio", "change", "roc", "realized_vol", "trend_state", "below_high"]
     series_ids: tuple[Text, ...]
     max_age_days: int = Field(gt=0)  # how old the selected session may be at the cutoff
     lookback_sessions: int | None = Field(default=None, gt=0)

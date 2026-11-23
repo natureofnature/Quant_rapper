@@ -15,6 +15,7 @@ for package in ("quant_contracts", "quant_loop", "quant_pit_data", "quant_evalua
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 try:
     from quant_contracts.evaluation import Factor
+    from quant_contracts.pit import SeriesBinding
     from quant_contracts.research import CandidateFactorRecipe
 except ModuleNotFoundError:
     Factor = None
@@ -50,9 +51,17 @@ class ProspectiveRegistrationTests(unittest.TestCase):
         for folder in folders:
             with self.subTest(folder=folder.name):
                 registration = json.loads((folder / "registration.json").read_text(encoding="utf-8"))
-                manifest = json.loads((ROOT / registration["inputs"]["snapshot"] / "manifest.json").read_text(encoding="utf-8"))
-                for name, digest in registration["inputs"]["sha256"].items():
-                    self.assertEqual(manifest["files"][name]["sha256"], digest, name)
+                snapshots = registration["inputs"].get("snapshots") or [registration["inputs"]]  # one snapshot, or several
+                for snapshot in snapshots:
+                    manifest = json.loads((ROOT / snapshot.get("folder", snapshot.get("snapshot")) / "manifest.json").read_text(encoding="utf-8"))
+                    for name, digest in snapshot["sha256"].items():
+                        self.assertEqual(manifest["files"][name]["sha256"], digest, name)
+                if "input_definitions" in registration:  # a study that defines its own inputs and bindings
+                    self.inputs_are_well_formed(registration, bound)
+                if str(registration.get("status", "")).startswith("DRAFT"):  # not yet registered: no commit, and nothing may have been run
+                    self.assertIsNone(registration["code"]["commit"])
+                    self.assertFalse((folder / "frozen.json").exists() or (folder / "output").exists())
+                    continue
                 self.assertRegex(registration["code"]["commit"], r"^[0-9a-f]{40}$")
                 if registration["kind"] == "diagnostic_registration":  # exploratory: pinned inputs, code and frozen outputs only
                     self.frozen_record_matches(folder, registration)
@@ -67,7 +76,7 @@ class ProspectiveRegistrationTests(unittest.TestCase):
                         self.assertEqual(sha(ROOT / registration["model_a"]["folder"] / name), digest, name)
                     self.assertEqual(sha(ROOT / "knowledge_base/prior_knowledge/bindings/factor_definitions.json"),
                                      registration["inputs"]["factor_definitions_sha256"])
-                    self.assertLessEqual(set(registration["parameters"]["comparison_2_subjects"]), set(registration["parameters"]["subjects"]))
+                    self.assertLessEqual(set(registration["parameters"].get("comparison_2_subjects", [])), set(registration["parameters"]["subjects"]))
                     self.frozen_record_matches(folder, registration)
                     continue
                 closes = {s["close"] for s in registration["subjects"]}
@@ -81,6 +90,28 @@ class ProspectiveRegistrationTests(unittest.TestCase):
                 self.assertEqual(len(registration["exposure"]["by_stressed_count"]), 3)
                 self.assertRegex(registration["code"]["commit"], r"^[0-9a-f]{40}$")
                 self.frozen_record_matches(folder, registration)
+
+    def inputs_are_well_formed(self, registration, bound):
+        """Every study binding parses, every base factor reads a bound series, and every input is built from defined base factors."""
+        own = [SeriesBinding(**{k: v for k, v in item.items() if k != "file"}) for item in registration["bindings"] + registration["derived_bindings"]]
+        ids = [x.series_id for x in own]
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertFalse(set(ids) & bound)  # a study binding never shadows the catalogue
+        files = {name for snapshot in registration["inputs"]["snapshots"] for name in snapshot["sha256"]}
+        self.assertLessEqual({item["file"] for item in registration["bindings"]}, files)
+        self.assertLessEqual(set(registration["series_on_their_own_dates"]), set(ids))
+        base = registration["base_factors"]
+        factors = [Factor(**f) for f in base["shared"] + base["per_subject"]]
+        self.assertLessEqual({i for f in factors for i in f.series_ids}, bound | set(ids) | {"subject:close"})
+        defined = {f.factor_id for f in factors} | set(base["from_factor_definitions"])
+        self.assertEqual(len(defined), len(factors) + len(base["from_factor_definitions"]))
+        inputs, operations = registration["input_definitions"], registration["composite_operations"]
+        for name, definition in inputs.items():
+            self.assertIn(definition["op"], operations, name)
+            self.assertLessEqual(set(definition["of"]), defined, name)
+        parameters = registration["parameters"]
+        self.assertEqual(list(inputs)[:len(parameters["narrow_inputs"])], parameters["narrow_inputs"])
+        self.assertLessEqual(set(parameters["dropped_inputs"]), set(inputs) - set(parameters["narrow_inputs"]))
 
     def frozen_record_matches(self, folder, registration):
         """A frozen record must still be the registration and the output files beside it."""

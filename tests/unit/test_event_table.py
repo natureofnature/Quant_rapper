@@ -155,6 +155,8 @@ class EventTableTests(unittest.TestCase):
         self.assertAlmostEqual(windowed_value("change", 2, None, [3.0, 9.0, 4.0]), 1.0)
         self.assertAlmostEqual(windowed_value("roc", 2, None, [4.0, 9.0, 5.0]), 0.25)
         self.assertAlmostEqual(windowed_value("trend_state", 3, None, [1.0, 2.0, 6.0]), 1.0)  # 6 over a mean of 3
+        self.assertAlmostEqual(windowed_value("below_high", 3, None, [4.0, 8.0, 6.0]), -0.25)  # 6 under a high of 8
+        self.assertEqual(windowed_value("below_high", 3, None, [4.0, 6.0, 8.0]), 0.0)  # at the high
         self.assertAlmostEqual(windowed_value("realized_vol", 2, None, [100.0, 110.0, 99.0]), 0.2 / 2 ** 0.5)
         # one-session changes are 1, 3, 2, -1, 2: the latest is above two of the four before it
         self.assertAlmostEqual(windowed_value("change", 1, 4, [0.0, 1.0, 4.0, 6.0, 5.0, 7.0]), 0.5)

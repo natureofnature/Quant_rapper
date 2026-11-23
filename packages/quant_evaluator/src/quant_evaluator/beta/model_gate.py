@@ -147,3 +147,37 @@ def paired_recall_difference(outcomes: Sequence[float | None], alerts_a: Sequenc
     a, b = recall(alerts_a, cases), recall(alerts_b, cases)
     return {"episodes": len(runs), "cases": len(cases), "recall_a": a, "recall_b": b, "difference": b - a,
             "interval": [float(low), float(high)]}
+
+
+def walk_forward_binary(sessions: list[date], features: np.ndarray, outcomes: Sequence[float | None], first_test: date,
+                        tree: dict, worst_share: float | None = None, horizon: int = HORIZON, embargo: int = 0,
+                        min_train: int = 250, min_positive: int = 20) -> list[float | None]:
+    """Out-of-sample probability of the left tail from the binary tree model, None where there is no forecast.
+
+    With ``worst_share`` None, ``outcomes`` are the labels themselves, 0 or 1. With a share,
+    ``outcomes`` are continuous and a month's label is "below that quantile of this month's
+    training outcomes": the cut is taken from matured training decisions only, so no later
+    outcome moves it. A decision without an outcome has no label and is not trained on. A
+    month with fewer than ``min_train`` usable decisions or ``min_positive`` left-tail labels
+    among them is not forecast.
+    """
+    from quant_evaluator.beta.tree_model import fit_tree_binary, tree_binary_probabilities
+    if worst_share is not None and not 0 < worst_share < 1:
+        raise ValueError("worst_share must lie strictly between 0 and 1")
+    x = np.asarray(features, dtype=float)
+    y = np.array([np.nan if v is None else float(v) for v in outcomes])
+    if worst_share is None and not np.isin(y[np.isfinite(y)], (0.0, 1.0)).all():
+        raise ValueError("without a worst_share the outcomes must already be labels, 0 or 1")
+    scores: list[float | None] = [None] * len(sessions)
+    for fold in monthly_folds(sessions, first_test, horizon, embargo, None, min_train):
+        train = np.array(fold.train)
+        train = train[np.isfinite(x[train]).all(axis=1) & np.isfinite(y[train])]
+        if len(train) < min_train:
+            continue
+        labels = y[train] if worst_share is None else (y[train] < np.quantile(y[train], worst_share)).astype(float)
+        if labels.sum() < min_positive:
+            continue
+        prob = tree_binary_probabilities(fit_tree_binary(x[train], labels, **tree), x[np.array(fold.test)])
+        for index, value in zip(fold.test, prob):
+            scores[index] = None if np.isnan(value) else float(value)
+    return scores

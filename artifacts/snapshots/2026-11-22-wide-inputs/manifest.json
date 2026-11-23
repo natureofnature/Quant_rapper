@@ -1,0 +1,170 @@
+{
+  "snapshot": "2026-11-22-wide-inputs",
+  "downloaded_on": "2026-11-22",
+  "describe": "Daily histories of the series added for RFC-005's wider input set. A companion to snapshot 2026-11-22, which holds the funds, VIX, VIX3M, SPY, the real yield and the calendars.",
+  "retrieval_note": "Downloaded market data, not in the repository. The files exist only on the machine that built this snapshot; no durable copy has been arranged. Yahoo serves changing histories, so exact replay needs the saved bytes matching the hashes below.",
+  "files": {
+    "VVIX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^VVIX",
+      "symbol": "^VVIX",
+      "first_session": "2007-01-03",
+      "last_session": "2026-11-20",
+      "rows": 5004,
+      "rows_without_a_close": 9,
+      "sha256": "e49c6e07e0c96715e580e003c1c3e3456aa9f6c17f2848104e54c67dad29d33b"
+    },
+    "SKEW.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^SKEW",
+      "symbol": "^SKEW",
+      "first_session": "1990-01-02",
+      "last_session": "2026-11-20",
+      "rows": 9291,
+      "rows_without_a_close": 74,
+      "sha256": "eec8f257520f9fff1b3ad1a8cd44431a0bad40d873d4243c87781e24beeb8212"
+    },
+    "VXN.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^VXN",
+      "symbol": "^VXN",
+      "first_session": "2001-01-23",
+      "last_session": "2026-11-20",
+      "rows": 6497,
+      "rows_without_a_close": 0,
+      "sha256": "6090fe502ca5253fad116dd9ffff93cd2b618dcfb40e39cfffe3ecbf9137099d"
+    },
+    "MOVE.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^MOVE",
+      "symbol": "^MOVE",
+      "first_session": "2002-11-12",
+      "last_session": "2026-11-20",
+      "rows": 6045,
+      "rows_without_a_close": 104,
+      "sha256": "e0a89531115204a92ee5a28dec0d9f913274cf5505a0d523962002769665dceb"
+    },
+    "TNX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^TNX",
+      "symbol": "^TNX",
+      "first_session": "1970-01-02",
+      "last_session": "2026-11-20",
+      "rows": 14345,
+      "rows_without_a_close": 102,
+      "sha256": "c5de785985b1a00c8b5f3d17814419fd9c89a6cd2c132cbe84e411cfdcb25fc8"
+    },
+    "IRX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^IRX",
+      "symbol": "^IRX",
+      "first_session": "1970-01-02",
+      "last_session": "2026-11-20",
+      "rows": 14345,
+      "rows_without_a_close": 102,
+      "sha256": "6f1ae70d7bc8d6e2a4e3ace23043e137ccc4b5a866701462292d12afa0b29a79"
+    },
+    "FVX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^FVX",
+      "symbol": "^FVX",
+      "first_session": "1970-01-02",
+      "last_session": "2026-11-20",
+      "rows": 14345,
+      "rows_without_a_close": 102,
+      "sha256": "144c6ebb2f3c98c2c3ab1ab2441434b7cc339ac94611817181546096f2d75102"
+    },
+    "TYX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^TYX",
+      "symbol": "^TYX",
+      "first_session": "1977-02-15",
+      "last_session": "2026-11-20",
+      "rows": 12545,
+      "rows_without_a_close": 76,
+      "sha256": "17fc99224a10ee889b6e230c482587939e1a81c56b2794a0b7518b2f1e7862e4"
+    },
+    "HYG.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/HYG",
+      "symbol": "HYG",
+      "first_session": "2007-04-11",
+      "last_session": "2026-11-20",
+      "rows": 4937,
+      "rows_without_a_close": 0,
+      "sha256": "5c49ec5eba1ef469c6bd9eb9d3b4652c5e55a7649db07da332bb67e190bee9c0"
+    },
+    "LQD.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/LQD",
+      "symbol": "LQD",
+      "first_session": "2002-07-30",
+      "last_session": "2026-11-20",
+      "rows": 6119,
+      "rows_without_a_close": 0,
+      "sha256": "456e1b6718ab79605c9c1585d6a92bcbf0968afa7192ff38e3b977fb16ecdd7e"
+    },
+    "IEF.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/IEF",
+      "symbol": "IEF",
+      "first_session": "2002-07-30",
+      "last_session": "2026-11-20",
+      "rows": 6119,
+      "rows_without_a_close": 0,
+      "sha256": "5d0259483f4a0550253c935637f665a1e3da276ed50b433aa527faa56ec1b596"
+    },
+    "DX-Y.NYB.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB",
+      "symbol": "DX-Y.NYB",
+      "first_session": "1971-01-04",
+      "last_session": "2026-11-22",
+      "rows": 17320,
+      "rows_without_a_close": 3128,
+      "sha256": "3bc12263954e11e946ab777b53b31e96e60eb7b11a6e212415737c73b0836951"
+    },
+    "HGF.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/HG=F",
+      "symbol": "HG=F",
+      "first_session": "2000-08-30",
+      "last_session": "2026-11-22",
+      "rows": 6667,
+      "rows_without_a_close": 79,
+      "sha256": "c8746dbcfd95f3764d70340de161f85d01bfc919f528de93a67401b8b4f34eb9"
+    },
+    "GCF.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F",
+      "symbol": "GC=F",
+      "first_session": "2000-08-30",
+      "last_session": "2026-11-22",
+      "rows": 6667,
+      "rows_without_a_close": 83,
+      "sha256": "dd8958df842544d3f2443cf4b4cda4d7e8da5d765e9f7e6c0dd605829a2959bc"
+    },
+    "CLF.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F",
+      "symbol": "CL=F",
+      "first_session": "2000-08-23",
+      "last_session": "2026-11-22",
+      "rows": 6672,
+      "rows_without_a_close": 80,
+      "sha256": "01b037fb6a86fdb2b94866f588bda6af661837f61cdcee0199c80dcfc065488c"
+    },
+    "RSP.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/RSP",
+      "symbol": "RSP",
+      "first_session": "2003-05-01",
+      "last_session": "2026-11-20",
+      "rows": 5929,
+      "rows_without_a_close": 0,
+      "sha256": "17ea8d183c3c999f2266cbf194626cb0201af5224b36fff68502e23e0e7ada0e"
+    },
+    "IWM.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/IWM",
+      "symbol": "IWM",
+      "first_session": "2000-05-26",
+      "last_session": "2026-11-20",
+      "rows": 6662,
+      "rows_without_a_close": 0,
+      "sha256": "6f2acac723c354c82a3c875f4f994bffa6aadb7e0cedb23544083fb2c62c281a"
+    },
+    "XLU.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/XLU",
+      "symbol": "XLU",
+      "first_session": "1998-12-22",
+      "last_session": "2026-11-20",
+      "rows": 7022,
+      "rows_without_a_close": 0,
+      "sha256": "a64fd845143e0471c5a1a7c5ea745e41415e54756e3ea5885568d314fac6130f"
+    }
+  }
+}

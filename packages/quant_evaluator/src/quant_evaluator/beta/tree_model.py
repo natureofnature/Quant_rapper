@@ -72,3 +72,29 @@ def smallest_leaf_in_days(fit: TreeFit, features: np.ndarray) -> int:
     leaves = fit.booster.predict(_expand(x, fit.tasks), pred_leaf=True)
     day = np.repeat(np.arange(len(x)), fit.tasks)
     return min(len(set(day[leaves[:, tree] == leaf])) for tree in range(leaves.shape[1]) for leaf in set(leaves[:, tree]))
+
+
+def fit_tree_binary(features: np.ndarray, labels: np.ndarray, n_estimators: int = 60, reg_lambda: float = 10.0,
+                    learning_rate: float = 0.05, min_child_days: int = 60, colsample_bytree: float = 0.75,
+                    seed: int = 0) -> lgb.Booster:
+    """The same small trees on one yes-or-no label per decision: no expansion, so a leaf holds ``min_child_days`` decisions.
+
+    Fits on the rows whose features and label are all present. Labels are 0 or 1.
+    """
+    x, y = np.asarray(features, dtype=float), np.asarray(labels, dtype=float)
+    keep = np.isfinite(x).all(axis=1) & np.isfinite(y)
+    x, y = x[keep], y[keep]
+    if len(y) == 0 or not np.isin(y, (0.0, 1.0)).all():
+        raise ValueError("no complete row to fit, or a label that is not 0 or 1")
+    params = {"objective": "binary", "max_depth": 2, "num_leaves": 4, "learning_rate": learning_rate, "lambda_l2": reg_lambda,
+              "feature_fraction": colsample_bytree, "min_data_in_leaf": min_child_days, "min_sum_hessian_in_leaf": 0.0,
+              "seed": seed, "deterministic": True, "force_row_wise": True, "num_threads": 1, "verbosity": -1}
+    return lgb.train(params, lgb.Dataset(x, label=y), num_boost_round=n_estimators)
+
+
+def tree_binary_probabilities(booster: lgb.Booster, features: np.ndarray) -> np.ndarray:
+    """P(label = 1) per row. A row with a missing feature gives NaN, not a guess."""
+    x = np.asarray(features, dtype=float)
+    out = np.asarray(booster.predict(np.nan_to_num(x)), dtype=float)
+    out[~np.isfinite(x).all(axis=1)] = np.nan
+    return out
