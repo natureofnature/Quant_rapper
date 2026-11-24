@@ -1,0 +1,8 @@
+{
+ "kind": "replay_record",
+ "revision": "7d415b965b59988838562b3e6281364d57012ede",
+ "describe": "The revision that froze this study. Running run.py and then report.py from a checkout of it, with the raw snapshot files in place, reproduces every file listed in frozen.json. The current tree does not replay it: the factor definitions have moved on with the prior.",
+ "verified_on": "2026-11-24",
+ "verified": "All 10 files in frozen.json's outputs_sha256 matched after a replay from this revision.",
+ "recorded_on": "2026-11-24"
+}

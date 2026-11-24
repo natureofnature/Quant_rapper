@@ -1,0 +1,6 @@
+{
+ "kind": "replay_record",
+ "revision": "19af4cafcde4e2062efc213d5df34f780f0665aa",
+ "describe": "The revision of this repository from which the five maps and recipe lists under output/ are reproduced. They were built from the prior, bindings, factor definitions and packet as they stood there; a later revision of any of them is a different input. tests/invariants/test_causal_map_replay.py checks out this revision and regenerates them with the current code.",
+ "recorded_on": "2026-11-24"
+}

@@ -6,7 +6,6 @@ is not installed.
 """
 
 from datetime import date, datetime, time, timedelta
-import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -54,22 +53,29 @@ def dumped(result) -> tuple[str, str]:
 class CausalMapTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # The saved maps record the factor definitions they were built from. A prior committed later was not available at
-        # their decision times, so they are replayed from the last revision that still held those definitions, with today's code.
-        definitions = "knowledge_base/prior_knowledge/bindings/factor_definitions.json"
-        git = lambda *a: subprocess.run(["git", "-C", str(ROOT), *a], check=True, capture_output=True).stdout
-        recorded = json.loads((CROSS / "output/SOXX/causal_map.json").read_text(encoding="utf-8"))["inputs_sha256"]["factor_definitions"]
-        touching = git("log", "--format=%H", "--", definitions).decode().split()
-        held = next(i for i, c in enumerate(touching) if hashlib.sha256(git("show", f"{c}:{definitions}")).hexdigest() == recorded)
-        cls.revision = "HEAD" if held == 0 else f"{touching[held - 1]}^"
+        # A prior committed after a map's decision time was not available to it, so each saved study names the revision it
+        # replays from (replay.json) and is regenerated from a checkout of exactly that revision, with today's code.
         cls.checkout = tempfile.TemporaryDirectory()
         cls.addClassCleanup(cls.checkout.cleanup)
-        origin = Path(cls.checkout.name) / "repo"
-        subprocess.run(["git", "clone", "-q", "--local", "--no-checkout", str(ROOT), str(origin)], check=True, capture_output=True)
-        subprocess.run(["git", "-C", str(origin), "checkout", "-q", "--detach", git("rev-parse", cls.revision).decode().strip()], check=True, capture_output=True)
-        packet = origin / PILOT.relative_to(ROOT) / "packet.json"
-        cls.cross = {s: generate_from_files(origin, s, COMMON) for s in SUBJECTS}
-        cls.before, cls.after = (generate_from_files(origin, "TSM", when, packet) for when in (BEFORE, AFTER))
+        origins = {}
+
+        def origin(study: Path) -> Path:
+            revision = json.loads((study / "replay.json").read_text(encoding="utf-8"))["revision"]
+            if revision not in origins:
+                origins[revision] = Path(cls.checkout.name) / revision
+                subprocess.run(["git", "clone", "-q", "--local", "--no-checkout", str(ROOT), str(origins[revision])], check=True, capture_output=True)
+                subprocess.run(["git", "-C", str(origins[revision]), "checkout", "-q", "--detach", revision], check=True, capture_output=True)
+            return origins[revision]
+
+        cls.cross = {s: generate_from_files(origin(CROSS), s, COMMON) for s in SUBJECTS}
+        packet = origin(PILOT) / PILOT.relative_to(ROOT) / "packet.json"
+        cls.before, cls.after = (generate_from_files(origin(PILOT), "TSM", when, packet) for when in (BEFORE, AFTER))
+
+    def test_each_saved_study_names_a_full_revision_that_is_in_this_history(self):
+        for study in (CROSS, PILOT):
+            revision = json.loads((study / "replay.json").read_text(encoding="utf-8"))["revision"]
+            self.assertRegex(revision, r"^[0-9a-f]{40}$")
+            self.assertEqual(subprocess.run(["git", "-C", str(ROOT), "merge-base", "--is-ancestor", revision, "HEAD"]).returncode, 0, study.name)
 
     def test_a_prior_committed_after_the_decision_is_labelled_exploratory(self):
         inputs = ResearchInputs.model_validate_json((ROOT / "knowledge_base/prior_knowledge/bindings/factor_definitions.json").read_text(encoding="utf-8"))
