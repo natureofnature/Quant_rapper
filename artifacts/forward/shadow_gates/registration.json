@@ -1,0 +1,685 @@
+{
+ "kind": "forward_registration",
+ "registration_id": "shadow_gates",
+ "status": "DRAFT: not registered. No ticket may be written under it, and no code commit is pinned.",
+ "rfc": "docs/rfcs/RFC-006-forward-test.md, Part A",
+ "describe": "Shadow tickets from the fitted gates of RFC-005, written after each US session beside the rule's ticket. A shadow ticket decides nothing: it vetoes nothing and moves no exposure. The rule stays the gate in force.",
+ "to_settle_before_registering": [
+  "The review rule of RFC-006 section 5 is to be copied here in full, with its dates.",
+  "The issuing machine is to be named.",
+  "The session calendar and the FOMC schedule end in 2026; the 2027 files are to be pinned.",
+  "The code commit is to be pinned, and this status line replaced."
+ ],
+ "code": {
+  "commit": null
+ },
+ "subjects": [
+  {
+   "subject": "SOXX",
+   "open": "yahoo:soxx:open",
+   "close": "yahoo:soxx:close",
+   "gates": [
+    "W-avg",
+    "W-dd",
+    "E-dd"
+   ],
+   "class_bounds": [
+    0.04,
+    0.07
+   ]
+  },
+  {
+   "subject": "QQQ",
+   "open": "yahoo:qqq:open",
+   "close": "yahoo:qqq:close",
+   "gates": [
+    "W-avg",
+    "W-dd",
+    "E-dd"
+   ],
+   "class_bounds": [
+    0.03,
+    0.055
+   ]
+  },
+  {
+   "subject": "TSM",
+   "open": "yahoo:tsm:open",
+   "close": "yahoo:tsm:close",
+   "gates": [
+    "E-dd"
+   ]
+  }
+ ],
+ "gates": {
+  "W-avg": {
+   "label": "33-input forward-average model, single seed",
+   "target": "forward_average",
+   "seeds": [
+    0
+   ]
+  },
+  "W-dd": {
+   "label": "33-input drawdown model, single seed",
+   "target": "forward_drawdown",
+   "seeds": [
+    0
+   ]
+  },
+  "E-dd": {
+   "label": "33-input drawdown model, predictions averaged across seven seeds",
+   "target": "forward_drawdown",
+   "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  }
+ },
+ "inputs": {
+  "first_session": "2009-01-02",
+  "decision_time": "17:00:00",
+  "fomc_scheduled_after_file": [
+   "2026-12-09"
+  ],
+  "taken_from": "RFC-005's registration (artifacts/ablations/soxx_qqq_wide_inputs), unchanged in definition. Two corrections apply through the bindings catalogue and quant_pit_data.schedule: no value from before a series was first published, and the FOMC schedule as it stood on each date. So a gate trains on decisions from 2012-03-14, and these are not the exact models RFC-005 scored.",
+  "series_on_their_own_dates": [
+   "cboe:tnx",
+   "cboe:irx",
+   "cboe:fvx",
+   "cboe:tyx",
+   "ice:dollar_index",
+   "cme:copper_front",
+   "cme:gold_front",
+   "cme:crude_front",
+   "cboe:skew",
+   "ice:move"
+  ],
+  "base_factors": {
+   "from_factor_definitions": [
+    "vix_term_structure",
+    "real_yield_10y_change_20_rank_250",
+    "trend_200"
+   ],
+   "shared": [
+    {
+     "factor_id": "vix_level",
+     "measure": "level",
+     "series_ids": [
+      "cboe:vix"
+     ],
+     "max_age_days": 5
+    },
+    {
+     "factor_id": "vix_roc_5",
+     "measure": "roc",
+     "series_ids": [
+      "cboe:vix"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 5
+    },
+    {
+     "factor_id": "vvix_over_vix",
+     "measure": "ratio",
+     "series_ids": [
+      "cboe:vvix",
+      "cboe:vix"
+     ],
+     "max_age_days": 5
+    },
+    {
+     "factor_id": "vxn_over_vix",
+     "measure": "ratio",
+     "series_ids": [
+      "cboe:vxn",
+      "cboe:vix"
+     ],
+     "max_age_days": 5
+    },
+    {
+     "factor_id": "skew",
+     "measure": "level",
+     "series_ids": [
+      "cboe:skew"
+     ],
+     "max_age_days": 5
+    },
+    {
+     "factor_id": "move_level",
+     "measure": "level",
+     "series_ids": [
+      "ice:move"
+     ],
+     "max_age_days": 5
+    },
+    {
+     "factor_id": "move_roc_20",
+     "measure": "roc",
+     "series_ids": [
+      "ice:move"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 20
+    },
+    {
+     "factor_id": "tnx_level",
+     "measure": "level",
+     "series_ids": [
+      "cboe:tnx"
+     ],
+     "max_age_days": 5
+    },
+    {
+     "factor_id": "irx_level",
+     "measure": "level",
+     "series_ids": [
+      "cboe:irx"
+     ],
+     "max_age_days": 5
+    },
+    {
+     "factor_id": "fvx_level",
+     "measure": "level",
+     "series_ids": [
+      "cboe:fvx"
+     ],
+     "max_age_days": 5
+    },
+    {
+     "factor_id": "tyx_level",
+     "measure": "level",
+     "series_ids": [
+      "cboe:tyx"
+     ],
+     "max_age_days": 5
+    },
+    {
+     "factor_id": "nominal_10y_change_20",
+     "measure": "change",
+     "series_ids": [
+      "cboe:tnx"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 20
+    },
+    {
+     "factor_id": "bill_3m_change_60",
+     "measure": "change",
+     "series_ids": [
+      "cboe:irx"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "hyg_roc_20",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:hyg:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 20
+    },
+    {
+     "factor_id": "ief_roc_20",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:ief:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 20
+    },
+    {
+     "factor_id": "hyg_roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:hyg:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "ief_roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:ief:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "lqd_roc_20",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:lqd:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 20
+    },
+    {
+     "factor_id": "hyg_lqd_trend_200",
+     "measure": "trend_state",
+     "series_ids": [
+      "derived:hyg_over_lqd"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 200
+    },
+    {
+     "factor_id": "dollar_roc_20",
+     "measure": "roc",
+     "series_ids": [
+      "ice:dollar_index"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 20
+    },
+    {
+     "factor_id": "copper_roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "cme:copper_front"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "gold_roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "cme:gold_front"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "oil_roc_20",
+     "measure": "roc",
+     "series_ids": [
+      "cme:crude_front"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 20
+    },
+    {
+     "factor_id": "rsp_roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:rsp:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "iwm_roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:iwm:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "xlu_roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:xlu:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "spy_roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:spy:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "spy_realized_vol_20",
+     "measure": "realized_vol",
+     "series_ids": [
+      "yahoo:spy:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 20
+    },
+    {
+     "factor_id": "soxx_roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:soxx:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "qqq_roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "yahoo:qqq:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    }
+   ],
+   "per_subject": [
+    {
+     "factor_id": "roc_20",
+     "measure": "roc",
+     "series_ids": [
+      "subject:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 20
+    },
+    {
+     "factor_id": "roc_60",
+     "measure": "roc",
+     "series_ids": [
+      "subject:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 60
+    },
+    {
+     "factor_id": "roc_120",
+     "measure": "roc",
+     "series_ids": [
+      "subject:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 120
+    },
+    {
+     "factor_id": "below_250_high",
+     "measure": "below_high",
+     "series_ids": [
+      "subject:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 250
+    },
+    {
+     "factor_id": "realised_vol_20",
+     "measure": "realized_vol",
+     "series_ids": [
+      "subject:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 20
+    },
+    {
+     "factor_id": "realised_vol_120",
+     "measure": "realized_vol",
+     "series_ids": [
+      "subject:close"
+     ],
+     "max_age_days": 5,
+     "lookback_sessions": 120
+    }
+   ]
+  },
+  "input_definitions": {
+   "vix_term_structure": {
+    "op": "base",
+    "of": [
+     "vix_term_structure"
+    ]
+   },
+   "real_yield_10y_change_20_rank_250": {
+    "op": "base",
+    "of": [
+     "real_yield_10y_change_20_rank_250"
+    ]
+   },
+   "trend_200": {
+    "op": "base",
+    "of": [
+     "trend_200"
+    ]
+   },
+   "vix_log": {
+    "op": "log",
+    "of": [
+     "vix_level"
+    ]
+   },
+   "vix_change_5": {
+    "op": "log1p",
+    "of": [
+     "vix_roc_5"
+    ]
+   },
+   "vvix_over_vix": {
+    "op": "base",
+    "of": [
+     "vvix_over_vix"
+    ]
+   },
+   "skew": {
+    "op": "base",
+    "of": [
+     "skew"
+    ]
+   },
+   "vxn_over_vix": {
+    "op": "base",
+    "of": [
+     "vxn_over_vix"
+    ]
+   },
+   "move_log": {
+    "op": "log",
+    "of": [
+     "move_level"
+    ]
+   },
+   "move_change_20": {
+    "op": "log1p",
+    "of": [
+     "move_roc_20"
+    ]
+   },
+   "slope_10y_3m": {
+    "op": "minus",
+    "of": [
+     "tnx_level",
+     "irx_level"
+    ]
+   },
+   "slope_30y_5y": {
+    "op": "minus",
+    "of": [
+     "tyx_level",
+     "fvx_level"
+    ]
+   },
+   "nominal_10y_change_20": {
+    "op": "base",
+    "of": [
+     "nominal_10y_change_20"
+    ]
+   },
+   "bill_3m_change_60": {
+    "op": "base",
+    "of": [
+     "bill_3m_change_60"
+    ]
+   },
+   "hyg_ief_roc_20": {
+    "op": "relative",
+    "of": [
+     "hyg_roc_20",
+     "ief_roc_20"
+    ]
+   },
+   "hyg_ief_roc_60": {
+    "op": "relative",
+    "of": [
+     "hyg_roc_60",
+     "ief_roc_60"
+    ]
+   },
+   "lqd_ief_roc_20": {
+    "op": "relative",
+    "of": [
+     "lqd_roc_20",
+     "ief_roc_20"
+    ]
+   },
+   "hyg_lqd_trend_200": {
+    "op": "base",
+    "of": [
+     "hyg_lqd_trend_200"
+    ]
+   },
+   "dollar_roc_20": {
+    "op": "base",
+    "of": [
+     "dollar_roc_20"
+    ]
+   },
+   "copper_gold_roc_60": {
+    "op": "relative",
+    "of": [
+     "copper_roc_60",
+     "gold_roc_60"
+    ]
+   },
+   "oil_roc_20": {
+    "op": "base",
+    "of": [
+     "oil_roc_20"
+    ]
+   },
+   "equal_weight_roc_60": {
+    "op": "relative",
+    "of": [
+     "rsp_roc_60",
+     "spy_roc_60"
+    ]
+   },
+   "small_cap_roc_60": {
+    "op": "relative",
+    "of": [
+     "iwm_roc_60",
+     "spy_roc_60"
+    ]
+   },
+   "utilities_roc_60": {
+    "op": "relative",
+    "of": [
+     "xlu_roc_60",
+     "spy_roc_60"
+    ]
+   },
+   "spy_implied_minus_realised": {
+    "op": "implied_minus_realised",
+    "of": [
+     "vix_level",
+     "spy_realized_vol_20"
+    ]
+   },
+   "sessions_to_fomc": {
+    "op": "calendar",
+    "of": []
+   },
+   "soxx_over_qqq_roc_60": {
+    "op": "relative",
+    "of": [
+     "soxx_roc_60",
+     "qqq_roc_60"
+    ]
+   },
+   "roc_20": {
+    "op": "base",
+    "of": [
+     "roc_20"
+    ]
+   },
+   "roc_60": {
+    "op": "base",
+    "of": [
+     "roc_60"
+    ]
+   },
+   "roc_120": {
+    "op": "base",
+    "of": [
+     "roc_120"
+    ]
+   },
+   "below_250_high": {
+    "op": "base",
+    "of": [
+     "below_250_high"
+    ]
+   },
+   "realised_vol_20": {
+    "op": "base",
+    "of": [
+     "realised_vol_20"
+    ]
+   },
+   "realised_vol_ratio_20_120": {
+    "op": "over",
+    "of": [
+     "realised_vol_20",
+     "realised_vol_120"
+    ]
+   }
+  },
+  "composite_operations": {
+   "base": "the base factor itself",
+   "log": "natural log of a",
+   "log1p": "log(1 + a): the change in log level from a rate of change",
+   "minus": "a - b",
+   "relative": "(1 + a) / (1 + b) - 1: the rate of change of the ratio of two series from their own rates of change",
+   "over": "a / b",
+   "implied_minus_realised": "a / 100 - b * sqrt(252): VIX as a fraction less annualised realised volatility",
+   "calendar": "sessions from the decision's session to the next scheduled FOMC meeting, 0 on the meeting day, counted on the equity calendar"
+  }
+ },
+ "parameters": {
+  "horizon_sessions": 20,
+  "volatility_sessions": 20,
+  "min_train": 750,
+  "min_positive": 20,
+  "worst_share": 0.15,
+  "tree": {
+   "n_estimators": 60,
+   "reg_lambda": 10.0,
+   "learning_rate": 0.05,
+   "min_child_days": 60,
+   "colsample_bytree": 0.75,
+   "seed": 0
+  },
+  "gate": {
+   "red_quantile": 0.85,
+   "yellow_quantile": 0.7,
+   "window": 504,
+   "min_scores": 252,
+   "step_down_after": 3
+  },
+  "exposure_by_state": {
+   "GREEN": 1.0,
+   "YELLOW": 0.5,
+   "RED": 0.0
+  }
+ },
+ "known_limits": [
+  "Every publication time of the added series is an assumption; none is sourced.",
+  "Nine old series carry no first-publication floor.",
+  "A snapshot taken in the evening can hold a value its source revised after the decision time; the hash pins what was used, not what was knowable.",
+  "The model is refitted on the whole history at every run, from that day's download. Yahoo restates histories, so an earlier session's score can differ between two days' runs; a ticket records only its own session.",
+  "TSM shares most of its inputs with SOXX and is not independent evidence."
+ ]
+}

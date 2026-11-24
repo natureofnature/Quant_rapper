@@ -56,6 +56,7 @@ artifacts/**
 !/artifacts/prospective/*/record_event.py
 !/artifacts/prospective/*/rows/
 !/artifacts/prospective/*/rows/*.json
+!/artifacts/forward/*/registration.json
 !/artifacts/ablations/*/registration.json
 !/artifacts/ablations/*/run.py
 !/artifacts/ablations/*/coverage.py

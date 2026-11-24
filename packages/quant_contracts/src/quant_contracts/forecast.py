@@ -50,6 +50,49 @@ class BetaTicket(Contract):
         return self
 
 
+class ShadowTicket(Contract):
+    """What a fitted gate said after one session, recorded beside the gate in force. It decides nothing.
+
+    A shadow ticket vetoes no alpha ticket and moves no exposure. It exists so that a fitted
+    gate has a record made in time, which a later review can compare with the rule's.
+    """
+
+    ticket_id: Text  # "shadow:<gate>:<subject>:<session>"
+    gate: Text  # the registration's identifier of the fitted gate
+    subject_id: Text
+    session: date
+    decision_time: AwareDatetime  # the information cutoff: every input was knowable strictly before it
+    issued_at: AwareDatetime  # when the ticket was written, which is later than the cutoff
+    issuance: Literal["live", "replay"]  # live: written before the next session opened
+    machine: Text  # the computer that wrote it
+    state: GateState
+    target_exposure: float
+    held: bool  # True when the session has no score, because an input was missing, and the previous state is carried
+    score: float | None  # the mean of ``seed_scores``; None when held
+    seed_scores: tuple[float, ...]  # one per fitted seed, in the registration's order; empty when held
+    model_month: Text = Field(pattern=r"^[0-9]{4}-[0-9]{2}$")  # the month whose refit scored this session
+    inputs: dict[Text, float | None]  # every input as knowable at the cutoff; None where it was not
+    horizon_sessions: int = Field(gt=0)
+    registration_id: Text
+    registration_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    code_commit: str = Field(pattern=r"^[0-9a-f]{40}$")
+    inputs_sha256: dict[Text, str]  # every file the inputs were built from: downloads, their records, calendars, bindings
+
+    @model_validator(mode="after")
+    def consistent(self) -> Self:
+        if self.target_exposure != EXPOSURE[self.state] or self.ticket_id != f"shadow:{self.gate}:{self.subject_id}:{self.session}":
+            raise ValueError("the exposure must be the state's, and the id must name the gate, subject and session")
+        if self.issued_at < self.decision_time:
+            raise ValueError("a ticket cannot be issued before its decision time")
+        if self.held != (self.score is None) or self.held != (not self.seed_scores):
+            raise ValueError("a held ticket has no score and no seed scores; any other has both")
+        if self.score is not None and abs(self.score - sum(self.seed_scores) / len(self.seed_scores)) > 1e-12:
+            raise ValueError("the score is the mean of the seed scores")
+        if self.held and any(v is None for v in self.inputs.values()) is False:
+            raise ValueError("a ticket is held only when an input is missing")
+        return self
+
+
 class AlphaTicket(Contract):
     """A single-stock view for one subject after one session. Always subordinate to the beta gate."""
 
