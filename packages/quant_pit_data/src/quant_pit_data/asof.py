@@ -32,16 +32,17 @@ def observe(binding: SeriesBinding, session: date, value: float,
 def load_daily_closes(path: Path, binding: SeriesBinding) -> list[Observation]:
     """Read a DATE,...,CLOSE csv with MM/DD/YYYY dates, the layout of Cboe's index history files."""
     with path.open(newline="", encoding="utf-8") as handle:
-        return [observe(binding, datetime.strptime(row["DATE"], "%m/%d/%Y").date(), float(row["CLOSE"]))
-                for row in csv.DictReader(handle)]
+        return published([binding], [observe(binding, datetime.strptime(row["DATE"], "%m/%d/%Y").date(), float(row["CLOSE"]))
+                                     for row in csv.DictReader(handle)])
 
 
 def published(bindings: list[SeriesBinding], observations: list[Observation]) -> list[Observation]:
     """Drop every value dated before its series was first published.
 
     A source file can hold values the publisher calculated for dates before the series
-    existed. Nobody had them then, so they are ineligible at every cutoff, for a decision
-    and for a training row alike. Every selection below applies this first.
+    existed. Nobody had them then, so they are ineligible at every cutoff, for a decision,
+    a training row and an outcome price alike. Every loader and every selection in this
+    package applies this; code that looks a price up directly must apply it too.
     """
     first = {b.series_id: b.first_published for b in bindings if b.first_published is not None}
     return [o for o in observations if o.series_id not in first or o.session >= first[o.series_id]] if first else observations
@@ -248,4 +249,4 @@ def ratio_series(binding: SeriesBinding, numerator: list[Observation], denominat
         out.append(Observation(series_id=binding.series_id, session=top.session, value=top.value / bottom.value,
                                available_at=max(top.available_at, bottom.available_at), availability_basis=basis,
                                source_url=binding.source_url))
-    return out
+    return published([binding], out)

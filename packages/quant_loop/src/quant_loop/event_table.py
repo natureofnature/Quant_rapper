@@ -13,7 +13,7 @@ from quant_contracts.pit import Cutoff, Observation, SeriesBinding, SessionCalen
 from quant_contracts.research import CandidateFactorRecipe
 from quant_evaluator.alpha.event_window import beta_before, return_pair
 from quant_evaluator.core.rolling import sessions_needed, windowed_value
-from quant_pit_data.asof import at_session, first_session_after, fixed_at, latest_common, session_offset, trailing_window
+from quant_pit_data.asof import at_session, first_session_after, fixed_at, latest_common, published, session_offset, trailing_window
 
 DEFINITION = ("Entry is the open of the first US regular session that opens after the cutoff. Exit is the close of "
               "session number N counting the entry session as 1, with N the recipe's horizon. window is the simple "
@@ -142,6 +142,9 @@ def build_table(recipe: CandidateFactorRecipe, events: list[EventTime], factors:
     the state cutoff. So it reads nothing from the row's own window and nothing published after
     the event. Where that history is incomplete the row has no beta.
     """
+    # Outcome prices are looked up directly below, not through the selector, so the first-publication floor is applied
+    # here to every series the table reads: a trade cannot be priced with a value from before its series existed.
+    observations = published([*bindings.values(), *subject, *(benchmark or ())], observations)
     index = SeriesIndex(observations, {i for f in factors for i in f.series_ids}
                         | {b.series_id for pair in (subject, benchmark) if pair for b in pair})
     prices = {(o.series_id, o.session): o.value for items in index.by_series.values() for o in items}  # latest vintage last

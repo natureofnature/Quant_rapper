@@ -279,6 +279,26 @@ class EventTableTests(unittest.TestCase):
         self.assertEqual(row.status, "incomplete")
         self.assertIn("benchmark:close on 2026-11-16", row.reason)
 
+    def test_a_trade_is_not_priced_with_values_from_before_the_series_was_first_published(self):
+        when = datetime(2026, 11, 10, 13, 30, tzinfo=TAIPEI)  # previous close 9 Nov, entry 10 Nov, exit 16 Nov
+        self.assertEqual(self.table(when).rows[0].status, "complete")  # the rows hold every price
+        dated = lambda pair, day: tuple(b.model_copy(update={"first_published": date(2026, 11, day)}) for b in pair)
+        full = self.subject
+        self.subject = dated(full, 17)  # the subject's prices begin after the whole trade
+        row = self.table(when).rows[0]
+        self.assertEqual((row.status, row.window, row.reaction), ("incomplete", None, None))
+        self.assertIn("subject:close on 2026-11-09", row.reason)
+        self.subject = dated(full, 10)  # they begin on the entry day: the previous close is still missing
+        self.assertEqual(self.table(when).rows[0].status, "incomplete")
+        self.subject = dated(full, 9)  # they begin on the first session the trade reads
+        self.assertEqual(self.table(when).rows[0].status, "complete")
+        self.subject, benchmark = full, self.benchmark
+        self.benchmark = dated(benchmark, 17)  # the same floor applies to the benchmark
+        row = self.table(when).rows[0]
+        self.assertEqual(row.status, "incomplete")
+        self.assertIn("benchmark:close", row.reason)
+        self.benchmark = benchmark
+
     def test_rows_on_days_that_are_not_sessions_are_dropped_on_purpose_not_silently(self):
         holiday = observe(self.state[0], date(2026, 11, 8), 19.0)  # a Sunday: no session in the calendar
         outside = observe(self.state[0], date(2026, 10, 1), 19.0)  # before the calendar starts: left alone

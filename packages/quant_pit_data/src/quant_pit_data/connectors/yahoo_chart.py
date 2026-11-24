@@ -11,7 +11,7 @@ from zoneinfo import ZoneInfo
 
 from quant_contracts.pit import Observation, SeriesBinding
 
-from quant_pit_data.asof import observe
+from quant_pit_data.asof import observe, published
 
 
 def _result(path: Path) -> dict:
@@ -29,15 +29,15 @@ def load_daily(path: Path, open_binding: SeriesBinding, close_binding: SeriesBin
             rows.append(observe(open_binding, session, opened))
         if closed is not None:
             rows.append(observe(close_binding, session, closed))
-    return rows
+    return published([open_binding, close_binding], rows)
 
 
 def load_closes(path: Path, binding: SeriesBinding) -> list[Observation]:
     """One close observation per dated row that has a positive close, for a series read for its close only."""
     data = _result(path)
     zone = ZoneInfo(data["meta"]["exchangeTimezoneName"])
-    return [observe(binding, datetime.fromtimestamp(stamp, zone).date(), closed)
-            for stamp, closed in zip(data["timestamp"], data["indicators"]["quote"][0]["close"]) if closed is not None and closed > 0]
+    return published([binding], [observe(binding, datetime.fromtimestamp(stamp, zone).date(), closed)
+                                 for stamp, closed in zip(data["timestamp"], data["indicators"]["quote"][0]["close"]) if closed is not None and closed > 0])
 
 
 def monthly_mean_closes(path: Path) -> dict[str, float]:

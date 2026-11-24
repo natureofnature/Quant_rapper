@@ -80,7 +80,7 @@ def _load(root: Path, snapshot: Path, symbol: str):
             raise SystemExit(f"{name} does not match the snapshot manifest")
     calendars = {s["calendar"]: SessionCalendar(**json.loads((snapshot / (s["calendar"] + ".json")).read_text())) for s in registration["signals"]}
     equity = calendars["us_equity_sessions_2002_2026"] if "us_equity_sessions_2002_2026" in calendars else next(iter(calendars.values()))
-    prices = load_daily(snapshot / f"{symbol}.json", b[subject["open"]], b[subject["close"]])
+    prices = load_daily(snapshot / f"{symbol}.json", b[subject["open"]], b[subject["close"]])  # already floored at first publication
     return registration, hashlib.sha256(registration_path.read_bytes()).hexdigest(), subject, b, calendars, equity, prices, hashes, bindings_dir
 
 

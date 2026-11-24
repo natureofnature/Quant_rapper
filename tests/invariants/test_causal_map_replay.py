@@ -68,8 +68,11 @@ class CausalMapTests(unittest.TestCase):
             return origins[revision]
 
         cls.cross = {s: generate_from_files(origin(CROSS), s, COMMON) for s in SUBJECTS}
-        packet = origin(PILOT) / PILOT.relative_to(ROOT) / "packet.json"
-        cls.before, cls.after = (generate_from_files(origin(PILOT), "TSM", when, packet) for when in (BEFORE, AFTER))
+        # Everything a replay check reads beside the maps (bindings, pins, calendars, the packet) comes from the same checkout,
+        # so a later edit to any of them cannot fail a study that still reproduces.
+        cls.pilot = origin(PILOT)
+        cls.pilot_folder = cls.pilot / PILOT.relative_to(ROOT)
+        cls.before, cls.after = (generate_from_files(cls.pilot, "TSM", when, cls.pilot_folder / "packet.json") for when in (BEFORE, AFTER))
 
     def test_each_saved_study_names_a_full_revision_that_is_in_this_history(self):
         for study in (CROSS, PILOT):
@@ -181,9 +184,9 @@ class CausalMapTests(unittest.TestCase):
             generate_from_files(ROOT, "NOT_A_SUBJECT", COMMON)
 
     def test_candidate_runs_from_its_origin_lead_through_the_map_to_the_evaluator(self):
-        catalog = json.loads((ROOT / "knowledge_base/prior_knowledge/bindings/series_bindings.json").read_text(encoding="utf-8"))
+        catalog = json.loads((self.pilot / "knowledge_base/prior_knowledge/bindings/series_bindings.json").read_text(encoding="utf-8"))
         b = {s["series_id"]: SeriesBinding(**s) for s in catalog["series"]}
-        periods = SessionCalendar(**json.loads((PILOT / "monthly_periods_2026.json").read_text(encoding="utf-8")))
+        periods = SessionCalendar(**json.loads((self.pilot_folder / "monthly_periods_2026.json").read_text(encoding="utf-8")))
         days = [date(2026, 11, 2) + timedelta(days=n) for n in range(19)]
         equity = SessionCalendar(calendar_id="test", timezone="America/New_York", first=days[0], last=days[-1],
                                  sessions=tuple(d for d in days if d.weekday() < 5), basis_note="Synthetic.")
@@ -219,9 +222,9 @@ class CausalMapTests(unittest.TestCase):
         self.assertIn("over the limit", row(late_map, AFTER, date(2026, 9, 30), limit=30).factors[0].state.reason)
 
     def test_handoff_keeps_factor_recipe_cutoff_and_bindings_together(self):
-        catalog = json.loads((ROOT / "knowledge_base/prior_knowledge/bindings/series_bindings.json").read_text(encoding="utf-8"))
+        catalog = json.loads((self.pilot / "knowledge_base/prior_knowledge/bindings/series_bindings.json").read_text(encoding="utf-8"))
         b = {s["series_id"]: SeriesBinding(**s) for s in catalog["series"]}
-        periods = SessionCalendar(**json.loads((PILOT / "monthly_periods_2026.json").read_text(encoding="utf-8")))
+        periods = SessionCalendar(**json.loads((self.pilot_folder / "monthly_periods_2026.json").read_text(encoding="utf-8")))
         days = [date(2026, 11, 2) + timedelta(days=n) for n in range(60)]
         equity = SessionCalendar(calendar_id="test", timezone="America/New_York", first=days[0], last=days[-1],
                                  sessions=tuple(d for d in days if d.weekday() < 5), basis_note="Synthetic.")
@@ -243,7 +246,7 @@ class CausalMapTests(unittest.TestCase):
             run(self.cross["MU"][0], recipe)
         # The same id in another context is another recipe: at one decision time, the ordinary-day map and the event map
         # both have a VIX recipe with this id. Their evidence differs, and each map accepts only its own.
-        ordinary_map, ordinary_recipes = generate_from_files(ROOT, "TSM", AFTER)
+        ordinary_map, ordinary_recipes = generate_from_files(self.pilot, "TSM", AFTER)
         self.assertEqual(ordinary_recipes[0].recipe_id, late_recipes[0].recipe_id)
         self.assertNotEqual(ordinary_recipes[0].evidence, late_recipes[0].evidence)
         with self.assertRaisesRegex(ValueError, "same id, different content"):
@@ -284,10 +287,10 @@ class CausalMapTests(unittest.TestCase):
         self.assertFalse((PILOT / "output/2026-11-10/table.json").exists())
 
     def test_run_is_refused_when_a_binding_it_uses_is_unpinned_or_changed(self):
-        catalog = json.loads((ROOT / "knowledge_base/prior_knowledge/bindings/series_bindings.json").read_text(encoding="utf-8"))
+        catalog = json.loads((self.pilot / "knowledge_base/prior_knowledge/bindings/series_bindings.json").read_text(encoding="utf-8"))
         b = {s["series_id"]: SeriesBinding(**s) for s in catalog["series"]}
         pinned = ResearchInputs.model_validate_json(
-            (ROOT / "knowledge_base/prior_knowledge/bindings/factor_definitions.json").read_text(encoding="utf-8")).bindings_sha256
+            (self.pilot / "knowledge_base/prior_knowledge/bindings/factor_definitions.json").read_text(encoding="utf-8")).bindings_sha256
         causal_map, recipes = self.after
         used = {r.series for recipe in recipes for r in recipe.data_requirements if r.series in b} | {SERIES}
         self.assertEqual({k: v for k, v in causal_map.inputs_sha256.items() if k.startswith("binding:")},
@@ -299,7 +302,7 @@ class CausalMapTests(unittest.TestCase):
         self.assertEqual(check_bindings(used, unrelated, pinned), check_bindings(used, b, pinned))  # an unused one is free to change
         with self.assertRaisesRegex(ValueError, "not pinned"):
             check_bindings(used, b, {k: v for k, v in pinned.items() if k != "cboe:vix"})
-        SourcePacket.model_validate_json((PILOT / "packet.json").read_text(encoding="utf-8"))
+        SourcePacket.model_validate_json((self.pilot_folder / "packet.json").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

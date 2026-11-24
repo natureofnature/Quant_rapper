@@ -9,6 +9,7 @@ from datetime import date, datetime, timedelta
 import json
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 from zoneinfo import ZoneInfo
 
@@ -18,7 +19,8 @@ for package in ("quant_contracts", "quant_pit_data", "quant_causal_graph"):
 try:
     from quant_causal_graph.causal_map import binding_digest
     from quant_contracts.pit import Cutoff, SeriesBinding, SessionCalendar
-    from quant_pit_data.asof import at_session, latest_common, observe, trailing_window
+    from quant_pit_data.asof import at_session, latest_common, load_daily_closes, observe, ratio_series, trailing_window
+    from quant_pit_data.connectors.yahoo_chart import load_closes, load_daily
 except ModuleNotFoundError:
     SeriesBinding = None
 
@@ -70,6 +72,23 @@ class FirstPublicationTests(unittest.TestCase):
         self.assertEqual(both.status, "gap")  # the pair needs both, and one did not exist yet
         alone, _ = latest_common([other], rows, self.cutoff(11), self.calendar, LIMIT)
         self.assertEqual((alone.status, alone.session), ("resolved", date(2026, 11, 11)))
+
+    def test_loaders_and_derived_series_drop_what_the_file_holds_from_before_the_launch(self):
+        with tempfile.TemporaryDirectory() as temp:
+            csv_path, chart = Path(temp) / "index.csv", Path(temp) / "chart.json"
+            csv_path.write_text("DATE,CLOSE\n" + "".join(f"{s:%m/%d/%Y},{s.day}\n" for s in SESSIONS), encoding="utf-8")
+            stamps = [int(datetime(s.year, s.month, s.day, 9, 30, tzinfo=NEW_YORK).timestamp()) for s in SESSIONS]
+            chart.write_text(json.dumps({"chart": {"result": [{"meta": {"exchangeTimezoneName": "America/New_York"}, "timestamp": stamps,
+                             "indicators": {"quote": [{"open": [1.0] * len(SESSIONS), "close": [2.0] * len(SESSIONS)}]}}]}}), encoding="utf-8")
+            first = lambda rows: min(o.session for o in rows)
+            self.assertEqual((first(load_daily_closes(csv_path, self.undated)), first(load_daily_closes(csv_path, self.dated))), (SESSIONS[0], LAUNCH))
+            self.assertEqual((first(load_closes(chart, self.undated)), first(load_closes(chart, self.dated))), (SESSIONS[0], LAUNCH))
+            self.assertEqual(first(load_daily(chart, self.dated, self.undated.model_copy(update={"series_id": "x:close"}))), SESSIONS[0])
+            self.assertEqual({o.session for o in load_daily(chart, self.dated, self.dated.model_copy(update={"series_id": "x:close"}))},
+                             {s for s in SESSIONS if s >= LAUNCH})
+        other = [observe(self.undated.model_copy(update={"series_id": "y:index"}), s, 2.0) for s in SESSIONS]
+        derived = self.dated.model_copy(update={"series_id": "derived:x_over_y"})
+        self.assertEqual(first(ratio_series(derived, self.rows, other)), LAUNCH)  # full inputs, but the derived series has its own floor
 
     def test_an_unset_date_leaves_a_binding_hash_unchanged_and_a_set_one_changes_it(self):
         self.assertNotEqual(binding_digest(self.undated), binding_digest(self.dated))
