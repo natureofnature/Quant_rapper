@@ -196,6 +196,7 @@ class ShadowTicketTests(unittest.TestCase):
         held = run().tickets[0]
         # The state is the one actually published on the 19th, whatever today's recomputed history would say.
         self.assertEqual((held.state, held.target_exposure, held.held, held.score, held.seed_scores, held.inputs["sessions_to_fomc"]), ("RED", 0.0, True, None, (), None))
+        self.assertEqual((held.no_score_reason, held.continues), ("missing_input", "held"))
         self.assertIsNotNone(held.inputs["vix_log"])
 
     def test_writing_needs_the_registered_file_code_configuration_and_issuer(self):
@@ -261,7 +262,7 @@ class ShadowTicketTests(unittest.TestCase):
                       "issued_at": datetime.combine(day, time(19, 0), NEW_YORK).isoformat(), "continues": "held" if held else "previous_session",
                       "previous_ticket_sha256": "0" * 64, "level": None if held else 0, "run": list(run)}
             if held:
-                fields.update(held=True, score=None, seed_scores=[], inputs={**fields["inputs"], "sessions_to_fomc": None})
+                fields.update(held=True, no_score_reason="missing_input", score=None, seed_scores=[], inputs={**fields["inputs"], "sessions_to_fomc": None})
             folder.mkdir(parents=True, exist_ok=True)
             (folder / f"{day}.json").write_text(ShadowTicket(**fields).model_dump_json())
 
@@ -300,7 +301,7 @@ class ShadowTicketTests(unittest.TestCase):
         records = Path(self.temp.name) / "other_calendar_records"
         with self.assertRaisesRegex(SystemExit, f"differ from the ones the registration pins: {name}"):
             emit(root, folder, SESSION, records, now=EVENING, machine="pc-a", only=["TSM"])
-        self.assertFalse(records.exists())  # neither a ticket nor a gap
+        self.assertEqual([p.name for p in records.rglob("*") if p.is_file()], [".lock"])  # neither a ticket nor a gap
 
     def test_a_decision_recorded_as_a_gap_stays_a_gap_and_a_later_result_is_a_replay(self):
         root, folder, git, registration = self.registered("gap_first")
@@ -308,7 +309,7 @@ class ShadowTicketTests(unittest.TestCase):
         records = Path(self.temp.name) / "gap_first_records"
         gap = ShadowGap(gap_id=f"gap:E-dd:company:tsmc:{SESSION}", gate="E-dd", subject_id="company:tsmc", session=SESSION,
                         decision_time=datetime.combine(SESSION, time(17, 0), NEW_YORK), issued_at=EVENING, machine="pc-a",
-                        reason="no score for this session and no earlier live ticket of this gate and subject to hold", missing_inputs=("sessions_to_fomc",),
+                        reason="no score: an input was not knowable at the cutoff; and no earlier live ticket of this gate and subject to hold", missing_inputs=("sessions_to_fomc",),
                         registration_id="shadow_gates", registration_sha256="0" * 64, code_commit=registration["code"]["commit"], inputs_sha256={})
         path = records / "pc-a/gaps/E-dd/company_tsmc/2026-11-23.json"
         path.parent.mkdir(parents=True)
@@ -319,8 +320,53 @@ class ShadowTicketTests(unittest.TestCase):
         self.assertFalse((records / "pc-a/tickets").exists())
         replay = ShadowTicket.model_validate_json((records / "pc-a/replays/E-dd/company_tsmc/2026-11-23.json").read_text())
         self.assertEqual((batch.replays, replay.issuance, replay.issued_at), ([replay], "replay", later))
+        self.assertEqual(batch.kept, [gap.gap_id])  # the official gap was found, not written by this run
         again = emit(root, folder, SESSION, records, now=datetime.combine(SESSION, time(23, 0), NEW_YORK), machine="pc-a", only=["TSM"])
-        self.assertEqual((again.replays, again.gaps), ([replay], [gap]))  # nothing is rewritten on a further retry
+        self.assertEqual((again.replays, again.gaps, again.reused, again.kept), ([replay], [gap], [replay.ticket_id], [gap.gap_id]))  # the same result: reused
+        # An earlier reconstruction that said something else is not reported as this run's result: it is a conflict, and it is left alone.
+        stored = records / "pc-a/replays/E-dd/company_tsmc/2026-11-23.json"
+        other = json.loads(stored.read_text())
+        other.update(score=0.87, seed_scores=[0.87, 0.87])
+        stored.write_text(json.dumps(other))
+        with self.assertRaisesRegex(SystemExit, "replays/E-dd/company_tsmc/2026-11-23.json: a replay is already there and differs"):
+            emit(root, folder, SESSION, records, now=datetime.combine(SESSION, time(23, 30), NEW_YORK), machine="pc-a", only=["TSM"])
+        self.assertEqual(json.loads(stored.read_text()), other)
+
+    def test_a_second_run_for_the_same_issuer_stops_while_one_is_writing(self):
+        import fcntl
+        root, folder, git, _ = self.registered("locked")
+        git("add", "-A"); git("commit", "-q", "-m", "register")
+        records = Path(self.temp.name) / "locked_records"
+        (records / "pc-a").mkdir(parents=True)
+        with (records / "pc-a/.lock").open("w") as held:  # stands for a run in progress
+            fcntl.flock(held, fcntl.LOCK_EX)
+            with self.assertRaisesRegex(SystemExit, "another run is writing records for pc-a"):
+                emit(root, folder, SESSION, records, now=EVENING, machine="pc-a", only=["TSM"])
+            self.assertEqual([p.name for p in (records / "pc-a").iterdir()], [".lock"])  # it wrote nothing, neither ticket nor gap
+            self.assertEqual(len(emit(root, folder, SESSION, None, now=EVENING, machine="pc-a", dry_run=True, only=["TSM"]).tickets), 1)  # a rehearsal is not a writer
+        self.assertEqual(len(emit(root, folder, SESSION, records, now=EVENING, machine="pc-a", only=["TSM"]).tickets), 1)  # once it is released
+
+    def test_a_month_that_cannot_be_fitted_is_carried_like_a_missing_input_and_stops_nothing(self):
+        unfittable = json.loads(json.dumps(self.registration))
+        unfittable["parameters"]["min_positive"] = 10 ** 6  # no training fold can have that many positive labels
+        path = Path(self.temp.name) / "unfittable.json"
+        path.write_text(json.dumps(unfittable))
+        records = Path(self.temp.name) / "unfittable_records"
+        run = lambda: emit(self.root, self.folder, SESSION, records, now=EVENING, machine="test-machine", dry_run=True, registration_path=path)
+        first = run()  # every input is present, and still there is no score: recorded as a gap with its reason, for every gate
+        self.assertEqual((first.tickets, len(first.gaps), {g.missing_inputs for g in first.gaps}), ([], 3, {()}))
+        self.assertTrue(all("could not be fitted" in g.reason for g in first.gaps))
+        model = next(t for t in self.tickets if (t.subject_id, t.gate) == ("fund:qqq", "E-dd"))
+        day = date(2026, 11, 20)
+        earlier = {**json.loads(model.model_dump_json()), "session": str(day), "ticket_id": f"shadow:E-dd:fund:qqq:{day}", "state": "YELLOW", "target_exposure": 0.5,
+                   "decision_time": datetime.combine(day, time(17, 0), NEW_YORK).isoformat(), "issued_at": datetime.combine(day, time(19, 0), NEW_YORK).isoformat()}
+        folder = records / "test-machine/tickets/E-dd/fund_qqq"
+        folder.mkdir(parents=True)
+        (folder / f"{day}.json").write_text(ShadowTicket(**earlier).model_dump_json())
+        second = run()  # one gate now has a live ticket to hold; the other two are still gaps, and all three were processed
+        held = second.tickets[0]
+        self.assertEqual((len(second.tickets), len(second.gaps), second.errors), (1, 2, []))
+        self.assertEqual((held.state, held.held, held.no_score_reason, held.continues, all(v is not None for v in held.inputs.values())), ("YELLOW", True, "no_fit", "held", True))
 
     def test_the_repository_registration_is_a_well_formed_draft(self):
         r = json.loads((ROOT / REGISTRATION).read_text())

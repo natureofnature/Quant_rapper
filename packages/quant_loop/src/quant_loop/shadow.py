@@ -27,7 +27,13 @@ ticket a gap is recorded in place of a ticket. Whether a ticket is live is decid
 at the moment it is written.
 
 One decision has one official record, a ticket or a gap, whichever was written first. A later
-run that computes something else for it writes that under replays/, marked as a replay.
+run that computes something else for it writes that under replays/, marked as a replay. Only
+one run at a time writes for an issuer: a second one stops, so two runs cannot each publish an
+outcome for the same decision.
+
+A session can lack a score for two reasons, and the ticket says which: an input was not
+knowable at the cutoff, or the month's model could not be fitted. The carry rule is the same
+for both. A gate that fails does not stop the others; its error is reported when the rest is done.
 
 ``--dry-run`` checks nothing about the registration and writes nothing, for rehearsal and for
 comparing two machines: it prints a digest of every score, which must be equal on both for the
@@ -35,8 +41,10 @@ same snapshot.
 """
 
 import argparse
+from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import date, datetime, time, timezone
+import fcntl
 import hashlib
 import json
 from pathlib import Path
@@ -109,7 +117,9 @@ class Batch:
     gaps: list[ShadowGap] = field(default_factory=list)
     kept: list[str] = field(default_factory=list)
     replays: list[ShadowTicket] = field(default_factory=list)
+    reused: list[str] = field(default_factory=list)  # replays found already written and equal to what this run computed
     conflicts: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)  # a gate that could not be processed; the others were
     digest: str = ""
 
 
@@ -125,7 +135,7 @@ def last_live_ticket(records: Path, machine: str, gate: str, subject: str, sessi
 
 
 SAME = ("gate", "subject_id", "session", "decision_time", "machine", "registration_id", "registration_sha256", "code_commit", "inputs_sha256")
-SAME_TICKET = SAME + ("state", "held", "score", "seed_scores", "inputs", "model_month", "continues", "previous_ticket_sha256", "level", "run")
+SAME_TICKET = SAME + ("state", "held", "no_score_reason", "score", "seed_scores", "inputs", "model_month", "continues", "previous_ticket_sha256", "level", "run")
 
 
 def publish(records: Path, machine: str, gate: str, subject: str, session: date, record, batch: Batch):
@@ -148,19 +158,45 @@ def publish(records: Path, machine: str, gate: str, subject: str, session: date,
         return existing
     if gap_path.is_file():
         existing = ShadowGap.model_validate_json(gap_path.read_text(encoding="utf-8"))
-        if not is_ticket and all(getattr(existing, k) == getattr(record, k) for k in SAME + ("missing_inputs",)):
-            batch.kept.append(existing.gap_id)
-        elif is_ticket:  # the gap was the decision made in time; what can be computed now is a reconstruction
-            replay = record.model_copy(update={"issuance": "replay"})
-            path = base / "replays" / gate / subject / f"{session}.json"
-            if not path.is_file():
-                write_once(path, replay.model_dump_json(indent=1) + "\n")
-            batch.replays.append(ShadowTicket.model_validate_json(path.read_text(encoding="utf-8")))
+        if not is_ticket:
+            if all(getattr(existing, k) == getattr(record, k) for k in SAME + ("missing_inputs", "reason")):
+                batch.kept.append(existing.gap_id)
+            else:
+                batch.conflicts.append(f"{gap_path}: a gap is already there and differs from what this run computed")
+            return existing
+        # The gap was the decision made in time and stays the official record. What can be computed now is a reconstruction.
+        batch.kept.append(existing.gap_id)
+        replay = record.model_copy(update={"issuance": "replay"})
+        path = base / "replays" / gate / subject / f"{session}.json"
+        if not path.is_file():
+            write_once(path, replay.model_dump_json(indent=1) + "\n")
+            batch.replays.append(replay)
         else:
-            batch.conflicts.append(f"{gap_path}: a gap is already there and differs from what this run computed")
+            stored = ShadowTicket.model_validate_json(path.read_text(encoding="utf-8"))
+            if all(getattr(stored, k) == getattr(replay, k) for k in SAME_TICKET):
+                batch.reused.append(stored.ticket_id)
+                batch.replays.append(stored)
+            else:  # an earlier reconstruction said something else: neither is reported as the result
+                batch.conflicts.append(f"{path}: a replay is already there and differs from what this run computed")
         return existing
     write_once(ticket_path if is_ticket else gap_path, record.model_dump_json(indent=1) + "\n")
     return record
+
+
+@contextmanager
+def only_run(records: Path, machine: str):
+    """Hold the issuer's lock for the whole run, or stop: two runs must not each decide what a session's official record is."""
+    folder = records / machine
+    folder.mkdir(parents=True, exist_ok=True)
+    with (folder / ".lock").open("w") as handle:
+        try:
+            fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError:
+            raise SystemExit(f"another run is writing records for {machine}: this one stops and writes nothing")
+        try:
+            yield
+        finally:
+            fcntl.flock(handle, fcntl.LOCK_UN)
 
 
 def scores_of(registration: dict, inputs, subject: dict) -> dict[str, tuple[list[float | None], list[list[float | None]]]]:
@@ -202,7 +238,20 @@ def scores_of(registration: dict, inputs, subject: dict) -> dict[str, tuple[list
 
 def emit(root: Path, snapshot: Path, session: date, records: Path | None, now: datetime | None = None, machine: str | None = None,
          dry_run: bool = False, only: list[str] | None = None, registration_path: Path | None = None, clock=None) -> Batch:
-    """Every registered shadow ticket for ``session``, written to ``records`` unless ``dry_run``.
+    """Every registered shadow ticket for ``session``, written to ``records`` unless ``dry_run``. One run at a time per issuer."""
+    machine = machine or socket.gethostname()
+    path = registration_path or root / REGISTRATION
+    if dry_run:
+        return _emit(root, snapshot, session, records, now, machine, "0" * 40, only, path, clock)
+    # Refused before anything is touched: a run that may not write leaves no trace in the records.
+    commit = refuse_unless_registered(root, json.loads(path.read_text(encoding="utf-8")), path, machine)
+    with only_run(records, machine):
+        return _emit(root, snapshot, session, records, now, machine, commit, only, path, clock)
+
+
+def _emit(root: Path, snapshot: Path, session: date, records: Path | None, now: datetime | None, machine: str,
+          commit: str, only: list[str] | None, path: Path, clock) -> Batch:
+    """The work of ``emit``. ``commit`` is the registered code commit, or forty zeros for a rehearsal.
 
     ``clock`` gives the current time and is read again immediately before each ticket is
     written: that reading is the ticket's issuance time and decides whether it is live.
@@ -210,11 +259,9 @@ def emit(root: Path, snapshot: Path, session: date, records: Path | None, now: d
     before the decision time gets no ticket: an earlier day's values never stand in for a
     session that has not been read. A gate that has no state yet gets none either.
     """
-    path = registration_path or root / REGISTRATION
     registration = json.loads(path.read_text(encoding="utf-8"))
-    machine = machine or socket.gethostname()
+    dry_run = commit == "0" * 40
     clock = clock or ((lambda: now) if now is not None else (lambda: datetime.now(timezone.utc)))
-    commit = "0" * 40 if dry_run else refuse_unless_registered(root, registration, path, machine)
     if dry_run and pinned_differences(root, registration):
         print(f"note: these files differ from the ones the registration pins: {', '.join(pinned_differences(root, registration))}")
     P, G, spec = registration["parameters"], registration["parameters"]["gate"], registration["inputs"]
@@ -250,47 +297,55 @@ def emit(root: Path, snapshot: Path, session: date, records: Path | None, now: d
                       registration_id=registration["registration_id"], registration_sha256=registration_hash, code_commit=commit, inputs_sha256=inputs.hashes[name])
         for gate, (mean, by_seed) in scores_of(registration, inputs, subject).items():
             record[f"{name}:{gate}"] = [[None if v is None else repr(v) for v in seed] for seed in by_seed]
-            common["gate"] = gate
-            earlier = None if records is None else last_live_ticket(records, machine, gate, folder, session)
-            place = (records, machine, gate, folder, session)
-            if mean[-1] is None:  # no score: the state is not recomputed, it is the last one this issuer actually published in time
-                if earlier is None:
-                    gap = ShadowGap(gap_id=f"gap:{gate}:{subject_id}:{session}", issued_at=clock(), missing_inputs=tuple(n for n, v in row.items() if v is None),
-                                    reason="no score for this session and no earlier live ticket of this gate and subject to hold", **common)
-                    official = gap if dry_run else publish(*place, gap, batch)
-                    (batch.gaps if isinstance(official, ShadowGap) else batch.tickets).append(official)
-                    continue
-                state, level, run, continues, previous_hash = earlier[0].state, None, (), "held", earlier[1]
-            else:
-                before = [v for v in mean[:-1] if v is not None]
-                level = score_level(before, mean[-1], G["red_quantile"], G["yellow_quantile"], G["window"], G["min_scores"])
-                if level is None:
-                    print(f"{name} {gate}: the gate has no state yet: no ticket")
-                    continue
-                if earlier is None:  # the gate's first ticket: the registered procedure on this snapshot's history
-                    position, below = gate_position(mean, G["red_quantile"], G["yellow_quantile"], G["window"], G["min_scores"], G["step_down_after"])
-                    continues, previous_hash = "first", None
+            try:  # one gate that fails does not stop the others
+                common["gate"] = gate
+                earlier = None if records is None else last_live_ticket(records, machine, gate, folder, session)
+                place = (records, machine, gate, folder, session)
+                missing = tuple(n for n, v in row.items() if v is None)
+                why = None if mean[-1] is not None else "missing_input" if missing else "no_fit"
+                if mean[-1] is None:  # no score: the state is not recomputed, it is the last one this issuer actually published in time
+                    if earlier is None:
+                        cause = "an input was not knowable at the cutoff" if missing else "the month's model could not be fitted although every input was there"
+                        gap = ShadowGap(gap_id=f"gap:{gate}:{subject_id}:{session}", issued_at=clock(), missing_inputs=missing,
+                                        reason=f"no score: {cause}; and no earlier live ticket of this gate and subject to hold", **common)
+                        official = gap if dry_run else publish(*place, gap, batch)
+                        (batch.gaps if isinstance(official, ShadowGap) else batch.tickets).append(official)
+                        continue
+                    state, level, run, continues, previous_hash = earlier[0].state, None, (), "held", earlier[1]
                 else:
-                    last, previous_hash = earlier
-                    day_before = inputs.sessions[-2] if len(inputs.sessions) > 1 else None
-                    follows = last.session == day_before and not last.held
-                    # After a held, missed or late session the issued state stands and the count starts again: nothing a later
-                    # download fills in can make those sessions count.
-                    position, below = step(STATES.index(last.state), list(last.run) if follows else [], level, G["step_down_after"])
-                    continues = "previous_session" if follows else "after_gap"
-                state, run = STATES[position], tuple(below)
-            issued = clock()  # read now, with the work done: this is when the ticket exists
-            ticket = ShadowTicket(ticket_id=f"shadow:{gate}:{subject_id}:{session}", issued_at=issued,
-                                  issuance="live" if next_open is not None and issued < next_open else "replay",
-                                  state=state, target_exposure=EXPOSURE[state], held=mean[-1] is None, continues=continues,
-                                  previous_ticket_sha256=previous_hash, level=level, run=run, score=mean[-1],
-                                  seed_scores=() if mean[-1] is None else tuple(s[-1] for s in by_seed), model_month=f"{session:%Y-%m}",
-                                  inputs=row, horizon_sessions=P["horizon_sessions"], **common)
-            official = ticket if dry_run else publish(*place, ticket, batch)
-            (batch.tickets if isinstance(official, ShadowTicket) else batch.gaps).append(official)
+                    before = [v for v in mean[:-1] if v is not None]
+                    level = score_level(before, mean[-1], G["red_quantile"], G["yellow_quantile"], G["window"], G["min_scores"])
+                    if level is None:
+                        print(f"{name} {gate}: the gate has no state yet: no ticket")
+                        continue
+                    if earlier is None:  # the gate's first ticket: the registered procedure on this snapshot's history
+                        position, below = gate_position(mean, G["red_quantile"], G["yellow_quantile"], G["window"], G["min_scores"], G["step_down_after"])
+                        continues, previous_hash = "first", None
+                    else:
+                        last, previous_hash = earlier
+                        day_before = inputs.sessions[-2] if len(inputs.sessions) > 1 else None
+                        follows = last.session == day_before and not last.held
+                        # After a held, missed or late session the issued state stands and the count starts again: nothing a later
+                        # download fills in can make those sessions count.
+                        position, below = step(STATES.index(last.state), list(last.run) if follows else [], level, G["step_down_after"])
+                        continues = "previous_session" if follows else "after_gap"
+                    state, run = STATES[position], tuple(below)
+                issued = clock()  # read now, with the work done: this is when the ticket exists
+                ticket = ShadowTicket(ticket_id=f"shadow:{gate}:{subject_id}:{session}", issued_at=issued,
+                                      issuance="live" if next_open is not None and issued < next_open else "replay",
+                                      state=state, target_exposure=EXPOSURE[state], held=mean[-1] is None, no_score_reason=why, continues=continues,
+                                      previous_ticket_sha256=previous_hash, level=level, run=run, score=mean[-1],
+                                      seed_scores=() if mean[-1] is None else tuple(s[-1] for s in by_seed), model_month=f"{session:%Y-%m}",
+                                      inputs=row, horizon_sessions=P["horizon_sessions"], **common)
+                official = ticket if dry_run else publish(*place, ticket, batch)
+                (batch.tickets if isinstance(official, ShadowTicket) else batch.gaps).append(official)
+            except Exception as error:
+                batch.errors.append(f"{name} {gate}: {type(error).__name__}: {error}")
     batch.digest = hashlib.sha256(json.dumps(record, sort_keys=True).encode("utf-8")).hexdigest()
-    if batch.conflicts:
-        raise SystemExit("the batch was written except for records that differ from ones already there, which were left alone:\n  " + "\n  ".join(batch.conflicts))
+    if batch.conflicts or batch.errors:
+        raise SystemExit("\n".join(
+            (["the batch was written except for records that differ from ones already there, which were left alone:"] + [f"  {c}" for c in batch.conflicts] if batch.conflicts else [])
+            + (["these gates could not be processed; the others were:"] + [f"  {e}" for e in batch.errors] if batch.errors else [])))
     return batch
 
 
@@ -317,7 +372,8 @@ def main() -> None:
     new_tickets = sum(t.ticket_id not in batch.kept for t in batch.tickets)
     new_gaps = sum(g.gap_id not in batch.kept for g in batch.gaps)
     print(("dry run, nothing written" if args.dry_run else
-           f"{new_tickets} tickets and {new_gaps} gaps written, {len(batch.kept)} records kept, {len(batch.replays)} replays") + f"; scores digest {batch.digest}")
+           f"{new_tickets} tickets and {new_gaps} gaps written, {len(batch.kept)} records kept, "
+           f"{len(batch.replays) - len(batch.reused)} replays written and {len(batch.reused)} reused") + f"; scores digest {batch.digest}")
 
 
 if __name__ == "__main__":

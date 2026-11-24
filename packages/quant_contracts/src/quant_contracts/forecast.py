@@ -67,7 +67,10 @@ class ShadowTicket(Contract):
     machine: Text  # the computer that wrote it
     state: GateState
     target_exposure: float
-    held: bool  # True when the session has no score, because an input was missing, and the previous state is carried
+    held: bool  # True when the session has no score and the previous state is carried
+    # Why there is no score: an input was not knowable at the cutoff, or the month's model could not be fitted (its training
+    # fold had too few usable rows or too few positive labels) although every input was there. None unless held.
+    no_score_reason: Literal["missing_input", "no_fit"] | None = None
     # The gate's state follows the record of what was issued, not a history recomputed later. ``continues`` says where this
     # ticket's state starts from: the registered procedure on this snapshot's history for a gate's first ticket; the live
     # ticket of the session before; or, after a held, missed or late session, the last live ticket's state with the
@@ -97,8 +100,10 @@ class ShadowTicket(Contract):
             raise ValueError("a held ticket has no score and no seed scores; any other has both")
         if self.score is not None and abs(self.score - sum(self.seed_scores) / len(self.seed_scores)) > 1e-12:
             raise ValueError("the score is the mean of the seed scores")
-        if self.held and any(v is None for v in self.inputs.values()) is False:
-            raise ValueError("a ticket is held only when an input is missing")
+        if self.held != (self.no_score_reason is not None):
+            raise ValueError("a held ticket says why it has no score, and no other ticket does")
+        if self.held and (self.no_score_reason == "missing_input") != any(v is None for v in self.inputs.values()):
+            raise ValueError("the reason must match the inputs: a missing input, or a model that could not be fitted with every input present")
         if self.held != (self.continues == "held") or self.held != (self.level is None) or (self.held and self.run):
             raise ValueError("a held ticket has no level and no run, and says it is held; any other has a level")
         if (self.continues == "first") != (self.previous_ticket_sha256 is None):
