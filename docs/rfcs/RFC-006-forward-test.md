@@ -1,11 +1,12 @@
 # RFC-006: A Forward Test of the Fitted Gates, and Graph-Selected Inputs
 
-* **Status**: Draft, revision 4. Nothing registered, no ticket issued.
+* **Status**: Draft, revision 5. Nothing registered, no ticket issued.
 * **Date**: 2026-11-23
 * **Repository**: `Quant_rapper`
 * **Depends on**: the frozen rule baseline, the frozen RFC-005 comparison (`artifacts/ablations/soxx_qqq_wide_inputs`), the ticket loop of RFC-004 (`quant_loop.tickets`) and the causal-map generator of RFC-003.
 * **Scope**: daily shadow tickets from fitted gates beside the rule's for SOXX, QQQ and TSM, a review point fixed now, and one new gate whose inputs are chosen by the causal-map generator. No backtest decides anything.
 * **Revision 3** adds TSM as a subject and a seed-averaged gate, after a local exploration on TSM (section 1.1).
+* **Revision 5** corrects two defects in the RFC-005 inputs before anything is registered (section 3.5).
 
 ---
 
@@ -48,6 +49,8 @@ Run on 2026-11-23 in `run/tsm_gate_2026-11-23` (local only, not registered). The
 * **Three years carry it** (2021, 2022 and 2026), and TSM moves closely with SOXX, whose result on these years was already known. It is a description, not a fresh test.
 * TSM's own inputs were computed directly from its closes, not through the point-in-time pipeline.
 
+**Rerun on 2026-11-23 with the corrections of section 3.5**, through the point-in-time pipeline and to the 2026-11-23 close: buy and hold −57.1% and 6.17; the rule −26.3% and 5.45; the 33-input drawdown model averaged across seven seeds −33.8% and 7.76 (single seeds 7.39 to 8.71). The same run on MU, NVDA and AMD showed how much these figures depend on the training window: dropping the 2009–2012 rows moved the seven-seed final equity from 7.62 to 15.92 on MU and from 19.32 to 43.48 on NVDA, and on AMD the gate ended at 2.93 against 9.44 for buy and hold. None of this is registered, and it is the reason the forward record, not a backtest, decides.
+
 ## 2. Gates and their roles
 
 | Model | Inputs | Training target | Scoring | Role |
@@ -64,7 +67,7 @@ A shadow ticket decides nothing. It vetoes no alpha ticket and moves no exposure
 
 Keeping both single-seed models costs little, since they share data and schedule, and gives a forward comparison of the two training targets.
 
-**Why a seven-seed model.** The tree model samples columns at random, so one seed is one draw. The seven-seed model fits the same model with seeds 0 to 6 each month and uses the mean of the seven scores. The two single-seed models stay at seed 0, exactly as registered in RFC-005, so the forward record remains comparable with that backtest.
+**Why a seven-seed model.** The tree model samples columns at random, so one seed is one draw. The seven-seed model fits the same model with seeds 0 to 6 each month and uses the mean of the seven scores. The two single-seed models stay at seed 0, as registered in RFC-005. With the corrections of section 3.5 they train on fewer rows than that backtest did, so the forward record is of the corrected models, not of the exact models RFC-005 scored.
 
 **Subjects.**
 
@@ -84,7 +87,7 @@ Keeping both single-seed models costs little, since they share data and schedule
 
 ### 3.1 What is issued
 
-After each US session, for each subject: the rule's ticket, and one shadow ticket from each of its shadow models in section 2. The two single-seed models are exactly as registered in RFC-005. The same 33 inputs, bindings, labels, tree settings, monthly refit on matured outcomes, gate quantiles and step-down. The code is pinned by commit. Nothing is re-tuned.
+After each US session, for each subject: the rule's ticket, and one shadow ticket from each of its shadow models in section 2. The two single-seed models are as registered in RFC-005 except for the two input corrections of section 3.5: the same 33 inputs, bindings, labels, tree settings, monthly refit on matured outcomes, gate quantiles and step-down. The code is pinned by commit. Nothing is re-tuned.
 
 ### 3.2 The information cutoff and the issuance time are two things
 
@@ -104,6 +107,15 @@ After each US session, for each subject: the rule's ticket, and one shadow ticke
 ### 3.4 Tickets are immutable
 
 Written once, as the existing loop does, with the hashes of the snapshot and of the registration they came from.
+
+### 3.5 Two corrections to the RFC-005 inputs
+
+Found on 2026-11-23 and recorded in RFC-005 section 10. Both apply to every fitted gate here, from the first ticket.
+
+* **No value from before a series was first published.** Cboe first published SKEW on 2011-02-23 and announced VVIX on 2012-03-14; earlier values were calculated afterwards. They are treated as missing. A fitted gate therefore trains on decisions from 2012-03-14, not from 2009-09-18. Each added series' first publication date is recorded in its binding with its source, and a series with no established date is checked before registration.
+* **The FOMC schedule as it stood on each date.** A scheduled meeting counts until the day its cancellation or move became known. The one case found is the 17–18 March 2020 meeting, held early on 2020-03-15: `sessions_to_fomc` counts to 2020-03-18 for decisions before 2020-03-15.
+* **What this costs.** The corrected models are not the ones RFC-005 scored, so its backtest figures do not describe them exactly. No corrected backtest on SOXX or QQQ is run to replace those figures, because RFC-005's stopping rule forbids it.
+* **What is still unchecked.** The date each year's FOMC schedule was published, and the publication times of the added series, remain assumptions as stated in RFC-005.
 
 ## 4. Part B: a gate whose inputs the graph selects
 
@@ -153,6 +165,7 @@ Part B is developed in parallel with Part A and does not delay it.
 | A ticket emitter for a fitted gate | The emitter handles the rule only |
 | A session calendar past 2026 | Ends 2026-12-31 |
 | The FOMC schedule for 2027 | Not held |
+| First publication dates of the added series, and the FOMC schedule as it stood on each date | Applied in a local script only (`run/tsm_gate_2026-11-23/latest.py`); not in the bindings or the pipeline |
 | A backup of the snapshots | A local copy in `run/backup/snapshots/` with checksums; same machine, not in the repository |
 | A scheduled job that runs the loop after each close | Nothing |
 | A check that reports a missed run the next morning | Nothing |
@@ -164,11 +177,12 @@ Part B is developed in parallel with Part A and does not delay it.
 3. The missed-ticket record and the held-exposure rule of section 3.3, used by every equity and drawdown figure.
 4. A 2027 session calendar and FOMC schedule, each with its source recorded.
 5. A scheduled local job working in `monitors/Daily/`, a missed-run check, and a copy of each new snapshot into `run/backup/snapshots/` with its checksums.
-6. Catalogue bindings and factor definitions for the added series, with anchors, and the generator's output for SOXX, QQQ and TSM.
+6. Catalogue bindings and factor definitions for the added series, with anchors and each series' first publication date, the FOMC schedule as known on each date, and the generator's output for SOXX, QQQ and TSM.
 7. Registrations, each pushed before the first ticket it covers: the Part A shadow record with the review rule, TSM's rule and the seven seeds; and later the graph-selected model with its paired comparison.
 8. A maturity job that scores each ticket once its 20 sessions are in the data.
 9. Invariant tests:
    * a ticket uses no input that became knowable at or after its decision cutoff, whenever it is issued;
+   * no training row or ticket uses a value dated before its series was first published;
    * a ticket issued after the next open is a replay and never enters the forward record;
    * a missed session holds the last live state and stays in the equity curve;
    * a shadow ticket cannot veto.
@@ -194,6 +208,7 @@ The RFC is complete when both forward records are running and registered. The re
 | Where the daily job works | `monitors/Daily/`, git-ignored: logs, locks and scratch. Tickets and snapshots go under `artifacts/` |
 | Part B timing | In parallel, on its own clock |
 | Review | A review point at 250 sessions; passing gives eligibility only |
+| RFC-005's two input defects | Corrected for every fitted gate from the first ticket; RFC-005 itself is not rerun |
 
 Still open for the owner: the time the job runs. Proposed: 19:00 America/New_York on each session, which is after every same-day input is published and long before the next open.
 

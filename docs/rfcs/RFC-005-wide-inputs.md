@@ -1,6 +1,6 @@
 # RFC-005: A Wider Input Set for the SOXX/QQQ Risk Gate
 
-* **Status**: Completed 2026-11-23. The rule is kept for both funds and the stopping rule is met. Result: `artifacts/ablations/soxx_qqq_wide_inputs/output/report.md`.
+* **Status**: Completed 2026-11-23. The rule is kept for both funds and the stopping rule is met. Result: `artifacts/ablations/soxx_qqq_wide_inputs/output/report.md`. Two input defects were found afterwards and are recorded in section 10; the result and the frozen files are unchanged.
 * **Date**: 2026-11-22
 * **Repository**: `Quant_rapper`
 * **Depends on**: the frozen rule baseline (`artifacts/ablations/sector_risk_baseline`) and the frozen Model A and Model C comparisons of RFC-004.
@@ -149,3 +149,20 @@ To be stated in the registration.
 * TSM or any single stock.
 * Any change to the frozen rule, its thresholds or its costs.
 * Tuning any setting on 2020–2026.
+
+## 10. Defects found after completion
+
+Recorded on 2026-11-23, after the registered run. The registration, the frozen hashes and the outputs are left as they were run. Nothing was rerun on SOXX or QQQ.
+
+| Defect | What the registered run did | What was knowable at the time |
+| --- | --- | --- |
+| Back-calculated index values | Used VVIX from 2009-01-02 and SKEW from 2009-01-02 | Cboe first published SKEW on 2011-02-23 and announced VVIX on 2012-03-14. Earlier values in the files were calculated afterwards |
+| The March 2020 FOMC meeting | For the 31 decisions from 2020-01-30 to 2020-03-13, `sessions_to_fomc` counted down to 2020-04-29 | The 17–18 March meeting was on the calendar until the Fed held it early on Sunday 2020-03-15. The pinned file lists only meetings that produced a statement, so it lacks that date |
+
+* **The first was a stated limit, the second was not.** The registration lists the back-calculated values under its known limits. It says the FOMC schedule is "treated as known in advance", which does not cover a meeting missing from the file.
+* **Effect on training.** With the back-calculated values treated as missing, the first decision with every input moves from 2009-09-18 to 2012-03-14, so about two and a half years of training rows drop out.
+* **The decision stands as recorded, and is not shown to survive the correction.** The stopping rule of section 4 forbids trying a variant on 2020–2026, and a corrected rerun would be a second look at the same outcomes. So it was not run.
+* **The tree gates' figures are sensitive to this.** A local, unregistered run of the same model on four single stocks (`run/tsm_gate_2026-11-23`, to 2026-11-23) moved a lot when the two corrections were applied: the seven-seed gate's final equity went from 7.54 to 7.76 on TSM, from 7.62 to 15.92 on MU, from 19.32 to 43.48 on NVDA and from 3.01 to 2.93 on AMD. The tree-gate figures in this RFC's report should be read with that in mind. The frozen rule fits nothing and is not affected.
+* **Where the fix goes.** RFC-006 builds its inputs with both corrections from its first ticket.
+
+Sources: Cboe's releases of February 2011 (SKEW) and 14 March 2012 (VVIX); the Federal Reserve's statement and press-conference transcript of 15 March 2020.
