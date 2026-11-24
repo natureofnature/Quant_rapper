@@ -47,11 +47,16 @@ class ProspectiveRegistrationTests(unittest.TestCase):
     def test_each_baseline_registration_names_valid_factors_and_pinned_inputs(self):
         folders = sorted(p.parent for p in (ROOT / "artifacts/ablations").glob("*/registration.json"))
         self.assertTrue(folders)
-        catalog = json.loads((ROOT / "knowledge_base/prior_knowledge/bindings/series_bindings.json").read_text(encoding="utf-8"))
-        bound = {s["series_id"] for s in catalog["series"]}
+        catalog = "knowledge_base/prior_knowledge/bindings/series_bindings.json"
         for folder in folders:
             with self.subTest(folder=folder.name):
                 registration = json.loads((folder / "registration.json").read_text(encoding="utf-8"))
+                # A registered study is checked against the catalogue at its own code commit: a series it bound for itself
+                # may join the catalogue later, and the study still replays from the revision that froze it.
+                commit = (registration.get("code") or {}).get("commit")
+                text = (subprocess.run(["git", "-C", str(ROOT), "show", f"{commit}:{catalog}"], check=True, capture_output=True).stdout.decode("utf-8")
+                        if commit else (ROOT / catalog).read_text(encoding="utf-8"))
+                bound = {s["series_id"] for s in json.loads(text)["series"]}
                 snapshots = registration["inputs"].get("snapshots") or [registration["inputs"]]  # one snapshot, or several
                 for snapshot in snapshots:
                     manifest = json.loads((ROOT / snapshot.get("folder", snapshot.get("snapshot")) / "manifest.json").read_text(encoding="utf-8"))

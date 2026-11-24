@@ -1,0 +1,17 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "event_schedules",
+  "compiled_on": "2026-11-24",
+  "content_revision": "2026-11-24.1",
+  "describe": "Changes to announced schedules, so that a count of sessions to the next scheduled event uses the schedule as it stood on each date. A list of the meetings that were held is hindsight: it omits a meeting that was on the calendar and then withdrawn. The date each year's schedule was first published was not checked; a held meeting is still treated as known in advance.",
+  "fomc": {
+    "withdrawn": [
+      {
+        "scheduled": "2020-03-18",
+        "known_on": "2020-03-15",
+        "note": "The 17-18 March 2020 meeting was on the calendar until the Committee met on Sunday 15 March and said that meeting took its place. Decisions before 2020-03-15 count down to 2020-03-18.",
+        "source_url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20200315a.htm"
+      }
+    ]
+  }
+}

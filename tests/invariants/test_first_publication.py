@@ -20,7 +20,7 @@ try:
     from quant_causal_graph.causal_map import binding_digest
     from quant_contracts.pit import Cutoff, SeriesBinding, SessionCalendar
     from quant_pit_data.asof import at_session, latest_common, load_daily_closes, observe, ratio_series, trailing_window
-    from quant_pit_data.connectors.yahoo_chart import load_closes, load_daily
+    from quant_pit_data.connectors.yahoo_chart import close_dates, load_closes, load_daily
 except ModuleNotFoundError:
     SeriesBinding = None
 
@@ -83,6 +83,7 @@ class FirstPublicationTests(unittest.TestCase):
             first = lambda rows: min(o.session for o in rows)
             self.assertEqual((first(load_daily_closes(csv_path, self.undated)), first(load_daily_closes(csv_path, self.dated))), (SESSIONS[0], LAUNCH))
             self.assertEqual((first(load_closes(chart, self.undated)), first(load_closes(chart, self.dated))), (SESSIONS[0], LAUNCH))
+            self.assertEqual(close_dates(chart), list(SESSIONS))  # the dates stay: a floor removes values, not sessions
             self.assertEqual(first(load_daily(chart, self.dated, self.undated.model_copy(update={"series_id": "x:close"}))), SESSIONS[0])
             self.assertEqual({o.session for o in load_daily(chart, self.dated, self.dated.model_copy(update={"series_id": "x:close"}))},
                              {s for s in SESSIONS if s >= LAUNCH})

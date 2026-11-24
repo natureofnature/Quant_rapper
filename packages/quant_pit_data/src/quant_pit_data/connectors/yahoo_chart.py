@@ -40,6 +40,19 @@ def load_closes(path: Path, binding: SeriesBinding) -> list[Observation]:
                                  for stamp, closed in zip(data["timestamp"], data["indicators"]["quote"][0]["close"]) if closed is not None and closed > 0])
 
 
+def close_dates(path: Path) -> list[date]:
+    """Every date on which the file has a positive close, whether or not the series had been published by then.
+
+    For a series read on its own dates this is its calendar. A binding's first-publication
+    floor removes values, not dates: a date before the launch stays an expected session with
+    no value, so a decision then is a recorded gap and not an error.
+    """
+    data = _result(path)
+    zone = ZoneInfo(data["meta"]["exchangeTimezoneName"])
+    return sorted(datetime.fromtimestamp(stamp, zone).date()
+                  for stamp, closed in zip(data["timestamp"], data["indicators"]["quote"][0]["close"]) if closed is not None and closed > 0)
+
+
 def monthly_mean_closes(path: Path) -> dict[str, float]:
     """Mean of the daily closes of each month, keyed "YYYY-MM", with a quote's month read in the exchange's timezone.
 

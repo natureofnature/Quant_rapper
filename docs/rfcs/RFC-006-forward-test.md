@@ -165,7 +165,7 @@ Part B is developed in parallel with Part A and does not delay it.
 | A ticket emitter for a fitted gate | The emitter handles the rule only |
 | A session calendar past 2026 | Ends 2026-12-31 |
 | The FOMC schedule for 2027 | Not held |
-| First publication dates of the added series, and the FOMC schedule as it stood on each date | Applied in a local script only (`run/tsm_gate_2026-11-23/latest.py`); not in the bindings or the pipeline |
+| First publication dates of the added series, and the FOMC schedule as it stood on each date | Done. The 18 added series and the credit ratio are in the bindings catalogue; a binding's `first_published` is enforced by every loader, every selection and the outcome-price lookup. `quant_pit_data.schedule` counts to the next meeting from `bindings/event_schedules.json`. Nine old series (rate indices, MOVE, the dollar index, three futures) have no established date and no floor |
 | A backup of the snapshots | A local copy in `run/backup/snapshots/` with checksums; same machine, not in the repository |
 | A scheduled job that runs the loop after each close | Nothing |
 | A check that reports a missed run the next morning | Nothing |

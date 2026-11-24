@@ -2,7 +2,7 @@
   "schema_version": "2.0.0",
   "kind": "series_bindings",
   "compiled_on": "2026-11-24",
-  "content_revision": "2026-11-24.2",
+  "content_revision": "2026-11-24.3",
   "describe": "Machine-readable sources and availability rules for observables named in the research maps. A binding says when a value became knowable; it makes no claim about what the value means.",
   "series": [
     {
@@ -354,6 +354,301 @@
       "revisable": true,
       "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with SOXX on 2001-07-13.",
       "first_published": "2001-07-13"
+    },
+    {
+      "series_id": "yahoo:hyg:close",
+      "label": "HYG daily close, regular session",
+      "anchors": [
+        "concept:macro_liquidity:credit_spreads"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/HYG",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends. First traded on this date, the first session in Yahoo's history for the fund; no earlier value exists.",
+      "first_published": "2007-04-11"
+    },
+    {
+      "series_id": "yahoo:lqd:close",
+      "label": "LQD daily close, regular session",
+      "anchors": [
+        "concept:macro_liquidity:credit_spreads"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/LQD",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends. First traded on this date, the first session in Yahoo's history for the fund; no earlier value exists.",
+      "first_published": "2002-07-30"
+    },
+    {
+      "series_id": "yahoo:ief:close",
+      "label": "IEF daily close, regular session",
+      "anchors": [
+        "concept:macro_liquidity:credit_spreads"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/IEF",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends. First traded on this date, the first session in Yahoo's history for the fund; no earlier value exists.",
+      "first_published": "2002-07-30"
+    },
+    {
+      "series_id": "yahoo:rsp:close",
+      "label": "RSP daily close, regular session",
+      "anchors": [
+        "concept:systematic_positioning:market_breadth"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/RSP",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends. First traded on this date, the first session in Yahoo's history for the fund; no earlier value exists.",
+      "first_published": "2003-05-01"
+    },
+    {
+      "series_id": "yahoo:iwm:close",
+      "label": "IWM daily close, regular session",
+      "anchors": [
+        "concept:systematic_positioning:market_breadth"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/IWM",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends. First traded on this date, the first session in Yahoo's history for the fund; no earlier value exists.",
+      "first_published": "2000-05-26"
+    },
+    {
+      "series_id": "yahoo:xlu:close",
+      "label": "XLU daily close, regular session",
+      "anchors": [
+        "concept:systematic_positioning:market_breadth"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/XLU",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close with an assumed 15-minute delay, as for the funds. Yahoo history is on the snapshot's split basis and excludes dividends. First traded on this date, the first session in Yahoo's history for the fund; no earlier value exists.",
+      "first_published": "1998-12-22"
+    },
+    {
+      "series_id": "cboe:vvix",
+      "label": "Cboe VVIX Index, daily close",
+      "anchors": [
+        "concept:derivatives_flows:vol_term_structure"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^VVIX",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:15:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Cboe index, treated as fixed at 4:15 p.m. Eastern with an assumed 15-minute delay, as for VIX. Not sourced. Values before the index's 2012 launch were back-calculated by Cboe from option prices of the day. Cboe's release introducing the index is dated 2012-03-14 (https://www.prnewswire.com/news-releases/cboe-introduces-vix-of-vix-benchmark-index-provides-a-gauge-for-measuring-volatility-of-the-vix-index-itself-142607166.html). Yahoo's history starts in 2007; those earlier values were calculated afterwards.",
+      "first_published": "2012-03-14"
+    },
+    {
+      "series_id": "cboe:vxn",
+      "label": "Cboe Nasdaq-100 Volatility Index (VXN), daily close",
+      "anchors": [
+        "concept:derivatives_flows:vol_term_structure"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^VXN",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:15:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Cboe index, treated as fixed at 4:15 p.m. Eastern with an assumed 15-minute delay, as for VIX. Not sourced. Cboe launched the index on 2001-01-23 (https://mondovisione.com/news/cboe-to-launch-first-nasdaq-volatility-index-vxn-2011124), the first session in Yahoo's history. Its method changed later; the values are the ones the file holds.",
+      "first_published": "2001-01-23"
+    },
+    {
+      "series_id": "cboe:tnx",
+      "label": "Cboe 10-Year Treasury yield index (TNX), daily close",
+      "anchors": [
+        "concept:macro_liquidity:real_yields"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^TNX",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
+    },
+    {
+      "series_id": "cboe:irx",
+      "label": "Cboe 13-week Treasury bill yield index (IRX), daily close",
+      "anchors": [
+        "concept:macro_liquidity:real_yields"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^IRX",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
+    },
+    {
+      "series_id": "cboe:fvx",
+      "label": "Cboe 5-Year Treasury yield index (FVX), daily close",
+      "anchors": [
+        "concept:macro_liquidity:real_yields"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^FVX",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
+    },
+    {
+      "series_id": "cboe:tyx",
+      "label": "Cboe 30-Year Treasury yield index (TYX), daily close",
+      "anchors": [
+        "concept:macro_liquidity:real_yields"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^TYX",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
+    },
+    {
+      "series_id": "ice:dollar_index",
+      "label": "ICE US Dollar Index, daily value",
+      "anchors": [
+        "concept:macro_liquidity:usd_liquidity"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "17:00:00",
+      "publication_delay_minutes": 60,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Yahoo's daily bar for a nearly round-the-clock market does not state when its close is taken. The value is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
+    },
+    {
+      "series_id": "cme:copper_front",
+      "label": "Copper front-month future, daily value",
+      "anchors": [
+        "concept:economy:growth"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/HG=F",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "17:00:00",
+      "publication_delay_minutes": 60,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Yahoo's daily bar for a nearly round-the-clock market does not state when its close is taken. The value is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value. Read on the dates Yahoo has a value for. A continuous front-month series: it jumps at contract rolls. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set. Anchored to growth as one leg of the copper-to-gold ratio, a proxy."
+    },
+    {
+      "series_id": "cme:gold_front",
+      "label": "Gold front-month future, daily value",
+      "anchors": [
+        "concept:economy:growth"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "17:00:00",
+      "publication_delay_minutes": 60,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Yahoo's daily bar for a nearly round-the-clock market does not state when its close is taken. The value is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value. Read on the dates Yahoo has a value for. A continuous front-month series: it jumps at contract rolls. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set. Anchored to growth as one leg of the copper-to-gold ratio, a proxy."
+    },
+    {
+      "series_id": "cme:crude_front",
+      "label": "WTI crude front-month future, daily value",
+      "anchors": [
+        "concept:economy:inflation"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "17:00:00",
+      "publication_delay_minutes": 60,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Yahoo's daily bar for a nearly round-the-clock market does not state when its close is taken. The value is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value. Read on the dates Yahoo has a value for. A continuous front-month series: it jumps at contract rolls, and its one non-positive close (April 2020) is left out. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set. Anchored to inflation as a proxy for energy prices."
+    },
+    {
+      "series_id": "cboe:skew",
+      "label": "Cboe SKEW Index, daily close",
+      "anchors": [
+        "concept:derivatives_flows:vol_term_structure"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^SKEW",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "17:00:00",
+      "publication_delay_minutes": 60,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "End-of-day index whose publication time was not established. It is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value: a one-day lag, accepted by the owner on 2026-11-22 in place of dropping the inputs built on it. Read on the dates Yahoo has a value for. Cboe began publishing the index on 2011-02-23 (https://www.prnewswire.com/news-releases/cboe-to-begin-publishing-values-for-cboe-sp-500-skew-index-115513249.html). Yahoo's history starts in 1990; those earlier values were calculated afterwards.",
+      "first_published": "2011-02-23"
+    },
+    {
+      "series_id": "ice:move",
+      "label": "ICE BofA MOVE Index, daily close",
+      "anchors": [
+        "concept:macro_liquidity:frb_policy"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/^MOVE",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "17:00:00",
+      "publication_delay_minutes": 60,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "End-of-day index whose publication time was not established. It is treated as knowable from 6:00 p.m. Eastern on its date, after the 5:00 p.m. decision, so a decision reads the previous day's value: a one-day lag, accepted by the owner on 2026-11-22 in place of dropping the inputs built on it. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
+    },
+    {
+      "series_id": "derived:hyg_over_lqd",
+      "label": "HYG close over LQD close",
+      "anchors": [
+        "concept:macro_liquidity:credit_spreads"
+      ],
+      "source_url": "derived from yahoo:hyg:close and yahoo:lqd:close",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with HYG on 2007-04-11.",
+      "first_published": "2007-04-11"
     }
   ],
   "events": [
