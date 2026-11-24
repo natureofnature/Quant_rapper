@@ -6,6 +6,7 @@ is not installed.
 """
 
 from datetime import date, datetime, time, timedelta
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -53,8 +54,32 @@ def dumped(result) -> tuple[str, str]:
 class CausalMapTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.cross = {s: generate_from_files(ROOT, s, COMMON) for s in SUBJECTS}
-        cls.before, cls.after = (generate_from_files(ROOT, "TSM", when, PILOT / "packet.json") for when in (BEFORE, AFTER))
+        # The saved maps record the factor definitions they were built from. A prior committed later was not available at
+        # their decision times, so they are replayed from the last revision that still held those definitions, with today's code.
+        definitions = "knowledge_base/prior_knowledge/bindings/factor_definitions.json"
+        git = lambda *a: subprocess.run(["git", "-C", str(ROOT), *a], check=True, capture_output=True).stdout
+        recorded = json.loads((CROSS / "output/SOXX/causal_map.json").read_text(encoding="utf-8"))["inputs_sha256"]["factor_definitions"]
+        touching = git("log", "--format=%H", "--", definitions).decode().split()
+        held = next(i for i, c in enumerate(touching) if hashlib.sha256(git("show", f"{c}:{definitions}")).hexdigest() == recorded)
+        cls.revision = "HEAD" if held == 0 else f"{touching[held - 1]}^"
+        cls.checkout = tempfile.TemporaryDirectory()
+        cls.addClassCleanup(cls.checkout.cleanup)
+        origin = Path(cls.checkout.name) / "repo"
+        subprocess.run(["git", "clone", "-q", "--local", "--no-checkout", str(ROOT), str(origin)], check=True, capture_output=True)
+        subprocess.run(["git", "-C", str(origin), "checkout", "-q", "--detach", git("rev-parse", cls.revision).decode().strip()], check=True, capture_output=True)
+        packet = origin / PILOT.relative_to(ROOT) / "packet.json"
+        cls.cross = {s: generate_from_files(origin, s, COMMON) for s in SUBJECTS}
+        cls.before, cls.after = (generate_from_files(origin, "TSM", when, packet) for when in (BEFORE, AFTER))
+
+    def test_a_prior_committed_after_the_decision_is_labelled_exploratory(self):
+        inputs = ResearchInputs.model_validate_json((ROOT / "knowledge_base/prior_knowledge/bindings/factor_definitions.json").read_text(encoding="utf-8"))
+        frozen = datetime.fromisoformat(subprocess.run(["git", "-C", str(ROOT), "log", "-1", "--format=%cI", inputs.prior_commit],
+                                                       check=True, capture_output=True, text=True).stdout.strip())
+        for subject in SUBJECTS:  # the live prior, through the same entry point
+            early, _ = generate_from_files(ROOT, subject, frozen - timedelta(seconds=1))
+            late, _ = generate_from_files(ROOT, subject, frozen)
+            self.assertEqual((early.prior_status, late.prior_status), ("exploratory", "prior_available_at_decision"), subject)
+            self.assertEqual(late.inputs_sha256["prior_commit"], inputs.prior_commit)
 
     def test_replaying_the_same_inputs_reproduces_every_saved_map_and_recipe(self):
         for subject, result in self.cross.items():
