@@ -71,14 +71,19 @@ def _load(root: Path, snapshot: Path, symbol: str):
     subject = next(s for s in registration["subjects"] if s["subject"] == symbol)
     bindings_dir = root / "knowledge_base/prior_knowledge/bindings"
     b = {s["series_id"]: SeriesBinding(**s) for s in json.loads((bindings_dir / "series_bindings.json").read_text())["series"]}
-    manifest = json.loads((snapshot / "manifest.json").read_text())["files"]
-    hashes = {}
+    manifest = json.loads((snapshot / "manifest.json").read_text())
+    hashes, where = {}, {}
     names = ["VIX.csv", "VIX3M.csv", "treasury_real_yield_10y.csv", f"{symbol}.json"] + sorted({s["calendar"] + ".json" for s in registration["signals"]})
     for name in names:
-        hashes[name] = hashlib.sha256((snapshot / name).read_bytes()).hexdigest()
-        if hashes[name] != manifest[name]["sha256"]:
+        # A file is in the snapshot folder, or it is a curated file shared between snapshots that this manifest pins by path and hash.
+        entry = manifest["files"].get(name) or manifest.get("shared", {}).get(name)
+        if entry is None:
+            raise SystemExit(f"{name} is neither in the snapshot nor pinned by its manifest")
+        where[name] = snapshot / name if name in manifest["files"] else root / entry["path"]
+        hashes[name] = hashlib.sha256(where[name].read_bytes()).hexdigest()
+        if hashes[name] != entry["sha256"]:
             raise SystemExit(f"{name} does not match the snapshot manifest")
-    calendars = {s["calendar"]: SessionCalendar(**json.loads((snapshot / (s["calendar"] + ".json")).read_text())) for s in registration["signals"]}
+    calendars = {s["calendar"]: SessionCalendar(**json.loads(where[s["calendar"] + ".json"].read_text())) for s in registration["signals"]}
     equity = calendars["us_equity_sessions_2002_2026"] if "us_equity_sessions_2002_2026" in calendars else next(iter(calendars.values()))
     prices = load_daily(snapshot / f"{symbol}.json", b[subject["open"]], b[subject["close"]])  # already floored at first publication
     return registration, hashlib.sha256(registration_path.read_bytes()).hexdigest(), subject, b, calendars, equity, prices, hashes, bindings_dir

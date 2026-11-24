@@ -7,6 +7,7 @@ up a close from another that happened after it.
 
 import csv
 from datetime import date, datetime, timedelta
+import json
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -29,10 +30,29 @@ def observe(binding: SeriesBinding, session: date, value: float,
                        source_url=binding.source_url)
 
 
+def repairs(path: Path) -> dict[date, datetime]:
+    """Sessions whose close in ``path`` was filled in at download, each with the time the quote that filled it was stamped.
+
+    The snapshot command records them beside the file, in ``<name>.repair.json``. A file with no such record has none.
+    """
+    record = path.with_name(path.stem + ".repair.json")
+    if not record.is_file():
+        return {}
+    return {date.fromisoformat(r["session"]): datetime.fromisoformat(r["stamped"]) for r in json.loads(record.read_text(encoding="utf-8"))["repairs"]}
+
+
+def observe_close(binding: SeriesBinding, session: date, value: float, repaired: dict[date, datetime]) -> Observation:
+    """A close read from a file. One that was filled in at download is knowable no earlier than the quote that filled it."""
+    stamped = repaired.get(session)
+    usual = fixed_at(binding, session) + timedelta(minutes=binding.publication_delay_minutes)
+    return observe(binding, session, value, stamped if stamped is not None and stamped > usual else None)
+
+
 def load_daily_closes(path: Path, binding: SeriesBinding) -> list[Observation]:
     """Read a DATE,...,CLOSE csv with MM/DD/YYYY dates, the layout of Cboe's index history files."""
+    repaired = repairs(path)
     with path.open(newline="", encoding="utf-8") as handle:
-        return published([binding], [observe(binding, datetime.strptime(row["DATE"], "%m/%d/%Y").date(), float(row["CLOSE"]))
+        return published([binding], [observe_close(binding, datetime.strptime(row["DATE"], "%m/%d/%Y").date(), float(row["CLOSE"]), repaired)
                                      for row in csv.DictReader(handle)])
 
 

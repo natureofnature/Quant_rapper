@@ -11,7 +11,7 @@ from zoneinfo import ZoneInfo
 
 from quant_contracts.pit import Observation, SeriesBinding
 
-from quant_pit_data.asof import observe, published
+from quant_pit_data.asof import observe, observe_close, published, repairs
 
 
 def _result(path: Path) -> dict:
@@ -22,21 +22,21 @@ def load_daily(path: Path, open_binding: SeriesBinding, close_binding: SeriesBin
     """One open and one close observation per session, on the snapshot's split basis, without dividends."""
     data = _result(path)
     zone, quote = ZoneInfo(data["meta"]["exchangeTimezoneName"]), data["indicators"]["quote"][0]
-    rows = []
+    rows, repaired = [], repairs(path)
     for stamp, opened, closed in zip(data["timestamp"], quote["open"], quote["close"]):
         session = datetime.fromtimestamp(stamp, zone).date()
         if opened is not None:
             rows.append(observe(open_binding, session, opened))
         if closed is not None:
-            rows.append(observe(close_binding, session, closed))
+            rows.append(observe_close(close_binding, session, closed, repaired))
     return published([open_binding, close_binding], rows)
 
 
 def load_closes(path: Path, binding: SeriesBinding) -> list[Observation]:
     """One close observation per dated row that has a positive close, for a series read for its close only."""
     data = _result(path)
-    zone = ZoneInfo(data["meta"]["exchangeTimezoneName"])
-    return published([binding], [observe(binding, datetime.fromtimestamp(stamp, zone).date(), closed)
+    zone, repaired = ZoneInfo(data["meta"]["exchangeTimezoneName"]), repairs(path)
+    return published([binding], [observe_close(binding, datetime.fromtimestamp(stamp, zone).date(), closed, repaired)
                                  for stamp, closed in zip(data["timestamp"], data["indicators"]["quote"][0]["close"]) if closed is not None and closed > 0])
 
 

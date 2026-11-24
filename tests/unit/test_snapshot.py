@@ -1,9 +1,10 @@
 """The snapshot command: written once, all or nothing, and every repair to a served file is recorded."""
 
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
 import tempfile
 import unittest
@@ -16,7 +17,8 @@ for package in ("quant_contracts", "quant_pit_data"):
 import snapshot
 try:
     from quant_contracts.pit import SeriesBinding
-    from quant_pit_data.asof import load_daily_closes
+    from quant_contracts.pit import Cutoff, SessionCalendar
+    from quant_pit_data.asof import latest_common, load_daily_closes
     from quant_pit_data.connectors.yahoo_chart import load_daily
 except ModuleNotFoundError:
     SeriesBinding = None
@@ -61,7 +63,7 @@ class SnapshotTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        for name, content in ((snapshot.CATALOGUE, CATALOGUE), (snapshot.CALENDAR, {"sessions": [str(s) for s in SESSIONS]})):
+        for name, content in ((snapshot.CATALOGUE, CATALOGUE), *((path, {"sessions": [str(s) for s in SESSIONS]}) for path in snapshot.SHARED)):
             (self.root / name).parent.mkdir(parents=True, exist_ok=True)
             (self.root / name).write_text(json.dumps(content))
         done = [s for s in SESSIONS if s <= SESSION]
@@ -116,6 +118,29 @@ class SnapshotTests(unittest.TestCase):
         self.assertEqual(json.loads((folder / "ABC.json").read_text())["chart"]["result"][0]["indicators"]["quote"][0]["close"][-1], 363.6)
         self.assertFalse((self.root / "run/backup/snapshots").exists())
 
+    def test_a_close_filled_from_a_quote_stamped_after_the_cutoff_cannot_reach_that_decision(self):
+        done = [s for s in SESSIONS if s <= SESSION]
+        b = {s["series_id"]: SeriesBinding(**s) for s in CATALOGUE["series"]}
+        calendar = SessionCalendar(calendar_id="test", timezone="America/New_York", first=SESSIONS[0], last=SESSIONS[-1],
+                                   sessions=tuple(SESSIONS), basis_note="Synthetic.")
+        at_five = Cutoff(time=datetime.combine(SESSION, time(17, 0), NEW_YORK), basis="exact", source="Synthetic fixture.")
+        seen = {}
+        for label, quote_time in (("late", stamp(SESSION, 17, 30)), ("prompt", stamp(SESSION, 16, 0) + 2)):
+            self.served["ABC?period1"] = chart(done, [101.0 + d.day for d in done[:-1]] + [None], price=363.6, at=quote_time)
+            self.assertEqual(self.run_it("--no-backup"), 0)
+            folder = self.root / "artifacts/snapshots/2026-11-23"
+            entry = self.manifest()["files"]["ABC.json"]
+            record = folder / entry["repair_file"]["name"]
+            self.assertEqual(hashlib.sha256(record.read_bytes()).hexdigest(), entry["repair_file"]["sha256"])
+            closes = [o for o in load_daily(folder / "ABC.json", b["yahoo:abc:open"], b["yahoo:abc:close"]) if o.series_id == "yahoo:abc:close"]
+            picked, _ = latest_common([b["yahoo:abc:close"]], closes, at_five, calendar, timedelta(days=5))
+            seen[label] = (closes[-1].available_at.astimezone(NEW_YORK).strftime("%H:%M:%S"), picked.session, picked.observations[0].value)
+            for path in sorted(folder.rglob("*"), reverse=True):
+                path.unlink() if path.is_file() else path.rmdir()
+            folder.rmdir()
+        self.assertEqual(seen["late"], ("17:30:00", date(2026, 11, 20), 121.0))  # the 17:00 decision reads the session before
+        self.assertEqual(seen["prompt"], ("16:15:00", SESSION, 363.6))  # an ordinary fill keeps the binding's own time
+
     def test_a_price_from_inside_the_session_is_never_taken_as_the_close(self):
         done = [s for s in SESSIONS if s <= SESSION]
         self.served["ABC?period1"] = chart(done, [101.0 + d.day for d in done[:-1]] + [None], price=363.6, at=stamp(SESSION, 15, 59))
@@ -152,6 +177,16 @@ class SnapshotTests(unittest.TestCase):
                          (26.62, "2026-11-20", "2026-11-23"))
         self.assertEqual((folder / "VIX.csv").read_text().splitlines()[-1].split(",")[0::4], ["11/23/2026", "26.620000"])
         self.assertTrue((folder / "raw/VIX.csv").is_file() and (folder / "raw/VIX_yahoo.json").is_file())
+        # The row is knowable no earlier than the download when the other source gives no quote time for the session.
+        row = load_daily_closes(folder / "VIX.csv", SeriesBinding(**CATALOGUE["series"][2]))[-1]
+        self.assertEqual((row.session, row.value, row.available_at), (SESSION, 26.62, EVENING))
+        self.served["%5EVIX?interval"] = chart(done, [38.0, 39.0, 40.004, 26.62], price=26.62, at=stamp(SESSION, 16, 15) + 1)
+        for path in sorted(folder.rglob("*"), reverse=True):
+            path.unlink() if path.is_file() else path.rmdir()
+        folder.rmdir()
+        self.assertEqual(self.run_it("--no-backup"), 0)  # with a quote stamped just after the index closes, the binding's own time stands
+        row = load_daily_closes(folder / "VIX.csv", SeriesBinding(**CATALOGUE["series"][2]))[-1]
+        self.assertEqual(row.available_at.astimezone(NEW_YORK).strftime("%H:%M"), "16:30")
 
     def test_a_lagging_cboe_file_is_left_alone_when_the_other_source_disagrees(self):
         done = [s for s in SESSIONS if s <= SESSION]
@@ -184,6 +219,53 @@ class SnapshotTests(unittest.TestCase):
         first, second = (self.manifest(d)["files"]["treasury_real_yield_10y.csv"] for d in (date(2026, 11, 20), SESSION))
         self.assertEqual(second["years_reused_from"], "2026-11-20: 2003 to 2025")
         self.assertEqual({y: h for y, h in second["years"].items() if y != "2026"}, {y: h for y, h in first["years"].items() if y != "2026"})
+
+    def test_a_finished_year_is_fetched_once_after_it_ends_before_it_is_reused(self):
+        days = [date(2026, 12, 30), date(2026, 12, 31), date(2027, 1, 4), date(2027, 1, 5)]
+        for path in snapshot.SHARED:
+            (self.root / path).write_text(json.dumps({"sessions": [str(d) for d in days]}))
+        self.served["ABC?period1"], self.served["VIX_History.csv"] = chart(days, [1.0] * 4), cboe(days)
+        self.served["/2027/all"] = treasury(2027, days)
+        year_end = lambda last: treasury(2026, [d for d in days if d <= last])
+        evening = lambda d: datetime.combine(d, time(19, 0), NEW_YORK)
+        self.served["/2026/all"] = year_end(date(2026, 12, 30))
+        self.assertEqual(self.run_it("--session", "2026-12-30", "--no-backup", now=evening(date(2026, 12, 30))), 0)
+        self.served["/2026/all"] = year_end(date(2026, 12, 31))  # the source now holds the year's last day
+        self.asked.clear()
+        self.assertEqual(self.run_it("--session", "2027-01-04", "--no-backup", now=evening(date(2027, 1, 4))), 0)
+        self.assertEqual(sorted(re.search(r"/(\d{4})/all", u).group(1) for u in self.asked if "/all" in u), ["2026", "2027"])  # 2026 is fetched again, once
+        first = self.manifest(date(2027, 1, 4))["files"]["treasury_real_yield_10y.csv"]
+        self.assertEqual(first["years_reused_from"], "2026-12-30: 2003 to 2025")
+        self.assertIn("12/31/2026", (self.root / "artifacts/snapshots/2027-01-04/treasury_real_yield_10y.csv").read_text())
+        self.asked.clear()
+        self.assertEqual(self.run_it("--session", "2027-01-05", "--no-backup", now=evening(date(2027, 1, 5))), 0)
+        self.assertEqual([re.search(r"/(\d{4})/all", u).group(1) for u in self.asked if "/all" in u], ["2027"])  # and from then on it is reused
+        self.assertEqual(self.manifest(date(2027, 1, 5))["files"]["treasury_real_yield_10y.csv"]["years_reused_from"], "2027-01-04: 2003 to 2026")
+
+    def test_a_run_after_a_failed_backup_verifies_the_snapshot_and_completes_the_copy(self):
+        self.assertEqual(self.run_it("--no-backup"), 0)  # stands in for a run whose copy failed: the snapshot exists, the backup does not
+        folder, copy = self.root / "artifacts/snapshots/2026-11-23", self.root / "run/backup/snapshots/2026-11-23"
+        before = {p: p.read_bytes() for p in folder.rglob("*") if p.is_file()}
+        self.asked.clear()
+        self.assertEqual(self.run_it(), 0)
+        self.assertEqual((self.asked, {p: p.read_bytes() for p in folder.rglob("*") if p.is_file()}), ([], before))  # nothing downloaded or rewritten
+        self.assertTrue((copy / "SHA256SUMS").is_file() and (copy / "manifest.json").read_bytes() == (folder / "manifest.json").read_bytes())
+        self.assertEqual([p.name for p in copy.parent.iterdir()], ["2026-11-23"])  # no partial copy is left behind
+        self.assertEqual(self.run_it(), 1)  # complete: a further run changes nothing
+
+    def test_a_snapshot_that_no_longer_matches_its_manifest_is_not_copied(self):
+        self.assertEqual(self.run_it("--no-backup"), 0)
+        (self.root / "artifacts/snapshots/2026-11-23/VIX.csv").write_text("DATE,CLOSE\n")
+        self.assertEqual(self.run_it(), 1)
+        self.assertFalse((self.root / "run/backup/snapshots/2026-11-23").exists())
+
+    def test_the_manifest_pins_the_shared_calendars_by_path_and_hash(self):
+        self.assertEqual(self.run_it("--no-backup"), 0)
+        shared = self.manifest()["shared"]
+        self.assertEqual(sorted(shared), sorted(Path(p).name for p in snapshot.SHARED))
+        for entry in shared.values():
+            self.assertEqual(hashlib.sha256((self.root / entry["path"]).read_bytes()).hexdigest(), entry["sha256"])
+            self.assertFalse((self.root / "artifacts/snapshots/2026-11-23" / Path(entry["path"]).name).exists())  # pinned, not copied
 
     def test_a_session_that_has_not_closed_or_is_not_a_session_is_refused(self):
         self.assertEqual(self.run_it("--session", "2026-11-24"), 2)

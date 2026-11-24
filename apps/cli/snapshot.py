@@ -9,7 +9,10 @@ day can be retried. A copy goes to run/backup/snapshots/<session>/ with a SHA256
 folders are git-ignored except for manifest.json: the data is not redistributed.
 
 A file is saved as the source served it. Two repairs are made, and only for the snapshot's own
-session; each keeps the served bytes under raw/ and is recorded in the manifest:
+session. Each keeps the served bytes under raw/, is recorded in the manifest, and writes
+<name>.repair.json beside the file with the time the repairing quote was stamped: the loaders
+treat the value as knowable no earlier than that, so a quote stamped after a decision's cutoff
+cannot reach that decision.
   * Yahoo can serve a finished session's bar with no close for some hours. The close is then
     taken from the same response's last regular-session price, if that price is stamped at or
     after the session's regular close.
@@ -21,6 +24,11 @@ the live quote at download; the manifest marks it, and nothing repairs it.
 
 A snapshot holds what was downloadable, not what was knowable at a decision: selection by
 availability time is done later, by the bindings.
+
+The session calendars and announcement dates are curated files shared between snapshots. They
+are not copied; the manifest pins each by path and hash under "shared", and a reader resolves
+them from there. A run that finds the snapshot already written verifies it and completes a
+missing backup copy; it never rewrites the snapshot.
 """
 import argparse
 import csv
@@ -41,6 +49,8 @@ from zoneinfo import ZoneInfo
 ROOT = Path(__file__).resolve().parents[2]
 CATALOGUE = "knowledge_base/prior_knowledge/bindings/series_bindings.json"
 CALENDAR = "artifacts/snapshots/2026-11-22/us_equity_sessions_2002_2026.json"
+SHARED = (CALENDAR, "artifacts/snapshots/2026-11-22/us_treasury_yield_sessions_2003_2026.json",
+          "artifacts/snapshots/2026-11-22/announcement_dates_2002_2026.json")  # curated, not downloaded: pinned by each manifest
 NEW_YORK = ZoneInfo("America/New_York")
 YAHOO = "https://query1.finance.yahoo.com/v8/finance/chart/"
 CBOE = "https://cdn.cboe.com/api/global/us_indices/daily_prices/"
@@ -134,7 +144,8 @@ def yahoo_file(data: bytes, session: date, now: datetime) -> tuple[bytes, dict]:
             return data, note
         quote["close"][-1] = found[0]
         note.update(last_session=str(session), rows_without_a_close=note["rows_without_a_close"] - 1, raw_sha256=digest(data),
-                    filled_session_close={"value": found[0], "from": "meta.regularMarketPrice of the same response", "stamped": found[1].isoformat()})
+                    filled_session_close={"value": found[0], "from": "meta.regularMarketPrice of the same response", "stamped": found[1].isoformat()},
+                    repair={"session": str(session), "field": "close", "stamped": found[1].isoformat()})
         return json.dumps(whole, separators=(",", ":")).encode("utf-8"), note
     return data, note
 
@@ -161,8 +172,12 @@ def cboe_file(name: str, data: bytes, session: date, now: datetime, fetcher) -> 
     bars = {d: i for i, d in enumerate(days)}
     previous, here = bars.get(rows[-1]["_day"]), bars.get(session)
     close = None if here is None else quote["close"][here]
-    if close is None and here is not None and (found := last_regular_price(result, session)):
+    found = last_regular_price(result, session)
+    if close is None and here is not None and found:
         close = found[0]
+    # The row is knowable no earlier than the quote it is taken from. A finished bar carries no time of its own, so
+    # without a quote stamped on the session the download time stands in: late, never early.
+    stamped = found[1] if found else now.astimezone(NEW_YORK)
     problem = ("the other source has no close for the session" if close is None else
                "the other source has no value for the file's last session" if previous is None or quote["close"][previous] is None else
                "the two sources disagree on the file's last session" if abs(quote["close"][previous] - float(rows[-1]["CLOSE"])) > AGREE else None)
@@ -175,7 +190,8 @@ def cboe_file(name: str, data: bytes, session: date, now: datetime, fetcher) -> 
     text = data.decode("utf-8").rstrip("\r\n") + "\n" + ",".join(cells.get(k, "") for k in header) + "\n"
     note.update(last_session=str(session), rows=len(rows) + 1, raw_sha256=digest(data),
                 appended_session_row={"close": float(cells["CLOSE"]), "from": f"Yahoo {CBOE_ON_YAHOO[name]}",
-                                      "agreement_checked_on": str(rows[-1]["_day"])})
+                                      "agreement_checked_on": str(rows[-1]["_day"]), "stamped": stamped.isoformat()},
+                repair={"session": str(session), "field": "close", "stamped": stamped.isoformat()})
     return text.encode("utf-8"), note, other
 
 
@@ -203,14 +219,15 @@ def latest_closed_session(sessions: list[date], now: datetime) -> date:
     return done[-1]
 
 
-def build(folder: Path, session: date, now: datetime, catalogue_bytes: bytes, previous: Path | None, fetcher, pause: float) -> dict:
+def build(folder: Path, session: date, now: datetime, catalogue_bytes: bytes, previous: Path | None, fetcher, pause: float,
+          shared: dict[str, dict]) -> dict:
     """Download everything into ``folder`` and return the manifest. Raises on the first source that fails."""
     files, left_out = plan(json.loads(catalogue_bytes))
     manifest = {"snapshot": str(session), "session": str(session), "downloaded_at": now.astimezone(timezone.utc).isoformat(),
                 "catalogue_sha256": digest(catalogue_bytes),
                 "describe": "Every series the bindings catalogue reads from the network, as downloadable after this session. Downloaded market "
                             "data is not in the repository; exact replay needs the saved bytes matching the hashes below.",
-                "files": {}, "not_downloaded": left_out}
+                "files": {}, "shared": shared, "not_downloaded": left_out}
 
     def save(name: str, data: bytes, raw: bytes | None = None) -> None:
         path = folder / name
@@ -232,11 +249,12 @@ def build(folder: Path, session: date, now: datetime, catalogue_bytes: bytes, pr
             save(name, data, raw if "raw_sha256" in note else None)
             if other is not None:
                 save(f"raw/{Path(name).stem}_yahoo.json", other)
-        else:  # the Treasury publishes one file per year: earlier years are reused from the previous snapshot when it has them
+        else:  # the Treasury publishes one file per year. A finished year is reused from the previous snapshot, but only if
+            # that snapshot was itself taken after the year ended: one taken in late December does not hold the year's last days.
             years, reused = {}, []
             for year in range(TREASURY_FIRST_YEAR, session.year + 1):
                 kept = previous / "treasury_real_yield" / f"{year}.csv" if previous else None
-                if year < session.year and kept is not None and kept.is_file():
+                if kept is not None and kept.is_file() and int(previous.name[:4]) > year:
                     years[year] = kept.read_bytes(); reused.append(year)
                 else:
                     years[year] = fetcher(TREASURY_YEAR.format(year=year)); clock.sleep(pause)
@@ -246,6 +264,11 @@ def build(folder: Path, session: date, now: datetime, catalogue_bytes: bytes, pr
             if reused:
                 note["years_reused_from"] = f"{previous.name}: {reused[0]} to {reused[-1]}"
             save(name, data)
+        repair = note.pop("repair", None)
+        if repair is not None:  # read by the loaders: the repaired value is knowable no earlier than the quote that supplied it
+            record = json.dumps({"repairs": [repair]}, indent=1).encode("utf-8") + b"\n"
+            save(f"{Path(name).stem}.repair.json", record)
+            note["repair_file"] = {"name": f"{Path(name).stem}.repair.json", "sha256": digest(record)}
         manifest["files"][name] = {**entry, **note, "sha256": digest(data)}
         clock.sleep(pause)
     return manifest
@@ -253,6 +276,25 @@ def build(folder: Path, session: date, now: datetime, catalogue_bytes: bytes, pr
 
 def checksums(folder: Path) -> str:
     return "".join(f"{digest(p.read_bytes())}  ./{p.relative_to(folder).as_posix()}\n" for p in sorted(folder.rglob("*")) if p.is_file() and p.name != "SHA256SUMS")
+
+
+def verify(folder: Path) -> list[str]:
+    """Names of the files in a written snapshot that are missing or no longer match its manifest."""
+    manifest = json.loads((folder / "manifest.json").read_text(encoding="utf-8"))
+    return [name for name, entry in manifest["files"].items()
+            if not (folder / name).is_file() or digest((folder / name).read_bytes()) != entry["sha256"]]
+
+
+def back_up(folder: Path, copy: Path) -> None:
+    """Copy a snapshot with its checksums. The copy appears under its name only when it is complete."""
+    copy.parent.mkdir(parents=True, exist_ok=True)
+    work = Path(tempfile.mkdtemp(prefix=f".{copy.name}.partial.", dir=copy.parent))
+    try:
+        shutil.copytree(folder, work / "copy")
+        (work / "copy" / "SHA256SUMS").write_text(checksums(work / "copy"), encoding="utf-8")
+        os.rename(work / "copy", copy)
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
 
 
 def main(arguments: list[str] | None = None, root: Path = ROOT, fetcher=fetch, pause: float = 0.6, now: datetime | None = None) -> int:
@@ -270,15 +312,24 @@ def main(arguments: list[str] | None = None, root: Path = ROOT, fetcher=fetch, p
         print(f"{session} has not closed yet", file=sys.stderr)
         return 2
     home, backup = root / "artifacts/snapshots", root / "run/backup/snapshots"
-    target = home / str(session)
-    if target.exists():
-        print(f"{target.relative_to(root)} already exists: a snapshot is written once", file=sys.stderr)
-        return 1
+    target, copy = home / str(session), backup / str(session)
+    if target.exists():  # never rewritten; a run that follows a failed backup copy verifies it and finishes the copy
+        if args.no_backup or copy.exists():
+            print(f"{target.relative_to(root)} already exists: a snapshot is written once", file=sys.stderr)
+            return 1
+        wrong = verify(target)
+        if wrong:
+            print(f"{target.relative_to(root)} exists but does not match its manifest ({', '.join(wrong)}): not copied", file=sys.stderr)
+            return 1
+        back_up(target, copy)
+        print(f"{target.relative_to(root)} was already written and matches its manifest; copied to {copy.relative_to(root)}")
+        return 0
     earlier = sorted(p for p in home.glob("*/treasury_real_yield") if not p.parent.name.startswith(".") and p.parent.name < str(session))
     home.mkdir(parents=True, exist_ok=True)
     work = Path(tempfile.mkdtemp(prefix=f".{session}.partial.", dir=home))
     try:
-        manifest = build(work, session, now, (root / CATALOGUE).read_bytes(), earlier[-1].parent if earlier else None, fetcher, pause)
+        shared = {Path(p).name: {"path": p, "sha256": digest((root / p).read_bytes())} for p in SHARED}
+        manifest = build(work, session, now, (root / CATALOGUE).read_bytes(), earlier[-1].parent if earlier else None, fetcher, pause, shared)
         (work / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         os.rename(work, target)  # refuses a non-empty target, so two runs cannot both publish
     except Exception as error:  # any source failing publishes nothing: the day can be retried
@@ -292,12 +343,14 @@ def main(arguments: list[str] | None = None, root: Path = ROOT, fetcher=fetch, p
     for name, entry in flagged.items():
         print(f"  {name}: {entry.get('session_close_missing') or entry.get('session_row_missing')}")
     if not args.no_backup:
-        copy = backup / str(session)
         if copy.exists():
             print(f"backup {copy.relative_to(root)} already exists and was left alone", file=sys.stderr)
             return 1
-        shutil.copytree(target, copy)
-        (copy / "SHA256SUMS").write_text(checksums(copy), encoding="utf-8")
+        try:
+            back_up(target, copy)
+        except OSError as error:  # the snapshot stands; running the command again completes the copy
+            print(f"the snapshot is written but its backup copy failed ({error}); run again to complete it", file=sys.stderr)
+            return 1
         print(f"copied to {copy.relative_to(root)}")
     return 0
 

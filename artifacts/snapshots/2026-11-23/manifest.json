@@ -14,7 +14,8 @@
       "last_session": "2026-11-24",
       "rows": 6673,
       "rows_without_a_close": 80,
-      "sha256": "a800a0539eb9e854f34de6854e35a2382e9c88c946d072aef231297c5993ac0f"
+      "sha256": "a800a0539eb9e854f34de6854e35a2382e9c88c946d072aef231297c5993ac0f",
+      "last_bar_is_a_live_quote": "2026-11-24"
     },
     "DX-Y.NYB.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB",
@@ -25,7 +26,8 @@
       "last_session": "2026-11-24",
       "rows": 17321,
       "rows_without_a_close": 3128,
-      "sha256": "1f52da50b2c26ca6a008707f0b782538eb274f26cd4403c099e974cad643abb8"
+      "sha256": "1f52da50b2c26ca6a008707f0b782538eb274f26cd4403c099e974cad643abb8",
+      "last_bar_is_a_live_quote": "2026-11-24"
     },
     "FVX.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/^FVX",
@@ -47,7 +49,8 @@
       "last_session": "2026-11-24",
       "rows": 6668,
       "rows_without_a_close": 83,
-      "sha256": "94b37870af7f7210006036888faddd49b20c632b5eb1cc5436427ab954fcb13c"
+      "sha256": "94b37870af7f7210006036888faddd49b20c632b5eb1cc5436427ab954fcb13c",
+      "last_bar_is_a_live_quote": "2026-11-24"
     },
     "GOOGL.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/GOOGL",
@@ -70,7 +73,8 @@
       "last_session": "2026-11-24",
       "rows": 6668,
       "rows_without_a_close": 79,
-      "sha256": "6f0ebd6fbff507da663c9fcf647635ff50338607a0a1917717c12dd14ef55062"
+      "sha256": "6f0ebd6fbff507da663c9fcf647635ff50338607a0a1917717c12dd14ef55062",
+      "last_bar_is_a_live_quote": "2026-11-24"
     },
     "HYG.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/HYG",
@@ -367,11 +371,29 @@
       "sha256": "a7be333b9691a504939f878877c45f0813ec8420df639eb98191e3d659df18ed"
     }
   },
+  "shared": {
+    "us_equity_sessions_2002_2026.json": {
+      "path": "artifacts/snapshots/2026-11-22/us_equity_sessions_2002_2026.json",
+      "sha256": "5d50274a820c310010d51b3823775804998ae35a934aabb0e46e12e436f55754"
+    },
+    "us_treasury_yield_sessions_2003_2026.json": {
+      "path": "artifacts/snapshots/2026-11-22/us_treasury_yield_sessions_2003_2026.json",
+      "sha256": "79c15162e8306b525ad57b8ba8766177f8e5ce4752698f9e0ef645ccf42cacd4"
+    },
+    "announcement_dates_2002_2026.json": {
+      "path": "artifacts/snapshots/2026-11-22/announcement_dates_2002_2026.json",
+      "sha256": "59220008873006c1a887fb356cadb28964b0b86d7b7c706a9303716f03ec953c"
+    }
+  },
   "not_downloaded": {
     "tsmc:monthly_revenue:yoy_pct_as_released": "not a daily download: its values come from dated sources collected by hand",
     "derived:igv_over_qqq": "computed from other series, not downloaded",
     "derived:srvr_over_spy": "computed from other series, not downloaded",
     "derived:soxx_over_qqq": "computed from other series, not downloaded",
     "derived:hyg_over_lqd": "computed from other series, not downloaded"
+  },
+  "metadata_corrected": {
+    "on": "2026-11-24",
+    "what": "Added the live-quote flags that the saved bytes imply at the recorded download time (the 2026-11-24 bars of CLF, DX-Y.NYB, GCF and HGF), and the pins of the shared calendars. No file was downloaded again and no file hash changed."
   }
 }
