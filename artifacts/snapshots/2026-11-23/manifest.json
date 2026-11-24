@@ -1,0 +1,377 @@
+{
+  "snapshot": "2026-11-23",
+  "session": "2026-11-23",
+  "downloaded_at": "2026-11-24T08:14:48.306178+00:00",
+  "catalogue_sha256": "946a1def39250c86b2cba799d774f2e9c51a7504a21371d535f56abdd5de4c50",
+  "describe": "Every series the bindings catalogue reads from the network, as downloadable after this session. Downloaded market data is not in the repository; exact replay needs the saved bytes matching the hashes below.",
+  "files": {
+    "CLF.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/CL=F",
+      "series_ids": [
+        "cme:crude_front"
+      ],
+      "first_session": "2000-08-23",
+      "last_session": "2026-11-24",
+      "rows": 6673,
+      "rows_without_a_close": 80,
+      "sha256": "a800a0539eb9e854f34de6854e35a2382e9c88c946d072aef231297c5993ac0f"
+    },
+    "DX-Y.NYB.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB",
+      "series_ids": [
+        "ice:dollar_index"
+      ],
+      "first_session": "1971-01-04",
+      "last_session": "2026-11-24",
+      "rows": 17321,
+      "rows_without_a_close": 3128,
+      "sha256": "1f52da50b2c26ca6a008707f0b782538eb274f26cd4403c099e974cad643abb8"
+    },
+    "FVX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^FVX",
+      "series_ids": [
+        "cboe:fvx"
+      ],
+      "first_session": "1970-01-02",
+      "last_session": "2026-11-23",
+      "rows": 14346,
+      "rows_without_a_close": 102,
+      "sha256": "193e429b28d64c22b1684114f0ee2cc94c96fbfe130aafe5cc2e0395e9e265a1"
+    },
+    "GCF.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/GC=F",
+      "series_ids": [
+        "cme:gold_front"
+      ],
+      "first_session": "2000-08-30",
+      "last_session": "2026-11-24",
+      "rows": 6668,
+      "rows_without_a_close": 83,
+      "sha256": "94b37870af7f7210006036888faddd49b20c632b5eb1cc5436427ab954fcb13c"
+    },
+    "GOOGL.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/GOOGL",
+      "series_ids": [
+        "yahoo:googl:open",
+        "yahoo:googl:close"
+      ],
+      "first_session": "2004-08-19",
+      "last_session": "2026-11-23",
+      "rows": 5602,
+      "rows_without_a_close": 0,
+      "sha256": "1031e9620ecff0883722b503955ab49f5bf9af674b0e75f5223f4bc66426d5f0"
+    },
+    "HGF.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/HG=F",
+      "series_ids": [
+        "cme:copper_front"
+      ],
+      "first_session": "2000-08-30",
+      "last_session": "2026-11-24",
+      "rows": 6668,
+      "rows_without_a_close": 79,
+      "sha256": "6f0ebd6fbff507da663c9fcf647635ff50338607a0a1917717c12dd14ef55062"
+    },
+    "HYG.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/HYG",
+      "series_ids": [
+        "yahoo:hyg:close"
+      ],
+      "first_session": "2007-04-11",
+      "last_session": "2026-11-23",
+      "rows": 4938,
+      "rows_without_a_close": 0,
+      "sha256": "99a3b5b7fbbe2646f647b69618fd13b9e6647f42a8be0af62a18d2c77a5db1fb"
+    },
+    "IEF.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/IEF",
+      "series_ids": [
+        "yahoo:ief:close"
+      ],
+      "first_session": "2002-07-30",
+      "last_session": "2026-11-23",
+      "rows": 6120,
+      "rows_without_a_close": 0,
+      "sha256": "04b068639e1f764ff7dd238ffca5295d705aeb17204b4e8c404d95cc32dcafff"
+    },
+    "IGV.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/IGV",
+      "series_ids": [
+        "yahoo:igv:close"
+      ],
+      "first_session": "2001-07-17",
+      "last_session": "2026-11-23",
+      "rows": 6377,
+      "rows_without_a_close": 0,
+      "sha256": "f8b061dd0231295de92ba14a4ea0cd6bcf7bdd01e6590204050e5d3809b3fdd8"
+    },
+    "IRX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^IRX",
+      "series_ids": [
+        "cboe:irx"
+      ],
+      "first_session": "1970-01-02",
+      "last_session": "2026-11-23",
+      "rows": 14346,
+      "rows_without_a_close": 102,
+      "sha256": "ce0a81ba8c24080e3fb8ec4f711a4d421a436ccefe4664fadcad6fdf1eb5017d"
+    },
+    "IWM.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/IWM",
+      "series_ids": [
+        "yahoo:iwm:close"
+      ],
+      "first_session": "2000-05-26",
+      "last_session": "2026-11-23",
+      "rows": 6663,
+      "rows_without_a_close": 0,
+      "sha256": "927af72dda9cc5fbe16be8aaa320273c5ef93e7eaffeabacbe5f4892af75b0bd"
+    },
+    "LQD.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/LQD",
+      "series_ids": [
+        "yahoo:lqd:close"
+      ],
+      "first_session": "2002-07-30",
+      "last_session": "2026-11-23",
+      "rows": 6120,
+      "rows_without_a_close": 0,
+      "sha256": "e4306386acdbb25f404f673eaf71c1c30ad2eb3f3bfb887870c6b894fd376a93"
+    },
+    "MOVE.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^MOVE",
+      "series_ids": [
+        "ice:move"
+      ],
+      "first_session": "2002-11-12",
+      "last_session": "2026-11-23",
+      "rows": 6046,
+      "rows_without_a_close": 104,
+      "sha256": "bc93c3ffcc157a75ead66525fa3667420a425b1a4cd09cd11964f97d0d0af765"
+    },
+    "MSFT.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/MSFT",
+      "series_ids": [
+        "yahoo:msft:open",
+        "yahoo:msft:close"
+      ],
+      "first_session": "1986-03-13",
+      "last_session": "2026-11-23",
+      "rows": 10254,
+      "rows_without_a_close": 0,
+      "sha256": "858aec0c45cdf835a2010a4ada08cfb3726fdac1d098ec9a04b7d62a2d57999c"
+    },
+    "MU.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/MU",
+      "series_ids": [
+        "yahoo:mu:open",
+        "yahoo:mu:close"
+      ],
+      "first_session": "1984-06-01",
+      "last_session": "2026-11-23",
+      "rows": 10703,
+      "rows_without_a_close": 0,
+      "sha256": "1086c1e54758be5ecd6fba4e880900d27015b436d6be0786ce8623d96040e55e"
+    },
+    "QQQ.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/QQQ",
+      "series_ids": [
+        "yahoo:qqq:open",
+        "yahoo:qqq:close"
+      ],
+      "first_session": "1999-03-10",
+      "last_session": "2026-11-23",
+      "rows": 6971,
+      "rows_without_a_close": 0,
+      "sha256": "50c12fd71ca174df1b2299d7f150140a2976e1bfb13de8b38bca4180e0ed2d1c"
+    },
+    "RSP.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/RSP",
+      "series_ids": [
+        "yahoo:rsp:close"
+      ],
+      "first_session": "2003-05-01",
+      "last_session": "2026-11-23",
+      "rows": 5930,
+      "rows_without_a_close": 0,
+      "sha256": "2cb03f1aca48201a2c86fb756fd4980e78760d7efe1b14876ab08981a8621d22"
+    },
+    "SKEW.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^SKEW",
+      "series_ids": [
+        "cboe:skew"
+      ],
+      "first_session": "1990-01-02",
+      "last_session": "2026-11-23",
+      "rows": 9292,
+      "rows_without_a_close": 74,
+      "sha256": "36ab5ca54f69af765ea4f0c5e9aa6cbf071032b58cbd8cbeb99d1880be47690e"
+    },
+    "SOXX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SOXX",
+      "series_ids": [
+        "yahoo:soxx:open",
+        "yahoo:soxx:close"
+      ],
+      "first_session": "2001-07-13",
+      "last_session": "2026-11-23",
+      "rows": 6379,
+      "rows_without_a_close": 0,
+      "sha256": "16145b9250f08d242a48d646690f9f23a65b682ca1ab923fe9c33849fe890355"
+    },
+    "SPY.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SPY",
+      "series_ids": [
+        "yahoo:spy:open",
+        "yahoo:spy:close"
+      ],
+      "first_session": "1993-01-29",
+      "last_session": "2026-11-23",
+      "rows": 8513,
+      "rows_without_a_close": 0,
+      "sha256": "cb4303dc69992820e18a45208803ceabd829306d32065691b1077e738b924ddb"
+    },
+    "SRVR.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SRVR",
+      "series_ids": [
+        "yahoo:srvr:close"
+      ],
+      "first_session": "2018-05-16",
+      "last_session": "2026-11-23",
+      "rows": 2143,
+      "rows_without_a_close": 0,
+      "sha256": "4eef98bddf96a3d6a16b7da6f559caa6bf22d2476466aa8e509048c73441f50a"
+    },
+    "TNX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^TNX",
+      "series_ids": [
+        "cboe:tnx"
+      ],
+      "first_session": "1970-01-02",
+      "last_session": "2026-11-23",
+      "rows": 14346,
+      "rows_without_a_close": 102,
+      "sha256": "422f84606f5238fab7366025009bbcd845b59c4874ddd3f45d1a618888f08eab"
+    },
+    "TSM.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/TSM",
+      "series_ids": [
+        "yahoo:tsm:open",
+        "yahoo:tsm:close"
+      ],
+      "first_session": "1997-10-09",
+      "last_session": "2026-11-23",
+      "rows": 7326,
+      "rows_without_a_close": 0,
+      "sha256": "fd7b5eb59ca2c3294b5b93661076eb0ac81a78df8ddc814295df80b304c2b7ce"
+    },
+    "TYX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^TYX",
+      "series_ids": [
+        "cboe:tyx"
+      ],
+      "first_session": "1977-02-15",
+      "last_session": "2026-11-23",
+      "rows": 12546,
+      "rows_without_a_close": 76,
+      "sha256": "59ff5990b1267f8a42ca76c0e08817fecc1f7c7a9a2438a88b8a5df6f04f5d56"
+    },
+    "VIX.csv": {
+      "source": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
+      "series_ids": [
+        "cboe:vix"
+      ],
+      "first_session": "1990-01-02",
+      "last_session": "2026-11-23",
+      "rows": 9322,
+      "sha256": "409c4e80171f82285054875e0095aab5fd19b59670c987bc0e58f5919a69f3ee"
+    },
+    "VIX3M.csv": {
+      "source": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX3M_History.csv",
+      "series_ids": [
+        "cboe:vix3m"
+      ],
+      "first_session": "2009-09-18",
+      "last_session": "2026-11-23",
+      "rows": 4322,
+      "sha256": "11082b053dd5f1f79a7e4820584cd95f7247eeb37222deb5695feaedf2a59437"
+    },
+    "VVIX.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^VVIX",
+      "series_ids": [
+        "cboe:vvix"
+      ],
+      "first_session": "2007-01-03",
+      "last_session": "2026-11-23",
+      "rows": 5005,
+      "rows_without_a_close": 9,
+      "sha256": "53f6873f1fb4526423e255aeca43abe284e406b7fbe6a3370a46641cd6eefb19"
+    },
+    "VXN.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/^VXN",
+      "series_ids": [
+        "cboe:vxn"
+      ],
+      "first_session": "2001-01-23",
+      "last_session": "2026-11-23",
+      "rows": 6498,
+      "rows_without_a_close": 0,
+      "sha256": "9681aee831ee4bb778f9a89e3f128ed40834a6716bac595bf89cf8f1c9eb4383"
+    },
+    "XLU.json": {
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/XLU",
+      "series_ids": [
+        "yahoo:xlu:close"
+      ],
+      "first_session": "1998-12-22",
+      "last_session": "2026-11-23",
+      "rows": 7023,
+      "rows_without_a_close": 0,
+      "sha256": "536df7a5815c7d643292c5cd9edfc6f58ebf70f5ad607dd51fdefd27147aec4f"
+    },
+    "treasury_real_yield_10y.csv": {
+      "source": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/<year>/all?type=daily_treasury_real_yield_curve, 10 YR column",
+      "series_ids": [
+        "treasury:real_yield_10y"
+      ],
+      "first_session": "2003-01-02",
+      "last_session": "2026-11-23",
+      "rows": 5977,
+      "years": {
+        "2003": "99e00d10558a84e23b2873edfe8472f9830b9b2d512c68e68594eb9dc456d813",
+        "2004": "2dd01965f91b467194446332031fcfeb86974ea532fb99f4f281103e3f692c0e",
+        "2005": "91c99c6193f8551a659011f9c75a3d63b60d314b030b7e0b91863b7bbfdd62d3",
+        "2006": "ddfe25bb8680405c263628a32d9ddebe6b3825625bd7e5e67b40ee7f18e41d93",
+        "2007": "07fb955fe47935bb5df515b5bdeba5579d24ae5431a2d9bf6ab0450a26bb215d",
+        "2008": "8d79576383af601010f6c4e8c0240a0e6f8fd1c04eec05e6b8d89ebb9c327232",
+        "2009": "68f1f8b2de5234e2e4650de06c6786dbb4fbec6ea3894bd4edb73930e32843c4",
+        "2010": "c16d0db0208b7e016a35c93cd1b354cbe735002683fe66063fa6371aae3f3bc2",
+        "2011": "d1bd695b0764e2af85373f6b2909a57217cb575ba21e131853a512af5d3ec63b",
+        "2012": "6ee991ccdbdaa615bf329cdfd79fcd813a9fbd88e1795b13e77ff0c76c905ec4",
+        "2013": "6819c5fbbbbfbd511dd7fef270857db7cf2c97f862805fd24589af7af2df8c15",
+        "2014": "1b7365254bdc3bd75a1fef774c9bba0a39fa3d499a13ae80e65a4eda4c61a92d",
+        "2015": "aec6d36e527bab697717aea76a04113e168392a15944bc8461690d05f9aa0b47",
+        "2016": "b38e72f59b7edbc660b00be57e1a82e1a49bc7f3128fcb520faddd05d99f7c49",
+        "2017": "94b310fafe718ca3f6717b7da4cd7d7bf335faecf1a302793f0f34733f164473",
+        "2018": "d1ef01905a1608957d06cbcd26593eac1e8b9bff9e92a1fa3a1b142a97ef0a95",
+        "2019": "593741b038e0970fe5be65a04e0047e17f00809da64e84948d1d306ab032e207",
+        "2020": "30c98a2d75a4474e08a338bc3874745241d63be8f4a0d07a7f04a454a332921c",
+        "2021": "9c614f8b16db601f1dc01ddd77db42d4e4a54b7243db4b4fc228270a08f747d3",
+        "2022": "70b21a92a05801c479f1ddaee21137b7f842d43d883d32d57f9bbae272111a48",
+        "2023": "ef28bcafaca75c45bb6b3491b4df4bd1b5e2ab7ff35ac014b6f8362df330c0ca",
+        "2024": "d3ff00a9287ebf68fdc80e72fb2d1895a73c84b3ff2a6ca8c6d64648cb470f16",
+        "2025": "d3d3131c41e1f93f4661d227ce7079049d51888b395aaff863b6ad8e08838b64",
+        "2026": "eaf6fe0effeaccefb01877c9b150be05a6a9c52cc8d1c1d018b5b0f3985ad7bd"
+      },
+      "years_reused_from": "2026-11-22: 2003 to 2025",
+      "sha256": "a7be333b9691a504939f878877c45f0813ec8420df639eb98191e3d659df18ed"
+    }
+  },
+  "not_downloaded": {
+    "tsmc:monthly_revenue:yoy_pct_as_released": "not a daily download: its values come from dated sources collected by hand",
+    "derived:igv_over_qqq": "computed from other series, not downloaded",
+    "derived:srvr_over_spy": "computed from other series, not downloaded",
+    "derived:soxx_over_qqq": "computed from other series, not downloaded",
+    "derived:hyg_over_lqd": "computed from other series, not downloaded"
+  }
+}

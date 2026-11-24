@@ -160,7 +160,7 @@ Part B is developed in parallel with Part A and does not delay it.
 
 | Need | State today |
 | --- | --- |
-| A daily snapshot of every bound series, pinned by hash | Done by hand, twice |
+| A daily snapshot of every bound series, pinned by hash | `apps/cli/snapshot.py` downloads the 30 files the catalogue reads from the network, writes a manifest, refuses to overwrite, publishes nothing if a source fails, and copies the folder to the backup. Run by hand once, for the 2026-11-23 session; not yet scheduled. The session calendars and the FOMC dates are curated files in the 2026-11-22 snapshot and are not part of a daily snapshot |
 | The 33-input panel built for one new session | Built for whole histories only; takes about four minutes |
 | A ticket emitter for a fitted gate | The emitter handles the rule only |
 | A session calendar past 2026 | Ends 2026-12-31 |
