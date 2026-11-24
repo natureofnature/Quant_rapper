@@ -36,6 +36,17 @@ def load_daily_closes(path: Path, binding: SeriesBinding) -> list[Observation]:
                 for row in csv.DictReader(handle)]
 
 
+def published(bindings: list[SeriesBinding], observations: list[Observation]) -> list[Observation]:
+    """Drop every value dated before its series was first published.
+
+    A source file can hold values the publisher calculated for dates before the series
+    existed. Nobody had them then, so they are ineligible at every cutoff, for a decision
+    and for a training row alike. Every selection below applies this first.
+    """
+    first = {b.series_id: b.first_published for b in bindings if b.first_published is not None}
+    return [o for o in observations if o.series_id not in first or o.session >= first[o.series_id]] if first else observations
+
+
 def as_of_vintage(observations: list[Observation], cutoff: Cutoff, series_ids: tuple[str, ...]) -> list[Observation]:
     """For each requested series and session, the one version of the value that was current at the cutoff.
 
@@ -87,6 +98,7 @@ def latest_common(bindings: list[SeriesBinding], observations: list[Observation]
     zone = ZoneInfo(calendar.timezone)
     if not calendar.first <= cutoff.time.astimezone(zone).date() <= calendar.last:
         raise ValueError(f"calendar {calendar.calendar_id!r} does not cover the cutoff")
+    observations = published(bindings, observations)
     by_id = {b.series_id: b for b in bindings}
     ids, expected = tuple(by_id), set(calendar.sessions)
     table: dict[tuple[date, str], Observation] = {}
@@ -151,7 +163,7 @@ def at_session(bindings: list[SeriesBinding], observations: list[Observation], c
         return gap(f"{session} had not closed before the cutoff")
     if cutoff.time - fixed > max_age:
         return gap(f"{session} is {cutoff.time - fixed} old, over the limit of {max_age}")
-    found = {o.series_id: o for o in as_of_vintage(observations, cutoff, ids)
+    found = {o.series_id: o for o in as_of_vintage(published(bindings, observations), cutoff, ids)
              if o.session == session and o.available_at < cutoff.time}
     missing = [i for i in ids if i not in found]
     if missing:
@@ -180,7 +192,7 @@ def trailing_window(binding: SeriesBinding, observations: list[Observation], cut
     if end < sessions:
         return WindowedAsOf(anchor=anchor, sessions=sessions,
                             reason=f"the calendar holds {end} sessions up to {anchor.session}, fewer than {sessions}")
-    usable = {o.session: o for o in as_of_vintage(observations, cutoff, (binding.series_id,))
+    usable = {o.session: o for o in as_of_vintage(published([binding], observations), cutoff, (binding.series_id,))
               if o.available_at < cutoff.time}
     wanted = calendar.sessions[end - sessions:end]
     missing = [s for s in wanted if s not in usable]

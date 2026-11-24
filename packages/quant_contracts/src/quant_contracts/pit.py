@@ -39,6 +39,9 @@ class SeriesBinding(Contract):
     availability_basis: Literal["sourced", "assumed"]  # whether value_time plus delay is documented
     revisable: bool  # True when published values can later be restated
     basis_note: Text  # where value_time and the delay come from
+    # The first session on which the series had a published value. A value dated earlier was calculated
+    # afterwards, so selection never uses it, whatever a downloaded file holds. None: no date established.
+    first_published: date | None = None
 
 
 class EventBinding(Contract):

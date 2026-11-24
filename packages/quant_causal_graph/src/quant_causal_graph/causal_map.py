@@ -184,7 +184,8 @@ def recipe_digest(recipe: CandidateFactorRecipe) -> str:
 
 
 def binding_digest(binding: SeriesBinding) -> str:
-    return hashlib.sha256(json.dumps(binding.model_dump(mode="json"), sort_keys=True).encode("utf-8")).hexdigest()
+    # Unset optional fields are left out, so adding an optional field to the contract changes no existing hash.
+    return hashlib.sha256(json.dumps(binding.model_dump(mode="json", exclude_none=True), sort_keys=True).encode("utf-8")).hexdigest()
 
 
 def check_bindings(series_ids: set[str], bindings: dict[str, SeriesBinding], pinned: dict[str, str]) -> dict[str, str]:
