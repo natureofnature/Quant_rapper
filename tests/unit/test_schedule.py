@@ -41,6 +41,16 @@ class ScheduleTests(unittest.TestCase):
         self.assertIsNone(self.count(date(2020, 4, 30)))
         self.assertIsNone(self.count(date(2020, 3, 14)))  # a Saturday
 
+    def test_a_meeting_after_the_calendar_ends_gives_no_count(self):
+        days = [date(2026, 12, 1) + timedelta(days=n) for n in range(31)]
+        year = SessionCalendar(calendar_id="test", timezone="America/New_York", first=days[0], last=days[-1],
+                               sessions=tuple(d for d in days if d.weekday() < 5), basis_note="Weekdays only; synthetic.")
+        meetings = [date(2026, 12, 9), date(2027, 1, 27)]
+        self.assertEqual(sessions_to_next(year, date(2026, 12, 8), meetings), 1)  # the December meeting is inside the calendar
+        for session in (date(2026, 12, 10), date(2026, 12, 31)):  # January's is not: the sessions to it cannot be counted
+            self.assertIsNone(sessions_to_next(year, session, meetings), session)
+        self.assertEqual(sessions_to_next(year, date(2026, 12, 30), [date(2026, 12, 31)]), 1)  # the last day itself is covered
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,7 @@
   "schema_version": "2.0.0",
   "kind": "series_bindings",
   "compiled_on": "2026-11-24",
-  "content_revision": "2026-11-24.3",
+  "content_revision": "2026-11-24.4",
   "describe": "Machine-readable sources and availability rules for observables named in the research maps. A binding says when a value became knowable; it makes no claim about what the value means.",
   "series": [
     {
@@ -496,7 +496,7 @@
       "publication_delay_minutes": 15,
       "availability_basis": "assumed",
       "revisable": true,
-      "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
+      "basis_note": "Values are in percent: Yahoo serves this Cboe interest-rate index already divided by ten, so a stored 4.573 is a yield of about 4.573% (the 10-year on 2024-12-31, against the Treasury's published 4.58%). Do not divide again. Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
     },
     {
       "series_id": "cboe:irx",
@@ -511,7 +511,7 @@
       "publication_delay_minutes": 15,
       "availability_basis": "assumed",
       "revisable": true,
-      "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
+      "basis_note": "Values are in percent: Yahoo serves this Cboe interest-rate index already divided by ten, so a stored 4.573 is a yield of about 4.573% (the 10-year on 2024-12-31, against the Treasury's published 4.58%). Do not divide again. Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
     },
     {
       "series_id": "cboe:fvx",
@@ -526,7 +526,7 @@
       "publication_delay_minutes": 15,
       "availability_basis": "assumed",
       "revisable": true,
-      "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
+      "basis_note": "Values are in percent: Yahoo serves this Cboe interest-rate index already divided by ten, so a stored 4.573 is a yield of about 4.573% (the 10-year on 2024-12-31, against the Treasury's published 4.58%). Do not divide again. Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
     },
     {
       "series_id": "cboe:tyx",
@@ -541,7 +541,7 @@
       "publication_delay_minutes": 15,
       "availability_basis": "assumed",
       "revisable": true,
-      "basis_note": "Cboe interest-rate index (ten times the Treasury yield). Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
+      "basis_note": "Values are in percent: Yahoo serves this Cboe interest-rate index already divided by ten, so a stored 4.573 is a yield of about 4.573% (the 10-year on 2024-12-31, against the Treasury's published 4.58%). Do not divide again. Treated as fixed by 4:00 p.m. Eastern with an assumed 15-minute delay; chosen late, not sourced. Read on the dates Yahoo has a value for. In publication well before 2009-01-02, the first session any study here reads. Its first publication date was not established, so no floor is set."
     },
     {
       "series_id": "ice:dollar_index",

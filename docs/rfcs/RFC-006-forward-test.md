@@ -165,7 +165,7 @@ Part B is developed in parallel with Part A and does not delay it.
 | A ticket emitter for a fitted gate | The emitter handles the rule only |
 | A session calendar past 2026 | Ends 2026-12-31 |
 | The FOMC schedule for 2027 | Not held |
-| First publication dates of the added series, and the FOMC schedule as it stood on each date | Done. The 18 added series and the credit ratio are in the bindings catalogue; a binding's `first_published` is enforced by every loader, every selection and the outcome-price lookup. `quant_pit_data.schedule` counts to the next meeting from `bindings/event_schedules.json`. Nine old series (rate indices, MOVE, the dollar index, three futures) have no established date and no floor |
+| First publication dates of the added series, and the FOMC schedule as it stood on each date | Pieces verified; daily panel integration pending. The 18 added series and the credit ratio are in the bindings catalogue, and a binding's `first_published` is enforced by every loader, every selection and the outcome-price lookup. The countdown in `quant_pit_data.schedule`, with the withdrawn meeting in `bindings/event_schedules.json`, is tested. No shared code yet builds the 33 inputs from the catalogue or feeds the countdown into the panel; a local check did both and matched the corrected inputs. Nine old series (rate indices, MOVE, the dollar index, three futures) have no established date and no floor |
 | A backup of the snapshots | A local copy in `run/backup/snapshots/` with checksums; same machine, not in the repository |
 | A scheduled job that runs the loop after each close | Nothing |
 | A check that reports a missed run the next morning | Nothing |
