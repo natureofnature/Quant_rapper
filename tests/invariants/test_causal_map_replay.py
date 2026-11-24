@@ -67,7 +67,8 @@ class CausalMapTests(unittest.TestCase):
                 subprocess.run(["git", "-C", str(origins[revision]), "checkout", "-q", "--detach", revision], check=True, capture_output=True)
             return origins[revision]
 
-        cls.cross = {s: generate_from_files(origin(CROSS), s, COMMON) for s in SUBJECTS}
+        cls.cross_origin = origin(CROSS)
+        cls.cross = {s: generate_from_files(cls.cross_origin, s, COMMON) for s in SUBJECTS}
         # Everything a replay check reads beside the maps (bindings, pins, calendars, the packet) comes from the same checkout,
         # so a later edit to any of them cannot fail a study that still reproduces.
         cls.pilot = origin(PILOT)
@@ -242,8 +243,11 @@ class CausalMapTests(unittest.TestCase):
         self.assertNotIn(growth.recipe_id, {r.recipe_id for r in early_recipes})
         with self.assertRaisesRegex(ValueError, "another decision time"):
             run(early_map, recipe)
+        # A map from the cross-subject study is handed over with that study's own bindings, not the pilot's.
+        cross_b = {s["series_id"]: SeriesBinding(**s) for s in json.loads(
+            (self.cross_origin / "knowledge_base/prior_knowledge/bindings/series_bindings.json").read_text(encoding="utf-8"))["series"]}
         with self.assertRaisesRegex(ValueError, "another subject"):
-            run(self.cross["MU"][0], recipe)
+            run(self.cross["MU"][0], recipe, cross_b)
         # The same id in another context is another recipe: at one decision time, the ordinary-day map and the event map
         # both have a VIX recipe with this id. Their evidence differs, and each map accepts only its own.
         ordinary_map, ordinary_recipes = generate_from_files(self.pilot, "TSM", AFTER)
@@ -277,7 +281,8 @@ class CausalMapTests(unittest.TestCase):
             run(late_map, recipe, moved)
         # A fund's recipe names no benchmark, and its table holds the fund's own return with nothing subtracted.
         soxx_map, soxx_recipes = self.cross["SOXX"]
-        absolute = evaluate_candidate(soxx_map, soxx_recipes[0], b, flat("soxx"), equity, {}, {"synthetic": "0" * 64})
+        soxx_prices = [observe(cross_b[f"yahoo:soxx:{k}"], d, 100.0) for d in equity.sessions for k in ("open", "close")]
+        absolute = evaluate_candidate(soxx_map, soxx_recipes[0], cross_b, soxx_prices, equity, {}, {"synthetic": "0" * 64})
         row = absolute.rows[0]
         self.assertEqual((soxx_recipes[0].benchmark, row.status, row.window.subject, row.window.benchmark, row.window.relative),
                          (None, "complete", 0.0, None, None))
