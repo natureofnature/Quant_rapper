@@ -93,6 +93,27 @@ class ShadowTicket(Contract):
         return self
 
 
+class ShadowGap(Contract):
+    """A session on which a fitted gate could say nothing: it had no score and no earlier live ticket to hold.
+
+    Written in place of a ticket, so the session is on record as a gap and is never read as a state.
+    """
+
+    gap_id: Text  # "gap:<gate>:<subject>:<session>"
+    gate: Text
+    subject_id: Text
+    session: date
+    decision_time: AwareDatetime
+    issued_at: AwareDatetime
+    machine: Text
+    reason: Text
+    missing_inputs: tuple[Text, ...]
+    registration_id: Text
+    registration_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    code_commit: str = Field(pattern=r"^[0-9a-f]{40}$")
+    inputs_sha256: dict[Text, str]
+
+
 class AlphaTicket(Contract):
     """A single-stock view for one subject after one session. Always subordinate to the beta gate."""
 

@@ -33,7 +33,11 @@ def digest(path: Path) -> str:
 
 
 class Inputs:
-    """The matrices and prices of one build, with the hash of every file that went into them."""
+    """The matrices and prices of one build. ``hashes`` gives, per subject, the hash of every file that subject's inputs came from.
+
+    A subject's list holds the shared files and its own price file, never another subject's:
+    its ticket is then the same whichever other subjects were built in the same run.
+    """
 
     def __init__(self, sessions, names, matrices, prices, hashes, equity):
         self.sessions, self.names, self.matrices, self.prices, self.hashes, self.equity = sessions, names, matrices, prices, hashes, equity
@@ -71,8 +75,13 @@ def build(spec: dict, root: Path, snapshot: Path, subjects: dict[str, tuple[str,
     wrong = problems(snapshot, names)  # only what this build reads, by the rule the loaders apply
     if wrong:
         raise ValueError(f"the snapshot is not sound for these inputs: {'; '.join(wrong)}")
-    hashes = {name: manifest["files"][name]["sha256"] for name in names}
-    hashes.update({manifest["files"][n]["record_file"]["name"]: manifest["files"][n]["record_file"]["sha256"] for n in names if "record_file" in manifest["files"][n]})
+    def with_records(files: set[str]) -> dict[str, str]:
+        found = {name: manifest["files"][name]["sha256"] for name in files}
+        found.update({manifest["files"][n]["record_file"]["name"]: manifest["files"][n]["record_file"]["sha256"] for n in files if "record_file" in manifest["files"][n]})
+        return found
+
+    in_common = {file_of[i] for i in (read - set(parts)) | {p for pair in parts.values() for p in pair}}  # what every subject's inputs read
+    hashes = with_records(in_common)
 
     def pinned(name: str) -> Path:
         entry = manifest["shared"][name]
@@ -141,4 +150,5 @@ def build(spec: dict, root: Path, snapshot: Path, subjects: dict[str, tuple[str,
         opens = {q.session: q.value for q in quotes[subject] if q.series_id == open_id}
         closes = {q.session: q for q in rows_of[close_id]}
         prices[subject] = ([opens.get(s) for s in sessions], [closes[s].value if s in closes else None for s in sessions], closes)
-    return Inputs(sessions, inputs, matrices, prices, hashes, equity)
+    by_subject = {subject: dict(sorted({**hashes, **with_records({file_of[open_id], file_of[close_id]})}.items())) for subject, (open_id, close_id) in subjects.items()}
+    return Inputs(sessions, inputs, matrices, prices, by_subject, equity)

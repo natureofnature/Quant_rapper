@@ -23,7 +23,7 @@ import snapshot
 try:
     import numpy as np
     from quant_contracts.evaluation import Factor
-    from quant_contracts.forecast import ShadowTicket
+    from quant_contracts.forecast import ShadowGap, ShadowTicket
     from quant_contracts.pit import SeriesBinding
     from quant_loop.shadow import REGISTRATION, emit
 except ModuleNotFoundError:
@@ -68,7 +68,8 @@ class ShadowTicketTests(unittest.TestCase):
         cls.late_close = None  # a symbol whose session close is served unfinished, with a quote stamped at this time
         assert snapshot.main(["--no-backup"], root=cls.root, fetcher=cls.fetcher, pause=0.0, now=EVENING) == 0
         cls.folder = cls.root / "artifacts/snapshots" / str(SESSION)
-        cls.tickets, cls.digest = emit(cls.root, cls.folder, SESSION, None, now=EVENING, machine="test-machine", dry_run=True)
+        batch = emit(cls.root, cls.folder, SESSION, None, now=EVENING, machine="test-machine", dry_run=True)
+        cls.tickets, cls.digest = batch.tickets, batch.digest
 
     @classmethod
     def fetcher(cls, url):
@@ -91,6 +92,30 @@ class ShadowTicketTests(unittest.TestCase):
         values = dict(zip([d for d in cls.bond_days if START <= d <= SESSION], 2.0 + np.cumsum(np.random.default_rng(7).normal(0.0, 0.03, 2000))))
         return ('Date,"5 YR","10 YR"\n' + "".join(f"{d:%m/%d/%Y},1.00,{values.get(d, 2.0):.2f}\n" for d in reversed(days))).encode()
 
+    def copy_of_code(self, name, change=None):
+        """A separate copy of the test's code folder, with its own snapshot taken after ``change`` is applied."""
+        root = Path(self.temp.name) / name
+        shutil.copytree(self.root, root, ignore=shutil.ignore_patterns("2026-11-23"))
+        if change:
+            change(root)
+        self.assertEqual(snapshot.main(["--no-backup"], root=root, fetcher=self.fetcher, pause=0.0, now=EVENING), 0)
+        return root, root / "artifacts/snapshots" / str(SESSION)
+
+    def registered(self, name, issuer="pc-a"):
+        """A git checkout whose registration is registered: it pins a code commit, an issuer and the configuration files."""
+        root = Path(self.temp.name) / name
+        shutil.copytree(self.root, root)
+        git = lambda *a: subprocess.run(["git", "-C", str(root), "-c", "user.name=test", "-c", "user.email=test@example.invalid", *a],
+                                        check=True, capture_output=True).stdout.decode().strip()
+        (root / "packages").mkdir()
+        (root / "packages/code.py").write_text("VERSION = 1\n")
+        (root / ".gitignore").write_text("artifacts/snapshots/2026-11-23/\n")
+        git("init", "-q"); git("add", "-A"); git("commit", "-q", "-m", "code")
+        pinned = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in COPIED}
+        registration = {**self.registration, "status": "Registered for this test", "code": {"commit": git("rev-parse", "HEAD")}, "issuer": issuer, "pinned_files": pinned}
+        (root / REGISTRATION).write_text(json.dumps(registration, indent=1) + "\n")
+        return root, root / "artifacts/snapshots" / str(SESSION), git, registration
+
     def test_every_registered_gate_gets_a_ticket_built_from_the_snapshot(self):
         self.assertEqual(sorted((t.subject_id, t.gate) for t in self.tickets), [("company:tsmc", "E-dd"), ("fund:qqq", "E-dd"), ("fund:qqq", "W-dd")])
         manifest = json.loads((self.folder / "manifest.json").read_text())
@@ -108,10 +133,14 @@ class ShadowTicketTests(unittest.TestCase):
         self.assertEqual(qqq["W-dd"].seed_scores[0], qqq["E-dd"].seed_scores[0])  # the same seed-0 fit serves both gates
         self.assertEqual(qqq["W-dd"].inputs, qqq["E-dd"].inputs)
         self.assertNotIn("GCF.json", qqq["E-dd"].inputs_sha256)  # a file these six inputs never read is not required
+        tsm = next(t for t in self.tickets if t.subject_id == "company:tsmc")
+        self.assertTrue("QQQ.json" in qqq["E-dd"].inputs_sha256 and "QQQ.json" not in tsm.inputs_sha256 and "TSM.json" in tsm.inputs_sha256)
+        alone = emit(self.root, self.folder, SESSION, None, now=EVENING, machine="test-machine", dry_run=True, only=["TSM"]).tickets[0]
+        self.assertEqual(alone, tsm)  # a subject's ticket does not depend on which others were built in the same run
 
     def test_the_same_snapshot_gives_the_same_scores_and_a_draft_is_never_written(self):
-        again, digest = emit(self.root, self.folder, SESSION, None, now=EVENING, machine="test-machine", dry_run=True)
-        self.assertEqual((again, digest), (self.tickets, self.digest))  # the digest is what two machines compare
+        again = emit(self.root, self.folder, SESSION, None, now=EVENING, machine="test-machine", dry_run=True)
+        self.assertEqual((again.tickets, again.digest), (self.tickets, self.digest))  # the digest is what two machines compare
         records = Path(self.temp.name) / "records"
         with self.assertRaisesRegex(SystemExit, "the registration is a draft"):
             emit(self.root, self.folder, SESSION, records, now=EVENING, machine="test-machine")
@@ -120,70 +149,111 @@ class ShadowTicketTests(unittest.TestCase):
     def test_no_ticket_is_written_before_the_decision_time(self):
         with self.assertRaisesRegex(SystemExit, "before the decision time"):
             emit(self.root, self.folder, SESSION, None, now=datetime.combine(SESSION, time(16, 59), NEW_YORK), dry_run=True)
-        late, _ = emit(self.root, self.folder, SESSION, None, now=datetime(2026, 11, 24, 9, 30, tzinfo=NEW_YORK), dry_run=True, only=["TSM"])
-        self.assertEqual([t.issuance for t in late], ["replay"])  # at the next open it is no longer live
+
+    def test_live_or_replay_is_decided_when_the_ticket_is_written_not_when_the_run_starts(self):
+        started, finished = datetime(2026, 11, 24, 9, 28, tzinfo=NEW_YORK), datetime(2026, 11, 24, 9, 32, tzinfo=NEW_YORK)
+        readings = iter([started])  # the first reading is the start of the run; every later one is after the work is done
+        batch = emit(self.root, self.folder, SESSION, None, dry_run=True, only=["TSM"], clock=lambda: next(readings, finished))
+        ticket = batch.tickets[0]
+        self.assertEqual((ticket.issued_at, ticket.issuance, ticket.decision_time.time()), (finished, "replay", time(17, 0)))  # the open was at 09:30
+        early = emit(self.root, self.folder, SESSION, None, dry_run=True, only=["TSM"], now=started)
+        self.assertEqual(early.tickets[0].issuance, "live")
 
     def test_a_subject_whose_close_arrived_after_the_cutoff_gets_no_ticket_and_the_others_do(self):
         type(self).late_close = ("TSM", datetime.combine(SESSION, time(17, 30), NEW_YORK))
         try:
-            root = Path(self.temp.name) / "late"
-            shutil.copytree(self.root, root, ignore=shutil.ignore_patterns("snapshots"))
-            for path in snapshot.SHARED:
-                (root / path).parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(self.root / path, root / path)
-            self.assertEqual(snapshot.main(["--no-backup"], root=root, fetcher=self.fetcher, pause=0.0, now=EVENING), 0)
+            root, folder = self.copy_of_code("late")
         finally:
             type(self).late_close = None
-        tickets, _ = emit(root, root / "artifacts/snapshots" / str(SESSION), SESSION, None, now=EVENING, dry_run=True)
-        self.assertEqual({t.subject_id for t in tickets}, {"fund:qqq"})  # TSM's close was stamped 17:30: nothing stands in for it
+        batch = emit(root, folder, SESSION, None, now=EVENING, dry_run=True)
+        self.assertEqual({t.subject_id for t in batch.tickets}, {"fund:qqq"})  # TSM's close was stamped 17:30: nothing stands in for it
 
-    def test_a_missing_input_holds_the_previous_state_and_records_no_score(self):
-        root = Path(self.temp.name) / "short_calendar"
-        shutil.copytree(self.root, root, ignore=shutil.ignore_patterns("snapshots"))
-        for path in snapshot.SHARED:
-            (root / path).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(self.root / path, root / path)
-        calendar = json.loads((root / snapshot.SHARED[0]).read_text())  # the calendar now ends before the next FOMC meeting, on 9 December
-        calendar.update(last="2026-11-30", sessions=[s for s in calendar["sessions"] if s <= "2026-11-30"])
-        (root / snapshot.SHARED[0]).write_text(json.dumps(calendar))
-        self.assertEqual(snapshot.main(["--no-backup"], root=root, fetcher=self.fetcher, pause=0.0, now=EVENING), 0)
-        tickets, _ = emit(root, root / "artifacts/snapshots" / str(SESSION), SESSION, None, now=EVENING, dry_run=True, only=["TSM"])
-        ticket = tickets[0]
-        self.assertEqual((ticket.held, ticket.score, ticket.seed_scores, ticket.inputs["sessions_to_fomc"]), (True, None, (), None))
-        self.assertIsNotNone(ticket.inputs["vix_log"])
+    def test_a_session_without_a_score_carries_the_last_live_ticket_or_is_recorded_as_a_gap(self):
+        def end_calendar_before_the_next_meeting(root):  # the FOMC meets on 9 December; the count to it then has no value
+            calendar = json.loads((root / snapshot.SHARED[0]).read_text())
+            calendar.update(last="2026-11-30", sessions=[s for s in calendar["sessions"] if s <= "2026-11-30"])
+            (root / snapshot.SHARED[0]).write_text(json.dumps(calendar))
 
-    def test_a_registered_ticket_is_written_once_by_the_pinned_code_only(self):
-        root, records = Path(self.temp.name) / "registered", Path(self.temp.name) / "written"
-        shutil.copytree(self.root, root)
-        git = lambda *a: subprocess.run(["git", "-C", str(root), "-c", "user.name=test", "-c", "user.email=test@example.invalid", *a], check=True, capture_output=True).stdout.decode().strip()
-        (root / "packages").mkdir()
-        (root / "packages/code.py").write_text("VERSION = 1\n")
-        (root / ".gitignore").write_text("artifacts/snapshots/2026-11-23/\n")
-        git("init", "-q"); git("add", "-A"); git("commit", "-q", "-m", "code")
-        commit = git("rev-parse", "HEAD")
-        registered = {**self.registration, "status": "Registered for this test", "code": {"commit": commit}}
-        (root / REGISTRATION).write_text(json.dumps(registered, indent=1) + "\n")
-        folder = root / "artifacts/snapshots" / str(SESSION)
+        root, folder = self.copy_of_code("short_calendar", end_calendar_before_the_next_meeting)
+        records = Path(self.temp.name) / "held_records"
+        run = lambda: emit(root, folder, SESSION, records, now=EVENING, machine="test-machine", dry_run=True, only=["TSM"])
+        gap = run()  # no earlier ticket: the gate has said nothing in time, so it holds nothing
+        self.assertEqual((gap.tickets, [type(g) for g in gap.gaps], gap.gaps[0].missing_inputs), ([], [ShadowGap], ("sessions_to_fomc",)))
+        model = next(t for t in self.tickets if t.subject_id == "company:tsmc")
+
+        def earlier(day, state, issuance):
+            when = datetime.combine(day, time(19, 0), NEW_YORK)
+            fields = {**json.loads(model.model_dump_json()), "session": str(day), "ticket_id": f"shadow:E-dd:company:tsmc:{day}", "state": state,
+                      "target_exposure": {"GREEN": 1.0, "YELLOW": 0.5, "RED": 0.0}[state], "issuance": issuance,
+                      "decision_time": datetime.combine(day, time(17, 0), NEW_YORK).isoformat(), "issued_at": when.isoformat()}
+            path = records / "test-machine/tickets/E-dd/company_tsmc" / f"{day}.json"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(ShadowTicket(**fields).model_dump_json())
+
+        earlier(date(2026, 11, 20), "GREEN", "replay")  # written late: it is not a state the gate held in time
+        self.assertEqual(run().tickets, [])
+        earlier(date(2026, 11, 19), "RED", "live")
+        held = run().tickets[0]
+        # The state is the one actually published on the 19th, whatever today's recomputed history would say.
+        self.assertEqual((held.state, held.target_exposure, held.held, held.score, held.seed_scores, held.inputs["sessions_to_fomc"]), ("RED", 0.0, True, None, (), None))
+        self.assertIsNotNone(held.inputs["vix_log"])
+
+    def test_writing_needs_the_registered_file_code_configuration_and_issuer(self):
+        root, folder, git, registration = self.registered("guarded")
+        records = Path(self.temp.name) / "guarded_records"
+        write = lambda machine="pc-a": emit(root, folder, SESSION, records, now=EVENING, machine=machine, only=["TSM"])
         with self.assertRaisesRegex(SystemExit, "must be the committed file"):
-            emit(root, folder, SESSION, records, now=EVENING, machine="pc-a", only=["TSM"])
+            write()
         git("add", "-A"); git("commit", "-q", "-m", "register")
+        with self.assertRaisesRegex(SystemExit, "the registered issuer is pc-a"):
+            write("pc-b")
         (root / "packages/code.py").write_text("VERSION = 2\n")
         with self.assertRaisesRegex(SystemExit, "the code differs from the registered commit"):
-            emit(root, folder, SESSION, records, now=EVENING, machine="pc-a", only=["TSM"])
+            write()
         (root / "packages/code.py").write_text("VERSION = 1\n")
-        tickets, _ = emit(root, folder, SESSION, records, now=EVENING, machine="pc-a", only=["TSM"])
-        path = records / "pc-a/tickets/E-dd/company_tsmc/2026-11-23.json"
-        written = ShadowTicket.model_validate_json(path.read_text())
-        self.assertEqual((written, written.code_commit, written.registration_sha256), (tickets[0], commit, hashlib.sha256((root / REGISTRATION).read_bytes()).hexdigest()))
+        bindings = root / BINDINGS / "series_bindings.json"
+        kept = bindings.read_text()
+        catalogue = json.loads(kept)
+        next(s for s in catalogue["series"] if s["series_id"] == "cboe:vix")["publication_delay_minutes"] = 200  # would move VIX past the cutoff
+        bindings.write_text(json.dumps(catalogue))
+        with self.assertRaisesRegex(SystemExit, "differ from the ones the registration pins: .*series_bindings.json"):
+            write()
+        self.assertFalse(records.exists())
+        self.assertEqual(emit(root, folder, SESSION, None, now=EVENING, machine="pc-b", dry_run=True, only=["TSM"]).gaps, [])  # any machine may rehearse
+        bindings.write_text(kept)
+        ticket = write().tickets[0]
+        written = ShadowTicket.model_validate_json((records / "pc-a/tickets/E-dd/company_tsmc/2026-11-23.json").read_text())
+        self.assertEqual((written, written.code_commit, written.registration_sha256),
+                         (ticket, registration["code"]["commit"], hashlib.sha256((root / REGISTRATION).read_bytes()).hexdigest()))
         self.assertEqual(written.score, next(t for t in self.tickets if t.subject_id == "company:tsmc").score)  # as the rehearsal computed it
-        with self.assertRaisesRegex(SystemExit, "written once"):
-            emit(root, folder, SESSION, records, now=EVENING, machine="pc-a", only=["TSM"])
-        emit(root, folder, SESSION, records, now=EVENING, machine="pc-b", only=["TSM"])  # another machine writes under its own name
-        self.assertTrue((records / "pc-b/tickets/E-dd/company_tsmc/2026-11-23.json").is_file())
+
+    def test_a_batch_that_was_partly_written_is_completed_and_a_differing_ticket_is_reported_not_replaced(self):
+        root, folder, git, _ = self.registered("resumed")
+        git("add", "-A"); git("commit", "-q", "-m", "register")
+        records = Path(self.temp.name) / "resumed_records"
+        first_time, second_time = EVENING, datetime.combine(SESSION, time(21, 0), NEW_YORK)
+        emit(root, folder, SESSION, records, now=first_time, machine="pc-a", only=["QQQ"])
+        batch = emit(root, folder, SESSION, records, now=second_time, machine="pc-a")
+        self.assertEqual(sorted(batch.kept), ["shadow:E-dd:fund:qqq:2026-11-23", "shadow:W-dd:fund:qqq:2026-11-23"])
+        self.assertEqual({t.ticket_id: t.issued_at for t in batch.tickets},  # the earlier tickets keep the time they were first written
+                         {"shadow:E-dd:fund:qqq:2026-11-23": first_time, "shadow:W-dd:fund:qqq:2026-11-23": first_time, "shadow:E-dd:company:tsmc:2026-11-23": second_time})
+        self.assertEqual(len(list(records.rglob("2026-11-23.json"))), 3)
+        again = emit(root, folder, SESSION, records, now=second_time, machine="pc-a")  # a complete batch is simply confirmed
+        self.assertEqual((len(again.kept), again.tickets), (3, batch.tickets))
+        path = records / "pc-a/tickets/W-dd/fund_qqq/2026-11-23.json"
+        changed = json.loads(path.read_text())
+        changed.update(state="GREEN" if changed["state"] != "GREEN" else "RED")
+        changed["target_exposure"] = {"GREEN": 1.0, "YELLOW": 0.5, "RED": 0.0}[changed["state"]]
+        path.write_text(json.dumps(changed))
+        with self.assertRaisesRegex(SystemExit, "W-dd/fund_qqq/2026-11-23.json: a record is already there and differs"):
+            emit(root, folder, SESSION, records, now=second_time, machine="pc-a")
+        self.assertEqual(json.loads(path.read_text()), changed)  # left exactly as found
 
     def test_the_repository_registration_is_a_well_formed_draft(self):
         r = json.loads((ROOT / REGISTRATION).read_text())
-        self.assertTrue(r["status"].startswith("DRAFT") and r["code"]["commit"] is None)
+        self.assertTrue(r["status"].startswith("DRAFT") and r["code"]["commit"] is None and r["issuer"] is None)
+        self.assertEqual(sorted(r["pinned_files"]), sorted(COPIED))  # the files that decide which values a decision may read
+        self.assertTrue(all((ROOT / name).is_file() for name in r["pinned_files"]))
         bound = {s["series_id"] for s in json.loads((ROOT / BINDINGS / "series_bindings.json").read_text())["series"]}
         base = r["inputs"]["base_factors"]
         factors = [Factor(**f) for f in base["shared"] + base["per_subject"]]

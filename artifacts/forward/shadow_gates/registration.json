@@ -6,13 +6,25 @@
  "describe": "Shadow tickets from the fitted gates of RFC-005, written after each US session beside the rule's ticket. A shadow ticket decides nothing: it vetoes nothing and moves no exposure. The rule stays the gate in force.",
  "to_settle_before_registering": [
   "The review rule of RFC-006 section 5 is to be copied here in full, with its dates.",
-  "The issuing machine is to be named.",
+  "The issuing machine is to be named in \"issuer\".",
   "The session calendar and the FOMC schedule end in 2026; the 2027 files are to be pinned.",
-  "The code commit is to be pinned, and this status line replaced."
+  "The code commit and the pinned files' hashes are to be set, and this status line replaced.",
+  "The state rule above is the builder's proposal and is to be confirmed by the owner."
  ],
  "code": {
   "commit": null
  },
+ "issuer": null,
+ "pinned_files": {
+  "knowledge_base/prior_knowledge/bindings/series_bindings.json": "946a1def39250c86b2cba799d774f2e9c51a7504a21371d535f56abdd5de4c50",
+  "knowledge_base/prior_knowledge/bindings/factor_definitions.json": "aba948c71eecc46f9087741c102d1f11df020ab29aafaa99fd625f1c7cf66732",
+  "knowledge_base/prior_knowledge/bindings/event_schedules.json": "554f7580c98e0b62849c0958cd8fa192c1c9f2fb958ad02980676e605ae6d2ca",
+  "artifacts/snapshots/2026-11-22/us_equity_sessions_2002_2026.json": "5d50274a820c310010d51b3823775804998ae35a934aabb0e46e12e436f55754",
+  "artifacts/snapshots/2026-11-22/us_treasury_yield_sessions_2003_2026.json": "79c15162e8306b525ad57b8ba8766177f8e5ce4752698f9e0ef645ccf42cacd4",
+  "artifacts/snapshots/2026-11-22/announcement_dates_2002_2026.json": "59220008873006c1a887fb356cadb28964b0b86d7b7c706a9303716f03ec953c"
+ },
+ "pinned_files_note": "These decide which values a decision may read: the bindings set each series' availability time and first publication, the definitions and schedule set the inputs, and the calendars set the sessions. A ticket is refused if any differs. The hashes here are the draft's and are set again when it is registered; changing one afterwards is an amendment.",
+ "state_rule": "On a session with a score, the state is the gate's procedure applied to that session's snapshot: every session with a score in that data counts toward the thresholds and toward the three-session step-down, whether or not a ticket was issued for it. On a session without a score, because an input was missing, the ticket carries the state of the issuer's last live ticket of the same gate and subject and the step-down count starts again; with no such ticket, a gap is recorded and no state. A session with no ticket at all is a missed ticket: for exposure it holds the last live ticket's state, as RFC-006 section 3.3 says.",
  "subjects": [
   {
    "subject": "SOXX",

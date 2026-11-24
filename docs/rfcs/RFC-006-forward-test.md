@@ -103,6 +103,9 @@ After each US session, for each subject: the rule's ticket, and one shadow ticke
 * **Every trading day stays in the equity and drawdown figures**, including a missed day during a sell-off. A gate cannot gain or lose a day by not issuing.
 * A missed run usually affects every gate and the rule's ticket alike. Where it affects only some, each gate holds its own last state and all are still compared over the same sessions.
 * A replay ticket may be written afterwards for the record of what the gate would have said. It never changes the held exposure.
+* **How the state is computed around gaps** (proposed in the draft registration; to be confirmed by the owner):
+  * **A session with a score**: the state is the gate's procedure applied to that session's snapshot. Every session with a score in that data counts toward the thresholds and toward the three-session step-down, whether or not a ticket was issued for it. A ticket can then be reproduced from its snapshot alone.
+  * **A session without a score**, because an input was missing: the ticket carries the state of the issuer's last live ticket of the same gate and subject, not a recomputed one, and the step-down count starts again. With no earlier live ticket, a gap is recorded in place of a ticket.
 
 ### 3.4 Tickets are immutable
 
