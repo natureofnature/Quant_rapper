@@ -66,6 +66,7 @@ class ShadowTicketTests(unittest.TestCase):
         cls.equity = [s for s in sessions(snapshot.SHARED[0]) if START <= s <= SESSION]
         cls.bond_days = sessions(snapshot.SHARED[1])
         cls.late_close = None  # a symbol whose session close is served unfinished, with a quote stamped at this time
+        cls.short_history = None  # a symbol served with only its last few sessions
         assert snapshot.main(["--no-backup"], root=cls.root, fetcher=cls.fetcher, pause=0.0, now=EVENING) == 0
         cls.folder = cls.root / "artifacts/snapshots" / str(SESSION)
         batch = emit(cls.root, cls.folder, SESSION, None, now=EVENING, machine="test-machine", dry_run=True)
@@ -82,6 +83,8 @@ class ShadowTicketTests(unittest.TestCase):
                 meta.update(regularMarketPrice=closes[-1], regularMarketTime=int(cls.late_close[1].timestamp()))
                 closes = closes[:-1] + [None]
             stamps = [int(datetime.combine(d, time(9, 30), NEW_YORK).timestamp()) for d in cls.equity]
+            if symbol == cls.short_history:
+                stamps, closes = stamps[-5:], closes[-5:]
             return json.dumps({"chart": {"result": [{"meta": meta, "timestamp": stamps, "indicators": {"quote": [{"open": [c or 1.0 for c in closes], "close": closes}]}}]}}).encode()
         if "_History.csv" in url:
             name = url.rsplit("/", 1)[1]
@@ -167,6 +170,19 @@ class ShadowTicketTests(unittest.TestCase):
             type(self).late_close = None
         batch = emit(root, folder, SESSION, None, now=EVENING, dry_run=True)
         self.assertEqual({t.subject_id for t in batch.tickets}, {"fund:qqq"})  # TSM's close was stamped 17:30: nothing stands in for it
+
+    def test_a_subject_with_no_complete_history_is_recorded_as_a_gap_and_the_other_subjects_still_get_tickets(self):
+        type(self).short_history = "QQQ"  # QQQ has its close for the session, but too little history for its trend or its 20-session change, ever
+        try:
+            root, folder = self.copy_of_code("no_history")
+        finally:
+            type(self).short_history = None
+        batch = emit(root, folder, SESSION, None, now=EVENING, machine="test-machine", dry_run=True)
+        self.assertEqual(sorted((g.subject_id, g.gate, g.missing_inputs) for g in batch.gaps),
+                         [("fund:qqq", "E-dd", ("trend_200", "roc_20")), ("fund:qqq", "W-dd", ("trend_200", "roc_20"))])
+        self.assertTrue(all("an input was not knowable" in g.reason for g in batch.gaps))
+        tsm = next(t for t in self.tickets if t.subject_id == "company:tsmc")
+        self.assertEqual((batch.tickets, batch.errors), ([tsm], []))  # TSM's ticket is the one it gets on its own
 
     def test_a_session_without_a_score_carries_the_last_live_ticket_or_is_recorded_as_a_gap(self):
         def end_calendar_before_the_next_meeting(root):  # the FOMC meets on 9 December; the count to it then has no value

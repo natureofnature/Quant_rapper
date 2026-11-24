@@ -207,7 +207,10 @@ def scores_of(registration: dict, inputs, subject: dict) -> dict[str, tuple[list
     H = P["horizon_sessions"]
     complete = np.isfinite(x).all(axis=1)
     if not complete.any():
-        raise SystemExit(f"{name}: no session has every input")
+        # No session has every input, so nothing can be fitted or scored. That is this subject's missing score, not a reason
+        # to stop: the caller carries its last live state or records a gap, and goes on to the other subjects.
+        empty = [None] * len(sessions)
+        return {gate: (list(empty), [list(empty) for _ in registration["gates"][gate]["seeds"]]) for gate in subject["gates"]}
     first = sessions[int(np.argmax(complete))]
     average = [forward_average_return(o, c, i, H) for i in range(len(sessions))]
     drawdowns = [forward_drawdown(o, c, i, H) if average[i] is not None else None for i in range(len(sessions))]
