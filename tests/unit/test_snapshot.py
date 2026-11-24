@@ -20,7 +20,7 @@ try:
     from quant_contracts.pit import SeriesBinding
     from quant_contracts.pit import Cutoff, SessionCalendar
     from quant_pit_data.asof import latest_common, load_daily_closes
-    from quant_pit_data.connectors.yahoo_chart import load_closes, load_daily
+    from quant_pit_data.connectors.yahoo_chart import close_dates, load_closes, load_daily, monthly_mean_closes
     from quant_pit_data.snapshots import problems
 except ModuleNotFoundError:
     SeriesBinding = None
@@ -157,7 +157,7 @@ class SnapshotTests(unittest.TestCase):
         live["chart"]["result"][0]["timestamp"][-1] = stamp(SESSION, 20, 49)  # the bar carries the quote's time, as a futures bar does
         self.served["ABC?period1"] = json.dumps(live).encode()
         self.assertEqual(self.run_it("--no-backup"), 0)
-        entry = self.manifest()["files"]["ABC.json"]
+        entry, done = self.manifest()["files"]["ABC.json"], [s for s in SESSIONS if s <= SESSION]
         self.assertEqual((entry["last_bar_is_a_live_quote"], "raw_sha256" in entry), ("2026-11-23", False))
         folder = self.root / "artifacts/snapshots/2026-11-23"
         self.assertEqual((folder / "ABC.json").read_bytes(), self.served["ABC?period1"])  # the row stays in the file
@@ -167,10 +167,40 @@ class SnapshotTests(unittest.TestCase):
         both = load_daily(folder / "ABC.json", b["yahoo:abc:open"], b["yahoo:abc:close"])
         self.assertEqual({o.series_id: max(x.session for x in both if x.series_id == o.series_id) for o in both},
                          {"yahoo:abc:open": SESSION, "yahoo:abc:close": date(2026, 11, 20)})
-        # Without its record the same file would give the quote as that day's close, so a snapshot missing it is unsound.
+        # The month's mean and the list of dates with a value leave the quote out as well.
+        self.assertEqual(monthly_mean_closes(folder / "ABC.json")["2026-11"], sum(101.0 + d.day for d in done[:-1]) / 3)
+        self.assertEqual(close_dates(folder / "ABC.json"), done[:-1])
+        # Without its record the file would give the quote as that day's close. The loaders refuse it, as the check does.
         (folder / entry["record_file"]["name"]).unlink()
-        self.assertEqual(max(o.session for o in load_closes(folder / "ABC.json", b["yahoo:abc:close"])), SESSION)
         self.assertEqual(problems(folder), ["the record of ABC.json is missing"])
+        for read in (lambda: load_closes(folder / "ABC.json", b["yahoo:abc:close"]), lambda: monthly_mean_closes(folder / "ABC.json")):
+            with self.assertRaisesRegex(ValueError, "the record of ABC.json is missing"):
+                read()
+
+    def test_a_record_the_manifest_does_not_declare_is_never_read(self):
+        self.assertEqual(self.run_it("--no-backup"), 0)  # nothing needed repair: no file has a record
+        folder, vix = self.root / "artifacts/snapshots/2026-11-23", SeriesBinding(**CATALOGUE["series"][2])
+        self.assertEqual(load_daily_closes(folder / "VIX.csv", vix)[-1].available_at.astimezone(NEW_YORK).strftime("%H:%M"), "16:30")
+        # Someone adds a record that would make the session's value late. No hash in the manifest changes.
+        (folder / "VIX.record.json").write_text(json.dumps({"repairs": [{"session": "2026-11-23", "field": "close", "stamped": "2026-11-23T18:00:00-05:00"}]}))
+        self.assertEqual(problems(folder), ["VIX.record.json is not declared by the manifest"])
+        with self.assertRaisesRegex(ValueError, "VIX.record.json is not declared"):
+            load_daily_closes(folder / "VIX.csv", vix)
+        self.assertEqual(self.run_it(), 1)  # and the snapshot is not backed up in that state
+        self.assertFalse((self.root / "run/backup/snapshots/2026-11-23").exists())
+
+    def test_a_manifest_in_the_earlier_record_format_is_refused_with_the_reason(self):
+        self.assertEqual(self.run_it("--no-backup"), 0)
+        folder = self.root / "artifacts/snapshots/2026-11-23"
+        manifest = self.manifest()
+        manifest["files"]["ABC.json"]["repair_file"] = {"name": "ABC.repair.json", "sha256": "0" * 64}
+        (folder / "manifest.json").write_text(json.dumps(manifest))
+        (folder / "ABC.repair.json").write_text("{}")
+        found = problems(folder)
+        self.assertTrue(any("earlier version of the snapshot command" in line for line in found) and any("ABC.repair.json" in line for line in found))
+        b = {s["series_id"]: SeriesBinding(**s) for s in CATALOGUE["series"]}
+        with self.assertRaisesRegex(ValueError, "earlier version of the snapshot command"):
+            load_daily(folder / "ABC.json", b["yahoo:abc:open"], b["yahoo:abc:close"])
 
     def test_a_bar_of_a_trading_period_still_open_at_download_is_marked_too(self):
         days = SESSIONS  # the 24th's bar exists already, stamped at midnight, in a period that runs to the end of the 24th

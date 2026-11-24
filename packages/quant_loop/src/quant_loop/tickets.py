@@ -29,6 +29,7 @@ from quant_evaluator.beta.risk_gate import forward_drawdown
 from quant_loop.daily_states import daily_states
 from quant_pit_data.asof import load_daily_closes, on_calendar
 from quant_pit_data.connectors.yahoo_chart import load_daily
+from quant_pit_data.snapshots import problems
 
 STATES = ("GREEN", "YELLOW", "RED")  # by number of stressed rules: none, one, two or more
 OPS = {">": operator.gt, "<": operator.lt}
@@ -71,6 +72,9 @@ def _load(root: Path, snapshot: Path, symbol: str):
     subject = next(s for s in registration["subjects"] if s["subject"] == symbol)
     bindings_dir = root / "knowledge_base/prior_knowledge/bindings"
     b = {s["series_id"]: SeriesBinding(**s) for s in json.loads((bindings_dir / "series_bindings.json").read_text())["series"]}
+    wrong = problems(snapshot)  # the same rule the loaders apply: every record read is declared, present and unchanged
+    if wrong:
+        raise SystemExit(f"the snapshot is not sound: {'; '.join(wrong)}")
     manifest = json.loads((snapshot / "manifest.json").read_text())
     hashes, where = {}, {}
     names = ["VIX.csv", "VIX3M.csv", "treasury_real_yield_10y.csv", f"{symbol}.json"] + sorted({s["calendar"] + ".json" for s in registration["signals"]})

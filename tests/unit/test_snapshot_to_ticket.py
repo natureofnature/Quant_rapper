@@ -91,10 +91,19 @@ class SnapshotToTicketTests(unittest.TestCase):
         record = folder / "QQQ.record.json"
         kept = record.read_text()
         record.write_text(kept.replace("16:00:02", "15:00:02"))
-        with self.assertRaisesRegex(SystemExit, "the record of QQQ.json does not match the snapshot manifest"):
+        with self.assertRaisesRegex(SystemExit, "the record of QQQ.json does not match the manifest"):
             emit(self.root, folder, "QQQ", SESSION, now=evening)
         record.unlink()
         with self.assertRaisesRegex(SystemExit, "the record of QQQ.json is missing"):
+            emit(self.root, folder, "QQQ", SESSION, now=evening)
+
+    def test_a_record_nobody_declared_cannot_change_a_ticket_behind_the_same_hashes(self):
+        evening = datetime.combine(SESSION, time(19, 0), NEW_YORK)
+        self.assertEqual(snapshot.main(["--no-backup"], root=self.root, fetcher=self.fetcher, pause=0.0, now=evening), 0)
+        folder = self.root / "artifacts/snapshots" / str(SESSION)
+        emit(self.root, folder, "QQQ", SESSION, now=evening)
+        (folder / "VIX.record.json").write_text(json.dumps({"repairs": [{"session": str(SESSION), "field": "close", "stamped": f"{SESSION}T18:00:00-05:00"}]}))
+        with self.assertRaisesRegex(SystemExit, "not sound: VIX.record.json is not declared by the manifest"):
             emit(self.root, folder, "QQQ", SESSION, now=evening)
 
     def test_a_shared_calendar_that_changed_since_the_snapshot_is_refused(self):

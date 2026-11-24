@@ -64,8 +64,10 @@ def close_dates(path: Path) -> list[date]:
     """
     data = _result(path)
     zone = ZoneInfo(data["meta"]["exchangeTimezoneName"])
+    live = _live_index(path, data, zone)  # an unfinished last bar is no day's close: its date is not yet a date with a value
     return sorted(datetime.fromtimestamp(stamp, zone).date()
-                  for stamp, closed in zip(data["timestamp"], data["indicators"]["quote"][0]["close"]) if closed is not None and closed > 0)
+                  for index, (stamp, closed) in enumerate(zip(data["timestamp"], data["indicators"]["quote"][0]["close"]))
+                  if closed is not None and closed > 0 and index != live)
 
 
 def monthly_mean_closes(path: Path) -> dict[str, float]:
@@ -76,8 +78,9 @@ def monthly_mean_closes(path: Path) -> dict[str, float]:
     """
     data = _result(path)
     zone, months = ZoneInfo(data["meta"]["exchangeTimezoneName"]), {}
-    for stamp, closed in zip(data["timestamp"], data["indicators"]["quote"][0]["close"]):
-        if closed is not None:
+    live = _live_index(path, data, zone)  # an unfinished last bar is a quote, not a close, and is left out of its month
+    for index, (stamp, closed) in enumerate(zip(data["timestamp"], data["indicators"]["quote"][0]["close"])):
+        if closed is not None and index != live:
             months.setdefault(datetime.fromtimestamp(stamp, zone).strftime("%Y-%m"), []).append(closed)
     return {month: sum(values) / len(values) for month, values in months.items()}
 
