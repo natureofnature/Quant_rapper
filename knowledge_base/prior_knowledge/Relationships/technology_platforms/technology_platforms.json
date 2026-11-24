@@ -4,7 +4,7 @@
   "sector_id": "technology_platforms",
   "label": "Technology Platforms",
   "compiled_on": "2026-11-24",
-  "content_revision": "2026-11-24.1",
+  "content_revision": "2026-11-24.2",
   "levels": {
     "L1": {
       "label": "Macro and policy",
@@ -88,7 +88,8 @@
         "concept:technology_platforms:ad_spending",
         "concept:technology_platforms:enterprise_it",
         "concept:technology_platforms:consumer_devices",
-        "concept:technology_platforms:ai_adoption"
+        "concept:technology_platforms:ai_adoption",
+        "concept:technology_platforms:compute_demand"
       ]
     }
   ],
@@ -330,6 +331,17 @@
         "retention and deployments",
         "customer return-on-investment commentary"
       ]
+    },
+    {
+      "id": "concept:technology_platforms:compute_demand",
+      "label": "Compute demand",
+      "node_kind": "variable",
+      "description_lead": "How much computing customers run, whatever the workload",
+      "observables_to_research": [
+        "usage or consumption the company reports",
+        "workload migrations and new deployments",
+        "customer commitments for capacity"
+      ]
     }
   ],
   "concept_edges": [
@@ -357,10 +369,10 @@
       "mechanism_hypothesis": "Changes in investor risk appetite can contribute to group-wide moves.",
       "test_criteria": {
         "trigger": "VIX closes above VIX3M after at least 20 sessions below it.",
-        "observable": "The company's return and QQQ's return over the following 20 US sessions.",
+        "observable": "The company's return and QQQ's return over the following 20 US sessions, and any company news dated in those sessions.",
         "window": "The 20 sessions after that close.",
-        "supports_if": "The company and QQQ move in the same direction and the company's return is within 5 percentage points of QQQ's.",
-        "contradicts_if": "The company's return differs from QQQ's by more than 5 percentage points with no company news dated in the window, or the difference is traced to dated company news."
+        "supports_if": "The company's return is within 5 percentage points of QQQ's.",
+        "contradicts_if": "The company's return differs from QQQ's by more than 5 percentage points and no company news dated in the window accounts for the difference. A difference that such news accounts for settles nothing."
       }
     },
     {
@@ -622,25 +634,40 @@
       "mechanism_hypothesis": "Paid adoption and retention may determine whether AI usage produces sustainable revenue.",
       "test_criteria": {
         "trigger": "The company discloses paid users, a revenue run rate or a price for an AI product.",
-        "observable": "The same disclosure in later quarters, and retention where the company gives it.",
+        "observable": "The same disclosure in later quarters, and retention where the company gives it. If the company stops the disclosure, that is a data gap and settles nothing.",
         "window": "The four fiscal quarters after the first disclosure.",
         "supports_if": "Paid users or revenue rise across the four quarters without a price cut.",
-        "contradicts_if": "The disclosure stops, the price is cut, or paid users fall."
+        "contradicts_if": "The disclosure continues and shows the price cut or paid users falling."
       }
     },
     {
-      "id": "lead:technology_platforms:ai_adoption:compute_demand:cloud",
-      "from": "concept:technology_platforms:ai_adoption",
+      "id": "lead:technology_platforms:compute_demand:usage:cloud",
+      "from": "concept:technology_platforms:compute_demand",
       "to": "concept:technology_platforms:cloud",
-      "type": "compute_demand",
+      "type": "usage",
       "relation_kind": "mechanism_hypothesis",
       "mechanism_hypothesis": "Growth in customer compute demand can increase cloud usage, subject to available capacity.",
       "test_criteria": {
-        "trigger": "The company attributes a change in its cloud revenue growth to how much computing its customers use.",
-        "observable": "Cloud revenue growth, the usage or workload the company names as the driver, and its statements on available capacity.",
-        "window": "The four fiscal quarters after the first such statement.",
-        "supports_if": "Cloud revenue growth rises in the quarters where the company reports higher compute usage, or the company says growth was limited by capacity and not by demand.",
-        "contradicts_if": "The company reports higher compute usage while cloud revenue growth falls, and it reports no capacity limit."
+        "trigger": "The company or its customers report a change in how much computing customers run: new deployments, migrations of existing workloads, or cutbacks.",
+        "observable": "The cloud usage or consumption measure the company reports, and its statements on available capacity. Revenue is not part of this test.",
+        "window": "The fiscal quarter of the report and the next.",
+        "supports_if": "Reported usage changes in the direction of the demand change, or the company says usage was held back by capacity.",
+        "contradicts_if": "Demand is reported to have risen, the company reports no capacity limit, and its usage measure does not rise."
+      }
+    },
+    {
+      "id": "lead:technology_platforms:compute_demand:revenue_conversion:cloud",
+      "from": "concept:technology_platforms:compute_demand",
+      "to": "concept:technology_platforms:cloud",
+      "type": "revenue_conversion",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Cloud usage becomes revenue at the prices charged, so price changes and discounts can move revenue apart from usage.",
+      "test_criteria": {
+        "trigger": "The company reports cloud usage growth and cloud revenue growth for the same fiscal quarter.",
+        "observable": "Cloud revenue growth against usage growth, and the price changes or discounts the company reports for that quarter.",
+        "window": "That fiscal quarter.",
+        "supports_if": "Revenue growth and usage growth move in the same direction, and the company reports no price change that would explain a difference between them.",
+        "contradicts_if": "Usage growth rises while revenue growth falls, and the company reports no price cut or discount."
       }
     },
     {
@@ -652,10 +679,10 @@
       "mechanism_hypothesis": "Paid AI features may change subscription value, pricing and usage; verify adoption rather than assuming uplift.",
       "test_criteria": {
         "trigger": "A paid AI feature of a subscription product becomes generally available at a stated price.",
-        "observable": "The seats the company discloses for the feature and the revenue per user of the product that carries it.",
+        "observable": "The seats the company discloses for the feature and the revenue per user of the product that carries it. If seats are not disclosed, that is a data gap and settles nothing.",
         "window": "The four fiscal quarters after general availability.",
         "supports_if": "Disclosed seats grow and revenue per user rises.",
-        "contradicts_if": "Seats are not disclosed or do not grow, and revenue per user is unchanged."
+        "contradicts_if": "Disclosed seats do not grow and revenue per user is unchanged."
       }
     }
   ]

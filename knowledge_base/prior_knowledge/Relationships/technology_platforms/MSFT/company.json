@@ -5,13 +5,13 @@
   "symbol": "MSFT",
   "name": "Microsoft",
   "compiled_on": "2026-11-24",
-  "content_revision": "2026-11-24.1",
+  "content_revision": "2026-11-24.2",
   "status": "exploratory_leads",
   "sector": {
     "id": "technology_platforms",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-24.1",
-    "content_sha256": "f9309c3f82e3f6d75ff2cdec7093ceea925fcf8e77f777f908f3bd77272c528c"
+    "content_revision": "2026-11-24.2",
+    "content_sha256": "bdc27ee3251e65672a3b1c94f263a09b03a13ee6ed1269938c25c5c0e48a9a4b"
   },
   "business_roles": [
     {
@@ -47,5 +47,13 @@
     "excluded_edge_ids": [],
     "edge_conditions": {}
   },
-  "evidence": []
+  "evidence": [],
+  "retired_ids": [
+    {
+      "id": "lead:technology_platforms:ai_adoption:compute_demand:cloud",
+      "replaced_by": "lead:technology_platforms:compute_demand:usage:cloud",
+      "retired_on": "2026-11-24",
+      "reason": "The lead ran from AI adoption, so any other source of compute demand was filed under it. It now runs from compute demand, with revenue conversion as a separate lead."
+    }
+  ]
 }

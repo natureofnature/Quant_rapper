@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "kind": "factor_definitions",
-  "content_revision": "2026-11-24.2",
+  "content_revision": "2026-11-24.3",
   "describe": "How each bound series is turned into a factor, and which concept of the prior it measures. The generator makes candidates only from these definitions, so adding a transform is a recorded, versioned change. A proxy is named as a proxy and is never reported as the concept itself.",
   "prior_commit": "6a16bae29f6c981508ab1a1823bf77d286f41fec",
   "factors": [
@@ -143,10 +143,10 @@
     "yahoo:msft:close": "4a6b773fa4f35fa9de064119084687e6ce82ea48e66b41fbf8992969dc990d27",
     "yahoo:googl:open": "193f3e3eacd51c9fcce62d865155d33358f4c37801ae579a6e937e33a5ca76ff",
     "yahoo:googl:close": "c37565438ef0dfe41b2e736c13a10cf4339e0a33250e827fdb7d0451fac13661",
-    "yahoo:igv:close": "4a3b7c08be06cd5d9d1be7126d6986f0ec31f8321bf014691dba2d413bc0e7fb",
-    "yahoo:srvr:close": "6e429131f64a1f28f62f5dd59db454572542f3930bd1db95ae2db3d3e8a13236",
-    "derived:igv_over_qqq": "ce79a54d525d63a5e85b27b79453f108d3ac40f7a68338fea7781294c4947448",
-    "derived:srvr_over_spy": "39ac8db13a093e04bf5fffb2d26e69da4087fc293cc826dfd5153f4a5da52f15",
-    "derived:soxx_over_qqq": "89a45f7623b77e8edd465f2c63ab9434d28786cd62f70271d93eff70a713b848"
+    "yahoo:igv:close": "b32ab97930de47a673d5cea7c2e33e77a19a9ce65d384d7f99f8a40c3833bf63",
+    "yahoo:srvr:close": "52353ded6b0f281c73cfe4bf0f57cf953c4064efd7b17986a4ac708afe6ae819",
+    "derived:igv_over_qqq": "0e559f7684361e8f69aed1bbb122c784525f4b7fd5c649d9f027e1300e2a2b38",
+    "derived:srvr_over_spy": "f2560255e019599b3ee976f29a4f3afe5561fe948e90b46d31a6b231c400218d",
+    "derived:soxx_over_qqq": "3666a715a04fe0abb4646c42e5d01b57b3a6e9990c3dadd2f9d97981154d12de"
   }
 }

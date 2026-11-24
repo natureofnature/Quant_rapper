@@ -2,7 +2,7 @@
   "schema_version": "2.0.0",
   "kind": "series_bindings",
   "compiled_on": "2026-11-24",
-  "content_revision": "2026-11-24.1",
+  "content_revision": "2026-11-24.2",
   "describe": "Machine-readable sources and availability rules for observables named in the research maps. A binding says when a value became knowable; it makes no claim about what the value means.",
   "series": [
     {
@@ -288,7 +288,8 @@
       "publication_delay_minutes": 15,
       "availability_basis": "assumed",
       "revisable": true,
-      "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ. iShares Expanded Tech-Software Sector ETF. First traded 2001-07-17; no earlier value exists. The fund holds Microsoft, so for Microsoft it partly measures the subject itself."
+      "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ. iShares Expanded Tech-Software Sector ETF. First traded 2001-07-17; no earlier value exists. The fund holds Microsoft, so for Microsoft it partly measures the subject itself.",
+      "first_published": "2001-07-17"
     },
     {
       "series_id": "yahoo:srvr:close",
@@ -303,7 +304,8 @@
       "publication_delay_minutes": 15,
       "availability_basis": "assumed",
       "revisable": true,
-      "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ. Pacer Data & Infrastructure Real Estate ETF. First traded 2018-05-16; no earlier value exists. It holds tower and other infrastructure property as well as data centres."
+      "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ. Pacer Data & Infrastructure Real Estate ETF. First traded 2018-05-16; no earlier value exists. It holds tower and other infrastructure property as well as data centres.",
+      "first_published": "2018-05-16"
     },
     {
       "series_id": "derived:igv_over_qqq",
@@ -318,7 +320,8 @@
       "publication_delay_minutes": 15,
       "availability_basis": "assumed",
       "revisable": true,
-      "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with IGV on 2001-07-17."
+      "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with IGV on 2001-07-17.",
+      "first_published": "2001-07-17"
     },
     {
       "series_id": "derived:srvr_over_spy",
@@ -333,7 +336,8 @@
       "publication_delay_minutes": 15,
       "availability_basis": "assumed",
       "revisable": true,
-      "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with SRVR on 2018-05-16."
+      "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with SRVR on 2018-05-16.",
+      "first_published": "2018-05-16"
     },
     {
       "series_id": "derived:soxx_over_qqq",
@@ -348,7 +352,8 @@
       "publication_delay_minutes": 15,
       "availability_basis": "assumed",
       "revisable": true,
-      "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with SOXX on 2001-07-13."
+      "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with SOXX on 2001-07-13.",
+      "first_published": "2001-07-13"
     }
   ],
   "events": [
