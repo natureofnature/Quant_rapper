@@ -11,6 +11,7 @@ import json
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from quant_pit_data.snapshots import record_name
 from quant_contracts.pit import (AsOfResult, AuditNote, Cutoff, Observation, SeriesBinding,
                                  SessionCalendar, SkippedSession, WindowedAsOf)
 
@@ -30,15 +31,25 @@ def observe(binding: SeriesBinding, session: date, value: float,
                        source_url=binding.source_url)
 
 
-def repairs(path: Path) -> dict[date, datetime]:
-    """Sessions whose close in ``path`` was filled in at download, each with the time the quote that filled it was stamped.
+def file_record(path: Path) -> dict:
+    """What the snapshot command recorded about ``path`` beside it, in ``<name>.record.json``; empty when there is no record.
 
-    The snapshot command records them beside the file, in ``<name>.repair.json``. A file with no such record has none.
+    A missing record cannot be told from a file that needed none, so a snapshot is checked
+    against its manifest (``quant_pit_data.snapshots.problems``) before its files are read.
     """
-    record = path.with_name(path.stem + ".repair.json")
-    if not record.is_file():
-        return {}
-    return {date.fromisoformat(r["session"]): datetime.fromisoformat(r["stamped"]) for r in json.loads(record.read_text(encoding="utf-8"))["repairs"]}
+    record = path.with_name(record_name(path.name))
+    return json.loads(record.read_text(encoding="utf-8")) if record.is_file() else {}
+
+
+def repairs(path: Path) -> dict[date, datetime]:
+    """Sessions whose close in ``path`` was filled in at download, each with the time that establishes when the value was knowable."""
+    return {date.fromisoformat(r["session"]): datetime.fromisoformat(r["stamped"]) for r in file_record(path).get("repairs", [])}
+
+
+def unfinished_last_bar(path: Path) -> date | None:
+    """The date of the file's last bar when that bar is a quote from a trading period still open at download, not a finished day."""
+    day = file_record(path).get("unfinished_last_bar")
+    return None if day is None else date.fromisoformat(day)
 
 
 def observe_close(binding: SeriesBinding, session: date, value: float, repaired: dict[date, datetime]) -> Observation:

@@ -11,23 +11,36 @@ from zoneinfo import ZoneInfo
 
 from quant_contracts.pit import Observation, SeriesBinding
 
-from quant_pit_data.asof import observe, observe_close, published, repairs
+from quant_pit_data.asof import observe, observe_close, published, repairs, unfinished_last_bar
 
 
 def _result(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))["chart"]["result"][0]
 
 
+def _live_index(path: Path, data: dict, zone: ZoneInfo) -> int | None:
+    """The index of the last bar when the file's record says it is an unfinished quote: it is no day's close, so no close is read from it.
+
+    The row stays in the file. The record must name the last bar's own date, or the record belongs to another file.
+    """
+    day = unfinished_last_bar(path)
+    if day is None:
+        return None
+    if datetime.fromtimestamp(data["timestamp"][-1], zone).date() != day:
+        raise ValueError(f"the record of {path.name} names an unfinished bar on {day}, which is not the file's last bar")
+    return len(data["timestamp"]) - 1
+
+
 def load_daily(path: Path, open_binding: SeriesBinding, close_binding: SeriesBinding) -> list[Observation]:
     """One open and one close observation per session, on the snapshot's split basis, without dividends."""
     data = _result(path)
     zone, quote = ZoneInfo(data["meta"]["exchangeTimezoneName"]), data["indicators"]["quote"][0]
-    rows, repaired = [], repairs(path)
-    for stamp, opened, closed in zip(data["timestamp"], quote["open"], quote["close"]):
+    rows, repaired, live = [], repairs(path), _live_index(path, data, zone)
+    for index, (stamp, opened, closed) in enumerate(zip(data["timestamp"], quote["open"], quote["close"])):
         session = datetime.fromtimestamp(stamp, zone).date()
         if opened is not None:
             rows.append(observe(open_binding, session, opened))
-        if closed is not None:
+        if closed is not None and index != live:
             rows.append(observe_close(close_binding, session, closed, repaired))
     return published([open_binding, close_binding], rows)
 
@@ -36,8 +49,10 @@ def load_closes(path: Path, binding: SeriesBinding) -> list[Observation]:
     """One close observation per dated row that has a positive close, for a series read for its close only."""
     data = _result(path)
     zone, repaired = ZoneInfo(data["meta"]["exchangeTimezoneName"]), repairs(path)
+    live = _live_index(path, data, zone)
     return published([binding], [observe_close(binding, datetime.fromtimestamp(stamp, zone).date(), closed, repaired)
-                                 for stamp, closed in zip(data["timestamp"], data["indicators"]["quote"][0]["close"]) if closed is not None and closed > 0])
+                                 for index, (stamp, closed) in enumerate(zip(data["timestamp"], data["indicators"]["quote"][0]["close"]))
+                                 if closed is not None and closed > 0 and index != live])
 
 
 def close_dates(path: Path) -> list[date]:

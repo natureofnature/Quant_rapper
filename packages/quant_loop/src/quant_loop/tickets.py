@@ -83,6 +83,13 @@ def _load(root: Path, snapshot: Path, symbol: str):
         hashes[name] = hashlib.sha256(where[name].read_bytes()).hexdigest()
         if hashes[name] != entry["sha256"]:
             raise SystemExit(f"{name} does not match the snapshot manifest")
+        if "record_file" in entry:  # the loader dates and counts this file's values by its record, so the record is pinned too
+            record = snapshot / entry["record_file"]["name"]
+            if not record.is_file():
+                raise SystemExit(f"the record of {name} is missing: its values cannot be dated")
+            hashes[record.name] = hashlib.sha256(record.read_bytes()).hexdigest()
+            if hashes[record.name] != entry["record_file"]["sha256"]:
+                raise SystemExit(f"the record of {name} does not match the snapshot manifest")
     calendars = {s["calendar"]: SessionCalendar(**json.loads(where[s["calendar"] + ".json"].read_text())) for s in registration["signals"]}
     equity = calendars["us_equity_sessions_2002_2026"] if "us_equity_sessions_2002_2026" in calendars else next(iter(calendars.values()))
     prices = load_daily(snapshot / f"{symbol}.json", b[subject["open"]], b[subject["close"]])  # already floored at first publication

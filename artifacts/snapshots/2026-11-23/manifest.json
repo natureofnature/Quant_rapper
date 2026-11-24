@@ -15,7 +15,11 @@
       "rows": 6673,
       "rows_without_a_close": 80,
       "sha256": "a800a0539eb9e854f34de6854e35a2382e9c88c946d072aef231297c5993ac0f",
-      "last_bar_is_a_live_quote": "2026-11-24"
+      "last_bar_is_a_live_quote": "2026-11-24",
+      "record_file": {
+        "name": "CLF.record.json",
+        "sha256": "ce774b551a06cdba19a40831c019470f3a4c5eac14f5e84ac3a3784ad68c349b"
+      }
     },
     "DX-Y.NYB.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/DX-Y.NYB",
@@ -27,7 +31,11 @@
       "rows": 17321,
       "rows_without_a_close": 3128,
       "sha256": "1f52da50b2c26ca6a008707f0b782538eb274f26cd4403c099e974cad643abb8",
-      "last_bar_is_a_live_quote": "2026-11-24"
+      "last_bar_is_a_live_quote": "2026-11-24",
+      "record_file": {
+        "name": "DX-Y.NYB.record.json",
+        "sha256": "ce774b551a06cdba19a40831c019470f3a4c5eac14f5e84ac3a3784ad68c349b"
+      }
     },
     "FVX.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/^FVX",
@@ -50,7 +58,11 @@
       "rows": 6668,
       "rows_without_a_close": 83,
       "sha256": "94b37870af7f7210006036888faddd49b20c632b5eb1cc5436427ab954fcb13c",
-      "last_bar_is_a_live_quote": "2026-11-24"
+      "last_bar_is_a_live_quote": "2026-11-24",
+      "record_file": {
+        "name": "GCF.record.json",
+        "sha256": "ce774b551a06cdba19a40831c019470f3a4c5eac14f5e84ac3a3784ad68c349b"
+      }
     },
     "GOOGL.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/GOOGL",
@@ -74,7 +86,11 @@
       "rows": 6668,
       "rows_without_a_close": 79,
       "sha256": "6f0ebd6fbff507da663c9fcf647635ff50338607a0a1917717c12dd14ef55062",
-      "last_bar_is_a_live_quote": "2026-11-24"
+      "last_bar_is_a_live_quote": "2026-11-24",
+      "record_file": {
+        "name": "HGF.record.json",
+        "sha256": "ce774b551a06cdba19a40831c019470f3a4c5eac14f5e84ac3a3784ad68c349b"
+      }
     },
     "HYG.json": {
       "source": "https://query1.finance.yahoo.com/v8/finance/chart/HYG",
@@ -394,6 +410,6 @@
   },
   "metadata_corrected": {
     "on": "2026-11-24",
-    "what": "Added the live-quote flags that the saved bytes imply at the recorded download time (the 2026-11-24 bars of CLF, DX-Y.NYB, GCF and HGF), and the pins of the shared calendars. No file was downloaded again and no file hash changed."
+    "what": "Added the live-quote flags that the saved bytes imply at the recorded download time (the 2026-11-24 bars of CLF, DX-Y.NYB, GCF and HGF), a record beside each of those four files so that the loaders read no close from that bar, and the pins of the shared calendars. No file was downloaded again and no downloaded file's hash changed."
   }
 }

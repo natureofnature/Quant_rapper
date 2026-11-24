@@ -10,9 +10,10 @@ folders are git-ignored except for manifest.json: the data is not redistributed.
 
 A file is saved as the source served it. Two repairs are made, and only for the snapshot's own
 session. Each keeps the served bytes under raw/, is recorded in the manifest, and writes
-<name>.repair.json beside the file with the time the repairing quote was stamped: the loaders
-treat the value as knowable no earlier than that, so a quote stamped after a decision's cutoff
-cannot reach that decision.
+<name>.record.json beside the file with the time that establishes when the value was knowable:
+the stamp of the quote it came from, or, for a value that carries no time of its own, the moment
+its response was received. The loaders treat the value as knowable no earlier than that, so one
+that arrived after a decision's cutoff cannot reach that decision.
   * Yahoo can serve a finished session's bar with no close for some hours. The close is then
     taken from the same response's last regular-session price, if that price is stamped at or
     after the session's regular close.
@@ -20,7 +21,8 @@ cannot reach that decision.
     quote of the same index, if the two sources agree on the session before.
 Neither value is the source's final figure, and a later snapshot may hold a slightly different one.
 A market that trades around the clock (futures, the dollar index) is served with a last bar that is
-the live quote at download; the manifest marks it, and nothing repairs it.
+the live quote at download. Nothing repairs it: the row stays in the file, the record beside the
+file marks it, and the loaders read no close from it. The manifest pins every record by hash.
 
 A snapshot holds what was downloadable, not what was knowable at a decision: selection by
 availability time is done later, by the bindings.
@@ -47,6 +49,9 @@ import urllib.request
 from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "packages/quant_pit_data/src"))
+from quant_pit_data.snapshots import problems, record_name
+
 CATALOGUE = "knowledge_base/prior_knowledge/bindings/series_bindings.json"
 CALENDAR = "artifacts/snapshots/2026-11-22/us_equity_sessions_2002_2026.json"
 SHARED = (CALENDAR, "artifacts/snapshots/2026-11-22/us_treasury_yield_sessions_2003_2026.json",
@@ -136,7 +141,7 @@ def yahoo_file(data: bytes, session: date, now: datetime) -> tuple[bytes, dict]:
     period = (result["meta"].get("currentTradingPeriod") or {}).get("regular") or {}
     unfinished = period.get("start") is not None and period.get("end") is not None and period["start"] <= result["timestamp"][-1] and now.timestamp() < period["end"]
     if quote["close"][-1] is not None and (unfinished or result["timestamp"][-1] == result["meta"].get("regularMarketTime")):
-        note["last_bar_is_a_live_quote"] = str(days[-1])
+        note["last_bar_is_a_live_quote"] = note["unfinished_last_bar"] = str(days[-1])
     if days[-1] == session and quote["close"][-1] is None:
         found = last_regular_price(result, session)
         if found is None:
@@ -160,24 +165,31 @@ def cboe_rows(data: bytes) -> list[dict]:
     return rows
 
 
-def cboe_file(name: str, data: bytes, session: date, now: datetime, fetcher) -> tuple[bytes, dict, bytes | None]:
-    """The file to save, its manifest fields, and the Yahoo response used for a repair (None when none was needed)."""
+def cboe_file(name: str, data: bytes, session: date, now: datetime, fetcher, received) -> tuple[bytes, dict, bytes | None]:
+    """The file to save, its manifest fields, and the Yahoo response used for a repair (None when none was needed).
+
+    ``received`` gives the current time; it is read once the other source's response has arrived.
+    """
     rows = cboe_rows(data)
     note = {"first_session": str(rows[0]["_day"]), "last_session": str(rows[-1]["_day"]), "rows": len(rows)}
     if rows[-1]["_day"] >= session or name not in CBOE_ON_YAHOO:
         return data, note, None
     other = fetcher(yahoo_url(CBOE_ON_YAHOO[name], now, recent=True))
+    arrived = received().astimezone(NEW_YORK)
     _, result, days = yahoo_bars(other)
     quote = result["indicators"]["quote"][0]
     bars = {d: i for i, d in enumerate(days)}
     previous, here = bars.get(rows[-1]["_day"]), bars.get(session)
     close = None if here is None else quote["close"][here]
     found = last_regular_price(result, session)
+    # Each value keeps the time that establishes it. A quote is stamped, and it also dates a bar close equal to it. A bar
+    # close that no stamped quote matches carries no time of its own, so it is knowable only from when its response arrived.
     if close is None and here is not None and found:
-        close = found[0]
-    # The row is knowable no earlier than the quote it is taken from. A finished bar carries no time of its own, so
-    # without a quote stamped on the session the download time stands in: late, never early.
-    stamped = found[1] if found else now.astimezone(NEW_YORK)
+        close, stamped, basis = found[0], found[1], "the stamp of the quote the value was taken from"
+    elif close is not None and found and abs(found[0] - close) < 1e-6:
+        stamped, basis = found[1], "the stamp of a quote equal to the bar's close"
+    else:
+        stamped, basis = arrived, "the time the response was received: the bar's close carries no time of its own"
     problem = ("the other source has no close for the session" if close is None else
                "the other source has no value for the file's last session" if previous is None or quote["close"][previous] is None else
                "the two sources disagree on the file's last session" if abs(quote["close"][previous] - float(rows[-1]["CLOSE"])) > AGREE else None)
@@ -190,7 +202,7 @@ def cboe_file(name: str, data: bytes, session: date, now: datetime, fetcher) -> 
     text = data.decode("utf-8").rstrip("\r\n") + "\n" + ",".join(cells.get(k, "") for k in header) + "\n"
     note.update(last_session=str(session), rows=len(rows) + 1, raw_sha256=digest(data),
                 appended_session_row={"close": float(cells["CLOSE"]), "from": f"Yahoo {CBOE_ON_YAHOO[name]}",
-                                      "agreement_checked_on": str(rows[-1]["_day"]), "stamped": stamped.isoformat()},
+                                      "agreement_checked_on": str(rows[-1]["_day"]), "stamped": stamped.isoformat(), "stamp_is": basis},
                 repair={"session": str(session), "field": "close", "stamped": stamped.isoformat()})
     return text.encode("utf-8"), note, other
 
@@ -220,7 +232,7 @@ def latest_closed_session(sessions: list[date], now: datetime) -> date:
 
 
 def build(folder: Path, session: date, now: datetime, catalogue_bytes: bytes, previous: Path | None, fetcher, pause: float,
-          shared: dict[str, dict]) -> dict:
+          shared: dict[str, dict], received) -> dict:
     """Download everything into ``folder`` and return the manifest. Raises on the first source that fails."""
     files, left_out = plan(json.loads(catalogue_bytes))
     manifest = {"snapshot": str(session), "session": str(session), "downloaded_at": now.astimezone(timezone.utc).isoformat(),
@@ -245,7 +257,7 @@ def build(folder: Path, session: date, now: datetime, catalogue_bytes: bytes, pr
             save(name, data, raw if "raw_sha256" in note else None)
         elif kind == "cboe":
             raw = fetcher(entry["source"])
-            data, note, other = cboe_file(name, raw, session, now, fetcher)
+            data, note, other = cboe_file(name, raw, session, now, fetcher, received)
             save(name, data, raw if "raw_sha256" in note else None)
             if other is not None:
                 save(f"raw/{Path(name).stem}_yahoo.json", other)
@@ -264,11 +276,12 @@ def build(folder: Path, session: date, now: datetime, catalogue_bytes: bytes, pr
             if reused:
                 note["years_reused_from"] = f"{previous.name}: {reused[0]} to {reused[-1]}"
             save(name, data)
-        repair = note.pop("repair", None)
-        if repair is not None:  # read by the loaders: the repaired value is knowable no earlier than the quote that supplied it
-            record = json.dumps({"repairs": [repair]}, indent=1).encode("utf-8") + b"\n"
-            save(f"{Path(name).stem}.repair.json", record)
-            note["repair_file"] = {"name": f"{Path(name).stem}.repair.json", "sha256": digest(record)}
+        record = {**({"repairs": [note.pop("repair")]} if "repair" in note else {}),
+                  **({"unfinished_last_bar": note.pop("unfinished_last_bar")} if "unfinished_last_bar" in note else {})}
+        if record:  # read by the loaders, and pinned here: without it the file's values would be dated or counted wrongly
+            written = json.dumps(record, indent=1).encode("utf-8") + b"\n"
+            save(record_name(name), written)
+            note["record_file"] = {"name": record_name(name), "sha256": digest(written)}
         manifest["files"][name] = {**entry, **note, "sha256": digest(data)}
         clock.sleep(pause)
     return manifest
@@ -276,13 +289,6 @@ def build(folder: Path, session: date, now: datetime, catalogue_bytes: bytes, pr
 
 def checksums(folder: Path) -> str:
     return "".join(f"{digest(p.read_bytes())}  ./{p.relative_to(folder).as_posix()}\n" for p in sorted(folder.rglob("*")) if p.is_file() and p.name != "SHA256SUMS")
-
-
-def verify(folder: Path) -> list[str]:
-    """Names of the files in a written snapshot that are missing or no longer match its manifest."""
-    manifest = json.loads((folder / "manifest.json").read_text(encoding="utf-8"))
-    return [name for name, entry in manifest["files"].items()
-            if not (folder / name).is_file() or digest((folder / name).read_bytes()) != entry["sha256"]]
 
 
 def back_up(folder: Path, copy: Path) -> None:
@@ -297,11 +303,14 @@ def back_up(folder: Path, copy: Path) -> None:
         shutil.rmtree(work, ignore_errors=True)
 
 
-def main(arguments: list[str] | None = None, root: Path = ROOT, fetcher=fetch, pause: float = 0.6, now: datetime | None = None) -> int:
+def main(arguments: list[str] | None = None, root: Path = ROOT, fetcher=fetch, pause: float = 0.6, now: datetime | None = None,
+         received=None) -> int:
+    """``now`` is when the run starts and ``received`` gives the time a response arrived; both default to the clock."""
     parser = argparse.ArgumentParser(description="Download every network-bound series into one snapshot folder.")
     parser.add_argument("--session", type=date.fromisoformat, help="the US session the snapshot is for; default: the latest one that has closed")
     parser.add_argument("--no-backup", action="store_true", help="do not copy the snapshot to run/backup/snapshots/")
     args = parser.parse_args(arguments)
+    received = received or ((lambda: now) if now is not None else (lambda: datetime.now(timezone.utc)))
     now = now or datetime.now(timezone.utc)
     sessions = [date.fromisoformat(s) for s in json.loads((root / CALENDAR).read_text(encoding="utf-8"))["sessions"]]
     session = args.session or latest_closed_session(sessions, now)
@@ -317,9 +326,9 @@ def main(arguments: list[str] | None = None, root: Path = ROOT, fetcher=fetch, p
         if args.no_backup or copy.exists():
             print(f"{target.relative_to(root)} already exists: a snapshot is written once", file=sys.stderr)
             return 1
-        wrong = verify(target)
+        wrong = problems(target)
         if wrong:
-            print(f"{target.relative_to(root)} exists but does not match its manifest ({', '.join(wrong)}): not copied", file=sys.stderr)
+            print(f"{target.relative_to(root)} exists but does not match its manifest ({'; '.join(wrong)}): not copied", file=sys.stderr)
             return 1
         back_up(target, copy)
         print(f"{target.relative_to(root)} was already written and matches its manifest; copied to {copy.relative_to(root)}")
@@ -329,7 +338,7 @@ def main(arguments: list[str] | None = None, root: Path = ROOT, fetcher=fetch, p
     work = Path(tempfile.mkdtemp(prefix=f".{session}.partial.", dir=home))
     try:
         shared = {Path(p).name: {"path": p, "sha256": digest((root / p).read_bytes())} for p in SHARED}
-        manifest = build(work, session, now, (root / CATALOGUE).read_bytes(), earlier[-1].parent if earlier else None, fetcher, pause, shared)
+        manifest = build(work, session, now, (root / CATALOGUE).read_bytes(), earlier[-1].parent if earlier else None, fetcher, pause, shared, received)
         (work / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         os.rename(work, target)  # refuses a non-empty target, so two runs cannot both publish
     except Exception as error:  # any source failing publishes nothing: the day can be retried

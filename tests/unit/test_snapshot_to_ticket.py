@@ -70,6 +70,33 @@ class SnapshotToTicketTests(unittest.TestCase):
             self.assertEqual(value, pinned["sha256"], name)
         self.assertLessEqual({Path(p).name for p in snapshot.SHARED[:2]}, set(ticket.snapshot_sha256))
 
+    def test_a_ticket_from_a_repaired_close_carries_the_record_and_is_refused_without_it(self):
+        evening, served = datetime.combine(SESSION, time(19, 0), NEW_YORK), self.fetcher
+
+        def with_unfinished_close(url):  # QQQ's bar for the session has no close yet; the response's own quote, stamped 16:00:02, fills it
+            data = served(url)
+            if "/chart/QQQ" not in url:
+                return data
+            whole = json.loads(data)
+            result = whole["chart"]["result"][0]
+            price, result["indicators"]["quote"][0]["close"] = result["indicators"]["quote"][0]["close"][-1], result["indicators"]["quote"][0]["close"][:-1] + [None]
+            result["meta"].update(regularMarketPrice=price, regularMarketTime=int(datetime.combine(SESSION, time(16, 0, 2), NEW_YORK).timestamp()))
+            return json.dumps(whole).encode()
+
+        self.assertEqual(snapshot.main(["--no-backup"], root=self.root, fetcher=with_unfinished_close, pause=0.0, now=evening), 0)
+        folder = self.root / "artifacts/snapshots" / str(SESSION)
+        manifest = json.loads((folder / "manifest.json").read_text())
+        ticket = emit(self.root, folder, "QQQ", SESSION, now=evening)
+        self.assertEqual(ticket.snapshot_sha256["QQQ.record.json"], manifest["files"]["QQQ.json"]["record_file"]["sha256"])
+        record = folder / "QQQ.record.json"
+        kept = record.read_text()
+        record.write_text(kept.replace("16:00:02", "15:00:02"))
+        with self.assertRaisesRegex(SystemExit, "the record of QQQ.json does not match the snapshot manifest"):
+            emit(self.root, folder, "QQQ", SESSION, now=evening)
+        record.unlink()
+        with self.assertRaisesRegex(SystemExit, "the record of QQQ.json is missing"):
+            emit(self.root, folder, "QQQ", SESSION, now=evening)
+
     def test_a_shared_calendar_that_changed_since_the_snapshot_is_refused(self):
         evening = datetime.combine(SESSION, time(19, 0), NEW_YORK)
         self.assertEqual(snapshot.main(["--no-backup"], root=self.root, fetcher=self.fetcher, pause=0.0, now=evening), 0)
