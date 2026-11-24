@@ -78,6 +78,25 @@ class ModelGateTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             gate_states(quiet, red_quantile=0.5, yellow_quantile=0.7)
 
+    def test_the_gate_taken_one_decision_at_a_time_is_the_gate_taken_over_a_whole_history(self):
+        from quant_evaluator.beta.model_gate import gate_position, score_level, step
+        import random
+        rng = random.Random(3)
+        scores = [None if rng.random() < 0.05 else rng.random() for _ in range(400)]
+        settings = dict(red_quantile=0.85, yellow_quantile=0.70, window=60, min_scores=20, step_down_after=3)
+        whole = gate_states(scores, **settings)
+        state, below, past = None, [], []
+        for i, score in enumerate(scores):  # the same rule applied step by step, as a ticket chain applies it
+            if score is None:
+                below = []
+            else:
+                level = score_level(past, score, 0.85, 0.70, 60, 20)
+                if level is not None:
+                    state, below = step(state, below, level, 3)
+                past.append(score)
+            self.assertEqual(state, whole[i][0], i)
+            self.assertEqual(gate_position(scores[:i + 1], **settings), (state, below), i)
+
     def test_recall_counts_alerts_on_the_worst_outcomes_among_decisions_that_have_both(self):
         outcomes = [-0.30, -0.20, -0.01, 0.00, 0.01, 0.02, 0.03, 0.04, 0.05, None]
         alerts = [True, False, True, False, False, False, False, False, False, True]

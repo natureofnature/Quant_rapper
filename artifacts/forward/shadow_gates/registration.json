@@ -8,8 +8,7 @@
   "The review rule of RFC-006 section 5 is to be copied here in full, with its dates.",
   "The issuing machine is to be named in \"issuer\".",
   "The session calendar and the FOMC schedule end in 2026; the 2027 files are to be pinned.",
-  "The code commit and the pinned files' hashes are to be set, and this status line replaced.",
-  "The state rule above is the builder's proposal and is to be confirmed by the owner."
+  "The code commit and the pinned files' hashes are to be set, and this status line replaced."
  ],
  "code": {
   "commit": null
@@ -24,7 +23,7 @@
   "artifacts/snapshots/2026-11-22/announcement_dates_2002_2026.json": "59220008873006c1a887fb356cadb28964b0b86d7b7c706a9303716f03ec953c"
  },
  "pinned_files_note": "These decide which values a decision may read: the bindings set each series' availability time and first publication, the definitions and schedule set the inputs, and the calendars set the sessions. A ticket is refused if any differs. The hashes here are the draft's and are set again when it is registered; changing one afterwards is an amendment.",
- "state_rule": "On a session with a score, the state is the gate's procedure applied to that session's snapshot: every session with a score in that data counts toward the thresholds and toward the three-session step-down, whether or not a ticket was issued for it. On a session without a score, because an input was missing, the ticket carries the state of the issuer's last live ticket of the same gate and subject and the step-down count starts again; with no such ticket, a gap is recorded and no state. A session with no ticket at all is a missed ticket: for exposure it holds the last live ticket's state, as RFC-006 section 3.3 says.",
+ "state_rule": "The gate's state follows the record of what was issued. A session's level is its score against the registered quantiles of the earlier scores in that session's snapshot. That level is applied to the state and step-down run of the issuer's live ticket of the session before: the state rises at once, and falls after three consecutive scored sessions below it, to the highest level of that run. After a session with no score, no ticket, or a ticket written late, the last live ticket's state is kept and the run starts again; a value that a later download fills in does not make such a session count. A gate's first ticket takes its state and run from the same rule applied to the whole history in that snapshot. On a session without a score the ticket carries the last live ticket's state; with no such ticket, a gap is recorded and no state. One decision has one official record, a ticket or a gap, whichever was written first; a later computation for it is kept apart as a replay. For exposure, a session with no live ticket holds the last live ticket's state, as RFC-006 section 3.3 says. The thresholds are still estimated from the scores in the day's snapshot, so a restated history can move them slightly.",
  "subjects": [
   {
    "subject": "SOXX",

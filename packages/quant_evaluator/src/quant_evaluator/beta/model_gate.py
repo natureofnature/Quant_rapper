@@ -46,6 +46,43 @@ def walk_forward_left_tail(sessions: list[date], features: np.ndarray, classes: 
     return scores
 
 
+def score_level(previous: Sequence[float], score: float, red_quantile: float = 0.85, yellow_quantile: float = 0.70,
+                window: int = 504, min_scores: int = 252) -> int | None:
+    """The level of one score against quantiles of the scores before it: GREEN 0, YELLOW 1, RED 2. None with too few before it."""
+    if len(previous) < min_scores:
+        return None
+    recent = np.array(previous[-window:])
+    return RED if score >= np.quantile(recent, red_quantile) else YELLOW if score >= np.quantile(recent, yellow_quantile) else GREEN
+
+
+def step(state: int | None, below: Sequence[int], level: int, step_down_after: int = 3) -> tuple[int, list[int]]:
+    """One scored decision: (the state after it, the run of levels below that state so far).
+
+    The state rises at once. It falls only when ``step_down_after`` consecutive scored
+    decisions have a level below it, and then to the highest level of that run.
+    """
+    if state is None or level >= state:
+        return level, []
+    run = [*below, level]
+    return (max(run), []) if len(run) >= step_down_after else (state, run)
+
+
+def gate_position(scores: Sequence[float | None], red_quantile: float = 0.85, yellow_quantile: float = 0.70,
+                  window: int = 504, min_scores: int = 252, step_down_after: int = 3) -> tuple[int | None, list[int]]:
+    """Where the gate stands after the last decision: (its state, the run of levels below that state so far). The rule of ``gate_states``."""
+    past: list[float] = []
+    state, below = None, []
+    for score in scores:
+        if score is None:
+            below = []
+            continue
+        level = score_level(past, score, red_quantile, yellow_quantile, window, min_scores)
+        if level is not None:
+            state, below = step(state, below, level, step_down_after)
+        past.append(score)
+    return state, below
+
+
 def gate_states(scores: Sequence[float | None], red_quantile: float = 0.85, yellow_quantile: float = 0.70,
                 window: int = 504, min_scores: int = 252, step_down_after: int = 3) -> list[tuple[int | None, bool]]:
     """Gate state per decision, as (state, held): GREEN 0, YELLOW 1, RED 2, or None before the gate starts.
@@ -68,16 +105,9 @@ def gate_states(scores: Sequence[float | None], red_quantile: float = 0.85, yell
             out.append((state, state is not None))
             below = []  # not consecutive any more
             continue
-        if len(past) >= min_scores:
-            recent = np.array(past[-window:])
-            level = RED if score >= np.quantile(recent, red_quantile) else \
-                YELLOW if score >= np.quantile(recent, yellow_quantile) else GREEN
-            if state is None or level >= state:
-                state, below = level, []
-            else:
-                below.append(level)
-                if len(below) >= step_down_after:
-                    state, below = max(below), []
+        level = score_level(past, score, red_quantile, yellow_quantile, window, min_scores)
+        if level is not None:
+            state, below = step(state, below, level, step_down_after)
         out.append((state, False))
         past.append(score)
     return out

@@ -68,6 +68,15 @@ class ShadowTicket(Contract):
     state: GateState
     target_exposure: float
     held: bool  # True when the session has no score, because an input was missing, and the previous state is carried
+    # The gate's state follows the record of what was issued, not a history recomputed later. ``continues`` says where this
+    # ticket's state starts from: the registered procedure on this snapshot's history for a gate's first ticket; the live
+    # ticket of the session before; or, after a held, missed or late session, the last live ticket's state with the
+    # step-down count started again. ``level`` is this session's own level against the thresholds, and ``run`` the levels
+    # of the consecutive scored sessions below the state so far, this one included.
+    continues: Literal["first", "previous_session", "after_gap", "held"]
+    previous_ticket_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")  # the live ticket it continues from
+    level: int | None = Field(default=None, ge=0, le=2)
+    run: tuple[int, ...] = ()
     score: float | None  # the mean of ``seed_scores``; None when held
     seed_scores: tuple[float, ...]  # one per fitted seed, in the registration's order; empty when held
     model_month: Text = Field(pattern=r"^[0-9]{4}-[0-9]{2}$")  # the month whose refit scored this session
@@ -90,6 +99,10 @@ class ShadowTicket(Contract):
             raise ValueError("the score is the mean of the seed scores")
         if self.held and any(v is None for v in self.inputs.values()) is False:
             raise ValueError("a ticket is held only when an input is missing")
+        if self.held != (self.continues == "held") or self.held != (self.level is None) or (self.held and self.run):
+            raise ValueError("a held ticket has no level and no run, and says it is held; any other has a level")
+        if (self.continues == "first") != (self.previous_ticket_sha256 is None):
+            raise ValueError("every ticket but a gate's first names the live ticket it continues from")
         return self
 
 

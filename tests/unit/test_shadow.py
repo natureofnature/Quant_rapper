@@ -245,9 +245,82 @@ class ShadowTicketTests(unittest.TestCase):
         changed.update(state="GREEN" if changed["state"] != "GREEN" else "RED")
         changed["target_exposure"] = {"GREEN": 1.0, "YELLOW": 0.5, "RED": 0.0}[changed["state"]]
         path.write_text(json.dumps(changed))
-        with self.assertRaisesRegex(SystemExit, "W-dd/fund_qqq/2026-11-23.json: a record is already there and differs"):
+        with self.assertRaisesRegex(SystemExit, "W-dd/fund_qqq/2026-11-23.json: a ticket is already there and differs"):
             emit(root, folder, SESSION, records, now=second_time, machine="pc-a")
         self.assertEqual(json.loads(path.read_text()), changed)  # left exactly as found
+
+    def test_the_issued_record_decides_the_step_down_whatever_a_later_download_fills_in(self):
+        model = next(t for t in self.tickets if (t.subject_id, t.gate) == ("fund:qqq", "E-dd"))
+        self.assertEqual((model.level, model.continues, model.previous_ticket_sha256), (0, "first", None))  # today's score is a low one
+        records = Path(self.temp.name) / "chain_records"
+        folder = records / "test-machine/tickets/E-dd/fund_qqq"
+
+        def earlier(day, issuance="live", held=False, run=()):
+            fields = {**json.loads(model.model_dump_json()), "session": str(day), "ticket_id": f"shadow:E-dd:fund:qqq:{day}", "state": "RED", "target_exposure": 0.0,
+                      "issuance": issuance, "decision_time": datetime.combine(day, time(17, 0), NEW_YORK).isoformat(),
+                      "issued_at": datetime.combine(day, time(19, 0), NEW_YORK).isoformat(), "continues": "held" if held else "previous_session",
+                      "previous_ticket_sha256": "0" * 64, "level": None if held else 0, "run": list(run)}
+            if held:
+                fields.update(held=True, score=None, seed_scores=[], inputs={**fields["inputs"], "sessions_to_fomc": None})
+            folder.mkdir(parents=True, exist_ok=True)
+            (folder / f"{day}.json").write_text(ShadowTicket(**fields).model_dump_json())
+
+        def today():
+            batch = emit(self.root, self.folder, SESSION, records, now=EVENING, machine="test-machine", dry_run=True, only=["QQQ"])
+            ticket = next(t for t in batch.tickets if t.gate == "E-dd")
+            return ticket.state, ticket.run, ticket.continues
+
+        # RED, then two low scores on consecutive sessions, each with a live ticket: today's low score is the third and the gate steps down.
+        earlier(date(2026, 11, 19), run=(0,)); earlier(date(2026, 11, 20), run=(0, 0))
+        self.assertEqual(today(), ("GREEN", (), "previous_session"))
+        last = hashlib.sha256((folder / "2026-11-20.json").read_bytes()).hexdigest()
+        batch = emit(self.root, self.folder, SESSION, records, now=EVENING, machine="test-machine", dry_run=True, only=["QQQ"])
+        self.assertEqual(next(t for t in batch.tickets if t.gate == "E-dd").previous_ticket_sha256, last)  # each ticket names the one it continues from
+        # The session before had no score when its ticket was issued, so the count was reset then. Today's snapshot holds a score
+        # for that session all the same: it does not count, and the gate stays RED with a run of one.
+        earlier(date(2026, 11, 20), held=True)
+        self.assertEqual(today(), ("RED", (0,), "after_gap"))
+        # The same when that session's ticket was written late, or never written.
+        earlier(date(2026, 11, 20), issuance="replay", run=(0, 0))
+        self.assertEqual(today(), ("RED", (0,), "after_gap"))
+        (folder / "2026-11-20.json").unlink()
+        self.assertEqual(today(), ("RED", (0,), "after_gap"))
+
+    def test_a_snapshot_built_with_another_calendar_than_the_registered_one_is_refused(self):
+        root, folder, git, _ = self.registered("other_calendar")
+        git("add", "-A"); git("commit", "-q", "-m", "register")
+        registered = json.loads((root / snapshot.SHARED[0]).read_text())
+        shorter = {**registered, "last": "2026-11-30", "sessions": [s for s in registered["sessions"] if s <= "2026-11-30"]}
+        (root / "artifacts/snapshots/2026-11-23/other_calendar.json").write_text(json.dumps(shorter))
+        manifest = json.loads((folder / "manifest.json").read_text())  # the registered file is untouched; the manifest points elsewhere, with a valid hash
+        name = Path(snapshot.SHARED[0]).name
+        manifest["shared"][name] = {"path": "artifacts/snapshots/2026-11-23/other_calendar.json",
+                                    "sha256": hashlib.sha256((root / "artifacts/snapshots/2026-11-23/other_calendar.json").read_bytes()).hexdigest()}
+        (folder / "manifest.json").write_text(json.dumps(manifest))
+        records = Path(self.temp.name) / "other_calendar_records"
+        with self.assertRaisesRegex(SystemExit, f"differ from the ones the registration pins: {name}"):
+            emit(root, folder, SESSION, records, now=EVENING, machine="pc-a", only=["TSM"])
+        self.assertFalse(records.exists())  # neither a ticket nor a gap
+
+    def test_a_decision_recorded_as_a_gap_stays_a_gap_and_a_later_result_is_a_replay(self):
+        root, folder, git, registration = self.registered("gap_first")
+        git("add", "-A"); git("commit", "-q", "-m", "register")
+        records = Path(self.temp.name) / "gap_first_records"
+        gap = ShadowGap(gap_id=f"gap:E-dd:company:tsmc:{SESSION}", gate="E-dd", subject_id="company:tsmc", session=SESSION,
+                        decision_time=datetime.combine(SESSION, time(17, 0), NEW_YORK), issued_at=EVENING, machine="pc-a",
+                        reason="no score for this session and no earlier live ticket of this gate and subject to hold", missing_inputs=("sessions_to_fomc",),
+                        registration_id="shadow_gates", registration_sha256="0" * 64, code_commit=registration["code"]["commit"], inputs_sha256={})
+        path = records / "pc-a/gaps/E-dd/company_tsmc/2026-11-23.json"
+        path.parent.mkdir(parents=True)
+        path.write_text(gap.model_dump_json())
+        later = datetime.combine(SESSION, time(22, 0), NEW_YORK)  # still before the next open: the retry could compute a ticket now
+        batch = emit(root, folder, SESSION, records, now=later, machine="pc-a", only=["TSM"])
+        self.assertEqual((batch.tickets, batch.gaps, batch.conflicts), ([], [gap], []))  # the gap is the decision that was made
+        self.assertFalse((records / "pc-a/tickets").exists())
+        replay = ShadowTicket.model_validate_json((records / "pc-a/replays/E-dd/company_tsmc/2026-11-23.json").read_text())
+        self.assertEqual((batch.replays, replay.issuance, replay.issued_at), ([replay], "replay", later))
+        again = emit(root, folder, SESSION, records, now=datetime.combine(SESSION, time(23, 0), NEW_YORK), machine="pc-a", only=["TSM"])
+        self.assertEqual((again.replays, again.gaps), ([replay], [gap]))  # nothing is rewritten on a further retry
 
     def test_the_repository_registration_is_a_well_formed_draft(self):
         r = json.loads((ROOT / REGISTRATION).read_text())
