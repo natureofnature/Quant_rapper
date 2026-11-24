@@ -4,7 +4,7 @@
   "sector_id": "technology_platforms",
   "label": "Technology Platforms",
   "compiled_on": "2026-11-24",
-  "content_revision": "2026-11-24.2",
+  "content_revision": "2026-11-24.3",
   "levels": {
     "L1": {
       "label": "Macro and policy",
@@ -371,7 +371,7 @@
         "trigger": "VIX closes above VIX3M after at least 20 sessions below it.",
         "observable": "The company's return and QQQ's return over the following 20 US sessions, and any company news dated in those sessions.",
         "window": "The 20 sessions after that close.",
-        "supports_if": "The company's return is within 5 percentage points of QQQ's.",
+        "supports_if": "The company's return and QQQ's have the same sign and are within 5 percentage points of each other. Returns of opposite sign inside that band settle nothing.",
         "contradicts_if": "The company's return differs from QQQ's by more than 5 percentage points and no company news dated in the window accounts for the difference. A difference that such news accounts for settles nothing."
       }
     },

@@ -5,13 +5,13 @@
   "symbol": "GOOGL",
   "name": "Alphabet (Google)",
   "compiled_on": "2026-11-24",
-  "content_revision": "2026-11-24.2",
+  "content_revision": "2026-11-24.3",
   "status": "exploratory_leads",
   "sector": {
     "id": "technology_platforms",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-24.2",
-    "content_sha256": "bdc27ee3251e65672a3b1c94f263a09b03a13ee6ed1269938c25c5c0e48a9a4b"
+    "content_revision": "2026-11-24.3",
+    "content_sha256": "e2d047aacec1e6ad8a1e4d276853794e1a042fac3303aaffca147ad5de61c2c8"
   },
   "business_roles": [
     {
