@@ -20,6 +20,7 @@ for package in ("quant_contracts", "quant_pit_data", "quant_evaluator", "quant_c
 import snapshot
 try:
     from quant_loop.tickets import emit
+    from quant_pit_data.snapshots import problems
 except ModuleNotFoundError:
     emit = None
 
@@ -103,7 +104,33 @@ class SnapshotToTicketTests(unittest.TestCase):
         folder = self.root / "artifacts/snapshots" / str(SESSION)
         emit(self.root, folder, "QQQ", SESSION, now=evening)
         (folder / "VIX.record.json").write_text(json.dumps({"repairs": [{"session": str(SESSION), "field": "close", "stamped": f"{SESSION}T18:00:00-05:00"}]}))
-        with self.assertRaisesRegex(SystemExit, "not sound: VIX.record.json is not declared by the manifest"):
+        with self.assertRaisesRegex(SystemExit, "not sound for this ticket: VIX.record.json is not declared by the manifest"):
+            emit(self.root, folder, "QQQ", SESSION, now=evening)
+
+    def test_a_ticket_replays_from_the_files_whose_hashes_it_records_and_nothing_else(self):
+        evening = datetime.combine(SESSION, time(19, 0), NEW_YORK)
+        self.assertEqual(snapshot.main(["--no-backup"], root=self.root, fetcher=self.fetcher, pause=0.0, now=evening), 0)
+        folder = self.root / "artifacts/snapshots" / str(SESSION)
+        whole = emit(self.root, folder, "QQQ", SESSION, now=evening)
+        self.assertEqual(problems(folder), [])
+        # Keep only what the ticket names, and the manifest. Gold, and every other file the rule never reads, is gone.
+        manifest = json.loads((folder / "manifest.json").read_text())
+        for name in manifest["files"]:
+            if name not in whole.snapshot_sha256:
+                (folder / name).unlink()
+        shutil.rmtree(folder / "treasury_real_yield")
+        self.assertFalse((folder / "GCF.json").exists())
+        self.assertTrue(problems(folder))  # as a whole snapshot it is no longer sound, which is what a backup must know
+        self.assertEqual(emit(self.root, folder, "QQQ", SESSION, now=evening), whole)  # the same ticket: inputs, state and hashes
+        # What the ticket does read is still guarded: an undeclared record beside one of its files, or a changed file, is refused.
+        (folder / "GCF.record.json").write_text("{}")  # beside a file it does not read: not its concern
+        self.assertEqual(emit(self.root, folder, "QQQ", SESSION, now=evening), whole)
+        (folder / "VIX.record.json").write_text("{}")
+        with self.assertRaisesRegex(SystemExit, "VIX.record.json is not declared by the manifest"):
+            emit(self.root, folder, "QQQ", SESSION, now=evening)
+        (folder / "VIX.record.json").unlink()
+        (folder / "VIX.csv").write_text((folder / "VIX.csv").read_text() + "\n")
+        with self.assertRaisesRegex(SystemExit, "VIX.csv does not match the manifest"):
             emit(self.root, folder, "QQQ", SESSION, now=evening)
 
     def test_a_shared_calendar_that_changed_since_the_snapshot_is_refused(self):

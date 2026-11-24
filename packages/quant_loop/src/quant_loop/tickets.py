@@ -72,12 +72,14 @@ def _load(root: Path, snapshot: Path, symbol: str):
     subject = next(s for s in registration["subjects"] if s["subject"] == symbol)
     bindings_dir = root / "knowledge_base/prior_knowledge/bindings"
     b = {s["series_id"]: SeriesBinding(**s) for s in json.loads((bindings_dir / "series_bindings.json").read_text())["series"]}
-    wrong = problems(snapshot)  # the same rule the loaders apply: every record read is declared, present and unchanged
-    if wrong:
-        raise SystemExit(f"the snapshot is not sound: {'; '.join(wrong)}")
     manifest = json.loads((snapshot / "manifest.json").read_text())
     hashes, where = {}, {}
     names = ["VIX.csv", "VIX3M.csv", "treasury_real_yield_10y.csv", f"{symbol}.json"] + sorted({s["calendar"] + ".json" for s in registration["signals"]})
+    # Only what this ticket reads is checked, by the rule the loaders apply: every record read is declared, present and
+    # unchanged. The ticket can then be replayed from the files whose hashes it records, without the rest of the snapshot.
+    wrong = problems(snapshot, names)
+    if wrong:
+        raise SystemExit(f"the snapshot is not sound for this ticket: {'; '.join(wrong)}")
     for name in names:
         # A file is in the snapshot folder, or it is a curated file shared between snapshots that this manifest pins by path and hash.
         entry = manifest["files"].get(name) or manifest.get("shared", {}).get(name)

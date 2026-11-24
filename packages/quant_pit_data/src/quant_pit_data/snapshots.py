@@ -46,14 +46,25 @@ OLD_FORMAT = ("{name}: this manifest was written by an earlier version of the sn
               "loaders no longer read. Its repair times would be lost, so the snapshot is refused; take it again or convert its records.")
 
 
-def problems(folder: Path) -> list[str]:
-    """Every file or record of a snapshot that is missing, changed, undeclared or in an old format, as readable lines. Empty when sound."""
+def problems(folder: Path, names: list[str] | None = None) -> list[str]:
+    """Every file or record of a snapshot that is missing, changed, undeclared or in an old format, as readable lines. Empty when sound.
+
+    With ``names``, only those downloaded files and their records are checked: what one reader
+    needs. A reader that records the hashes of what it read can then be replayed from exactly
+    those files, whatever else of the snapshot is kept. Without ``names`` the whole snapshot is
+    checked, which is what a backup needs. A name the manifest does not list among its
+    downloaded files is not this check's concern.
+    """
     manifest = json.loads((folder / "manifest.json").read_text(encoding="utf-8"))
-    found = [OLD_FORMAT.format(name=name) for name, entry in manifest["files"].items() if "repair_file" in entry]
-    declared = {entry["record_file"]["name"] for entry in manifest["files"].values() if "record_file" in entry}
-    found += [f"{p.name} is not declared by the manifest" for p in sorted(folder.glob("*.record.json")) if p.name not in declared]
-    found += [f"{p.name} is in an old record format the loaders do not read" for p in sorted(folder.glob("*.repair.json"))]
-    for name, entry in manifest["files"].items():
+    files = {name: entry for name, entry in manifest["files"].items() if names is None or name in names}
+    found = [OLD_FORMAT.format(name=name) for name, entry in files.items() if "repair_file" in entry]
+    declared = {entry["record_file"]["name"] for entry in files.values() if "record_file" in entry}
+    stems = None if names is None else {Path(name).stem for name in files}
+    in_scope = lambda path, suffix: stems is None or path.name[:-len(suffix)] in stems
+    found += [f"{p.name} is not declared by the manifest" for p in sorted(folder.glob("*.record.json"))
+              if p.name not in declared and in_scope(p, ".record.json")]
+    found += [f"{p.name} is in an old record format the loaders do not read" for p in sorted(folder.glob("*.repair.json")) if in_scope(p, ".repair.json")]
+    for name, entry in files.items():
         checks = [(name, folder / name, entry["sha256"])]
         if "record_file" in entry:
             checks.append((f"the record of {name}", folder / entry["record_file"]["name"], entry["record_file"]["sha256"]))
