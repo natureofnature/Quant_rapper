@@ -1,0 +1,46 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "first_publication_dates",
+  "compiled_on": "2026-11-24",
+  "content_revision": "2026-11-24.1",
+  "describe": "The first date on which each series had a published value. A value dated earlier was calculated afterwards and nobody had it then, so no decision or training row may use it. A series absent from this list has no established date and must be checked before a registered run uses it.",
+  "series": [
+    {
+      "series_id": "yahoo:igv:close",
+      "first_published": "2001-07-17",
+      "basis": "First session in Yahoo's history for IGV, downloaded 2026-11-23, equal to the first-trade date Yahoo states."
+    },
+    {
+      "series_id": "yahoo:srvr:close",
+      "first_published": "2018-05-16",
+      "basis": "First session in Yahoo's history for SRVR, downloaded 2026-11-23, equal to the first-trade date Yahoo states."
+    },
+    {
+      "series_id": "derived:igv_over_qqq",
+      "first_published": "2001-07-17",
+      "basis": "The later of its two inputs."
+    },
+    {
+      "series_id": "derived:srvr_over_spy",
+      "first_published": "2018-05-16",
+      "basis": "The later of its two inputs."
+    },
+    {
+      "series_id": "derived:soxx_over_qqq",
+      "first_published": "2001-07-13",
+      "basis": "The later of its two inputs: the first session in the pinned SOXX history."
+    },
+    {
+      "series_id": "cboe:skew",
+      "first_published": "2011-02-23",
+      "basis": "Cboe announced it would begin publishing SKEW values on 2011-02-23. Bound in RFC-005's registration, not in this catalogue.",
+      "source_url": "https://www.prnewswire.com/news-releases/cboe-to-begin-publishing-values-for-cboe-sp-500-skew-index-115513249.html"
+    },
+    {
+      "series_id": "cboe:vvix",
+      "first_published": "2012-03-14",
+      "basis": "Cboe's release introducing the index is dated 2012-03-14. Bound in RFC-005's registration, not in this catalogue.",
+      "source_url": "https://www.prnewswire.com/news-releases/cboe-introduces-vix-of-vix-benchmark-index-provides-a-gauge-for-measuring-volatility-of-the-vix-index-itself-142607166.html"
+    }
+  ]
+}

@@ -4,14 +4,14 @@
   "company_id": "company:alphabet",
   "symbol": "GOOGL",
   "name": "Alphabet (Google)",
-  "compiled_on": "2026-11-21",
-  "content_revision": "2026-11-21.2",
+  "compiled_on": "2026-11-24",
+  "content_revision": "2026-11-24.1",
   "status": "exploratory_leads",
   "sector": {
     "id": "technology_platforms",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-21.2",
-    "content_sha256": "72521803a7187adcb44d77d6a8dc2f48c9a3b442f4ec2e833088da8ac3d0322a"
+    "content_revision": "2026-11-24.1",
+    "content_sha256": "f9309c3f82e3f6d75ff2cdec7093ceea925fcf8e77f777f908f3bd77272c528c"
   },
   "business_roles": [
     {

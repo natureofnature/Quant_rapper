@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0.0",
   "kind": "series_bindings",
-  "compiled_on": "2026-11-22",
-  "content_revision": "2026-11-22.6",
+  "compiled_on": "2026-11-24",
+  "content_revision": "2026-11-24.1",
   "describe": "Machine-readable sources and availability rules for observables named in the research maps. A binding says when a value became knowable; it makes no claim about what the value means.",
   "series": [
     {
@@ -214,6 +214,141 @@
       "availability_basis": "assumed",
       "revisable": true,
       "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ."
+    },
+    {
+      "series_id": "yahoo:msft:open",
+      "label": "MSFT daily open, regular session",
+      "anchors": [
+        "company:microsoft"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/MSFT",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "09:30:00",
+      "publication_delay_minutes": 1,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Session opens at 9:30 a.m. Eastern (Nasdaq and NYSE Arca regular session hours). The one-minute delay is an assumption. Yahoo is an aggregator, not the exchange: values are restated on the current split basis after every split and exclude dividends."
+    },
+    {
+      "series_id": "yahoo:msft:close",
+      "label": "MSFT daily close, regular session",
+      "anchors": [
+        "company:microsoft"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/MSFT",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ."
+    },
+    {
+      "series_id": "yahoo:googl:open",
+      "label": "GOOGL daily open, regular session",
+      "anchors": [
+        "company:alphabet"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/GOOGL",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "09:30:00",
+      "publication_delay_minutes": 1,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "Session opens at 9:30 a.m. Eastern (Nasdaq and NYSE Arca regular session hours). The one-minute delay is an assumption. Yahoo is an aggregator, not the exchange: values are restated on the current split basis after every split and exclude dividends. Class A shares."
+    },
+    {
+      "series_id": "yahoo:googl:close",
+      "label": "GOOGL daily close, regular session",
+      "anchors": [
+        "company:alphabet"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/GOOGL",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ. Class A shares."
+    },
+    {
+      "series_id": "yahoo:igv:close",
+      "label": "IGV daily close, regular session",
+      "anchors": [
+        "concept:technology_platforms:enterprise_it"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/IGV",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ. iShares Expanded Tech-Software Sector ETF. First traded 2001-07-17; no earlier value exists. The fund holds Microsoft, so for Microsoft it partly measures the subject itself."
+    },
+    {
+      "series_id": "yahoo:srvr:close",
+      "label": "SRVR daily close, regular session",
+      "anchors": [
+        "concept:technology_platforms:data_centres"
+      ],
+      "source_url": "https://query1.finance.yahoo.com/v8/finance/chart/SRVR",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "US regular session close, with an assumed 15-minute publication delay. The rule is conservative on shortened sessions. Yahoo history uses the snapshot's split basis and excludes dividends. Earlier vintages may differ. Pacer Data & Infrastructure Real Estate ETF. First traded 2018-05-16; no earlier value exists. It holds tower and other infrastructure property as well as data centres."
+    },
+    {
+      "series_id": "derived:igv_over_qqq",
+      "label": "IGV close over QQQ close",
+      "anchors": [
+        "concept:technology_platforms:enterprise_it"
+      ],
+      "source_url": "derived from yahoo:igv:close and yahoo:qqq:close",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with IGV on 2001-07-17."
+    },
+    {
+      "series_id": "derived:srvr_over_spy",
+      "label": "SRVR close over SPY close",
+      "anchors": [
+        "concept:technology_platforms:data_centres"
+      ],
+      "source_url": "derived from yahoo:srvr:close and yahoo:spy:close",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with SRVR on 2018-05-16."
+    },
+    {
+      "series_id": "derived:soxx_over_qqq",
+      "label": "SOXX close over QQQ close",
+      "anchors": [
+        "concept:technology_platforms:chips"
+      ],
+      "source_url": "derived from yahoo:soxx:close and yahoo:qqq:close",
+      "availability": "news_only",
+      "timezone": "America/New_York",
+      "value_time": "16:00:00",
+      "publication_delay_minutes": 15,
+      "availability_basis": "assumed",
+      "revisable": true,
+      "basis_note": "A quotient of two bound closes on the same session, knowable when the later of the two is. Starts with SOXX on 2001-07-13."
     }
   ],
   "events": [

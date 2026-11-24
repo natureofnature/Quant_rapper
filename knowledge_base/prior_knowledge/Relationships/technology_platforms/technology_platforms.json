@@ -3,8 +3,8 @@
   "kind": "industry_research_map",
   "sector_id": "technology_platforms",
   "label": "Technology Platforms",
-  "compiled_on": "2026-11-21",
-  "content_revision": "2026-11-21.2",
+  "compiled_on": "2026-11-24",
+  "content_revision": "2026-11-24.1",
   "levels": {
     "L1": {
       "label": "Macro and policy",
@@ -187,7 +187,8 @@
       "observables_to_research": [
         "accelerator availability",
         "memory and chip cost trends",
-        "custom-chip deployment commentary"
+        "custom-chip deployment commentary",
+        "semiconductor share prices against the Nasdaq-100 (a price proxy, not availability or cost)"
       ]
     },
     {
@@ -198,7 +199,8 @@
       "observables_to_research": [
         "capacity additions",
         "capex and depreciation",
-        "utilisation and delivery constraints"
+        "utilisation and delivery constraints",
+        "data-centre and infrastructure property share prices against the S&P 500 (a price proxy, not capacity)"
       ],
       "related_concepts": [
         {
@@ -303,7 +305,8 @@
       "observables_to_research": [
         "IT budgets",
         "contract commitments",
-        "migration and renewal commentary"
+        "migration and renewal commentary",
+        "software-sector share prices against the Nasdaq-100 (a price proxy, not a budget)"
       ]
     },
     {
@@ -336,7 +339,14 @@
       "to": "sector:technology_platforms",
       "type": "valuation",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Changes in financing conditions may alter valuation and investment budgets."
+      "mechanism_hypothesis": "Changes in financing conditions may alter valuation and investment budgets.",
+      "test_criteria": {
+        "trigger": "The 10-year real yield moves by 25 basis points or more over 20 US sessions.",
+        "observable": "The return of the company and of QQQ, each against SPY, over the same 20 sessions.",
+        "window": "The same 20 sessions.",
+        "supports_if": "The company and QQQ both lag SPY when the real yield rose, or both lead it when the yield fell.",
+        "contradicts_if": "The company and QQQ both lead SPY while the real yield rose, or both lag it while the yield fell."
+      }
     },
     {
       "id": "lead:technology_platforms:risk_appetite:sector_beta:sector",
@@ -344,7 +354,14 @@
       "to": "sector:technology_platforms",
       "type": "sector_beta",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Changes in investor risk appetite can contribute to group-wide moves."
+      "mechanism_hypothesis": "Changes in investor risk appetite can contribute to group-wide moves.",
+      "test_criteria": {
+        "trigger": "VIX closes above VIX3M after at least 20 sessions below it.",
+        "observable": "The company's return and QQQ's return over the following 20 US sessions.",
+        "window": "The 20 sessions after that close.",
+        "supports_if": "The company and QQQ move in the same direction and the company's return is within 5 percentage points of QQQ's.",
+        "contradicts_if": "The company's return differs from QQQ's by more than 5 percentage points with no company news dated in the window, or the difference is traced to dated company news."
+      }
     },
     {
       "id": "lead:technology_platforms:fx:translation:sector",
@@ -352,7 +369,14 @@
       "to": "sector:technology_platforms",
       "type": "translation",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Currency movements can change reported international revenue and costs."
+      "mechanism_hypothesis": "Currency movements can change reported international revenue and costs.",
+      "test_criteria": {
+        "trigger": "The company reports a quarter in which the US dollar's average value against its main foreign currencies differs by 5% or more from the same quarter a year earlier.",
+        "observable": "Reported revenue growth against the constant-currency growth the company discloses for that quarter.",
+        "window": "That quarter's results release.",
+        "supports_if": "The gap between reported and constant-currency growth has the sign the dollar's move implies and is at least one percentage point.",
+        "contradicts_if": "The gap is under half a percentage point or has the opposite sign."
+      }
     },
     {
       "id": "lead:technology_platforms:competition:distribution:advertising",
@@ -360,7 +384,14 @@
       "to": "concept:technology_platforms:advertising",
       "type": "distribution",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Changes to distribution or default-placement rules may alter traffic acquisition and monetisation."
+      "mechanism_hypothesis": "Changes to distribution or default-placement rules may alter traffic acquisition and monetisation.",
+      "test_criteria": {
+        "trigger": "A court or regulator issues a dated ruling or remedy that changes default-placement or distribution terms for search or app access.",
+        "observable": "Traffic acquisition cost as a share of advertising revenue, and query or traffic share where the company or a named third party reports it.",
+        "window": "The four fiscal quarters after the remedy takes effect.",
+        "supports_if": "The company attributes a change in traffic acquisition cost or in traffic to the changed terms.",
+        "contradicts_if": "The remedy is in effect for four quarters, both measures stay within their range of the previous four quarters, and the company makes no such attribution."
+      }
     },
     {
       "id": "lead:technology_platforms:competition:ecosystem_rules:devices",
@@ -376,7 +407,14 @@
       "to": "concept:technology_platforms:advertising",
       "type": "measurement",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Privacy constraints may change targeting, measurement and advertising economics."
+      "mechanism_hypothesis": "Privacy constraints may change targeting, measurement and advertising economics.",
+      "test_criteria": {
+        "trigger": "A privacy rule or platform policy that limits advertising targeting or measurement takes effect on a stated date.",
+        "observable": "Advertising revenue growth and the company's commentary on pricing and measurement in its results.",
+        "window": "The two fiscal quarters after the effective date.",
+        "supports_if": "The company names the rule or policy as a cause of slower advertising growth or lower pricing.",
+        "contradicts_if": "The rule is in force for both quarters, the company reports no effect, and advertising growth is not slower than in the previous two quarters."
+      }
     },
     {
       "id": "lead:technology_platforms:data_rules:compliance:cloud",
@@ -384,7 +422,14 @@
       "to": "concept:technology_platforms:cloud",
       "type": "compliance",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Data-location and compliance requirements may change where capacity is needed and what it costs."
+      "mechanism_hypothesis": "Data-location and compliance requirements may change where capacity is needed and what it costs.",
+      "test_criteria": {
+        "trigger": "A data-location or sovereignty requirement takes effect in a named jurisdiction.",
+        "observable": "Regional capacity, sovereign-cloud products and capital spending the company announces for that jurisdiction.",
+        "window": "The four fiscal quarters after the effective date.",
+        "supports_if": "The company announces capacity or a product for that jurisdiction and cites the requirement.",
+        "contradicts_if": "The requirement is in force for four quarters and the company serves the jurisdiction with no dedicated capacity or product announced."
+      }
     },
     {
       "id": "lead:technology_platforms:data_rules:deployment:ai",
@@ -392,7 +437,14 @@
       "to": "concept:technology_platforms:ai",
       "type": "deployment",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Governance requirements may change model availability, deployment timing and operating cost."
+      "mechanism_hypothesis": "Governance requirements may change model availability, deployment timing and operating cost.",
+      "test_criteria": {
+        "trigger": "An AI governance rule sets a compliance date for a class of model or service.",
+        "observable": "Availability dates of the company's AI products in that jurisdiction against their dates elsewhere.",
+        "window": "From the rule's publication to two fiscal quarters after its compliance date.",
+        "supports_if": "A product is withheld, delayed or changed in that jurisdiction and the company cites the rule.",
+        "contradicts_if": "The company's AI products launch in that jurisdiction on the same schedule as elsewhere."
+      }
     },
     {
       "id": "lead:technology_platforms:trade_rules:supply_access:chips",
@@ -400,7 +452,14 @@
       "to": "concept:technology_platforms:chips",
       "type": "supply_access",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Changes to export permissions may affect access to computing components."
+      "mechanism_hypothesis": "Changes to export permissions may affect access to computing components.",
+      "test_criteria": {
+        "trigger": "An export-control or tariff change covering computing chips or their components is published.",
+        "observable": "The company's statements on chip supply, on capacity timing and on capital spending in the affected regions.",
+        "window": "The two results releases after publication.",
+        "supports_if": "The company reports constrained supply, changed sourcing or delayed capacity and names the rule.",
+        "contradicts_if": "Both releases report supply and capacity plans unchanged."
+      }
     },
     {
       "id": "lead:technology_platforms:trade_rules:production_cost:manufacturing",
@@ -416,7 +475,14 @@
       "to": "concept:technology_platforms:cloud",
       "type": "capacity",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Component availability and cost may constrain cloud capacity or change margins."
+      "mechanism_hypothesis": "Component availability and cost may constrain cloud capacity or change margins.",
+      "test_criteria": {
+        "trigger": "A supplier or the company states that the supply of computing chips or servers is short of demand.",
+        "observable": "The company's statements on whether cloud revenue was limited by capacity, and its cloud margin.",
+        "window": "The fiscal quarter of the statement and the next.",
+        "supports_if": "The company says cloud revenue would have been higher with more capacity, or attributes a cloud margin change to component cost.",
+        "contradicts_if": "Cloud revenue growth rises in both quarters and the company reports no capacity limit."
+      }
     },
     {
       "id": "lead:technology_platforms:chips:compute_cost:ai",
@@ -424,7 +490,14 @@
       "to": "concept:technology_platforms:ai",
       "type": "compute_cost",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Chip performance, availability and cost may change AI training and serving economics."
+      "mechanism_hypothesis": "Chip performance, availability and cost may change AI training and serving economics.",
+      "test_criteria": {
+        "trigger": "A new generation of computing chip, bought or designed in-house, enters volume deployment at the company.",
+        "observable": "The company's stated cost of computing for its most demanding workloads, its prices for them, and its margin commentary.",
+        "window": "The four fiscal quarters after deployment.",
+        "supports_if": "The company reports lower computing cost, or cuts prices and attributes the cut to the new hardware.",
+        "contradicts_if": "Four quarters after deployment the company reports no change in computing cost or pricing that it attributes to the hardware."
+      }
     },
     {
       "id": "lead:technology_platforms:chips:product_capability:devices",
@@ -440,7 +513,14 @@
       "to": "concept:technology_platforms:data_centres",
       "type": "capacity_constraint",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Power availability and grid connections may limit when computing capacity can become usable."
+      "mechanism_hypothesis": "Power availability and grid connections may limit when computing capacity can become usable.",
+      "test_criteria": {
+        "trigger": "A utility, a grid operator or the company reports a connection delay or power shortfall for a named data-centre site or region.",
+        "observable": "The date that capacity opens against the date previously announced for it.",
+        "window": "To two fiscal quarters after the date originally announced.",
+        "supports_if": "The capacity opens late or is moved elsewhere, and power is cited as the reason.",
+        "contradicts_if": "The capacity opens on the announced schedule."
+      }
     },
     {
       "id": "lead:technology_platforms:data_centres:delivery:cloud",
@@ -448,7 +528,14 @@
       "to": "concept:technology_platforms:cloud",
       "type": "delivery",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Capacity additions and utilisation may affect cloud delivery and depreciation costs."
+      "mechanism_hypothesis": "Capacity additions and utilisation may affect cloud delivery and depreciation costs.",
+      "test_criteria": {
+        "trigger": "The company reports capital expenditure more than 30% above the same quarter a year earlier.",
+        "observable": "Cloud revenue growth, depreciation growth, and the company's statements on capacity coming into service.",
+        "window": "The four fiscal quarters after that report.",
+        "supports_if": "Depreciation growth rises after the spending, and the company attributes cloud revenue growth to capacity coming into service.",
+        "contradicts_if": "Depreciation growth rises while cloud revenue growth falls in two consecutive quarters, and the company does not cite capacity as a limit."
+      }
     },
     {
       "id": "lead:technology_platforms:data_centres:serving_capacity:ai",
@@ -456,7 +543,14 @@
       "to": "concept:technology_platforms:ai",
       "type": "serving_capacity",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Usable computing capacity may constrain AI service delivery and unit economics."
+      "mechanism_hypothesis": "Usable computing capacity may constrain AI service delivery and unit economics.",
+      "test_criteria": {
+        "trigger": "The company states that demand for its AI services exceeds the capacity it has available.",
+        "observable": "AI revenue or usage growth before and after the date the company gives for new capacity.",
+        "window": "The two fiscal quarters after that capacity date.",
+        "supports_if": "Growth rises after the capacity arrives and the company attributes the rise to it.",
+        "contradicts_if": "The capacity arrives and growth does not rise."
+      }
     },
     {
       "id": "lead:technology_platforms:manufacturing:shipments:devices",
@@ -472,7 +566,14 @@
       "to": "concept:technology_platforms:advertising",
       "type": "demand",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Advertiser budgets and conversion economics may drive advertising demand."
+      "mechanism_hypothesis": "Advertiser budgets and conversion economics may drive advertising demand.",
+      "test_criteria": {
+        "trigger": "A dated measure of advertiser budgets is revised by one percentage point or more: an advertising holding company's organic growth guidance, or a published advertising market forecast.",
+        "observable": "The company's advertising revenue growth in the quarter the revision covers.",
+        "window": "That fiscal quarter and the next.",
+        "supports_if": "Advertising revenue growth changes in the direction of the revision.",
+        "contradicts_if": "Advertising revenue growth changes in the opposite direction by one percentage point or more."
+      }
     },
     {
       "id": "lead:technology_platforms:enterprise_it:consumption:cloud",
@@ -480,7 +581,14 @@
       "to": "concept:technology_platforms:cloud",
       "type": "consumption",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Enterprise budgets and workload migrations may change cloud consumption."
+      "mechanism_hypothesis": "Enterprise budgets and workload migrations may change cloud consumption.",
+      "test_criteria": {
+        "trigger": "A published enterprise IT spending forecast is revised by one percentage point or more, or the company reports customers cutting or optimising cloud spending.",
+        "observable": "Cloud revenue growth and the remaining performance obligations the company reports.",
+        "window": "That fiscal quarter and the next.",
+        "supports_if": "Cloud revenue growth changes in the direction of the revision or of the reported customer behaviour.",
+        "contradicts_if": "Cloud revenue growth changes in the opposite direction by one percentage point or more."
+      }
     },
     {
       "id": "lead:technology_platforms:enterprise_it:subscriptions:software",
@@ -488,7 +596,14 @@
       "to": "concept:technology_platforms:software",
       "type": "subscriptions",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Enterprise budgets, seat counts and pricing may change subscription revenue."
+      "mechanism_hypothesis": "Enterprise budgets, seat counts and pricing may change subscription revenue.",
+      "test_criteria": {
+        "trigger": "A published enterprise IT spending forecast is revised by one percentage point or more, or the company announces a list-price change for a subscription product.",
+        "observable": "Paid seats, revenue per user and commercial remaining performance obligations.",
+        "window": "The two fiscal quarters after the revision or after the price takes effect.",
+        "supports_if": "Seat growth or revenue per user changes in the direction the budget revision or price change implies.",
+        "contradicts_if": "Neither measure changes, or both change in the opposite direction."
+      }
     },
     {
       "id": "lead:technology_platforms:consumer_devices:replacement_cycle:devices",
@@ -504,7 +619,14 @@
       "to": "concept:technology_platforms:ai",
       "type": "monetisation",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Paid adoption and retention may determine whether AI usage produces sustainable revenue."
+      "mechanism_hypothesis": "Paid adoption and retention may determine whether AI usage produces sustainable revenue.",
+      "test_criteria": {
+        "trigger": "The company discloses paid users, a revenue run rate or a price for an AI product.",
+        "observable": "The same disclosure in later quarters, and retention where the company gives it.",
+        "window": "The four fiscal quarters after the first disclosure.",
+        "supports_if": "Paid users or revenue rise across the four quarters without a price cut.",
+        "contradicts_if": "The disclosure stops, the price is cut, or paid users fall."
+      }
     },
     {
       "id": "lead:technology_platforms:ai_adoption:compute_demand:cloud",
@@ -512,7 +634,14 @@
       "to": "concept:technology_platforms:cloud",
       "type": "compute_demand",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Deployment of AI workloads may raise cloud demand; check monetisation and capacity costs together."
+      "mechanism_hypothesis": "Growth in customer compute demand can increase cloud usage, subject to available capacity.",
+      "test_criteria": {
+        "trigger": "The company attributes a change in its cloud revenue growth to how much computing its customers use.",
+        "observable": "Cloud revenue growth, the usage or workload the company names as the driver, and its statements on available capacity.",
+        "window": "The four fiscal quarters after the first such statement.",
+        "supports_if": "Cloud revenue growth rises in the quarters where the company reports higher compute usage, or the company says growth was limited by capacity and not by demand.",
+        "contradicts_if": "The company reports higher compute usage while cloud revenue growth falls, and it reports no capacity limit."
+      }
     },
     {
       "id": "lead:technology_platforms:ai_adoption:product_adoption:software",
@@ -520,7 +649,14 @@
       "to": "concept:technology_platforms:software",
       "type": "product_adoption",
       "relation_kind": "mechanism_hypothesis",
-      "mechanism_hypothesis": "Paid AI features may change subscription value, pricing and usage; verify adoption rather than assuming uplift."
+      "mechanism_hypothesis": "Paid AI features may change subscription value, pricing and usage; verify adoption rather than assuming uplift.",
+      "test_criteria": {
+        "trigger": "A paid AI feature of a subscription product becomes generally available at a stated price.",
+        "observable": "The seats the company discloses for the feature and the revenue per user of the product that carries it.",
+        "window": "The four fiscal quarters after general availability.",
+        "supports_if": "Disclosed seats grow and revenue per user rises.",
+        "contradicts_if": "Seats are not disclosed or do not grow, and revenue per user is unchanged."
+      }
     }
   ]
 }

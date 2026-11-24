@@ -7,6 +7,7 @@ from datetime import datetime
 import hashlib
 import json
 from pathlib import Path
+import subprocess
 import sys
 import unittest
 
@@ -74,8 +75,12 @@ class ProspectiveRegistrationTests(unittest.TestCase):
                         self.assertEqual(sha(folder / "coverage.json"), registration["coverage"]["coverage_json_sha256"])
                     for name, digest in registration.get("model_a", {}).get("sha256", {}).items():  # a frozen earlier arm it shows
                         self.assertEqual(sha(ROOT / registration["model_a"]["folder"] / name), digest, name)
-                    self.assertEqual(sha(ROOT / "knowledge_base/prior_knowledge/bindings/factor_definitions.json"),
-                                     registration["inputs"]["factor_definitions_sha256"])
+                    # The definitions a frozen study pinned are the ones at its own code commit. The live file moves on
+                    # whenever the prior is updated, so a frozen study is replayed from a checkout of the revision that froze it.
+                    definitions = subprocess.run(["git", "-C", str(ROOT), "show", f"{registration['code']['commit']}:"
+                                                  "knowledge_base/prior_knowledge/bindings/factor_definitions.json"],
+                                                 check=True, capture_output=True).stdout
+                    self.assertEqual(hashlib.sha256(definitions).hexdigest(), registration["inputs"]["factor_definitions_sha256"])
                     self.assertLessEqual(set(registration["parameters"].get("comparison_2_subjects", [])), set(registration["parameters"]["subjects"]))
                     self.frozen_record_matches(folder, registration)
                     continue

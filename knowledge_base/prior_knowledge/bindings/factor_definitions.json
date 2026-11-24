@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
   "kind": "factor_definitions",
-  "content_revision": "2026-11-22.1",
+  "content_revision": "2026-11-24.1",
   "describe": "How each bound series is turned into a factor, and which concept of the prior it measures. The generator makes candidates only from these definitions, so adding a transform is a recorded, versioned change. A proxy is named as a proxy and is never reported as the concept itself.",
   "prior_commit": "68e1218c7a01de80f53621048fb41ef2a06340a9",
   "factors": [
@@ -67,11 +67,58 @@
         "lead:supply_chain:designers:orders:supply_chain:foundry"
       ],
       "note": "Year-on-year change in monthly revenue as the release states it. A company total standing in for wafer demand; it cannot show whose orders produced it."
+    },
+    {
+      "factor": {
+        "factor_id": "software_over_qqq_roc_60",
+        "measure": "roc",
+        "series_ids": [
+          "derived:igv_over_qqq"
+        ],
+        "lookback_sessions": 60,
+        "max_age_days": 5
+      },
+      "anchor": "concept:technology_platforms:enterprise_it",
+      "reads": "proxy",
+      "values_from": "snapshot",
+      "note": "The 60-session change in a software fund's price against QQQ. A share-price ratio standing in for enterprise software demand; it measures no budget, and the fund holds Microsoft."
+    },
+    {
+      "factor": {
+        "factor_id": "data_centre_property_over_spy_roc_60",
+        "measure": "roc",
+        "series_ids": [
+          "derived:srvr_over_spy"
+        ],
+        "lookback_sessions": 60,
+        "max_age_days": 5
+      },
+      "anchor": "concept:technology_platforms:data_centres",
+      "reads": "proxy",
+      "values_from": "snapshot",
+      "note": "The 60-session change in a data-centre and infrastructure property fund's price against SPY. A share-price ratio standing in for demand for capacity; it measures no capacity and also moves with interest rates."
+    },
+    {
+      "factor": {
+        "factor_id": "chips_over_qqq_roc_60",
+        "measure": "roc",
+        "series_ids": [
+          "derived:soxx_over_qqq"
+        ],
+        "lookback_sessions": 60,
+        "max_age_days": 5
+      },
+      "anchor": "concept:technology_platforms:chips",
+      "reads": "proxy",
+      "values_from": "snapshot",
+      "note": "The 60-session change in SOXX against QQQ. A share-price ratio standing in for chip supply conditions; it cannot tell tight supply from strong demand."
     }
   ],
   "benchmarks": {
     "company:tsmc": "fund:soxx",
-    "company:micron": "fund:soxx"
+    "company:micron": "fund:soxx",
+    "company:microsoft": "fund:qqq",
+    "company:alphabet": "fund:qqq"
   },
   "horizon_sessions": {
     "company": 5,
@@ -91,6 +138,15 @@
     "yahoo:spy:open": "2b10f10c514e32a777d4019764ffbe767dfa4a57256a713b2f453c7301b8799d",
     "yahoo:spy:close": "22cfd27cb0db6de33d6fa24a1dc77c8d4301ca539fcaf9974129bf6efe4a0c55",
     "yahoo:mu:open": "32d96613cddab069d6e2cfddc3eaeaf71e7ed918d7c9a9229387a6761df9ddf5",
-    "yahoo:mu:close": "750d8d204accf9ae2fb43d2cb675aec38f45b02d8e196b6af993bb679e5da2a3"
+    "yahoo:mu:close": "750d8d204accf9ae2fb43d2cb675aec38f45b02d8e196b6af993bb679e5da2a3",
+    "yahoo:msft:open": "cb897d0425c3e7207742384538a56943fb36bf2b2260564fb7e9ebd233a76a98",
+    "yahoo:msft:close": "4a6b773fa4f35fa9de064119084687e6ce82ea48e66b41fbf8992969dc990d27",
+    "yahoo:googl:open": "193f3e3eacd51c9fcce62d865155d33358f4c37801ae579a6e937e33a5ca76ff",
+    "yahoo:googl:close": "c37565438ef0dfe41b2e736c13a10cf4339e0a33250e827fdb7d0451fac13661",
+    "yahoo:igv:close": "4a3b7c08be06cd5d9d1be7126d6986f0ec31f8321bf014691dba2d413bc0e7fb",
+    "yahoo:srvr:close": "6e429131f64a1f28f62f5dd59db454572542f3930bd1db95ae2db3d3e8a13236",
+    "derived:igv_over_qqq": "ce79a54d525d63a5e85b27b79453f108d3ac40f7a68338fea7781294c4947448",
+    "derived:srvr_over_spy": "39ac8db13a093e04bf5fffb2d26e69da4087fc293cc826dfd5153f4a5da52f15",
+    "derived:soxx_over_qqq": "89a45f7623b77e8edd465f2c63ab9434d28786cd62f70271d93eff70a713b848"
   }
 }
