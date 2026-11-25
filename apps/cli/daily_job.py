@@ -85,6 +85,30 @@ def shadow_tickets(root: Path, folder: Path, session: date, records: Path, machi
             "kept": batch.kept, "replays": [t.ticket_id for t in batch.replays], "scores_digest": batch.digest}
 
 
+def record_state(records: Path, machine: str) -> tuple[list[str], list[str]]:
+    """(files of this machine not yet in any commit, committed records that were changed or deleted on disk).
+
+    What decides is whether a path is in the last commit, not how git labels it: a file that
+    was staged by a run whose commit then failed is still new, and is published by the next run.
+    """
+    git = lambda *a: subprocess.run(["git", "-C", str(records), *a], capture_output=True, text=True)
+    status = git("status", "--porcelain", "--untracked-files=all", "-z", "--", machine)
+    if status.returncode:
+        raise OSError(f"reading the state of the records: {status.stderr.strip() or status.returncode}")
+    committed = set(git("ls-tree", "-r", "--name-only", "-z", "HEAD", "--", machine).stdout.split("\0"))
+    new, changed, tokens = [], [], iter(status.stdout.split("\0"))
+    for entry in tokens:
+        if not entry:
+            continue
+        code, path = entry[:2], entry[3:]
+        if code[0] in "RC":  # a rename or copy is followed by the path it came from
+            next(tokens, None)
+        if path.endswith(".lock"):  # a lock is a run's own, never a record
+            continue
+        (changed if path in committed else new).append(path)
+    return new, changed
+
+
 def publish_records(records: Path, machine: str, session: date, push: bool, tries: int, pause: float) -> dict:
     """Commit the files this machine added, and only those, then push. A later run pushes a commit whose push failed.
 
@@ -95,11 +119,10 @@ def publish_records(records: Path, machine: str, session: date, push: bool, trie
     """
     git = lambda *a: subprocess.run(["git", "-C", str(records), *a], capture_output=True, text=True)
     out = {"committed": False, "pushed": None}
-    status = git("status", "--porcelain", "--untracked-files=all", "-z", "--", machine)
-    if status.returncode:
-        return {**out, "failed": f"reading the state of the records: {status.stderr.strip() or status.returncode}"}
-    entries = [e for e in status.stdout.split("\0") if e and not e.endswith(".lock")]  # a lock is this run's own, never a record
-    new, changed = [e[3:] for e in entries if e.startswith("??")], [e[3:] for e in entries if not e.startswith("??")]
+    try:
+        new, changed = record_state(records, machine)
+    except OSError as error:
+        return {**out, "failed": str(error)}
     problems_found = [f"{len(changed)} committed records were changed or deleted on disk and were not published, the first being {changed[0]}"] if changed else []
     if new:
         staged = git("add", "--", *new)
@@ -107,7 +130,7 @@ def publish_records(records: Path, machine: str, session: date, push: bool, trie
             return {**out, "failed": f"staging the records: {staged.stderr.strip() or staged.returncode}"}
         made = git("commit", "-q", "-m", f"{machine} {session}: records of the daily job", "--", *new)  # these paths only
         if made.returncode:
-            return {**out, "failed": f"commit: {made.stderr.strip() or made.returncode}"}
+            return {**out, "failed": f"commit: {made.stderr.strip() or made.stdout.strip() or made.returncode}"}
         out["committed"] = True
     if push:
         for attempt in range(tries):
@@ -146,6 +169,15 @@ def run(root: Path, records: Path, session: date | None, push: bool, fetcher, no
             code = snapshots.main(["--session", str(session), "--no-backup"], root=root, fetcher=fetcher, pause=fetch_pause, now=now)
             log["stages"]["snapshot"] = {"written": str(folder.relative_to(root))} if code == 0 and folder.is_dir() else {"failed": f"the snapshot command exited {code}"}
         sound = "failed" not in log["stages"]["snapshot"]
+        # A held state is read from this machine's earlier tickets, so they are checked before anything is decided: a record
+        # that was changed or deleted on disk since it was committed must not shape a new ticket.
+        try:
+            _, altered = record_state(records, machine)
+        except OSError as error:
+            altered, log["stages"]["records"] = [], {"failed": str(error)}
+        if altered:
+            log["stages"]["records"] = {"failed": f"{len(altered)} committed records were changed or deleted on disk, the first being {altered[0]}; no ticket is written"}
+        intact = "records" not in log["stages"]
         if sound:  # the backup is completed whenever it is missing, by the snapshot command's own routine; its failure does not hold up a ticket
             copy = root / "run/backup/snapshots" / str(session)
             try:
@@ -160,7 +192,9 @@ def run(root: Path, records: Path, session: date | None, push: bool, fetcher, no
             log["snapshot_manifest_sha256"] = hashlib.sha256(manifest).hexdigest()
             recorded = base / "manifests" / f"{session}.json"
             recorded.parent.mkdir(parents=True, exist_ok=True)
-            if not recorded.is_file():
+            if not intact:
+                sound = False
+            elif not recorded.is_file():
                 recorded.write_bytes(manifest)
             elif recorded.read_bytes() != manifest:  # this is not the snapshot the records describe: nothing is decided from it
                 log["stages"]["manifest"] = {"failed": "the manifest recorded earlier for this session differs from the snapshot's; no ticket is written"}

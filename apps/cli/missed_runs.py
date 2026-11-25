@@ -67,10 +67,13 @@ def report(root: Path, records: Path, machine: str, since: date | None, now: dat
     sessions = [date.fromisoformat(s) for s in json.loads((root / snapshots.CALENDAR).read_text(encoding="utf-8"))["sessions"]]
     last = snapshots.latest_closed_session(sessions, now)
     recorded = sorted({p.stem for p in base.glob("tickets/*/*/*.json")} | {p.name for p in base.glob("runs/*") if p.is_dir()})
-    first = since or (date.fromisoformat(recorded[0]) if recorded else None)
+    decisions = expected(root, base)
+    # The scan starts where the first decision was due, which can be before this machine first ran: a session a gate was
+    # registered for and nobody ran the job on is a missed one too. Each decision is then expected from its own date.
+    starts = sorted({start for _, _, start in decisions} | set(recorded[:1]))
+    first = since or (date.fromisoformat(starts[0]) if starts else None)
     if first is None:
         return [f"{machine} has recorded nothing yet"]
-    decisions = expected(root, base)
     lines = []
     for session in (s for s in sessions if first <= s <= last):
         for gate, subject, start in decisions:

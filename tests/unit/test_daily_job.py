@@ -192,17 +192,30 @@ class DailyJobTests(unittest.TestCase):
     def test_a_snapshot_that_differs_from_the_recorded_manifest_writes_no_ticket(self):
         self.assertEqual(self.job(), 0)
         base = self.records / "pc-a"
-        (base / "tickets/rule/fund_qqq/2026-11-23.json").unlink()  # one ticket is missing, and the manifest on record is not this snapshot's
+        taken = self.root / "artifacts/snapshots/2026-11-23/manifest.json"  # the snapshot on disk is no longer the one the records describe
+        other = json.loads(taken.read_text())
+        other["downloaded_at"] = "2026-11-23T23:00:00+00:00"
+        taken.write_text(json.dumps(other))
+        self.assertEqual(self.job(now=datetime.combine(SESSION, time(20, 0), NEW_YORK)), 1)
+        log = self.logs()[-1]
+        self.assertEqual((sorted(log["stages"]), "no ticket is written" in log["stages"]["manifest"]["failed"]), (["backup", "manifest", "snapshot"], True))  # no ticket stage ran
+        # The manifest on record is not replaced, here or on the remote, and the log of the failed run is published.
+        remote = lambda path: self.git(self.remote, "show", f"main:{path}")
+        self.assertNotEqual(json.loads(remote("pc-a/manifests/2026-11-23.json"))["downloaded_at"], other["downloaded_at"])
+        self.assertEqual(remote("pc-a/manifests/2026-11-23.json"), (base / "manifests/2026-11-23.json").read_text().rstrip("\n"))
+        self.assertEqual(len([n for n in self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines() if n.startswith("pc-a/runs/2026-11-23/")]), 2)
+
+    def test_a_committed_record_changed_or_deleted_on_disk_is_never_published(self):
+        self.assertEqual(self.job(), 0)
+        base = self.records / "pc-a"
+        (base / "tickets/rule/fund_qqq/2026-11-23.json").unlink()
         recorded = json.loads((base / "manifests/2026-11-23.json").read_text())
         recorded["downloaded_at"] = "2026-11-23T23:00:00+00:00"
         (base / "manifests/2026-11-23.json").write_text(json.dumps(recorded))
-        self.assertEqual(self.job(now=datetime.combine(SESSION, time(20, 0), NEW_YORK)), 1)
-        log = self.logs()[-1]
-        self.assertEqual((sorted(log["stages"]), "no ticket is written" in log["stages"]["manifest"]["failed"]), (["backup", "manifest", "snapshot"], True))
-        self.assertFalse((base / "tickets/rule/fund_qqq/2026-11-23.json").exists())  # not written from a snapshot the records do not describe
-        self.assertEqual(self.job(now=datetime.combine(SESSION, time(20, 30), NEW_YORK)), 1)  # and not on a further retry either
-        # What was committed is not overwritten: the remote still has the first manifest and the ticket that was deleted on disk,
-        # and it does have the logs of the two failed runs.
+        for attempt in (20, 21):  # the run fails, and a retry does not write the deleted ticket again or push the edit
+            self.assertEqual(self.job(now=datetime.combine(SESSION, time(attempt, 0), NEW_YORK)), 1)
+            self.assertFalse((base / "tickets/rule/fund_qqq/2026-11-23.json").exists())
+        self.assertIn("no ticket is written", self.logs()[-1]["stages"]["records"]["failed"])
         remote = lambda path: self.git(self.remote, "show", f"main:{path}")
         self.assertEqual(json.loads(remote("pc-a/manifests/2026-11-23.json")), json.loads((self.root / "artifacts/snapshots/2026-11-23/manifest.json").read_text()))
         self.assertIn("beta:fund:qqq:2026-11-23", remote("pc-a/tickets/rule/fund_qqq/2026-11-23.json"))
@@ -253,6 +266,54 @@ class DailyJobTests(unittest.TestCase):
         self.assertTrue((self.records / "pc-a/tickets/rule/fund_qqq/2026-11-24.json").is_file())
         later = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
         self.assertEqual(later, first_morning)  # the missed day is still on the list, and only that
+
+    def test_a_ticket_edited_on_disk_cannot_shape_a_new_ticket(self):
+        self.last = date(2026, 11, 20)
+        self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)
+        yesterday = self.records / "pc-a/tickets/rule/fund_qqq/2026-11-20.json"
+        edited = json.loads(yesterday.read_text())
+        self.assertEqual((edited["state"], edited["issuance"]), ("GREEN", "live"))
+        edited.update(state="RED", target_exposure=0.0)  # the committed ticket says GREEN; the file on disk now says RED
+        yesterday.write_text(json.dumps(edited))
+        self.last, self.short_history = SESSION, "QQQ"  # today QQQ has a missing input, so its ticket would hold yesterday's state
+        self.assertEqual(self.job(), 1)
+        log = self.logs()[-1]
+        self.assertIn("no ticket is written", log["stages"]["records"]["failed"])
+        self.assertTrue("rule" not in log["stages"] and "shadow" not in log["stages"])
+        names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        self.assertEqual([n for n in names if "/tickets/" in n and "2026-11-23" in n], [])  # no ticket for today, for either subject
+        self.assertTrue(any(n.startswith("pc-a/runs/2026-11-23/") for n in names))  # the failure log is published
+        self.assertIn('"state": "GREEN"', self.git(self.remote, "show", "main:pc-a/tickets/rule/fund_qqq/2026-11-20.json"))  # the remote keeps what was issued
+        self.assertFalse((self.records / "pc-a/tickets/rule/fund_soxx/2026-11-23.json").exists())
+
+    def test_records_staged_by_a_run_whose_commit_failed_are_published_by_the_next_run(self):
+        hook = self.records / ".git/hooks/pre-commit"
+        hook.parent.mkdir(exist_ok=True)
+        hook.write_text("#!/bin/sh\nexit 1\n")
+        hook.chmod(0o755)
+        self.assertEqual(self.job(), 1)  # staging worked, the commit did not
+        staged = self.git(self.records, "diff", "--cached", "--name-only").splitlines()
+        self.assertIn("pc-a/tickets/rule/fund_qqq/2026-11-23.json", staged)
+        self.assertNotIn("pc-a", self.git(self.remote, "ls-tree", "-r", "--name-only", "main"))
+        hook.unlink()
+        self.assertEqual(self.job(now=datetime.combine(SESSION, time(19, 15), NEW_YORK)), 0)
+        names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        self.assertTrue({"pc-a/tickets/rule/fund_qqq/2026-11-23.json", "pc-a/tickets/rule/fund_soxx/2026-11-23.json", "pc-a/manifests/2026-11-23.json"} <= set(names))
+        self.assertEqual(len([n for n in names if n.startswith("pc-a/runs/2026-11-23/")]), 2)  # both runs' logs
+        self.assertEqual(self.git(self.records, "status", "--porcelain", "--untracked-files=all").strip(), "?? pc-a/job.lock")
+
+    def test_a_session_a_gate_was_registered_for_before_this_machine_first_ran_is_reported(self):
+        self.last = date(2026, 11, 24)
+        self.assertEqual(self.job("--session", "2026-11-24", now=datetime(2026, 11, 24, 19, 0, tzinfo=NEW_YORK)), 0)  # the first run here
+        path = self.root / "artifacts/forward/shadow_gates/registration.json"
+        registration = json.loads(path.read_text())
+        registration["status"] = "Registered for this test"
+        registration["subjects"] = [{**s, "first_session": "2026-11-23"} for s in registration["subjects"]]  # the gates were due from the 23rd
+        path.write_text(json.dumps(registration))
+        lines = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual((len(lines), sum(line.startswith("2026-11-23 ") for line in lines)), (14, 7))  # seven shadow decisions on each day
+        self.assertTrue(all("the job did not run for this session" in line for line in lines if line.startswith("2026-11-23 ")))
+        self.assertFalse(any(" rule " in line for line in lines))  # the rule's record here starts with the first run, on the 24th
 
     def test_a_gate_registered_later_raises_nothing_about_the_sessions_before_its_first_session(self):
         self.assertEqual(self.job(), 0)  # one session recorded with the rule only
