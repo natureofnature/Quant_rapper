@@ -111,6 +111,24 @@ class ShadowTicket(Contract):
         return self
 
 
+class BetaGap(Contract):
+    """A session on which the rule could say nothing: an input was missing and it had no earlier live ticket to hold.
+
+    Written in place of a ticket, so the session is on record as a gap and is never read as a state.
+    """
+
+    gap_id: Text  # "gap:rule:<subject>:<session>"
+    subject_id: Text
+    session: date
+    decision_time: AwareDatetime
+    issued_at: AwareDatetime
+    reason: Text
+    inputs: dict[Text, float | None]
+    source: Text
+    recipe_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    snapshot_sha256: dict[Text, str]
+
+
 class ShadowGap(Contract):
     """A session on which a fitted gate could say nothing: it had no score and no earlier live ticket to hold.
 

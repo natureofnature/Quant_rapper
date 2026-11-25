@@ -23,7 +23,7 @@ import tempfile
 from quant_causal_graph.causal_map import check_bindings
 from quant_contracts.causal_map import ResearchInputs
 from quant_contracts.evaluation import Factor
-from quant_contracts.forecast import AlphaTicket, BetaTicket, GatedAlpha, MaturedOutcome
+from quant_contracts.forecast import AlphaTicket, BetaGap, BetaTicket, GatedAlpha, MaturedOutcome
 from quant_contracts.pit import SeriesBinding, SessionCalendar
 from quant_evaluator.beta.forward_target import forward_average_return
 from quant_evaluator.beta.risk_gate import forward_drawdown
@@ -52,6 +52,14 @@ def apply_beta_veto(alpha: AlphaTicket, beta: BetaTicket) -> GatedAlpha:
     else:
         action, reason = "allowed", f"{beta.subject_id} gate is {beta.state}; the ticket is {alpha.direction}"
     return GatedAlpha(alpha_ticket_id=alpha.ticket_id, beta_ticket_id=beta.ticket_id, action=action, reason=reason)
+
+
+class NothingToHold(SystemExit):
+    """A rule had no value and no earlier live ticket exists to hold. ``gap`` is the record to write in place of a ticket."""
+
+    def __init__(self, gap: BetaGap):
+        super().__init__(gap.reason)
+        self.gap = gap
 
 
 def write_once(path: Path, text: str) -> None:
@@ -142,10 +150,15 @@ def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime |
     folder = folder or root / "artifacts/tickets" / symbol  # where this issuer's earlier tickets are: a held state is read from there
     subject_id = next(a for a in b[subject["close"]].anchors)
     if any(v is None for v in values.values()):  # the registered rule: hold the previous target, and say so
-        earlier = sorted(p for p in folder.glob("*.json") if p.stem < str(session)) if folder.exists() else []
-        if not earlier:
-            raise SystemExit(f"a rule has no value on {session} and there is no earlier ticket to hold: {values}")
-        previous = BetaTicket.model_validate_json(earlier[-1].read_text())
+        # Only a ticket written in time was ever in force. One written late shows what the rule would have said and is never
+        # held; one from before issuance was recorded is taken as it was written.
+        earlier = sorted((p for p in folder.glob("*.json") if p.stem < str(session)), reverse=True) if folder.exists() else []
+        previous = next((t for t in (BetaTicket.model_validate_json(p.read_text()) for p in earlier) if t.issuance != "replay"), None)
+        if previous is None:
+            raise NothingToHold(BetaGap(
+                gap_id=f"gap:rule:{subject_id}:{session}", subject_id=subject_id, session=session, decision_time=cutoff.time, issued_at=clock(),
+                reason=f"a rule has no value on {session} and there is no earlier live ticket to hold",
+                inputs=values, source=f"frozen rule {registration['registration_id']}", recipe_sha256=recipe_hash, snapshot_sha256=hashes))
         gate, stressed, held = previous.state, (), True
     else:
         stressed = tuple(f.factor_id for f, (test, cut) in zip(factors, rules) if test(values[f.factor_id], cut))

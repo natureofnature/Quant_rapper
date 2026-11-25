@@ -8,7 +8,8 @@
   "The review rule of RFC-006 section 5 is to be copied here in full, with its dates.",
   "The issuing machine is to be named in \"issuer\".",
   "The session calendar and the FOMC schedule end in 2026; the 2027 files are to be pinned.",
-  "The code commit and the pinned files' hashes are to be set, and this status line replaced."
+  "The code commit and the pinned files' hashes are to be set, and this status line replaced.",
+  "Each subject's first_session is to be set."
  ],
  "code": {
   "commit": null
@@ -37,7 +38,8 @@
    "class_bounds": [
     0.04,
     0.07
-   ]
+   ],
+   "first_session": null
   },
   {
    "subject": "QQQ",
@@ -51,7 +53,8 @@
    "class_bounds": [
     0.03,
     0.055
-   ]
+   ],
+   "first_session": null
   },
   {
    "subject": "TSM",
@@ -59,7 +62,8 @@
    "close": "yahoo:tsm:close",
    "gates": [
     "E-dd"
-   ]
+   ],
+   "first_session": null
   }
  ],
  "gates": {
@@ -692,5 +696,6 @@
   "A snapshot taken in the evening can hold a value its source revised after the decision time; the hash pins what was used, not what was knowable.",
   "The model is refitted on the whole history at every run, from that day's download. Yahoo restates histories, so an earlier session's score can differ between two days' runs; a ticket records only its own session.",
   "TSM shares most of its inputs with SOXX and is not independent evidence."
- ]
+ ],
+ "first_session_note": "Each subject's forward record starts on its first_session, set when this is registered. No ticket is written for an earlier session, and the missed-run check expects none before it. A subject added later gets its own date, as RFC-006 section 5.1 requires."
 }

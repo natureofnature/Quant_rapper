@@ -104,7 +104,7 @@ class ShadowTicketTests(unittest.TestCase):
         self.assertEqual(snapshot.main(["--no-backup"], root=root, fetcher=self.fetcher, pause=0.0, now=EVENING), 0)
         return root, root / "artifacts/snapshots" / str(SESSION)
 
-    def registered(self, name, issuer="pc-a"):
+    def registered(self, name, issuer="pc-a", first="2026-11-23"):
         """A git checkout whose registration is registered: it pins a code commit, an issuer and the configuration files."""
         root = Path(self.temp.name) / name
         shutil.copytree(self.root, root)
@@ -115,7 +115,8 @@ class ShadowTicketTests(unittest.TestCase):
         (root / ".gitignore").write_text("artifacts/snapshots/2026-11-23/\n")
         git("init", "-q"); git("add", "-A"); git("commit", "-q", "-m", "code")
         pinned = {name: hashlib.sha256((root / name).read_bytes()).hexdigest() for name in COPIED}
-        registration = {**self.registration, "status": "Registered for this test", "code": {"commit": git("rev-parse", "HEAD")}, "issuer": issuer, "pinned_files": pinned}
+        registration = {**self.registration, "status": "Registered for this test", "code": {"commit": git("rev-parse", "HEAD")}, "issuer": issuer, "pinned_files": pinned,
+                        "subjects": [{**s, "first_session": first} for s in self.registration["subjects"]]}
         (root / REGISTRATION).write_text(json.dumps(registration, indent=1) + "\n")
         return root, root / "artifacts/snapshots" / str(SESSION), git, registration
 
@@ -348,6 +349,20 @@ class ShadowTicketTests(unittest.TestCase):
             emit(root, folder, SESSION, records, now=datetime.combine(SESSION, time(23, 30), NEW_YORK), machine="pc-a", only=["TSM"])
         self.assertEqual(json.loads(stored.read_text()), other)
 
+    def test_no_ticket_is_written_for_a_session_before_a_subjects_registered_first_session(self):
+        root, folder, git, _ = self.registered("starts_later", first="2026-11-24")
+        git("add", "-A"); git("commit", "-q", "-m", "register")
+        records = Path(self.temp.name) / "starts_later_records"
+        batch = emit(root, folder, SESSION, records, now=EVENING, machine="pc-a")
+        self.assertEqual((batch.tickets, batch.gaps), ([], []))
+        self.assertEqual([p.name for p in records.rglob("*") if p.is_file()], [".lock"])
+        undated, _, git2, registration = self.registered("undated")
+        registration["subjects"][0].pop("first_session")
+        (undated / REGISTRATION).write_text(json.dumps(registration, indent=1) + "\n")
+        git2("add", "-A"); git2("commit", "-q", "-m", "register")
+        with self.assertRaisesRegex(SystemExit, "gives no first session for QQQ"):
+            emit(undated, undated / "artifacts/snapshots" / str(SESSION), SESSION, records, now=EVENING, machine="pc-a")
+
     def test_a_second_run_for_the_same_issuer_stops_while_one_is_writing(self):
         import fcntl
         root, folder, git, _ = self.registered("locked")
@@ -387,6 +402,7 @@ class ShadowTicketTests(unittest.TestCase):
     def test_the_repository_registration_is_a_well_formed_draft(self):
         r = json.loads((ROOT / REGISTRATION).read_text())
         self.assertTrue(r["status"].startswith("DRAFT") and r["code"]["commit"] is None and r["issuer"] is None)
+        self.assertTrue(all("first_session" in s and s["first_session"] is None for s in r["subjects"]))  # set when it is registered
         self.assertEqual(sorted(r["pinned_files"]), sorted(COPIED))  # the files that decide which values a decision may read
         self.assertTrue(all((ROOT / name).is_file() for name in r["pinned_files"]))
         bound = {s["series_id"] for s in json.loads((ROOT / BINDINGS / "series_bindings.json").read_text())["series"]}

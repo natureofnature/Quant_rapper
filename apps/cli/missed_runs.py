@@ -26,13 +26,24 @@ SHADOW = "artifacts/forward/shadow_gates/registration.json"
 BINDINGS = "knowledge_base/prior_knowledge/bindings/series_bindings.json"
 
 
-def expected(root: Path) -> list[tuple[str, str]]:
-    """(gate, subject folder) for every decision the job is meant to record each session."""
+def expected(root: Path, base: Path) -> list[tuple[str, str, str]]:
+    """(gate, subject folder, first session) for every decision the job is meant to record, each from its own start.
+
+    The rule's record for a subject starts with the first session this machine recorded for
+    it. A shadow gate's starts on the first session its registration gives the subject, and
+    only once that registration is registered. A decision is expected from its start on, so
+    adding a gate or a subject later raises nothing about the sessions before it.
+    """
     anchor = {s["series_id"]: s["anchors"][0].replace(":", "_") for s in json.loads((root / BINDINGS).read_text(encoding="utf-8"))["series"]}
-    out = [("rule", anchor[s["close"]]) for s in json.loads((root / RULE).read_text(encoding="utf-8"))["subjects"]]
+    out = []
+    for s in json.loads((root / RULE).read_text(encoding="utf-8"))["subjects"]:
+        subject = anchor[s["close"]]
+        recorded = sorted(p.stem for kind in ("tickets", "gaps") for p in (base / kind / "rule" / subject).glob("*.json"))
+        if recorded:
+            out.append(("rule", subject, recorded[0]))
     shadow = json.loads((root / SHADOW).read_text(encoding="utf-8"))
     if not str(shadow.get("status", "")).startswith("DRAFT"):
-        out += [(gate, anchor[s["close"]]) for s in shadow["subjects"] for gate in s["gates"]]
+        out += [(gate, anchor[s["close"]], s["first_session"]) for s in shadow["subjects"] if s.get("first_session") for gate in s["gates"]]
     return out
 
 
@@ -58,9 +69,14 @@ def report(root: Path, records: Path, machine: str, since: date | None, now: dat
     first = since or (date.fromisoformat(recorded[0]) if recorded else None)
     if first is None:
         return [f"{machine} has recorded nothing yet"]
+    decisions = expected(root, base)
+    if not decisions:  # the job ran and wrote no ticket at all: say what its log says, for each session it ran
+        return [f"{session} no decision is on record; {why_missing(base, date.fromisoformat(session), 'rule')}" for session in recorded if session >= str(first)]
     lines = []
     for session in (s for s in sessions if first <= s <= last):
-        for gate, subject in expected(root):
+        for gate, subject, start in decisions:
+            if str(session) < start:
+                continue
             ticket, gap = (base / kind / gate / subject / f"{session}.json" for kind in ("tickets", "gaps"))
             if ticket.is_file():
                 written = json.loads(ticket.read_text(encoding="utf-8"))

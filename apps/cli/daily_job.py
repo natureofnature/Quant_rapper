@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT / "apps/cli"))
 for package in ("quant_contracts", "quant_pit_data", "quant_evaluator", "quant_causal_graph", "quant_loop"):
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 import snapshot as snapshots
-from quant_contracts.forecast import BetaTicket
+from quant_contracts.forecast import BetaGap, BetaTicket
 from quant_contracts.pit import SeriesBinding
 from quant_loop import shadow, tickets
 from quant_pit_data.snapshots import problems
@@ -49,18 +49,25 @@ def rule_tickets(root: Path, folder: Path, session: date, base: Path, now: datet
     """The frozen rule's ticket for each subject of its registration, written once under ``base``/tickets/rule/."""
     registration = json.loads((root / RULE).read_text(encoding="utf-8"))
     catalogue = {s["series_id"]: SeriesBinding(**s) for s in json.loads((root / BINDINGS).read_text(encoding="utf-8"))["series"]}
-    out = {"written": [], "kept": [], "failed": {}}
+    out = {"written": [], "gaps": [], "kept": [], "failed": {}}
     for subject in registration["subjects"]:
         symbol = subject["subject"]
-        where = base / "tickets" / "rule" / catalogue[subject["close"]].anchors[0].replace(":", "_")
+        name = catalogue[subject["close"]].anchors[0].replace(":", "_")
+        where, gap_path = base / "tickets" / "rule" / name, base / "gaps" / "rule" / name / f"{session}.json"
         path = where / f"{session}.json"
         try:
             if path.is_file():  # written by an earlier run: it stands, with the time it was written
                 out["kept"].append(BetaTicket.model_validate_json(path.read_text(encoding="utf-8")).ticket_id)
                 continue
+            if gap_path.is_file():  # one decision has one official record, and the first one stands
+                out["kept"].append(BetaGap.model_validate_json(gap_path.read_text(encoding="utf-8")).gap_id)
+                continue
             ticket = tickets.emit(root, folder, symbol, session, now=now, folder=where)  # with no fixed time it reads the clock as it writes
             tickets.write_once(path, ticket.model_dump_json(indent=1) + "\n")
             out["written"].append(f"{ticket.ticket_id}: {ticket.state}, held {ticket.held}, {ticket.issuance}")
+        except tickets.NothingToHold as nothing:  # no value and no live ticket to hold: on record as a gap, never as a state
+            tickets.write_once(gap_path, nothing.gap.model_dump_json(indent=1) + "\n")
+            out["gaps"].append(nothing.gap.gap_id)
         except (SystemExit, Exception) as error:  # one subject's failure does not stop the others
             out["failed"][symbol] = said(error)
     return out
@@ -79,23 +86,37 @@ def shadow_tickets(root: Path, folder: Path, session: date, records: Path, machi
 
 
 def publish_records(records: Path, machine: str, session: date, push: bool, tries: int, pause: float) -> dict:
-    """Commit this machine's folder and push. The commit is made even when the push fails; a later run pushes it."""
+    """Commit this machine's folder, and only it, then push. The commit is made even when the push fails; a later run pushes it.
+
+    Every step's result is checked: a run is reported as pushed only when this machine's
+    records are all committed and the remote has that commit.
+    """
     git = lambda *a: subprocess.run(["git", "-C", str(records), *a], capture_output=True, text=True)
-    git("add", "--", machine, ":(exclude,glob)**/*.lock", ":(exclude,glob)**/.lock")  # a lock is this run's own, never a record
+    locks = (":(exclude,glob)**/*.lock", ":(exclude,glob)**/.lock")  # a lock is this run's own, never a record
     out = {"committed": False, "pushed": None}
-    if git("diff", "--cached", "--quiet").returncode:
-        made = git("commit", "-q", "-m", f"{machine} {session}: records of the daily job")
+    staged = git("add", "--", machine, *locks)
+    if staged.returncode:
+        return {**out, "failed": f"staging the records: {staged.stderr.strip() or staged.returncode}"}
+    if git("diff", "--cached", "--quiet", "--", machine).returncode:
+        # Named paths only: anything else staged in this checkout is left out of the job's commit.
+        made = git("commit", "-q", "-m", f"{machine} {session}: records of the daily job", "--", machine)
         if made.returncode:
-            return {**out, "failed": f"commit: {made.stderr.strip()}"}
+            return {**out, "failed": f"commit: {made.stderr.strip() or made.returncode}"}
         out["committed"] = True
+    left = [line for line in git("status", "--porcelain", "--untracked-files=all", "--", machine).stdout.splitlines() if not line.endswith(".lock")]
+    if left:
+        return {**out, "failed": f"{len(left)} of this machine's records are not committed, the first being {left[0].strip()}"}
     if not push:
         return out
     for attempt in range(tries):
         sent = git("push", "-q")
         if sent.returncode == 0:
-            return {**out, "pushed": True}
+            break
         clock.sleep(pause)
-    return {**out, "pushed": False, "failed": f"push: {sent.stderr.strip()}"}
+    else:
+        return {**out, "pushed": False, "failed": f"push: {sent.stderr.strip() or sent.returncode}"}
+    here, there = git("rev-parse", "HEAD").stdout.strip(), git("rev-parse", "@{upstream}").stdout.strip()
+    return {**out, "pushed": True} if here and here == there else {**out, "pushed": False, "failed": "after the push the remote does not have this commit"}
 
 
 def run(root: Path, records: Path, session: date | None, push: bool, fetcher, now, machine: str, tries: int = 3, pause: float = 20.0, fetch_pause: float = 0.6) -> int:
@@ -117,17 +138,29 @@ def run(root: Path, records: Path, session: date | None, push: bool, fetcher, no
             wrong = problems(folder)
             log["stages"]["snapshot"] = {"failed": "; ".join(wrong)} if wrong else {"kept": "already taken; it matches its manifest"}
         else:
-            code = snapshots.main(["--session", str(session)], root=root, fetcher=fetcher, pause=fetch_pause, now=now)
+            code = snapshots.main(["--session", str(session), "--no-backup"], root=root, fetcher=fetcher, pause=fetch_pause, now=now)
             log["stages"]["snapshot"] = {"written": str(folder.relative_to(root))} if code == 0 and folder.is_dir() else {"failed": f"the snapshot command exited {code}"}
-        if "failed" not in log["stages"]["snapshot"]:  # nothing can be decided without the session's data
+        sound = "failed" not in log["stages"]["snapshot"]
+        if sound:  # the backup is completed whenever it is missing, by the snapshot command's own routine; its failure does not hold up a ticket
+            copy = root / "run/backup/snapshots" / str(session)
+            try:
+                if copy.exists():
+                    log["stages"]["backup"] = {"kept": "already copied"}
+                else:
+                    snapshots.back_up(folder, copy)
+                    log["stages"]["backup"] = {"written": str(copy.relative_to(root))}
+            except OSError as error:
+                log["stages"]["backup"] = {"failed": f"the copy could not be made: {error}"}
             manifest = (folder / "manifest.json").read_bytes()
             log["snapshot_manifest_sha256"] = hashlib.sha256(manifest).hexdigest()
-            copy = base / "manifests" / f"{session}.json"
-            copy.parent.mkdir(parents=True, exist_ok=True)
-            if not copy.is_file():
-                copy.write_bytes(manifest)
-            elif copy.read_bytes() != manifest:
-                log["stages"]["manifest"] = {"failed": "the manifest recorded earlier for this session differs from the snapshot's"}
+            recorded = base / "manifests" / f"{session}.json"
+            recorded.parent.mkdir(parents=True, exist_ok=True)
+            if not recorded.is_file():
+                recorded.write_bytes(manifest)
+            elif recorded.read_bytes() != manifest:  # this is not the snapshot the records describe: nothing is decided from it
+                log["stages"]["manifest"] = {"failed": "the manifest recorded earlier for this session differs from the snapshot's; no ticket is written"}
+                sound = False
+        if sound:  # nothing can be decided without the session's data, as it was recorded
             log["stages"]["rule"] = rule_tickets(root, folder, session, base, now)
             log["stages"]["shadow"] = shadow_tickets(root, folder, session, records, machine, clock_now)
         log["finished"] = clock_now().isoformat()

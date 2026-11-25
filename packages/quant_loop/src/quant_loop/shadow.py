@@ -94,6 +94,9 @@ def refuse_unless_registered(root: Path, registration: dict, path: Path, machine
         raise SystemExit("the registration must be the committed file, unchanged")
     if git("diff", "--quiet", commit, "--", *PINNED_PATHS).returncode:
         raise SystemExit(f"the code differs from the registered commit {commit[:7]}: no ticket is written by other code")
+    undated = [s["subject"] for s in registration["subjects"] if not s.get("first_session")]
+    if undated:
+        raise SystemExit(f"the registration gives no first session for {', '.join(undated)}: each subject's forward record starts on a stated date")
     if not registration.get("pinned_files"):
         raise SystemExit("the registration pins no bindings, definitions, schedule or calendars")
     wrong = pinned_differences(root, registration)
@@ -269,6 +272,10 @@ def _emit(root: Path, snapshot: Path, session: date, records: Path | None, now: 
         print(f"note: these files differ from the ones the registration pins: {', '.join(pinned_differences(root, registration))}")
     P, G, spec = registration["parameters"], registration["parameters"]["gate"], registration["inputs"]
     subjects = [s for s in registration["subjects"] if only is None or s["subject"] in only]
+    early = [s["subject"] for s in subjects if s.get("first_session") and str(session) < s["first_session"]]
+    if early and not dry_run:  # a subject's record starts on its registered first session: nothing is written for an earlier one
+        print(f"{', '.join(early)}: {session} is before the registered first session: no ticket")
+        subjects = [s for s in subjects if s["subject"] not in early]
     zone = ZoneInfo("America/New_York")
     cutoff = datetime.combine(session, time.fromisoformat(spec["decision_time"]), zone)
     if clock() < cutoff:
