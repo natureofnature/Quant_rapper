@@ -60,6 +60,7 @@ from quant_contracts.pit import SeriesBinding
 from quant_evaluator.beta.forward_target import class_thresholds, forward_average_return, trailing_volatility
 from quant_evaluator.beta.model_gate import gate_position, score_level, step, walk_forward_binary
 from quant_evaluator.beta.risk_gate import forward_drawdown
+from quant_loop.records import Records
 from quant_loop.tickets import write_once
 from quant_loop.wide_inputs import BINDINGS, build
 
@@ -132,21 +133,8 @@ class Batch:
 
 
 def last_live_ticket(records: Path, machine: str, gate: str, subject: str, session: date) -> tuple[ShadowTicket, str] | None:
-    """The latest ticket of this issuer, gate and subject from before ``session`` that was written in time, with its file's hash."""
-    folder = records / machine / "tickets" / gate / subject
-    for path in sorted((p for p in folder.glob("*.json") if p.stem < str(session)), reverse=True) if folder.is_dir() else []:
-        data = path.read_bytes()
-        try:
-            ticket = ShadowTicket.model_validate_json(data)
-        except ValueError:
-            continue  # not a complete ticket: it holds nothing
-        # It must be this gate's ticket for this subject and for the session its file is named after.
-        own = (ticket.gate, ticket.subject_id.replace(":", "_"), str(ticket.session), ticket.machine) == (gate, subject, path.stem, machine)
-        # And that decision's official record: where a gap stands for it, a ticket beside the gap was never in force.
-        gap_beside = records / machine / "gaps" / gate / subject / path.name
-        if ticket.issuance == "live" and own and not gap_beside.is_file():
-            return ticket, hashlib.sha256(data).hexdigest()
-    return None
+    """The latest ticket of this issuer, gate and subject from before ``session`` that was in force, with its file's hash."""
+    return Records(records, machine).last_live(gate, subject, session)
 
 
 SAME = ("gate", "subject_id", "session", "decision_time", "machine", "registration_id", "registration_sha256", "code_commit", "inputs_sha256")
@@ -164,17 +152,18 @@ def publish(records: Path, machine: str, gate: str, subject: str, session: date,
     base = records / machine
     ticket_path, gap_path = (base / kind / gate / subject / f"{session}.json" for kind in ("tickets", "gaps"))
     is_ticket = isinstance(record, ShadowTicket)
-    if ticket_path.is_file() and gap_path.is_file():  # neither can be taken for the official record here
-        batch.conflicts.append(f"{ticket_path} and {gap_path} both exist for one decision; the one committed first stands and the other is to be removed")
-        return ShadowTicket.model_validate_json(ticket_path.read_text(encoding="utf-8"))
-    if ticket_path.is_file():
+    official = Records(records, machine).official(gate, subject, session)  # the one answer every reader of the records uses
+    if official.problem:
+        batch.conflicts.append(f"{gate} {subject} {session}: {official.problem}; nothing was written")
+        return None
+    if official.kind == "ticket":
         existing = ShadowTicket.model_validate_json(ticket_path.read_text(encoding="utf-8"))
         if is_ticket and all(getattr(existing, k) == getattr(record, k) for k in SAME_TICKET):
             batch.kept.append(existing.ticket_id)
         else:
             batch.conflicts.append(f"{ticket_path}: a ticket is already there and differs from what this run computed")
         return existing
-    if gap_path.is_file():
+    if official.kind == "gap":
         existing = ShadowGap.model_validate_json(gap_path.read_text(encoding="utf-8"))
         if not is_ticket:
             if all(getattr(existing, k) == getattr(record, k) for k in SAME + ("missing_inputs", "reason")):
@@ -338,7 +327,8 @@ def _emit(root: Path, snapshot: Path, session: date, records: Path | None, now: 
                         gap = ShadowGap(gap_id=f"gap:{gate}:{subject_id}:{session}", issued_at=clock(), missing_inputs=missing,
                                         reason=f"no score: {cause}; and no earlier live ticket of this gate and subject to hold", **common)
                         official = gap if dry_run else publish(*place, gap, batch)
-                        (batch.gaps if isinstance(official, ShadowGap) else batch.tickets).append(official)
+                        if official is not None:
+                            (batch.gaps if isinstance(official, ShadowGap) else batch.tickets).append(official)
                         continue
                     state, level, run, continues, previous_hash = earlier[0].state, None, (), "held", earlier[1]
                 else:
@@ -367,7 +357,8 @@ def _emit(root: Path, snapshot: Path, session: date, records: Path | None, now: 
                                       seed_scores=() if mean[-1] is None else tuple(s[-1] for s in by_seed), model_month=f"{session:%Y-%m}",
                                       inputs=row, horizon_sessions=P["horizon_sessions"], **common)
                 official = ticket if dry_run else publish(*place, ticket, batch)
-                (batch.tickets if isinstance(official, ShadowTicket) else batch.gaps).append(official)
+                if official is not None:
+                    (batch.tickets if isinstance(official, ShadowTicket) else batch.gaps).append(official)
             except Exception as error:
                 batch.errors.append(f"{name} {gate}: {type(error).__name__}: {error}")
     batch.digest = hashlib.sha256(json.dumps(record, sort_keys=True).encode("utf-8")).hexdigest()

@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT / "apps/cli"))
 for package in ("quant_contracts", "quant_pit_data", "quant_evaluator", "quant_causal_graph", "quant_loop"):
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 import snapshot as snapshots
-from record_state import misplaced, other_record, record_state
+from record_state import Records, misplaced, record_state
 from quant_contracts.forecast import BetaGap, BetaTicket
 from quant_contracts.pit import SeriesBinding
 from quant_loop import shadow, tickets
@@ -51,29 +51,26 @@ def rule_tickets(root: Path, folder: Path, session: date, base: Path, now: datet
     registration = json.loads((root / RULE).read_text(encoding="utf-8"))
     catalogue = {s["series_id"]: SeriesBinding(**s) for s in json.loads((root / BINDINGS).read_text(encoding="utf-8"))["series"]}
     out = {"written": [], "gaps": [], "kept": [], "failed": {}}
+    store = Records(base.parent, base.name)
     for subject in registration["subjects"]:
         symbol = subject["subject"]
         name = catalogue[subject["close"]].anchors[0].replace(":", "_")
         where, gap_path = base / "tickets" / "rule" / name, base / "gaps" / "rule" / name / f"{session}.json"
         path = where / f"{session}.json"
         try:
-            if path.is_file() and gap_path.is_file():  # one decision has one official record: with two, neither is taken for it here
-                out["failed"][symbol] = (f"{path.relative_to(base)} and {gap_path.relative_to(base)} both exist for one decision; "
-                                         "the one committed first stands and the other is to be removed")
+            official = store.official("rule", name, session)  # the one answer every reader of the records uses
+            if official.problem:
+                out["failed"][symbol] = f"{official.problem}; nothing was written"
                 continue
-            found = next((p for p in (path, gap_path) if p.is_file()), None)
-            if found is not None:  # a file is this decision's record only if it says so itself: a copy of another session's is not
-                wrong = misplaced(found, base)
+            if official.kind:  # recorded by an earlier run: it stands, with the time it was written, if it is what its place names
+                wrong = misplaced(official.path, base)
                 if wrong:
-                    out["failed"][symbol] = f"{found.relative_to(base)} is in this decision's place and {wrong}; nothing was written over it"
-                    continue
-            if path.is_file():  # written by an earlier run: it stands, with the time it was written
-                out["kept"].append(BetaTicket.model_validate_json(path.read_text(encoding="utf-8")).ticket_id)
+                    out["failed"][symbol] = f"{official.path.relative_to(base)} is in this decision's place and {wrong}; nothing was written over it"
+                else:
+                    out["kept"].append(f"{'beta' if official.kind == 'ticket' else 'gap:rule'}:{name.replace('_', ':')}:{session}")
                 continue
-            if gap_path.is_file():  # one decision has one official record, and the first one stands
-                out["kept"].append(BetaGap.model_validate_json(gap_path.read_text(encoding="utf-8")).gap_id)
-                continue
-            ticket = tickets.emit(root, folder, symbol, session, now=now, folder=where)  # with no fixed time it reads the clock as it writes
+            in_force = lambda: (found := store.last_live("rule", name, session)) and found[0]
+            ticket = tickets.emit(root, folder, symbol, session, now=now, folder=where, history=in_force)  # with no fixed time it reads the clock as it writes
             tickets.write_once(path, ticket.model_dump_json(indent=1) + "\n")
             out["written"].append(f"{ticket.ticket_id}: {ticket.state}, held {ticket.held}, {ticket.issuance}")
         except tickets.NothingToHold as nothing:  # no value and no live ticket to hold: on record as a gap, never as a state
@@ -117,13 +114,18 @@ def publish_records(records: Path, machine: str, session: date, push: bool, trie
         problems_found.append(f"{len(conflicts)} records staged by an earlier run have since changed on disk; neither version was published, the first being {conflicts[0]}")
     # A new file is published as a decision's record only if it is that decision's: its own gate, subject and session.
     wrong = {path: why for path in new if (why := misplaced(records / path, records / machine))}
-    # One decision has one official record. A new ticket beside a gap, or a new gap beside a ticket, is not published:
-    # what is committed stands, and two new ones cannot both be the record.
-    committed = set(git("ls-tree", "-r", "--name-only", "-z", "HEAD", "--", machine).stdout.split("\0"))
+    # One decision has one official record, and only that is published: a new file that is not it, or a decision for which
+    # no record can be named, stays where it is.
+    store = Records(records, machine)
     for path in list(new):
-        twin = other_record(path)
-        if twin is not None and path not in wrong and (twin in committed or twin in new):
-            wrong[path] = f"{twin} is {'already the committed record of' if twin in committed else 'also a new record for'} the same decision"
+        parts = Path(path).parts
+        if path in wrong or len(parts) != 5 or parts[1] not in ("tickets", "gaps"):
+            continue
+        official = store.official(parts[2], parts[3], Path(parts[4]).stem)
+        if official.problem:
+            wrong[path] = official.problem
+        elif official.path is None or official.path.relative_to(records).as_posix() != path:
+            wrong[path] = "it is not the official record of its decision, which is the committed " + str(official.kind)
     if wrong:
         first = next(iter(wrong))
         misplaced_note = f"{len(wrong)} new files are not the records their places name and were not published, the first being {first}: {wrong[first]}"

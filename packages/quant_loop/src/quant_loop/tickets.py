@@ -111,7 +111,8 @@ def _load(root: Path, snapshot: Path, symbol: str):
     return registration, hashlib.sha256(registration_path.read_bytes()).hexdigest(), subject, b, calendars, equity, prices, hashes, bindings_dir
 
 
-def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime | None = None, folder: Path | None = None) -> BetaTicket:
+def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime | None = None, folder: Path | None = None,
+         history=None) -> BetaTicket:
     """The ticket for one session, as of ``now`` (the clock, unless a test supplies it).
 
     It is refused before the session's decision time, and unless the snapshot already holds
@@ -152,20 +153,18 @@ def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime |
     if any(v is None for v in values.values()):  # the registered rule: hold the previous target, and say so
         # Only a ticket known to have been written in time was ever in force. One written late shows what the rule would have
         # said, and one from before issuance was recorded has an unknown time: neither is held. Both stay readable as history.
-        previous = None
-        for path in sorted((p for p in folder.glob("*.json") if p.stem < str(session)), reverse=True) if folder.exists() else []:
-            try:
-                found = BetaTicket.model_validate_json(path.read_text())
-            except ValueError:
-                continue  # not a complete ticket: it holds nothing
-            # It must be this subject's ticket for the session its file is named after: another subject's, or a copy under
-            # another date, was never this subject's state.
-            # And it must be that decision's official record: where a gap stands for the same decision, the gap is what was
-            # decided, and a ticket beside it was never in force.
-            gap_beside = path.parents[3] / "gaps" / path.parents[1].name / path.parents[0].name / path.name if path.parents[2].name == "tickets" else None
-            if found.issuance == "live" and found.subject_id == subject_id and str(found.session) == path.stem and not (gap_beside and gap_beside.is_file()):
-                previous = found
-                break
+        if history is not None:  # the records decide which earlier ticket was in force: quant_loop.records
+            previous = history()
+        else:  # a plain folder of tickets, as before the records repository: the latest complete live ticket of this subject
+            previous = None
+            for path in sorted((p for p in folder.glob("*.json") if p.stem < str(session)), reverse=True) if folder.exists() else []:
+                try:
+                    found = BetaTicket.model_validate_json(path.read_text())
+                except ValueError:
+                    continue
+                if found.issuance == "live" and found.subject_id == subject_id and str(found.session) == path.stem:
+                    previous = found
+                    break
         if previous is None:
             raise NothingToHold(BetaGap(
                 gap_id=f"gap:rule:{subject_id}:{session}", subject_id=subject_id, session=session, decision_time=cutoff.time, issued_at=clock(),

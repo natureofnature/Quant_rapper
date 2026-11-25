@@ -401,7 +401,8 @@ class DailyJobTests(unittest.TestCase):
         self.assertEqual(self.job("--session", "2026-11-20", now=when), 0)  # QQQ's decision of the 20th is on record as a gap
         self.earlier_rule_ticket("qqq", date(2026, 11, 20), "GREEN", "live")  # a valid ticket for the same decision appears
         self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 20, 0, tzinfo=NEW_YORK)), 1)  # not a success
-        self.assertIn("both exist for one decision", self.logs(date(2026, 11, 20))[-1]["stages"]["rule"]["failed"]["QQQ"])
+        log = self.logs(date(2026, 11, 20))[-1]
+        self.assertIn("gap:rule:fund:qqq:2026-11-20", log["stages"]["rule"]["kept"])  # the gap is the record: issuance keeps it and writes nothing
         names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
         self.assertTrue("pc-a/gaps/rule/fund_qqq/2026-11-20.json" in names and "pc-a/tickets/rule/fund_qqq/2026-11-20.json" not in names)
         morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 21, 8, 0, tzinfo=NEW_YORK))
@@ -426,6 +427,49 @@ class DailyJobTests(unittest.TestCase):
         held = BetaTicket.model_validate_json((self.records / "pc-a/tickets/rule/fund_qqq/2026-11-23.json").read_text())
         self.assertEqual((held.state, held.target_exposure, held.held), ("YELLOW", 0.5, True))
 
+    def test_whichever_record_was_committed_first_is_the_one_every_path_goes_by(self):
+        """The two cases, end to end: issuance, the hold on the next session, publication and the morning check must agree."""
+        morning = lambda day: missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, day, 8, 0, tzinfo=NEW_YORK))
+        remote = lambda: self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        base = self.records / "pc-a"
+
+        # Case 1. A live ticket is committed first; a stray gap for the same decision appears afterwards.
+        self.last = date(2026, 11, 20)
+        self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)
+        own = BetaTicket.model_validate_json((base / "tickets/rule/fund_qqq/2026-11-20.json").read_text())
+        self.assertEqual((own.state, own.issuance), ("GREEN", "live"))
+        stray = base / "gaps/rule/fund_qqq/2026-11-20.json"
+        stray.parent.mkdir(parents=True)
+        stray.write_text(BetaGap(gap_id="gap:rule:fund:qqq:2026-11-20", subject_id="fund:qqq", session="2026-11-20", decision_time=own.decision_time, issued_at=own.issued_at,
+                                 reason="placed by hand", inputs={}, source=own.source, recipe_sha256=own.recipe_sha256, snapshot_sha256={}).model_dump_json())
+        self.assertEqual(morning(21), ["2026-11-20 rule fund_qqq: pc-a/gaps/rule/fund_qqq/2026-11-20.json is not counted; the committed record of this decision is the ticket"])
+        self.last, self.short_history = SESSION, "QQQ"  # the next session QQQ has a missing input
+        self.assertEqual(self.job(), 1)  # an error, for the stray file; the position is carried all the same
+        held = BetaTicket.model_validate_json((base / "tickets/rule/fund_qqq/2026-11-23.json").read_text())
+        self.assertEqual((held.held, held.state, held.target_exposure, held.issuance), (True, "GREEN", 1.0, "live"))  # the committed ticket's state
+        self.assertTrue("pc-a/tickets/rule/fund_qqq/2026-11-23.json" in remote() and "pc-a/gaps/rule/fund_qqq/2026-11-20.json" not in remote())
+        self.assertEqual(len(morning(24)), 1)  # still only the stray gap: both sessions count as live tickets
+
+    def test_a_gap_committed_first_is_the_record_and_a_stray_ticket_creates_no_position(self):
+        """Case 2, end to end."""
+        morning = lambda day: missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, day, 8, 0, tzinfo=NEW_YORK))
+        remote = lambda: self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        base = self.records / "pc-a"
+        self.last, self.short_history = date(2026, 11, 19), "QQQ"
+        self.assertEqual(self.job("--session", "2026-11-19", now=datetime(2026, 11, 19, 19, 0, tzinfo=NEW_YORK)), 0)  # the 19th: a gap, nothing to hold
+        self.last = date(2026, 11, 20)
+        self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)  # the 20th: a gap again
+        self.earlier_rule_ticket("qqq", date(2026, 11, 20), "GREEN", "live")  # a stray ticket beside the committed gap of the 20th
+        self.last = SESSION
+        self.assertEqual(self.job(), 1)
+        # No valid live ticket exists, so the 23rd is a gap: the stray ticket creates no position, is not published and is not counted.
+        self.assertTrue((base / "gaps/rule/fund_qqq/2026-11-23.json").is_file() and not (base / "tickets/rule/fund_qqq/2026-11-23.json").exists())
+        self.assertEqual([n for n in remote() if n.startswith("pc-a/tickets/rule/fund_qqq/")], [])
+        report = morning(24)
+        self.assertEqual(sum(": a gap; " in line for line in report), 3)  # the 19th, the 20th and the 23rd
+        self.assertIn("2026-11-20 rule fund_qqq: pc-a/tickets/rule/fund_qqq/2026-11-20.json is not counted; the committed record of this decision is the gap", report)
+        self.assertEqual(len(report), 4)
+
     def test_a_ticket_put_in_place_of_a_committed_gap_that_was_deleted_on_disk_is_not_counted(self):
         self.last, self.short_history = date(2026, 11, 20), "QQQ"
         self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)
@@ -433,7 +477,7 @@ class DailyJobTests(unittest.TestCase):
         self.earlier_rule_ticket("qqq", date(2026, 11, 20), "GREEN", "live")
         morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 21, 8, 0, tzinfo=NEW_YORK))
         self.assertEqual(morning, ["2026-11-20 rule fund_qqq: pc-a/tickets/rule/fund_qqq/2026-11-20.json is not counted; the committed record of this decision is the gap",
-                                   "2026-11-20 rule fund_qqq: no ticket counted; the committed gap of this decision, pc-a/gaps/rule/fund_qqq/2026-11-20.json, is missing from disk"])
+                                   "2026-11-20 rule fund_qqq: no ticket counted; the committed gap of this decision is missing from disk, pc-a/gaps/rule/fund_qqq/2026-11-20.json"])
         self.assertEqual(missed_runs.main(["--records", str(self.records), "--machine", "pc-a"], root=self.root, now=datetime(2026, 11, 21, 8, 0, tzinfo=NEW_YORK)), 1)
 
     def test_a_shadow_ticket_written_by_another_machine_is_not_this_machines_record(self):

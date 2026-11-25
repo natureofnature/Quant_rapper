@@ -20,8 +20,9 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "apps/cli"))
 sys.path.insert(0, str(ROOT / "packages/quant_contracts/src"))  # the ticket and gap schemas issuance uses
+sys.path.insert(0, str(ROOT / "packages/quant_loop/src"))  # the rules for reading the records
 import snapshot as snapshots
-from record_state import committed_paths, read_record, record_state
+from record_state import Records, read_record, record_state
 
 RULE = "artifacts/ablations/sector_risk_baseline/registration.json"
 SHADOW = "artifacts/forward/shadow_gates/registration.json"
@@ -73,8 +74,8 @@ def report(root: Path, records: Path, machine: str, since: date | None, now: dat
     last = snapshots.latest_closed_session(sessions, now)
     recorded = sorted({p.stem for p in base.glob("tickets/*/*/*.json")} | {p.name for p in base.glob("runs/*") if p.is_dir()})
     try:  # the same view of the records as the job has: a file that is not what was committed, or of which two versions exist, is no ticket
-        uncommitted, changed, conflicts = record_state(records, machine)
-        committed = committed_paths(records, machine)
+        _, changed, conflicts = record_state(records, machine)
+        store = Records(records, machine)
     except OSError as error:  # without it a file on disk cannot be told from the record: nothing is reported as fine
         return [f"the records could not be verified, so no ticket is counted: {error}"]
     decisions = expected(root, base)
@@ -89,27 +90,19 @@ def report(root: Path, records: Path, machine: str, since: date | None, now: dat
         for gate, subject, start in decisions:
             if str(session) < start:
                 continue
-            ticket, gap = (base / kind / gate / subject / f"{session}.json" for kind in ("tickets", "gaps"))
-            found = next((p for p in (ticket, gap) if p.is_file()), None)
-            # One decision, one official record: the committed one, whatever is or is not on disk now.
-            rel = {p: p.relative_to(records).as_posix() for p in (ticket, gap)}
-            kind_of = {ticket: "ticket", gap: "gap"}
-            on_record = [p for p in (ticket, gap) if rel[p] in committed]
-            if len(on_record) == 2 or (not on_record and ticket.is_file() and gap.is_file()):
-                lines.append(f"{session} {gate} {subject}: no ticket counted; a ticket and a gap both exist for this decision and neither alone is the committed record")
+            official = store.official(gate, subject, session)  # the one answer every reader of the records uses
+            if official.stray is not None:
+                lines.append(f"{session} {gate} {subject}: {official.stray.relative_to(records).as_posix()} is not counted; "
+                             f"the committed record of this decision is the {official.kind}")
+            if official.problem:
+                lines.append(f"{session} {gate} {subject}: no ticket counted; {official.problem}"
+                             + (f", {official.path.relative_to(records).as_posix()}" if official.path is not None else ""))
                 continue
-            if on_record:
-                found = on_record[0]
-                other = gap if found is ticket else ticket
-                if other.is_file():
-                    lines.append(f"{session} {gate} {subject}: {rel[other]} is not counted; the committed record of this decision is the {kind_of[found]}")
-                if not found.is_file():
-                    lines.append(f"{session} {gate} {subject}: no ticket counted; the committed {kind_of[found]} of this decision, {rel[found]}, is missing from disk")
-                    continue
+            found = official.path
             if found is None:
                 lines.append(f"{session} {gate} {subject}: no ticket; {why_missing(base, session, gate)}")
                 continue
-            place, kind = found.relative_to(records).as_posix(), "ticket" if found is ticket else "gap"
+            place, kind = found.relative_to(records).as_posix(), official.kind
             # What git already knows comes first: a file it flags is not parsed to be judged.
             if place in conflicts:
                 lines.append(f"{session} {gate} {subject}: not a {kind} on record; an earlier run staged one and the file has changed since, so neither was published")
