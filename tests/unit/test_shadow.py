@@ -37,10 +37,10 @@ COPIED = (*(f"{BINDINGS}/{n}" for n in ("series_bindings.json", "factor_definiti
 KEPT = ("vix_term_structure", "real_yield_10y_change_20_rank_250", "trend_200", "vix_log", "sessions_to_fomc", "roc_20")
 
 
-def small(registration: dict) -> dict:
+def small(registration: dict, kept=None) -> dict:
     """The repository's registration with six inputs and a short history, so that a test fits in seconds."""
     r = json.loads(json.dumps(registration))
-    r["inputs"]["input_definitions"] = {k: v for k, v in r["inputs"]["input_definitions"].items() if k in KEPT}
+    r["inputs"]["input_definitions"] = {k: v for k, v in r["inputs"]["input_definitions"].items() if k in (kept or KEPT)}
     r["inputs"]["first_session"] = "2025-06-02"
     r["parameters"].update(min_train=60, min_positive=3, gate={**r["parameters"]["gate"], "window": 40, "min_scores": 20})
     r["parameters"]["tree"].update(n_estimators=10, min_child_days=10)
@@ -67,6 +67,7 @@ class ShadowTicketTests(unittest.TestCase):
         cls.bond_days = sessions(snapshot.SHARED[1])
         cls.late_close = None  # a symbol whose session close is served unfinished, with a quote stamped at this time
         cls.short_history = None  # a symbol served with only its last few sessions
+        cls.a_day_behind = None  # a symbol whose file ends on the session before, as an evening download of a round-the-clock market does
         assert snapshot.main(["--no-backup"], root=cls.root, fetcher=cls.fetcher, pause=0.0, now=EVENING) == 0
         cls.folder = cls.root / "artifacts/snapshots" / str(SESSION)
         batch = emit(cls.root, cls.folder, SESSION, None, now=EVENING, machine="test-machine", dry_run=True)
@@ -85,6 +86,8 @@ class ShadowTicketTests(unittest.TestCase):
             stamps = [int(datetime.combine(d, time(9, 30), NEW_YORK).timestamp()) for d in cls.equity]
             if symbol == cls.short_history:
                 stamps, closes = stamps[-5:], closes[-5:]
+            if symbol == cls.a_day_behind:
+                stamps, closes = stamps[:-1], closes[:-1]
             return json.dumps({"chart": {"result": [{"meta": meta, "timestamp": stamps, "indicators": {"quote": [{"open": [c or 1.0 for c in closes], "close": closes}]}}]}}).encode()
         if "_History.csv" in url:
             name = url.rsplit("/", 1)[1]
@@ -136,7 +139,7 @@ class ShadowTicketTests(unittest.TestCase):
         qqq = {t.gate: t for t in self.tickets if t.subject_id == "fund:qqq"}
         self.assertEqual(qqq["W-dd"].seed_scores[0], qqq["E-dd"].seed_scores[0])  # the same seed-0 fit serves both gates
         self.assertEqual(qqq["W-dd"].inputs, qqq["E-dd"].inputs)
-        self.assertNotIn("GCF.json", qqq["E-dd"].inputs_sha256)  # a file these six inputs never read is not required
+        self.assertNotIn("GCF.json", qqq["E-dd"].inputs_sha256)  # a file these inputs never read is not required
         tsm = next(t for t in self.tickets if t.subject_id == "company:tsmc")
         self.assertTrue("QQQ.json" in qqq["E-dd"].inputs_sha256 and "QQQ.json" not in tsm.inputs_sha256 and "TSM.json" in tsm.inputs_sha256)
         alone = emit(self.root, self.folder, SESSION, None, now=EVENING, machine="test-machine", dry_run=True, only=["TSM"]).tickets[0]
@@ -184,6 +187,21 @@ class ShadowTicketTests(unittest.TestCase):
         self.assertTrue(all("an input was not knowable" in g.reason for g in batch.gaps))
         tsm = next(t for t in self.tickets if t.subject_id == "company:tsmc")
         self.assertEqual((batch.tickets, batch.errors), ([tsm], []))  # TSM's ticket is the one it gets on its own
+
+    def test_a_series_whose_file_ends_a_day_before_the_session_does_not_stop_the_run(self):
+        with_dollar = Path(self.temp.name) / "with_dollar.json"  # one more input, read on its own dates: the dollar index
+        with_dollar.write_text(json.dumps(small(json.loads((ROOT / REGISTRATION).read_text()), kept=(*KEPT, "dollar_roc_20"))))
+        run = lambda root, folder: emit(root, folder, SESSION, None, now=EVENING, machine="test-machine", dry_run=True, only=["TSM"], registration_path=with_dollar).tickets[0]
+        whole = run(self.root, self.folder)
+        type(self).a_day_behind = "DX-Y.NYB"  # its last finished value is the session before, as in an evening download
+        try:
+            root, folder = self.copy_of_code("a_day_behind")
+        finally:
+            type(self).a_day_behind = None
+        ticket = run(root, folder)
+        # The session's own value is knowable only after the cutoff, so the decision reads the same values either way.
+        self.assertIsNotNone(ticket.inputs["dollar_roc_20"])
+        self.assertEqual((ticket.held, ticket.inputs, ticket.score), (False, whole.inputs, whole.score))
 
     def test_a_session_without_a_score_carries_the_last_live_ticket_or_is_recorded_as_a_gap(self):
         def end_calendar_before_the_next_meeting(root):  # the FOMC meets on 9 December; the count to it then has no value

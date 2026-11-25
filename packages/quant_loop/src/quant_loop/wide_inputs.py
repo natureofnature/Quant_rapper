@@ -107,7 +107,10 @@ def build(spec: dict, root: Path, snapshot: Path, subjects: dict[str, tuple[str,
         rows = load_daily_closes(path, b[series_id]) if path.suffix == ".csv" else load_closes(path, b[series_id])
         if series_id in own_dates:  # read on the dates the source has a value for; a floored value leaves its date a session with no value
             days = tuple(close_dates(path))
-            calendars[series_id] = SessionCalendar(calendar_id=f"dates_of:{series_id}", timezone=b[series_id].timezone, first=days[0], last=days[-1],
+            # The calendar runs to the session being decided even when the file's last finished value is older: an evening
+            # download of a market that trades around the clock ends a day short, and a source can simply lag. The days in
+            # between are then days with no value, which the age limit judges, and not a reason to stop.
+            calendars[series_id] = SessionCalendar(calendar_id=f"dates_of:{series_id}", timezone=b[series_id].timezone, first=days[0], last=max(days[-1], last),
                                                    sessions=days, basis_note="The dates on which the snapshot's file has a value.")
         elif series_id not in calendars:
             rows, _ = on_calendar(rows, equity)
