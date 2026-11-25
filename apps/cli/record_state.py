@@ -41,29 +41,29 @@ def record_state(records: Path, machine: str) -> tuple[list[str], list[str], lis
     return new, changed, conflicts
 
 
-def held_decision(path: Path, base: Path) -> tuple[str, str, str] | None:
-    """(gate, subject folder, session) that a ticket, gap or replay file says it is; None when it cannot be read as one.
+def read_record(path: Path, base: Path):
+    """The record at ``path`` if it is a complete record of the decision its place names; otherwise the reason it is not, as text.
 
-    A record's place is <kind>/<gate>/<subject>/<session>.json. What a file holds must be the
-    decision its place names: a copy of one session's ticket under another session's name is
-    not that session's ticket.
+    A record's place is <kind>/<gate>/<subject>/<session>.json under the machine's folder
+    ``base``. The file must pass the same schema issuance uses, and its own gate, subject and
+    session must be the ones of its place: a copy of another session's or another subject's
+    ticket is not this decision's ticket, and neither is a file with a field missing.
     """
-    import json
+    from quant_contracts.forecast import BetaGap, BetaTicket, ShadowGap, ShadowTicket
+    kind, gate, subject, name = path.relative_to(base).parts
+    model = {"tickets": BetaTicket if gate == "rule" else ShadowTicket, "gaps": BetaGap if gate == "rule" else ShadowGap, "replays": ShadowTicket}[kind]
     try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-        subject = str(data["subject_id"]).replace(":", "_")
-        gate = data.get("gate") or ("rule" if str(data.get("ticket_id") or data.get("gap_id")).startswith(("beta:", "gap:rule:")) else "")
-        return gate, subject, str(data["session"])
-    except (OSError, ValueError, KeyError, TypeError):
-        return None
+        record = model.model_validate_json(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as error:  # pydantic's validation error is a ValueError
+        return f"it is not a complete {model.__name__}: {str(error).splitlines()[0]}"
+    holds = (getattr(record, "gate", "rule"), record.subject_id.replace(":", "_"), str(record.session))
+    return record if holds == (gate, subject, Path(name).stem) else f"it holds another decision, {' '.join(holds)}"
 
 
 def misplaced(path: Path, base: Path) -> str | None:
-    """Why the record at ``path`` is not the one its place names, or None when it is. ``base`` is the machine's folder."""
+    """Why the file at ``path`` is not the record its place names, or None when it is, or when it is not a decision's record at all."""
     parts = path.relative_to(base).parts
     if len(parts) != 4 or parts[0] not in ("tickets", "gaps", "replays"):
-        return None  # not a decision's record: a manifest, a run log
-    expected, holds = (parts[1], parts[2], Path(parts[3]).stem), held_decision(path, base)
-    if holds is None:
-        return "it cannot be read as a ticket or a gap"
-    return None if holds == expected else f"it holds another decision, {' '.join(holds)}"
+        return None  # a manifest, a run log
+    found = read_record(path, base)
+    return found if isinstance(found, str) else None

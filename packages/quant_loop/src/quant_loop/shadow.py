@@ -136,8 +136,13 @@ def last_live_ticket(records: Path, machine: str, gate: str, subject: str, sessi
     folder = records / machine / "tickets" / gate / subject
     for path in sorted((p for p in folder.glob("*.json") if p.stem < str(session)), reverse=True) if folder.is_dir() else []:
         data = path.read_bytes()
-        ticket = ShadowTicket.model_validate_json(data)
-        if ticket.issuance == "live":
+        try:
+            ticket = ShadowTicket.model_validate_json(data)
+        except ValueError:
+            continue  # not a complete ticket: it holds nothing
+        # It must be this gate's ticket for this subject and for the session its file is named after.
+        own = (ticket.gate, ticket.subject_id.replace(":", "_"), str(ticket.session), ticket.machine) == (gate, subject, path.stem, machine)
+        if ticket.issuance == "live" and own:
             return ticket, hashlib.sha256(data).hexdigest()
     return None
 

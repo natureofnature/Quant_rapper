@@ -152,8 +152,17 @@ def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime |
     if any(v is None for v in values.values()):  # the registered rule: hold the previous target, and say so
         # Only a ticket known to have been written in time was ever in force. One written late shows what the rule would have
         # said, and one from before issuance was recorded has an unknown time: neither is held. Both stay readable as history.
-        earlier = sorted((p for p in folder.glob("*.json") if p.stem < str(session)), reverse=True) if folder.exists() else []
-        previous = next((t for t in (BetaTicket.model_validate_json(p.read_text()) for p in earlier) if t.issuance == "live"), None)
+        previous = None
+        for path in sorted((p for p in folder.glob("*.json") if p.stem < str(session)), reverse=True) if folder.exists() else []:
+            try:
+                found = BetaTicket.model_validate_json(path.read_text())
+            except ValueError:
+                continue  # not a complete ticket: it holds nothing
+            # It must be this subject's ticket for the session its file is named after: another subject's, or a copy under
+            # another date, was never this subject's state.
+            if found.issuance == "live" and found.subject_id == subject_id and str(found.session) == path.stem:
+                previous = found
+                break
         if previous is None:
             raise NothingToHold(BetaGap(
                 gap_id=f"gap:rule:{subject_id}:{session}", subject_id=subject_id, session=session, decision_time=cutoff.time, issued_at=clock(),

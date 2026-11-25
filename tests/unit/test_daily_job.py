@@ -280,7 +280,7 @@ class DailyJobTests(unittest.TestCase):
         self.assertEqual([n for n in names if "2026-11-24" in n and "/runs/" not in n], [])  # of the 24th, only the failure log is published
         self.assertEqual(len([n for n in names if n.startswith("pc-a/runs/2026-11-24/")]), 1)
         morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
-        self.assertIn("2026-11-24 rule fund_qqq: no ticket; the file there holds another decision, rule fund_qqq 2026-11-23", morning)
+        self.assertTrue(any(line.startswith("2026-11-24 rule fund_qqq: no ticket; ") and line.endswith("it holds another decision, rule fund_qqq 2026-11-23") for line in morning))
         self.assertTrue(any(line.startswith("2026-11-23 rule fund_qqq: no ticket") for line in morning))
         self.assertTrue(any(line.startswith("2026-11-24 rule fund_soxx: no ticket; records: ") for line in morning))
 
@@ -298,7 +298,8 @@ class DailyJobTests(unittest.TestCase):
         self.assertIn("pc-a/tickets/rule/fund_soxx/2026-11-24.json", names)
         self.assertEqual(json.loads((folder / "2026-11-24.json").read_text())["session"], "2026-11-23")  # and the stray file is left for the operator
         morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
-        self.assertEqual(morning, ["2026-11-24 rule fund_qqq: no ticket; the file there holds another decision, rule fund_qqq 2026-11-23"])
+        self.assertEqual(morning, ["2026-11-24 rule fund_qqq: no ticket; pc-a/tickets/rule/fund_qqq/2026-11-24.json is not this decision's ticket: "
+                                   "it holds another decision, rule fund_qqq 2026-11-23"])
 
     def test_the_morning_check_fails_when_the_records_cannot_be_verified(self):
         self.assertEqual(self.job(), 0)
@@ -327,9 +328,71 @@ class DailyJobTests(unittest.TestCase):
         fresh = base / "tickets/rule/fund_soxx/2026-11-24.json"  # and a new file that is not a ticket at all
         fresh.write_text("{not json")
         lines = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
+        self.assertTrue(lines[1].startswith("2026-11-24 rule fund_soxx: no ticket; pc-a/tickets/rule/fund_soxx/2026-11-24.json is not this decision's ticket: it is not a complete BetaTicket"))
         self.assertEqual(lines, ["2026-11-23 rule fund_qqq: not the ticket on record; the file differs from what was committed",
-                                 "2026-11-24 rule fund_soxx: no ticket; pc-a/tickets/rule/fund_soxx/2026-11-24.json cannot be read as one",
+                                 lines[1],
                                  "2026-11-24 rule fund_qqq: no ticket; the job did not run for this session"])
+
+    def test_one_subject_never_holds_another_subjects_ticket(self):
+        self.last = date(2026, 11, 20)
+        self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)
+        base = self.records / "pc-a"
+        # SOXX's live GREEN ticket of the 19th is dropped into QQQ's history, and QQQ's own ticket of the 20th is the only real one.
+        self.earlier_rule_ticket("soxx", date(2026, 11, 19), "GREEN", "live")
+        stray = base / "tickets/rule/fund_qqq/2026-11-21.json"  # later than QQQ's own, so it would be picked first
+        shutil.copyfile(base / "tickets/rule/fund_soxx/2026-11-19.json", stray)
+        own = json.loads((base / "tickets/rule/fund_qqq/2026-11-20.json").read_text())
+        self.last, self.short_history = SESSION, "QQQ"  # QQQ has a missing input today
+        self.assertEqual(self.job(), 1)  # the stray file is reported and not published
+        held = BetaTicket.model_validate_json((base / "tickets/rule/fund_qqq/2026-11-23.json").read_text())
+        self.assertEqual((held.held, held.state, held.subject_id), (True, own["state"], "fund:qqq"))  # QQQ holds QQQ's own last live ticket
+        names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        self.assertTrue("pc-a/tickets/rule/fund_qqq/2026-11-23.json" in names and "pc-a/tickets/rule/fund_qqq/2026-11-21.json" not in names)
+
+    def test_with_only_another_subjects_ticket_in_its_history_a_missing_input_is_a_gap(self):
+        self.last, self.short_history = date(2026, 11, 20), "QQQ"
+        folder = self.records / "pc-a/tickets/rule/fund_qqq"
+        self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)  # QQQ: a gap; SOXX: a ticket
+        folder.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(self.records / "pc-a/tickets/rule/fund_soxx/2026-11-20.json", folder / "2026-11-20.json")  # SOXX's ticket, in QQQ's history
+        self.last = SESSION
+        self.assertEqual(self.job(), 1)
+        self.assertTrue((self.records / "pc-a/gaps/rule/fund_qqq/2026-11-23.json").is_file())  # nothing of QQQ's to hold: a gap, not SOXX's position
+        self.assertFalse((folder / "2026-11-23.json").exists())
+        self.assertNotIn("pc-a/tickets/rule/fund_qqq/2026-11-20.json", self.git(self.remote, "ls-tree", "-r", "--name-only", "main"))
+
+    def test_a_ticket_with_a_field_missing_is_refused_at_issuance_publication_and_the_morning_check(self):
+        self.assertEqual(self.job(), 0)
+        self.last = date(2026, 11, 24)
+        ticket = self.records / "pc-a/tickets/rule/fund_qqq/2026-11-24.json"  # the right subject and date, and no state
+        fields = json.loads((self.records / "pc-a/tickets/rule/fund_qqq/2026-11-23.json").read_text())
+        fields.update(session="2026-11-24", ticket_id="beta:fund:qqq:2026-11-24", decision_time="2026-11-24T17:00:00-05:00", issued_at="2026-11-24T18:00:00-05:00")
+        del fields["state"]
+        ticket.write_text(json.dumps(fields))
+        self.assertEqual(self.job("--session", "2026-11-24", now=datetime(2026, 11, 24, 19, 0, tzinfo=NEW_YORK)), 1)
+        self.assertIn("is not a complete BetaTicket", self.logs(date(2026, 11, 24))[-1]["stages"]["rule"]["failed"]["QQQ"])  # issuance
+        self.assertNotIn("pc-a/tickets/rule/fund_qqq/2026-11-24.json", self.git(self.remote, "ls-tree", "-r", "--name-only", "main"))  # publication
+        morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))  # the morning check
+        self.assertEqual(len(morning), 1)
+        self.assertTrue(morning[0].startswith("2026-11-24 rule fund_qqq: no ticket; pc-a/tickets/rule/fund_qqq/2026-11-24.json is not this decision's ticket: it is not a complete BetaTicket"))
+
+    def test_a_gap_record_that_is_not_one_is_reported_and_the_rest_are_still_checked(self):
+        self.last, self.short_history = date(2026, 11, 20), "QQQ"
+        self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)  # QQQ's record is a committed gap
+        gap = self.records / "pc-a/gaps/rule/fund_qqq/2026-11-20.json"
+        gap.write_text("null")
+        lines = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 21, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual(lines, ["2026-11-20 rule fund_qqq: not the gap on record; the file differs from what was committed"])  # git's word first, no parsing
+        self.git(self.records, "checkout", "--", "pc-a/gaps/rule/fund_qqq/2026-11-20.json")
+        self.last = SESSION
+        fresh = self.records / "pc-a/gaps/rule/fund_soxx/2026-11-23.json"  # a new file git has no opinion on, in SOXX's place
+        fresh.parent.mkdir(parents=True)
+        fresh.write_text("null")
+        lines = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 24, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual(len(lines), 3)  # the 20th's real gap, the unreadable one by its path, and QQQ's missing ticket of the 23rd
+        self.assertTrue(lines[0].startswith("2026-11-20 rule fund_qqq: a gap; "))
+        self.assertTrue(lines[1].startswith("2026-11-23 rule fund_soxx: no ticket; pc-a/gaps/rule/fund_soxx/2026-11-23.json is not this decision's gap: it is not a complete BetaGap"))
+        self.assertTrue(lines[2].startswith("2026-11-23 rule fund_qqq: no ticket; "))
 
     def test_a_ticket_moved_onto_a_lock_name_is_still_a_moved_ticket(self):
         self.assertEqual(self.job(), 0)

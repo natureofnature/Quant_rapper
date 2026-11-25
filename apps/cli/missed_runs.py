@@ -19,8 +19,9 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "apps/cli"))
+sys.path.insert(0, str(ROOT / "packages/quant_contracts/src"))  # the ticket and gap schemas issuance uses
 import snapshot as snapshots
-from record_state import held_decision, record_state
+from record_state import read_record, record_state
 
 RULE = "artifacts/ablations/sector_risk_baseline/registration.json"
 SHADOW = "artifacts/forward/shadow_gates/registration.json"
@@ -88,32 +89,25 @@ def report(root: Path, records: Path, machine: str, since: date | None, now: dat
             if str(session) < start:
                 continue
             ticket, gap = (base / kind / gate / subject / f"{session}.json" for kind in ("tickets", "gaps"))
-            if ticket.is_file():
-                place = ticket.relative_to(records).as_posix()
-                # What git already knows comes first: a file it flags is not parsed to be judged.
-                if place in conflicts:
-                    lines.append(f"{session} {gate} {subject}: not a ticket on record; an earlier run staged one and the file has changed since, so neither was published")
-                    continue
-                if place in changed:
-                    lines.append(f"{session} {gate} {subject}: not the ticket on record; the file differs from what was committed")
-                    continue
-                holds = held_decision(ticket, base)
-                if holds is None:
-                    lines.append(f"{session} {gate} {subject}: no ticket; {place} cannot be read as one")
-                    continue
-                if holds != (gate, subject, str(session)):
-                    lines.append(f"{session} {gate} {subject}: no ticket; the file there holds another decision, {' '.join(holds)}")
-                    continue
-                written = json.loads(ticket.read_text(encoding="utf-8"))
-                if written.get("issuance") != "live":
-                    lines.append(f"{session} {gate} {subject}: written late, at {written.get('issued_at')}; it is a replay and not part of the forward record")
-            elif gap.is_file():
-                try:
-                    lines.append(f"{session} {gate} {subject}: a gap; {json.loads(gap.read_text(encoding='utf-8'))['reason']}")
-                except (ValueError, KeyError):
-                    lines.append(f"{session} {gate} {subject}: no ticket; {gap.relative_to(records).as_posix()} cannot be read as a gap")
-            else:
+            found = next((p for p in (ticket, gap) if p.is_file()), None)
+            if found is None:
                 lines.append(f"{session} {gate} {subject}: no ticket; {why_missing(base, session, gate)}")
+                continue
+            place, kind = found.relative_to(records).as_posix(), "ticket" if found is ticket else "gap"
+            # What git already knows comes first: a file it flags is not parsed to be judged.
+            if place in conflicts:
+                lines.append(f"{session} {gate} {subject}: not a {kind} on record; an earlier run staged one and the file has changed since, so neither was published")
+                continue
+            if place in changed:
+                lines.append(f"{session} {gate} {subject}: not the {kind} on record; the file differs from what was committed")
+                continue
+            record = read_record(found, base)  # the schema issuance uses, and the decision the place names
+            if isinstance(record, str):
+                lines.append(f"{session} {gate} {subject}: no ticket; {place} is not this decision's {kind}: {record}")
+            elif kind == "gap":
+                lines.append(f"{session} {gate} {subject}: a gap; {record.reason}")
+            elif record.issuance != "live":
+                lines.append(f"{session} {gate} {subject}: written late, at {record.issued_at}; it is a replay and not part of the forward record")
     return lines
 
 
