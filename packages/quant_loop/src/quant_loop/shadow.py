@@ -162,6 +162,9 @@ def publish(records: Path, machine: str, gate: str, subject: str, session: date,
     base = records / machine
     ticket_path, gap_path = (base / kind / gate / subject / f"{session}.json" for kind in ("tickets", "gaps"))
     is_ticket = isinstance(record, ShadowTicket)
+    if ticket_path.is_file() and gap_path.is_file():  # neither can be taken for the official record here
+        batch.conflicts.append(f"{ticket_path} and {gap_path} both exist for one decision; the one committed first stands and the other is to be removed")
+        return ShadowTicket.model_validate_json(ticket_path.read_text(encoding="utf-8"))
     if ticket_path.is_file():
         existing = ShadowTicket.model_validate_json(ticket_path.read_text(encoding="utf-8"))
         if is_ticket and all(getattr(existing, k) == getattr(record, k) for k in SAME_TICKET):

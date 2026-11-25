@@ -20,7 +20,8 @@ try:
     import daily_job
     import missed_runs
     import snapshot
-    from quant_contracts.forecast import BetaGap, BetaTicket
+    from quant_contracts.forecast import BetaGap, BetaTicket, ShadowTicket
+    from record_state import read_record
 except ModuleNotFoundError:
     daily_job = None
 
@@ -393,6 +394,36 @@ class DailyJobTests(unittest.TestCase):
         self.assertTrue(lines[0].startswith("2026-11-20 rule fund_qqq: a gap; "))
         self.assertTrue(lines[1].startswith("2026-11-23 rule fund_soxx: no ticket; pc-a/gaps/rule/fund_soxx/2026-11-23.json is not this decision's gap: it is not a complete BetaGap"))
         self.assertTrue(lines[2].startswith("2026-11-23 rule fund_qqq: no ticket; "))
+
+    def test_a_ticket_placed_beside_a_committed_gap_is_not_published_and_the_gap_stays_the_record(self):
+        self.last, self.short_history = date(2026, 11, 20), "QQQ"
+        when = datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)
+        self.assertEqual(self.job("--session", "2026-11-20", now=when), 0)  # QQQ's decision of the 20th is on record as a gap
+        self.earlier_rule_ticket("qqq", date(2026, 11, 20), "GREEN", "live")  # a valid ticket for the same decision appears
+        self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 20, 0, tzinfo=NEW_YORK)), 1)  # not a success
+        self.assertIn("both exist for one decision", self.logs(date(2026, 11, 20))[-1]["stages"]["rule"]["failed"]["QQQ"])
+        names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        self.assertTrue("pc-a/gaps/rule/fund_qqq/2026-11-20.json" in names and "pc-a/tickets/rule/fund_qqq/2026-11-20.json" not in names)
+        morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 21, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual(len(morning), 2)  # the stray ticket is named, and the session is still a gap, not a live ticket
+        self.assertEqual(morning[0], "2026-11-20 rule fund_qqq: pc-a/tickets/rule/fund_qqq/2026-11-20.json is not counted; the committed record of this decision is the gap")
+        self.assertTrue(morning[1].startswith("2026-11-20 rule fund_qqq: a gap; "))
+
+    def test_a_shadow_ticket_written_by_another_machine_is_not_this_machines_record(self):
+        self.assertEqual(self.job(), 0)
+        base = self.records / "pc-a"
+        fields = dict(ticket_id="shadow:E-dd:fund:qqq:2026-11-23", gate="E-dd", subject_id="fund:qqq", session="2026-11-23", decision_time="2026-11-23T17:00:00-05:00",
+                      issued_at="2026-11-23T19:00:00-05:00", issuance="live", machine="pc-b", state="GREEN", target_exposure=1.0, held=False, continues="first", level=0,
+                      score=0.1, seed_scores=[0.1], model_month="2026-11", inputs={"x": 1.0}, horizon_sessions=20, registration_id="shadow_gates",
+                      registration_sha256="0" * 64, code_commit="0" * 40, inputs_sha256={})
+        path = base / "tickets/E-dd/fund_qqq/2026-11-23.json"
+        path.parent.mkdir(parents=True)
+        path.write_text(ShadowTicket(**fields).model_dump_json())
+        self.assertEqual(read_record(path, base), "it was written by another machine, pc-b")
+        self.assertEqual(self.job(now=datetime.combine(SESSION, time(20, 0), NEW_YORK)), 1)
+        self.assertNotIn("pc-a/tickets/E-dd/fund_qqq/2026-11-23.json", self.git(self.remote, "ls-tree", "-r", "--name-only", "main"))
+        path.write_text(ShadowTicket(**{**fields, "machine": "pc-a"}).model_dump_json())
+        self.assertIsInstance(read_record(path, base), ShadowTicket)  # the same ticket from this machine is one
 
     def test_a_ticket_moved_onto_a_lock_name_is_still_a_moved_ticket(self):
         self.assertEqual(self.job(), 0)

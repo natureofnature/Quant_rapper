@@ -57,7 +57,20 @@ def read_record(path: Path, base: Path):
     except (OSError, ValueError) as error:  # pydantic's validation error is a ValueError
         return f"it is not a complete {model.__name__}: {str(error).splitlines()[0]}"
     holds = (getattr(record, "gate", "rule"), record.subject_id.replace(":", "_"), str(record.session))
-    return record if holds == (gate, subject, Path(name).stem) else f"it holds another decision, {' '.join(holds)}"
+    if holds != (gate, subject, Path(name).stem):
+        return f"it holds another decision, {' '.join(holds)}"
+    writer = getattr(record, "machine", None)  # a shadow record names its issuer; the rule's does not
+    if writer is not None and writer != base.name:
+        return f"it was written by another machine, {writer}"
+    return record
+
+
+def other_record(path: str) -> str | None:
+    """For a ticket's path the gap's of the same decision, and the reverse; None for anything else. One decision has one official record."""
+    parts = Path(path).parts
+    if len(parts) < 4 or parts[-4] not in ("tickets", "gaps"):
+        return None
+    return Path(*parts[:-4], "gaps" if parts[-4] == "tickets" else "tickets", *parts[-3:]).as_posix()
 
 
 def misplaced(path: Path, base: Path) -> str | None:

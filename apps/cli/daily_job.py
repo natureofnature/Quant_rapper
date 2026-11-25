@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT / "apps/cli"))
 for package in ("quant_contracts", "quant_pit_data", "quant_evaluator", "quant_causal_graph", "quant_loop"):
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 import snapshot as snapshots
-from record_state import misplaced, record_state
+from record_state import misplaced, other_record, record_state
 from quant_contracts.forecast import BetaGap, BetaTicket
 from quant_contracts.pit import SeriesBinding
 from quant_loop import shadow, tickets
@@ -57,6 +57,10 @@ def rule_tickets(root: Path, folder: Path, session: date, base: Path, now: datet
         where, gap_path = base / "tickets" / "rule" / name, base / "gaps" / "rule" / name / f"{session}.json"
         path = where / f"{session}.json"
         try:
+            if path.is_file() and gap_path.is_file():  # one decision has one official record: with two, neither is taken for it here
+                out["failed"][symbol] = (f"{path.relative_to(base)} and {gap_path.relative_to(base)} both exist for one decision; "
+                                         "the one committed first stands and the other is to be removed")
+                continue
             found = next((p for p in (path, gap_path) if p.is_file()), None)
             if found is not None:  # a file is this decision's record only if it says so itself: a copy of another session's is not
                 wrong = misplaced(found, base)
@@ -113,6 +117,13 @@ def publish_records(records: Path, machine: str, session: date, push: bool, trie
         problems_found.append(f"{len(conflicts)} records staged by an earlier run have since changed on disk; neither version was published, the first being {conflicts[0]}")
     # A new file is published as a decision's record only if it is that decision's: its own gate, subject and session.
     wrong = {path: why for path in new if (why := misplaced(records / path, records / machine))}
+    # One decision has one official record. A new ticket beside a gap, or a new gap beside a ticket, is not published:
+    # what is committed stands, and two new ones cannot both be the record.
+    committed = set(git("ls-tree", "-r", "--name-only", "-z", "HEAD", "--", machine).stdout.split("\0"))
+    for path in list(new):
+        twin = other_record(path)
+        if twin is not None and path not in wrong and (twin in committed or twin in new):
+            wrong[path] = f"{twin} is {'already the committed record of' if twin in committed else 'also a new record for'} the same decision"
     if wrong:
         first = next(iter(wrong))
         misplaced_note = f"{len(wrong)} new files are not the records their places name and were not published, the first being {first}: {wrong[first]}"
