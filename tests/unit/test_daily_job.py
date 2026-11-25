@@ -216,11 +216,53 @@ class DailyJobTests(unittest.TestCase):
             self.assertEqual(self.job(now=datetime.combine(SESSION, time(attempt, 0), NEW_YORK)), 1)
             self.assertFalse((base / "tickets/rule/fund_qqq/2026-11-23.json").exists())
         self.assertIn("no ticket is written", self.logs()[-1]["stages"]["records"]["failed"])
+        # The next morning the operator is told which record blocked issuance, not that nothing was logged.
+        (base / "tickets/rule/fund_soxx/2026-11-23.json").unlink()
+        self.last = date(2026, 11, 24)
+        self.assertEqual(self.job("--session", "2026-11-24", now=datetime(2026, 11, 24, 19, 0, tzinfo=NEW_YORK)), 1)
+        morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
+        blocked = [line for line in morning if line.startswith("2026-11-24 ")]
+        self.assertEqual(len(blocked), 2)
+        self.assertTrue(all("no ticket; records: " in line and "pc-a/" in line and "no ticket is written" in line for line in blocked))
         remote = lambda path: self.git(self.remote, "show", f"main:{path}")
         self.assertEqual(json.loads(remote("pc-a/manifests/2026-11-23.json")), json.loads((self.root / "artifacts/snapshots/2026-11-23/manifest.json").read_text()))
         self.assertIn("beta:fund:qqq:2026-11-23", remote("pc-a/tickets/rule/fund_qqq/2026-11-23.json"))
         self.assertEqual(len([n for n in self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines() if n.startswith("pc-a/runs/2026-11-23/")]), 3)
         self.assertEqual(self.git(self.records, "rev-parse", "HEAD"), self.git(self.remote, "rev-parse", "main"))
+
+    def test_a_committed_ticket_that_was_moved_stops_issuance_and_its_new_place_is_not_published(self):
+        self.last = date(2026, 11, 20)
+        self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)
+        self.git(self.records, "mv", "pc-a/tickets/rule/fund_qqq/2026-11-20.json", "pc-a/tickets/rule/fund_qqq/2026-11-20.moved")  # staged, as git mv does
+        self.last, self.short_history = SESSION, "QQQ"  # QQQ has a missing input today: with the ticket gone it would be published as a gap
+        self.assertEqual(self.job(), 1)
+        self.assertIn("fund_qqq/2026-11-20.json", self.logs()[-1]["stages"]["records"]["failed"])
+        names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        self.assertEqual([n for n in names if "2026-11-23" in n and "/runs/" not in n], [])  # no ticket and no gap for today
+        self.assertTrue("pc-a/tickets/rule/fund_qqq/2026-11-20.json" in names and not any(n.endswith(".moved") for n in names))
+        self.assertFalse((self.records / "pc-a/gaps").exists())
+
+    def test_a_retry_never_publishes_a_file_that_changed_after_an_earlier_run_staged_it(self):
+        hook = self.records / ".git/hooks/pre-commit"
+        hook.parent.mkdir(exist_ok=True)
+        hook.write_text("#!/bin/sh\nexit 1\n")
+        hook.chmod(0o755)
+        self.assertEqual(self.job(), 1)  # the tickets are staged; the commit failed
+        hook.unlink()
+        ticket = self.records / "pc-a/tickets/rule/fund_qqq/2026-11-23.json"
+        staged = self.git(self.records, "show", ":pc-a/tickets/rule/fund_qqq/2026-11-23.json")
+        changed = json.loads(ticket.read_text())
+        changed.update(state="RED", target_exposure=0.0)  # the file on disk no longer says what was issued at 19:00
+        ticket.write_text(json.dumps(changed))
+        self.assertEqual(self.job(now=datetime.combine(SESSION, time(19, 15), NEW_YORK)), 1)
+        names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        self.assertNotIn("pc-a/tickets/rule/fund_qqq/2026-11-23.json", names)  # neither version is published
+        self.assertIn("pc-a/tickets/rule/fund_soxx/2026-11-23.json", names)  # what was staged and is unchanged is
+        self.assertEqual(self.git(self.records, "show", ":pc-a/tickets/rule/fund_qqq/2026-11-23.json"), staged)  # the staged version is kept as it was
+        self.assertEqual(json.loads(ticket.read_text()), changed)  # and the file is not touched either
+        self.assertIn("fund_qqq/2026-11-23.json", self.logs()[-1]["stages"]["records"]["failed"])  # the run says which record
+        self.assertEqual(self.job(now=datetime.combine(SESSION, time(19, 30), NEW_YORK)), 1)
+        self.assertNotIn("pc-a/tickets/rule/fund_qqq/2026-11-23.json", self.git(self.remote, "ls-tree", "-r", "--name-only", "main"))  # nor on a further retry
 
     def test_records_that_could_not_be_staged_are_never_reported_as_pushed_and_nothing_else_is_committed(self):
         (self.records / "unrelated.txt").write_text("staged by someone else\n")

@@ -85,28 +85,39 @@ def shadow_tickets(root: Path, folder: Path, session: date, records: Path, machi
             "kept": batch.kept, "replays": [t.ticket_id for t in batch.replays], "scores_digest": batch.digest}
 
 
-def record_state(records: Path, machine: str) -> tuple[list[str], list[str]]:
-    """(files of this machine not yet in any commit, committed records that were changed or deleted on disk).
+def record_state(records: Path, machine: str) -> tuple[list[str], list[str], list[str]]:
+    """What differs from the last commit under this machine's folder, as three lists of paths.
 
-    What decides is whether a path is in the last commit, not how git labels it: a file that
-    was staged by a run whose commit then failed is still new, and is published by the next run.
+    new: files in no commit, on disk exactly as they would be committed. They are what a run publishes.
+    changed: committed records that were edited, deleted or moved on disk, and the places they were moved to.
+    conflicts: files an earlier run staged whose copy on disk has since changed, so two versions of one record exist.
+
+    What decides is whether a path is in the last commit, not how git labels it: a file staged
+    by a run whose commit then failed is still new. A move is a change to the record that was
+    moved, and what it was moved to is not a new record.
     """
     git = lambda *a: subprocess.run(["git", "-C", str(records), *a], capture_output=True, text=True)
     status = git("status", "--porcelain", "--untracked-files=all", "-z", "--", machine)
     if status.returncode:
         raise OSError(f"reading the state of the records: {status.stderr.strip() or status.returncode}")
     committed = set(git("ls-tree", "-r", "--name-only", "-z", "HEAD", "--", machine).stdout.split("\0"))
-    new, changed, tokens = [], [], iter(status.stdout.split("\0"))
+    new, changed, conflicts, tokens = [], [], [], iter(status.stdout.split("\0"))
     for entry in tokens:
         if not entry:
             continue
         code, path = entry[:2], entry[3:]
-        if code[0] in "RC":  # a rename or copy is followed by the path it came from
-            next(tokens, None)
+        moved_from = next(tokens, None) if code[0] in "RC" or code[1] in "RC" else None  # a rename or copy is followed by the path it came from
         if path.endswith(".lock"):  # a lock is a run's own, never a record
             continue
-        (changed if path in committed else new).append(path)
-    return new, changed
+        if moved_from is not None:
+            changed += [moved_from, path]
+        elif path in committed:
+            changed.append(path)
+        elif code[0] == "A" and code[1] != " ":  # staged by an earlier run, and the file has changed since: which one is the record?
+            conflicts.append(path)
+        else:
+            new.append(path)
+    return new, changed, conflicts
 
 
 def publish_records(records: Path, machine: str, session: date, push: bool, tries: int, pause: float) -> dict:
@@ -120,10 +131,12 @@ def publish_records(records: Path, machine: str, session: date, push: bool, trie
     git = lambda *a: subprocess.run(["git", "-C", str(records), *a], capture_output=True, text=True)
     out = {"committed": False, "pushed": None}
     try:
-        new, changed = record_state(records, machine)
+        new, changed, conflicts = record_state(records, machine)
     except OSError as error:
         return {**out, "failed": str(error)}
-    problems_found = [f"{len(changed)} committed records were changed or deleted on disk and were not published, the first being {changed[0]}"] if changed else []
+    problems_found = [f"{len(changed)} committed records were changed, deleted or moved on disk and were not published, the first being {changed[0]}"] if changed else []
+    if conflicts:  # neither version is published, and the staged one is left exactly as the earlier run staged it
+        problems_found.append(f"{len(conflicts)} records staged by an earlier run have since changed on disk; neither version was published, the first being {conflicts[0]}")
     if new:
         staged = git("add", "--", *new)
         if staged.returncode:
@@ -144,7 +157,7 @@ def publish_records(records: Path, machine: str, session: date, push: bool, trie
         if not here or here != there:
             return {**out, "pushed": False, "failed": "; ".join(problems_found + ["after the push the remote does not have this commit"])}
         out["pushed"] = True
-    return {**out, "failed": problems_found[0]} if problems_found else out
+    return {**out, "failed": "; ".join(problems_found)} if problems_found else out
 
 
 def run(root: Path, records: Path, session: date | None, push: bool, fetcher, now, machine: str, tries: int = 3, pause: float = 20.0, fetch_pause: float = 0.6) -> int:
@@ -172,11 +185,12 @@ def run(root: Path, records: Path, session: date | None, push: bool, fetcher, no
         # A held state is read from this machine's earlier tickets, so they are checked before anything is decided: a record
         # that was changed or deleted on disk since it was committed must not shape a new ticket.
         try:
-            _, altered = record_state(records, machine)
+            _, moved, doubled = record_state(records, machine)
+            altered = moved + doubled
         except OSError as error:
             altered, log["stages"]["records"] = [], {"failed": str(error)}
         if altered:
-            log["stages"]["records"] = {"failed": f"{len(altered)} committed records were changed or deleted on disk, the first being {altered[0]}; no ticket is written"}
+            log["stages"]["records"] = {"failed": f"{len(altered)} earlier records were changed, deleted or moved on disk, the first being {altered[0]}; no ticket is written"}
         intact = "records" not in log["stages"]
         if sound:  # the backup is completed whenever it is missing, by the snapshot command's own routine; its failure does not hold up a ticket
             copy = root / "run/backup/snapshots" / str(session)

@@ -53,7 +53,7 @@ def why_missing(base: Path, session: date, gate: str) -> str:
     if not logs:
         return "the job did not run for this session"
     stages = json.loads(logs[-1].read_text(encoding="utf-8"))["stages"]
-    for name in ("snapshot", "manifest", "rule" if gate == "rule" else "shadow"):
+    for name in ("snapshot", "records", "manifest", "rule" if gate == "rule" else "shadow"):  # in the order the job reaches them
         stage = stages.get(name, {})
         if stage.get("failed"):
             return f"{name}: {stage['failed'] if isinstance(stage['failed'], str) else json.dumps(stage['failed'])}"
