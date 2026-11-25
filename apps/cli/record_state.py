@@ -41,6 +41,14 @@ def record_state(records: Path, machine: str) -> tuple[list[str], list[str], lis
     return new, changed, conflicts
 
 
+def committed_paths(records: Path, machine: str) -> set[str]:
+    """Every path under this machine's folder that is in the last commit."""
+    listed = subprocess.run(["git", "-C", str(records), "ls-tree", "-r", "--name-only", "-z", "HEAD", "--", machine], capture_output=True, text=True)
+    if listed.returncode:
+        raise OSError(f"reading the committed records: {listed.stderr.strip() or listed.returncode}")
+    return {name for name in listed.stdout.split("\0") if name}
+
+
 def read_record(path: Path, base: Path):
     """The record at ``path`` if it is a complete record of the decision its place names; otherwise the reason it is not, as text.
 

@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "apps/cli"))
 sys.path.insert(0, str(ROOT / "packages/quant_contracts/src"))  # the ticket and gap schemas issuance uses
 import snapshot as snapshots
-from record_state import read_record, record_state
+from record_state import committed_paths, read_record, record_state
 
 RULE = "artifacts/ablations/sector_risk_baseline/registration.json"
 SHADOW = "artifacts/forward/shadow_gates/registration.json"
@@ -74,6 +74,7 @@ def report(root: Path, records: Path, machine: str, since: date | None, now: dat
     recorded = sorted({p.stem for p in base.glob("tickets/*/*/*.json")} | {p.name for p in base.glob("runs/*") if p.is_dir()})
     try:  # the same view of the records as the job has: a file that is not what was committed, or of which two versions exist, is no ticket
         uncommitted, changed, conflicts = record_state(records, machine)
+        committed = committed_paths(records, machine)
     except OSError as error:  # without it a file on disk cannot be told from the record: nothing is reported as fine
         return [f"the records could not be verified, so no ticket is counted: {error}"]
     decisions = expected(root, base)
@@ -90,15 +91,21 @@ def report(root: Path, records: Path, machine: str, since: date | None, now: dat
                 continue
             ticket, gap = (base / kind / gate / subject / f"{session}.json" for kind in ("tickets", "gaps"))
             found = next((p for p in (ticket, gap) if p.is_file()), None)
-            if ticket.is_file() and gap.is_file():  # one decision, one official record: the committed one, if exactly one is
-                official = [p for p in (ticket, gap) if p.relative_to(records).as_posix() not in uncommitted]
-                if len(official) != 1:
-                    lines.append(f"{session} {gate} {subject}: no ticket counted; a ticket and a gap both exist for this decision and neither alone is the committed record")
+            # One decision, one official record: the committed one, whatever is or is not on disk now.
+            rel = {p: p.relative_to(records).as_posix() for p in (ticket, gap)}
+            kind_of = {ticket: "ticket", gap: "gap"}
+            on_record = [p for p in (ticket, gap) if rel[p] in committed]
+            if len(on_record) == 2 or (not on_record and ticket.is_file() and gap.is_file()):
+                lines.append(f"{session} {gate} {subject}: no ticket counted; a ticket and a gap both exist for this decision and neither alone is the committed record")
+                continue
+            if on_record:
+                found = on_record[0]
+                other = gap if found is ticket else ticket
+                if other.is_file():
+                    lines.append(f"{session} {gate} {subject}: {rel[other]} is not counted; the committed record of this decision is the {kind_of[found]}")
+                if not found.is_file():
+                    lines.append(f"{session} {gate} {subject}: no ticket counted; the committed {kind_of[found]} of this decision, {rel[found]}, is missing from disk")
                     continue
-                found = official[0]
-                extra = gap if found is ticket else ticket
-                lines.append(f"{session} {gate} {subject}: {extra.relative_to(records).as_posix()} is not counted; the committed record of this decision is the "
-                             f"{'ticket' if found is ticket else 'gap'}")
             if found is None:
                 lines.append(f"{session} {gate} {subject}: no ticket; {why_missing(base, session, gate)}")
                 continue

@@ -160,7 +160,10 @@ def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime |
                 continue  # not a complete ticket: it holds nothing
             # It must be this subject's ticket for the session its file is named after: another subject's, or a copy under
             # another date, was never this subject's state.
-            if found.issuance == "live" and found.subject_id == subject_id and str(found.session) == path.stem:
+            # And it must be that decision's official record: where a gap stands for the same decision, the gap is what was
+            # decided, and a ticket beside it was never in force.
+            gap_beside = path.parents[3] / "gaps" / path.parents[1].name / path.parents[0].name / path.name if path.parents[2].name == "tickets" else None
+            if found.issuance == "live" and found.subject_id == subject_id and str(found.session) == path.stem and not (gap_beside and gap_beside.is_file()):
                 previous = found
                 break
         if previous is None:

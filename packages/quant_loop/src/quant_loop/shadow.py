@@ -142,7 +142,9 @@ def last_live_ticket(records: Path, machine: str, gate: str, subject: str, sessi
             continue  # not a complete ticket: it holds nothing
         # It must be this gate's ticket for this subject and for the session its file is named after.
         own = (ticket.gate, ticket.subject_id.replace(":", "_"), str(ticket.session), ticket.machine) == (gate, subject, path.stem, machine)
-        if ticket.issuance == "live" and own:
+        # And that decision's official record: where a gap stands for it, a ticket beside the gap was never in force.
+        gap_beside = records / machine / "gaps" / gate / subject / path.name
+        if ticket.issuance == "live" and own and not gap_beside.is_file():
             return ticket, hashlib.sha256(data).hexdigest()
     return None
 

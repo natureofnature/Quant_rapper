@@ -408,6 +408,33 @@ class DailyJobTests(unittest.TestCase):
         self.assertEqual(len(morning), 2)  # the stray ticket is named, and the session is still a gap, not a live ticket
         self.assertEqual(morning[0], "2026-11-20 rule fund_qqq: pc-a/tickets/rule/fund_qqq/2026-11-20.json is not counted; the committed record of this decision is the gap")
         self.assertTrue(morning[1].startswith("2026-11-20 rule fund_qqq: a gap; "))
+        # The rejected ticket never took effect, so it sets nothing later: on the 23rd, inputs still missing, QQQ has no live
+        # ticket to hold and is a gap again, not a GREEN position.
+        self.last = SESSION
+        self.assertEqual(self.job(), 1)  # still an error: the stray ticket is there
+        names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        self.assertTrue("pc-a/gaps/rule/fund_qqq/2026-11-23.json" in names and not any(n.startswith("pc-a/tickets/rule/fund_qqq/") for n in names))
+        self.assertFalse((self.records / "pc-a/tickets/rule/fund_qqq/2026-11-23.json").exists())
+
+    def test_the_hold_passes_over_a_ticket_beside_a_gap_to_the_last_ticket_that_was_in_force(self):
+        self.last, self.short_history = date(2026, 11, 20), "QQQ"
+        self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)  # the 20th is a gap
+        self.earlier_rule_ticket("qqq", date(2026, 11, 18), "YELLOW", "live")  # an earlier ticket that was in force
+        self.earlier_rule_ticket("qqq", date(2026, 11, 20), "GREEN", "live")  # and one beside the gap, which never was
+        self.last = SESSION
+        self.job()
+        held = BetaTicket.model_validate_json((self.records / "pc-a/tickets/rule/fund_qqq/2026-11-23.json").read_text())
+        self.assertEqual((held.state, held.target_exposure, held.held), ("YELLOW", 0.5, True))
+
+    def test_a_ticket_put_in_place_of_a_committed_gap_that_was_deleted_on_disk_is_not_counted(self):
+        self.last, self.short_history = date(2026, 11, 20), "QQQ"
+        self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)
+        (self.records / "pc-a/gaps/rule/fund_qqq/2026-11-20.json").unlink()  # gone from disk, still in git
+        self.earlier_rule_ticket("qqq", date(2026, 11, 20), "GREEN", "live")
+        morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 21, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual(morning, ["2026-11-20 rule fund_qqq: pc-a/tickets/rule/fund_qqq/2026-11-20.json is not counted; the committed record of this decision is the gap",
+                                   "2026-11-20 rule fund_qqq: no ticket counted; the committed gap of this decision, pc-a/gaps/rule/fund_qqq/2026-11-20.json, is missing from disk"])
+        self.assertEqual(missed_runs.main(["--records", str(self.records), "--machine", "pc-a"], root=self.root, now=datetime(2026, 11, 21, 8, 0, tzinfo=NEW_YORK)), 1)
 
     def test_a_shadow_ticket_written_by_another_machine_is_not_this_machines_record(self):
         self.assertEqual(self.job(), 0)
