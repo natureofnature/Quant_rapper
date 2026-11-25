@@ -697,5 +697,5 @@
   "The model is refitted on the whole history at every run, from that day's download. Yahoo restates histories, so an earlier session's score can differ between two days' runs; a ticket records only its own session.",
   "TSM shares most of its inputs with SOXX and is not independent evidence."
  ],
- "first_session_note": "Each subject's forward record starts on its first_session, set when this is registered. No ticket is written for an earlier session, and the missed-run check expects none before it. A subject added later gets its own date, as RFC-006 section 5.1 requires."
+ "first_session_note": "Each subject's forward record starts on its first_session, set when this is registered. A gate that joins a subject later has its own date in that subject's gate_first_session, which takes the place of the subject's for that gate. No ticket is written for a session before a gate's date, and the missed-run check expects none before it, as RFC-006 section 5.1 requires."
 }

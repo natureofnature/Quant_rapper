@@ -68,6 +68,11 @@ STATES = ("GREEN", "YELLOW", "RED")
 PINNED_PATHS = ("packages", "apps/cli")  # the code a registered ticket may be written by
 
 
+def first_session_of(subject: dict, gate: str) -> str | None:
+    """The first session a gate's record covers for a subject: the gate's own date if the registration gives one, else the subject's."""
+    return (subject.get("gate_first_session") or {}).get(gate) or subject.get("first_session")
+
+
 def pinned_differences(root: Path, registration: dict) -> list[str]:
     """The files the registration pins that are missing or differ. They decide which values a decision may read."""
     wrong = []
@@ -272,10 +277,14 @@ def _emit(root: Path, snapshot: Path, session: date, records: Path | None, now: 
         print(f"note: these files differ from the ones the registration pins: {', '.join(pinned_differences(root, registration))}")
     P, G, spec = registration["parameters"], registration["parameters"]["gate"], registration["inputs"]
     subjects = [s for s in registration["subjects"] if only is None or s["subject"] in only]
-    early = [s["subject"] for s in subjects if s.get("first_session") and str(session) < s["first_session"]]
-    if early and not dry_run:  # a subject's record starts on its registered first session: nothing is written for an earlier one
-        print(f"{', '.join(early)}: {session} is before the registered first session: no ticket")
-        subjects = [s for s in subjects if s["subject"] not in early]
+    if not dry_run:  # a gate's record starts on its registered first session: nothing is written for an earlier one
+        started = lambda s, gate: first_session_of(s, gate) is not None and str(session) >= first_session_of(s, gate)
+        for s in subjects:
+            early = [gate for gate in s["gates"] if not started(s, gate)]
+            if early:
+                print(f"{s['subject']} {', '.join(early)}: {session} is before the registered first session: no ticket")
+        subjects = [{**s, "gates": [gate for gate in s["gates"] if started(s, gate)]} for s in subjects]
+        subjects = [s for s in subjects if s["gates"]]
     zone = ZoneInfo("America/New_York")
     cutoff = datetime.combine(session, time.fromisoformat(spec["decision_time"]), zone)
     if clock() < cutoff:

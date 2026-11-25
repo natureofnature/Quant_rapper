@@ -29,21 +29,22 @@ BINDINGS = "knowledge_base/prior_knowledge/bindings/series_bindings.json"
 def expected(root: Path, base: Path) -> list[tuple[str, str, str]]:
     """(gate, subject folder, first session) for every decision the job is meant to record, each from its own start.
 
-    The rule's record for a subject starts with the first session this machine recorded for
-    it. A shadow gate's starts on the first session its registration gives the subject, and
-    only once that registration is registered. A decision is expected from its start on, so
-    adding a gate or a subject later raises nothing about the sessions before it.
+    The start never depends on what was written, or a subject that failed from the first day
+    would never be expected. The rule's record starts, for every subject of its registration,
+    with the first session this machine ran the job for. A shadow gate's starts on the date its
+    registration gives: the gate's own for that subject if it has one, else the subject's.
+    Adding a gate or a subject later therefore raises nothing about the sessions before it.
     """
     anchor = {s["series_id"]: s["anchors"][0].replace(":", "_") for s in json.loads((root / BINDINGS).read_text(encoding="utf-8"))["series"]}
-    out = []
-    for s in json.loads((root / RULE).read_text(encoding="utf-8"))["subjects"]:
-        subject = anchor[s["close"]]
-        recorded = sorted(p.stem for kind in ("tickets", "gaps") for p in (base / kind / "rule" / subject).glob("*.json"))
-        if recorded:
-            out.append(("rule", subject, recorded[0]))
+    ran = sorted({p.name for p in base.glob("runs/*") if p.is_dir()} | {p.stem for kind in ("tickets", "gaps") for p in base.glob(f"{kind}/rule/*/*.json")})
+    out = [("rule", anchor[s["close"]], ran[0]) for s in json.loads((root / RULE).read_text(encoding="utf-8"))["subjects"]] if ran else []
     shadow = json.loads((root / SHADOW).read_text(encoding="utf-8"))
     if not str(shadow.get("status", "")).startswith("DRAFT"):
-        out += [(gate, anchor[s["close"]], s["first_session"]) for s in shadow["subjects"] if s.get("first_session") for gate in s["gates"]]
+        for s in shadow["subjects"]:
+            for gate in s["gates"]:
+                start = (s.get("gate_first_session") or {}).get(gate) or s.get("first_session")
+                if start:
+                    out.append((gate, anchor[s["close"]], start))
     return out
 
 
@@ -52,7 +53,7 @@ def why_missing(base: Path, session: date, gate: str) -> str:
     if not logs:
         return "the job did not run for this session"
     stages = json.loads(logs[-1].read_text(encoding="utf-8"))["stages"]
-    for name in ("snapshot", "rule" if gate == "rule" else "shadow"):
+    for name in ("snapshot", "manifest", "rule" if gate == "rule" else "shadow"):
         stage = stages.get(name, {})
         if stage.get("failed"):
             return f"{name}: {stage['failed'] if isinstance(stage['failed'], str) else json.dumps(stage['failed'])}"
@@ -70,8 +71,6 @@ def report(root: Path, records: Path, machine: str, since: date | None, now: dat
     if first is None:
         return [f"{machine} has recorded nothing yet"]
     decisions = expected(root, base)
-    if not decisions:  # the job ran and wrote no ticket at all: say what its log says, for each session it ran
-        return [f"{session} no decision is on record; {why_missing(base, date.fromisoformat(session), 'rule')}" for session in recorded if session >= str(first)]
     lines = []
     for session in (s for s in sessions if first <= s <= last):
         for gate, subject, start in decisions:

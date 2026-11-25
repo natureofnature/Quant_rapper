@@ -356,6 +356,13 @@ class ShadowTicketTests(unittest.TestCase):
         batch = emit(root, folder, SESSION, records, now=EVENING, machine="pc-a")
         self.assertEqual((batch.tickets, batch.gaps), ([], []))
         self.assertEqual([p.name for p in records.rglob("*") if p.is_file()], [".lock"])
+        # A gate can start later than its subject: QQQ's record starts on the 23rd, and its single-seed gate only on the 24th.
+        own, own_folder, git3, registration = self.registered("gate_starts_later")
+        registration["subjects"] = [{**s, "gate_first_session": {"W-dd": "2026-11-24"}} if s["subject"] == "QQQ" else s for s in registration["subjects"]]
+        (own / REGISTRATION).write_text(json.dumps(registration, indent=1) + "\n")
+        git3("add", "-A"); git3("commit", "-q", "-m", "register")
+        written = emit(own, own_folder, SESSION, Path(self.temp.name) / "gate_starts_later_records", now=EVENING, machine="pc-a")
+        self.assertEqual(sorted((t.subject_id, t.gate) for t in written.tickets), [("company:tsmc", "E-dd"), ("fund:qqq", "E-dd")])
         undated, _, git2, registration = self.registered("undated")
         registration["subjects"][0].pop("first_session")
         (undated / REGISTRATION).write_text(json.dumps(registration, indent=1) + "\n")

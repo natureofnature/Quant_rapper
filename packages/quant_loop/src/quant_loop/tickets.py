@@ -150,10 +150,10 @@ def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime |
     folder = folder or root / "artifacts/tickets" / symbol  # where this issuer's earlier tickets are: a held state is read from there
     subject_id = next(a for a in b[subject["close"]].anchors)
     if any(v is None for v in values.values()):  # the registered rule: hold the previous target, and say so
-        # Only a ticket written in time was ever in force. One written late shows what the rule would have said and is never
-        # held; one from before issuance was recorded is taken as it was written.
+        # Only a ticket known to have been written in time was ever in force. One written late shows what the rule would have
+        # said, and one from before issuance was recorded has an unknown time: neither is held. Both stay readable as history.
         earlier = sorted((p for p in folder.glob("*.json") if p.stem < str(session)), reverse=True) if folder.exists() else []
-        previous = next((t for t in (BetaTicket.model_validate_json(p.read_text()) for p in earlier) if t.issuance != "replay"), None)
+        previous = next((t for t in (BetaTicket.model_validate_json(p.read_text()) for p in earlier) if t.issuance == "live"), None)
         if previous is None:
             raise NothingToHold(BetaGap(
                 gap_id=f"gap:rule:{subject_id}:{session}", subject_id=subject_id, session=session, decision_time=cutoff.time, issued_at=clock(),

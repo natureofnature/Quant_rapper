@@ -86,37 +86,42 @@ def shadow_tickets(root: Path, folder: Path, session: date, records: Path, machi
 
 
 def publish_records(records: Path, machine: str, session: date, push: bool, tries: int, pause: float) -> dict:
-    """Commit this machine's folder, and only it, then push. The commit is made even when the push fails; a later run pushes it.
+    """Commit the files this machine added, and only those, then push. A later run pushes a commit whose push failed.
 
-    Every step's result is checked: a run is reported as pushed only when this machine's
-    records are all committed and the remote has that commit.
+    Records are written once, so publishing only ever adds files. A record already committed
+    that was changed or deleted on disk is never staged: it is reported, and the remote keeps
+    what it has. Every step's result is checked: a run is reported as pushed only when the new
+    files are committed and the remote has that commit.
     """
     git = lambda *a: subprocess.run(["git", "-C", str(records), *a], capture_output=True, text=True)
-    locks = (":(exclude,glob)**/*.lock", ":(exclude,glob)**/.lock")  # a lock is this run's own, never a record
     out = {"committed": False, "pushed": None}
-    staged = git("add", "--", machine, *locks)
-    if staged.returncode:
-        return {**out, "failed": f"staging the records: {staged.stderr.strip() or staged.returncode}"}
-    if git("diff", "--cached", "--quiet", "--", machine).returncode:
-        # Named paths only: anything else staged in this checkout is left out of the job's commit.
-        made = git("commit", "-q", "-m", f"{machine} {session}: records of the daily job", "--", machine)
+    status = git("status", "--porcelain", "--untracked-files=all", "-z", "--", machine)
+    if status.returncode:
+        return {**out, "failed": f"reading the state of the records: {status.stderr.strip() or status.returncode}"}
+    entries = [e for e in status.stdout.split("\0") if e and not e.endswith(".lock")]  # a lock is this run's own, never a record
+    new, changed = [e[3:] for e in entries if e.startswith("??")], [e[3:] for e in entries if not e.startswith("??")]
+    problems_found = [f"{len(changed)} committed records were changed or deleted on disk and were not published, the first being {changed[0]}"] if changed else []
+    if new:
+        staged = git("add", "--", *new)
+        if staged.returncode:
+            return {**out, "failed": f"staging the records: {staged.stderr.strip() or staged.returncode}"}
+        made = git("commit", "-q", "-m", f"{machine} {session}: records of the daily job", "--", *new)  # these paths only
         if made.returncode:
             return {**out, "failed": f"commit: {made.stderr.strip() or made.returncode}"}
         out["committed"] = True
-    left = [line for line in git("status", "--porcelain", "--untracked-files=all", "--", machine).stdout.splitlines() if not line.endswith(".lock")]
-    if left:
-        return {**out, "failed": f"{len(left)} of this machine's records are not committed, the first being {left[0].strip()}"}
-    if not push:
-        return out
-    for attempt in range(tries):
-        sent = git("push", "-q")
-        if sent.returncode == 0:
-            break
-        clock.sleep(pause)
-    else:
-        return {**out, "pushed": False, "failed": f"push: {sent.stderr.strip() or sent.returncode}"}
-    here, there = git("rev-parse", "HEAD").stdout.strip(), git("rev-parse", "@{upstream}").stdout.strip()
-    return {**out, "pushed": True} if here and here == there else {**out, "pushed": False, "failed": "after the push the remote does not have this commit"}
+    if push:
+        for attempt in range(tries):
+            sent = git("push", "-q")
+            if sent.returncode == 0:
+                break
+            clock.sleep(pause)
+        else:
+            return {**out, "pushed": False, "failed": "; ".join(problems_found + [f"push: {sent.stderr.strip() or sent.returncode}"])}
+        here, there = git("rev-parse", "HEAD").stdout.strip(), git("rev-parse", "@{upstream}").stdout.strip()
+        if not here or here != there:
+            return {**out, "pushed": False, "failed": "; ".join(problems_found + ["after the push the remote does not have this commit"])}
+        out["pushed"] = True
+    return {**out, "failed": problems_found[0]} if problems_found else out
 
 
 def run(root: Path, records: Path, session: date | None, push: bool, fetcher, now, machine: str, tries: int = 3, pause: float = 20.0, fetch_pause: float = 0.6) -> int:

@@ -53,7 +53,7 @@ class DailyJobTests(unittest.TestCase):
         git(self.records, "push", "-q", "-u", "origin", "main")
         sessions = lambda path: [date.fromisoformat(s) for s in json.loads((ROOT / path).read_text())["sessions"]]
         self.all_sessions, self.bond_days = sessions(snapshot.SHARED[0]), sessions(snapshot.SHARED[1])
-        self.last, self.broken, self.short_history = SESSION, None, None
+        self.last, self.broken, self.short_history, self.no_close = SESSION, None, None, None
 
     def fetcher(self, url):
         if self.broken and self.broken in url:
@@ -64,6 +64,9 @@ class DailyJobTests(unittest.TestCase):
             closes = [100.0 + 0.1 * i for i in range(len(equity))]
             if self.short_history and f"/chart/{self.short_history}?" in url:  # too little history for a 200-session trend
                 stamps, closes = stamps[-5:], closes[-5:]
+            if self.no_close and f"/chart/{self.no_close}?" in url:  # the session's bar is served unfinished, with no quote to fill it
+                return json.dumps({"chart": {"result": [{"meta": {"exchangeTimezoneName": "America/New_York"}, "timestamp": stamps,
+                                                         "indicators": {"quote": [{"open": closes, "close": closes[:-1] + [None]}]}}]}}).encode()
             return json.dumps({"chart": {"result": [{"meta": {"exchangeTimezoneName": "America/New_York"}, "timestamp": stamps,
                                                      "indicators": {"quote": [{"open": closes, "close": closes}]}}]}}).encode()
         if "_History.csv" in url:
@@ -150,7 +153,8 @@ class DailyJobTests(unittest.TestCase):
         self.broken = "VIX_History.csv"
         self.assertEqual(self.job(), 1)
         lines = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 24, 8, 0, tzinfo=NEW_YORK))
-        self.assertEqual(lines, ["2026-11-23 no decision is on record; snapshot: the snapshot command exited 1"])
+        self.assertEqual(lines, ["2026-11-23 rule fund_soxx: no ticket; snapshot: the snapshot command exited 1",
+                                 "2026-11-23 rule fund_qqq: no ticket; snapshot: the snapshot command exited 1"])
 
     def earlier_rule_ticket(self, subject, day, state, issuance):
         template = BetaTicket.model_validate_json(next((self.records / "pc-a/tickets/rule/fund_soxx").glob("*.json")).read_text())
@@ -164,10 +168,16 @@ class DailyJobTests(unittest.TestCase):
     def test_a_rule_with_a_missing_input_holds_the_last_live_ticket_never_a_replay_and_records_a_gap_with_none(self):
         self.short_history = "QQQ"  # QQQ's trend has no value; SOXX is unaffected
         self.last = date(2026, 11, 20)
+        legacy = self.records / "pc-a/tickets/rule/fund_qqq/2026-11-17.json"  # a ticket from before issuance was recorded: when it was written is unknown
+        legacy.parent.mkdir(parents=True)
+        fields = json.loads((ROOT / "artifacts/tickets/QQQ/2026-10-23.json").read_text())
+        fields.update(session="2026-11-17", ticket_id="beta:fund:qqq:2026-11-17", decision_time="2026-11-17T17:00:00-05:00", issued_at=None, issuance=None)
+        legacy.write_text(BetaTicket(**fields).model_dump_json())
         self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 19, 0, tzinfo=NEW_YORK)), 0)
+        # It was not held: what follows is the gap, exactly as with no earlier ticket at all.
         gap = BetaGap.model_validate_json((self.records / "pc-a/gaps/rule/fund_qqq/2026-11-20.json").read_text())
         self.assertEqual((gap.inputs["trend_200"], "no earlier live ticket to hold" in gap.reason), (None, True))  # nothing to hold: a gap, not a state
-        self.assertFalse((self.records / "pc-a/tickets/rule/fund_qqq").exists())
+        self.assertEqual(list((self.records / "pc-a/tickets/rule/fund_qqq").glob("2026-11-20.json")), [])
         self.assertTrue((self.records / "pc-a/tickets/rule/fund_soxx/2026-11-20.json").is_file())  # the other subject got its ticket
         self.assertEqual(self.job("--session", "2026-11-20", now=datetime(2026, 11, 20, 20, 0, tzinfo=NEW_YORK)), 0)  # a rerun keeps the gap
         self.assertEqual(self.logs(date(2026, 11, 20))[-1]["stages"]["rule"]["kept"], ["beta:fund:soxx:2026-11-20", "gap:rule:fund:qqq:2026-11-20"])
@@ -191,6 +201,13 @@ class DailyJobTests(unittest.TestCase):
         self.assertEqual((sorted(log["stages"]), "no ticket is written" in log["stages"]["manifest"]["failed"]), (["backup", "manifest", "snapshot"], True))
         self.assertFalse((base / "tickets/rule/fund_qqq/2026-11-23.json").exists())  # not written from a snapshot the records do not describe
         self.assertEqual(self.job(now=datetime.combine(SESSION, time(20, 30), NEW_YORK)), 1)  # and not on a further retry either
+        # What was committed is not overwritten: the remote still has the first manifest and the ticket that was deleted on disk,
+        # and it does have the logs of the two failed runs.
+        remote = lambda path: self.git(self.remote, "show", f"main:{path}")
+        self.assertEqual(json.loads(remote("pc-a/manifests/2026-11-23.json")), json.loads((self.root / "artifacts/snapshots/2026-11-23/manifest.json").read_text()))
+        self.assertIn("beta:fund:qqq:2026-11-23", remote("pc-a/tickets/rule/fund_qqq/2026-11-23.json"))
+        self.assertEqual(len([n for n in self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines() if n.startswith("pc-a/runs/2026-11-23/")]), 3)
+        self.assertEqual(self.git(self.records, "rev-parse", "HEAD"), self.git(self.remote, "rev-parse", "main"))
 
     def test_records_that_could_not_be_staged_are_never_reported_as_pushed_and_nothing_else_is_committed(self):
         (self.records / "unrelated.txt").write_text("staged by someone else\n")
@@ -224,6 +241,19 @@ class DailyJobTests(unittest.TestCase):
         self.assertTrue((copy / "SHA256SUMS").is_file() and (copy / "manifest.json").read_bytes() == (self.root / "artifacts/snapshots/2026-11-23/manifest.json").read_bytes())
         self.assertEqual(self.logs()[1]["stages"]["backup"], {"written": "run/backup/snapshots/2026-11-23"})
 
+    def test_a_subject_that_fails_from_the_first_session_is_reported_and_stays_reported(self):
+        self.no_close = "QQQ"
+        self.assertEqual(self.job(), 1)  # SOXX gets its ticket; QQQ's close for the session is not there
+        self.assertTrue((self.records / "pc-a/tickets/rule/fund_soxx/2026-11-23.json").is_file())
+        first_morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 24, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual(len(first_morning), 1)
+        self.assertTrue(first_morning[0].startswith("2026-11-23 rule fund_qqq: no ticket; rule: ") and "no QQQ close" in first_morning[0])
+        self.no_close, self.last = None, date(2026, 11, 24)
+        self.assertEqual(self.job("--session", "2026-11-24", now=datetime(2026, 11, 24, 19, 0, tzinfo=NEW_YORK)), 0)  # QQQ's first ticket
+        self.assertTrue((self.records / "pc-a/tickets/rule/fund_qqq/2026-11-24.json").is_file())
+        later = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual(later, first_morning)  # the missed day is still on the list, and only that
+
     def test_a_gate_registered_later_raises_nothing_about_the_sessions_before_its_first_session(self):
         self.assertEqual(self.job(), 0)  # one session recorded with the rule only
         self.last = date(2026, 11, 24)
@@ -236,6 +266,11 @@ class DailyJobTests(unittest.TestCase):
         lines = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
         self.assertEqual(len(lines), 7)  # the seven shadow decisions of the 24th, which no run wrote
         self.assertTrue(all(line.startswith("2026-11-24 ") and "rule" not in line.split(":")[0] for line in lines))  # nothing about the 23rd
+        # One gate joins SOXX later still, with its own date: it is expected from that date, not from SOXX's.
+        registration["subjects"] = [{**s, "gate_first_session": {"W-dd": "2026-11-25"}} if s["subject"] == "SOXX" else s for s in registration["subjects"]]
+        path.write_text(json.dumps(registration))
+        lines = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual((len(lines), any("W-dd fund_soxx" in line for line in lines)), (6, False))
 
 
 if __name__ == "__main__":
