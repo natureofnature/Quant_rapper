@@ -32,7 +32,7 @@ sys.path.insert(0, str(ROOT / "apps/cli"))
 for package in ("quant_contracts", "quant_pit_data", "quant_evaluator", "quant_causal_graph", "quant_loop"):
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 import snapshot as snapshots
-from record_state import record_state
+from record_state import misplaced, record_state
 from quant_contracts.forecast import BetaGap, BetaTicket
 from quant_contracts.pit import SeriesBinding
 from quant_loop import shadow, tickets
@@ -57,6 +57,12 @@ def rule_tickets(root: Path, folder: Path, session: date, base: Path, now: datet
         where, gap_path = base / "tickets" / "rule" / name, base / "gaps" / "rule" / name / f"{session}.json"
         path = where / f"{session}.json"
         try:
+            found = next((p for p in (path, gap_path) if p.is_file()), None)
+            if found is not None:  # a file is this decision's record only if it says so itself: a copy of another session's is not
+                wrong = misplaced(found, base)
+                if wrong:
+                    out["failed"][symbol] = f"{found.relative_to(base)} is in this decision's place and {wrong}; nothing was written over it"
+                    continue
             if path.is_file():  # written by an earlier run: it stands, with the time it was written
                 out["kept"].append(BetaTicket.model_validate_json(path.read_text(encoding="utf-8")).ticket_id)
                 continue
@@ -105,11 +111,21 @@ def publish_records(records: Path, machine: str, session: date, push: bool, trie
     problems_found = [f"{len(changed)} committed records were changed, deleted or moved on disk and were not published, the first being {changed[0]}"] if changed else []
     if conflicts:  # neither version is published, and the staged one is left exactly as the earlier run staged it
         problems_found.append(f"{len(conflicts)} records staged by an earlier run have since changed on disk; neither version was published, the first being {conflicts[0]}")
+    # A new file is published as a decision's record only if it is that decision's: its own gate, subject and session.
+    wrong = {path: why for path in new if (why := misplaced(records / path, records / machine))}
+    if wrong:
+        first = next(iter(wrong))
+        misplaced_note = f"{len(wrong)} new files are not the records their places name and were not published, the first being {first}: {wrong[first]}"
+        new = [path for path in new if path not in wrong]
+    else:
+        misplaced_note = None
     if problems_found:
         held_back = [path for path in new if path != log]
         new = [path for path in new if path == log]
         if held_back:
             problems_found.append(f"{len(held_back)} other new files were not published while that stands, the first being {held_back[0]}")
+    if misplaced_note:
+        problems_found.append(misplaced_note)
     if new:
         staged = git("add", "--", *new)
         if staged.returncode:

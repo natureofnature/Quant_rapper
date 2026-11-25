@@ -284,6 +284,53 @@ class DailyJobTests(unittest.TestCase):
         self.assertTrue(any(line.startswith("2026-11-23 rule fund_qqq: no ticket") for line in morning))
         self.assertTrue(any(line.startswith("2026-11-24 rule fund_soxx: no ticket; records: ") for line in morning))
 
+    def test_a_copy_of_another_sessions_ticket_is_neither_reused_nor_published(self):
+        self.assertEqual(self.job(), 0)
+        folder = self.records / "pc-a/tickets/rule/fund_qqq"
+        shutil.copyfile(folder / "2026-11-23.json", folder / "2026-11-24.json")  # the original stays: no committed record has changed
+        self.last = date(2026, 11, 24)
+        self.assertEqual(self.job("--session", "2026-11-24", now=datetime(2026, 11, 24, 19, 0, tzinfo=NEW_YORK)), 1)  # not a success
+        log = self.logs(date(2026, 11, 24))[-1]
+        self.assertIn("holds another decision, rule fund_qqq 2026-11-23", log["stages"]["rule"]["failed"]["QQQ"])
+        self.assertEqual(len(log["stages"]["rule"]["written"]), 1)  # SOXX still gets the day's ticket
+        names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        self.assertNotIn("pc-a/tickets/rule/fund_qqq/2026-11-24.json", names)  # the 23rd's payload is not published under the 24th
+        self.assertIn("pc-a/tickets/rule/fund_soxx/2026-11-24.json", names)
+        self.assertEqual(json.loads((folder / "2026-11-24.json").read_text())["session"], "2026-11-23")  # and the stray file is left for the operator
+        morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual(morning, ["2026-11-24 rule fund_qqq: no ticket; the file there holds another decision, rule fund_qqq 2026-11-23"])
+
+    def test_the_morning_check_fails_when_the_records_cannot_be_verified(self):
+        self.assertEqual(self.job(), 0)
+        ticket = self.records / "pc-a/tickets/rule/fund_qqq/2026-11-23.json"
+        edited = json.loads(ticket.read_text())
+        edited.update(state="RED", target_exposure=0.0)
+        ticket.write_text(json.dumps(edited))
+        (self.records / ".git").rename(self.records / ".git.off")  # git cannot say what was committed
+        try:
+            morning = datetime(2026, 11, 24, 8, 0, tzinfo=NEW_YORK)
+            lines = missed_runs.report(self.root, self.records, "pc-a", None, morning)
+            self.assertEqual(len(lines), 1)
+            self.assertTrue(lines[0].startswith("the records could not be verified, so no ticket is counted: "))
+            self.assertEqual(missed_runs.main(["--records", str(self.records), "--machine", "pc-a"], root=self.root, now=morning), 1)
+        finally:
+            (self.records / ".git.off").rename(self.records / ".git")
+        self.assertEqual(missed_runs.report(self.root, self.records, "pc-a", None, morning),
+                         ["2026-11-23 rule fund_qqq: not the ticket on record; the file differs from what was committed"])
+
+    def test_an_unreadable_ticket_is_reported_by_path_and_the_rest_are_still_checked(self):
+        self.assertEqual(self.job(), 0)
+        base = self.records / "pc-a"
+        committed = base / "tickets/rule/fund_qqq/2026-11-23.json"
+        committed.write_text(committed.read_text()[:40])  # truncated: git already knows it changed
+        self.last = date(2026, 11, 24)
+        fresh = base / "tickets/rule/fund_soxx/2026-11-24.json"  # and a new file that is not a ticket at all
+        fresh.write_text("{not json")
+        lines = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual(lines, ["2026-11-23 rule fund_qqq: not the ticket on record; the file differs from what was committed",
+                                 "2026-11-24 rule fund_soxx: no ticket; pc-a/tickets/rule/fund_soxx/2026-11-24.json cannot be read as one",
+                                 "2026-11-24 rule fund_qqq: no ticket; the job did not run for this session"])
+
     def test_a_ticket_moved_onto_a_lock_name_is_still_a_moved_ticket(self):
         self.assertEqual(self.job(), 0)
         self.git(self.records, "mv", "pc-a/tickets/rule/fund_qqq/2026-11-23.json", "pc-a/tickets/rule/fund_qqq/hidden.lock")

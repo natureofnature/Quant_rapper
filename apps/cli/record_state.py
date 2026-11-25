@@ -39,3 +39,31 @@ def record_state(records: Path, machine: str) -> tuple[list[str], list[str], lis
         else:
             new.append(path)
     return new, changed, conflicts
+
+
+def held_decision(path: Path, base: Path) -> tuple[str, str, str] | None:
+    """(gate, subject folder, session) that a ticket, gap or replay file says it is; None when it cannot be read as one.
+
+    A record's place is <kind>/<gate>/<subject>/<session>.json. What a file holds must be the
+    decision its place names: a copy of one session's ticket under another session's name is
+    not that session's ticket.
+    """
+    import json
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        subject = str(data["subject_id"]).replace(":", "_")
+        gate = data.get("gate") or ("rule" if str(data.get("ticket_id") or data.get("gap_id")).startswith(("beta:", "gap:rule:")) else "")
+        return gate, subject, str(data["session"])
+    except (OSError, ValueError, KeyError, TypeError):
+        return None
+
+
+def misplaced(path: Path, base: Path) -> str | None:
+    """Why the record at ``path`` is not the one its place names, or None when it is. ``base`` is the machine's folder."""
+    parts = path.relative_to(base).parts
+    if len(parts) != 4 or parts[0] not in ("tickets", "gaps", "replays"):
+        return None  # not a decision's record: a manifest, a run log
+    expected, holds = (parts[1], parts[2], Path(parts[3]).stem), held_decision(path, base)
+    if holds is None:
+        return "it cannot be read as a ticket or a gap"
+    return None if holds == expected else f"it holds another decision, {' '.join(holds)}"

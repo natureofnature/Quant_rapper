@@ -20,7 +20,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "apps/cli"))
 import snapshot as snapshots
-from record_state import record_state
+from record_state import held_decision, record_state
 
 RULE = "artifacts/ablations/sector_risk_baseline/registration.json"
 SHADOW = "artifacts/forward/shadow_gates/registration.json"
@@ -53,7 +53,10 @@ def why_missing(base: Path, session: date, gate: str) -> str:
     logs = sorted((base / "runs" / str(session)).glob("*.json")) if (base / "runs" / str(session)).is_dir() else []
     if not logs:
         return "the job did not run for this session"
-    stages = json.loads(logs[-1].read_text(encoding="utf-8"))["stages"]
+    try:
+        stages = json.loads(logs[-1].read_text(encoding="utf-8"))["stages"]
+    except (ValueError, KeyError):
+        return f"the run log {logs[-1].name} cannot be read"
     for name in ("snapshot", "records", "manifest", "rule" if gate == "rule" else "shadow"):  # in the order the job reaches them
         stage = stages.get(name, {})
         if stage.get("failed"):
@@ -70,8 +73,8 @@ def report(root: Path, records: Path, machine: str, since: date | None, now: dat
     recorded = sorted({p.stem for p in base.glob("tickets/*/*/*.json")} | {p.name for p in base.glob("runs/*") if p.is_dir()})
     try:  # the same view of the records as the job has: a file that is not what was committed, or of which two versions exist, is no ticket
         _, changed, conflicts = record_state(records, machine)
-    except OSError:
-        changed, conflicts = [], []
+    except OSError as error:  # without it a file on disk cannot be told from the record: nothing is reported as fine
+        return [f"the records could not be verified, so no ticket is counted: {error}"]
     decisions = expected(root, base)
     # The scan starts where the first decision was due, which can be before this machine first ran: a session a gate was
     # registered for and nobody ran the job on is a missed one too. Each decision is then expected from its own date.
@@ -86,19 +89,29 @@ def report(root: Path, records: Path, machine: str, since: date | None, now: dat
                 continue
             ticket, gap = (base / kind / gate / subject / f"{session}.json" for kind in ("tickets", "gaps"))
             if ticket.is_file():
-                written = json.loads(ticket.read_text(encoding="utf-8"))
                 place = ticket.relative_to(records).as_posix()
-                holds = (written.get("gate", "rule"), str(written.get("subject_id", "")).replace(":", "_"), written.get("session"))
+                # What git already knows comes first: a file it flags is not parsed to be judged.
                 if place in conflicts:
                     lines.append(f"{session} {gate} {subject}: not a ticket on record; an earlier run staged one and the file has changed since, so neither was published")
-                elif place in changed:
+                    continue
+                if place in changed:
                     lines.append(f"{session} {gate} {subject}: not the ticket on record; the file differs from what was committed")
-                elif holds != (gate, subject, str(session)):
-                    lines.append(f"{session} {gate} {subject}: no ticket; the file there holds another decision, {holds[0]} {holds[1]} {holds[2]}")
-                elif written.get("issuance") != "live":
+                    continue
+                holds = held_decision(ticket, base)
+                if holds is None:
+                    lines.append(f"{session} {gate} {subject}: no ticket; {place} cannot be read as one")
+                    continue
+                if holds != (gate, subject, str(session)):
+                    lines.append(f"{session} {gate} {subject}: no ticket; the file there holds another decision, {' '.join(holds)}")
+                    continue
+                written = json.loads(ticket.read_text(encoding="utf-8"))
+                if written.get("issuance") != "live":
                     lines.append(f"{session} {gate} {subject}: written late, at {written.get('issued_at')}; it is a replay and not part of the forward record")
             elif gap.is_file():
-                lines.append(f"{session} {gate} {subject}: a gap; {json.loads(gap.read_text(encoding='utf-8'))['reason']}")
+                try:
+                    lines.append(f"{session} {gate} {subject}: a gap; {json.loads(gap.read_text(encoding='utf-8'))['reason']}")
+                except (ValueError, KeyError):
+                    lines.append(f"{session} {gate} {subject}: no ticket; {gap.relative_to(records).as_posix()} cannot be read as a gap")
             else:
                 lines.append(f"{session} {gate} {subject}: no ticket; {why_missing(base, session, gate)}")
     return lines
