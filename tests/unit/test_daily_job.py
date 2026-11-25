@@ -257,12 +257,42 @@ class DailyJobTests(unittest.TestCase):
         self.assertEqual(self.job(now=datetime.combine(SESSION, time(19, 15), NEW_YORK)), 1)
         names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
         self.assertNotIn("pc-a/tickets/rule/fund_qqq/2026-11-23.json", names)  # neither version is published
-        self.assertIn("pc-a/tickets/rule/fund_soxx/2026-11-23.json", names)  # what was staged and is unchanged is
+        self.assertEqual([n for n in names if n.startswith("pc-a/") and "/runs/" not in n], [])  # while that stands, only failure logs are published
         self.assertEqual(self.git(self.records, "show", ":pc-a/tickets/rule/fund_qqq/2026-11-23.json"), staged)  # the staged version is kept as it was
         self.assertEqual(json.loads(ticket.read_text()), changed)  # and the file is not touched either
         self.assertIn("fund_qqq/2026-11-23.json", self.logs()[-1]["stages"]["records"]["failed"])  # the run says which record
         self.assertEqual(self.job(now=datetime.combine(SESSION, time(19, 30), NEW_YORK)), 1)
+        # The file on disk says "live", but it is not a ticket on record: the morning check says so and does not count it.
+        morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 24, 8, 0, tzinfo=NEW_YORK))
+        self.assertEqual(len(morning), 1)
+        self.assertTrue(morning[0].startswith("2026-11-23 rule fund_qqq: not a ticket on record; an earlier run staged one and the file has changed since"))
         self.assertNotIn("pc-a/tickets/rule/fund_qqq/2026-11-23.json", self.git(self.remote, "ls-tree", "-r", "--name-only", "main"))  # nor on a further retry
+
+    def test_a_ticket_renamed_to_another_session_is_never_published_and_is_not_counted(self):
+        self.assertEqual(self.job(), 0)
+        folder = self.records / "pc-a/tickets/rule/fund_qqq"
+        (folder / "2026-11-23.json").rename(folder / "2026-11-24.json")  # outside git: a deletion and an untracked file
+        self.last = date(2026, 11, 24)
+        self.assertEqual(self.job("--session", "2026-11-24", now=datetime(2026, 11, 24, 19, 0, tzinfo=NEW_YORK)), 1)
+        names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        self.assertNotIn("pc-a/tickets/rule/fund_qqq/2026-11-24.json", names)  # the 23rd's ticket does not appear under the 24th
+        self.assertIn("pc-a/tickets/rule/fund_qqq/2026-11-23.json", names)
+        self.assertEqual([n for n in names if "2026-11-24" in n and "/runs/" not in n], [])  # of the 24th, only the failure log is published
+        self.assertEqual(len([n for n in names if n.startswith("pc-a/runs/2026-11-24/")]), 1)
+        morning = missed_runs.report(self.root, self.records, "pc-a", None, datetime(2026, 11, 25, 8, 0, tzinfo=NEW_YORK))
+        self.assertIn("2026-11-24 rule fund_qqq: no ticket; the file there holds another decision, rule fund_qqq 2026-11-23", morning)
+        self.assertTrue(any(line.startswith("2026-11-23 rule fund_qqq: no ticket") for line in morning))
+        self.assertTrue(any(line.startswith("2026-11-24 rule fund_soxx: no ticket; records: ") for line in morning))
+
+    def test_a_ticket_moved_onto_a_lock_name_is_still_a_moved_ticket(self):
+        self.assertEqual(self.job(), 0)
+        self.git(self.records, "mv", "pc-a/tickets/rule/fund_qqq/2026-11-23.json", "pc-a/tickets/rule/fund_qqq/hidden.lock")
+        self.last = date(2026, 11, 24)
+        self.assertEqual(self.job("--session", "2026-11-24", now=datetime(2026, 11, 24, 19, 0, tzinfo=NEW_YORK)), 1)
+        self.assertIn("fund_qqq/2026-11-23.json", self.logs(date(2026, 11, 24))[-1]["stages"]["records"]["failed"])
+        names = self.git(self.remote, "ls-tree", "-r", "--name-only", "main").splitlines()
+        self.assertTrue("pc-a/tickets/rule/fund_qqq/2026-11-23.json" in names and not any(n.endswith(".lock") for n in names))
+        self.assertEqual([n for n in names if "2026-11-24" in n and "/runs/" not in n], [])
 
     def test_records_that_could_not_be_staged_are_never_reported_as_pushed_and_nothing_else_is_committed(self):
         (self.records / "unrelated.txt").write_text("staged by someone else\n")

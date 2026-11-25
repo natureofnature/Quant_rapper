@@ -32,6 +32,7 @@ sys.path.insert(0, str(ROOT / "apps/cli"))
 for package in ("quant_contracts", "quant_pit_data", "quant_evaluator", "quant_causal_graph", "quant_loop"):
     sys.path.insert(0, str(ROOT / "packages" / package / "src"))
 import snapshot as snapshots
+from record_state import record_state
 from quant_contracts.forecast import BetaGap, BetaTicket
 from quant_contracts.pit import SeriesBinding
 from quant_loop import shadow, tickets
@@ -85,48 +86,15 @@ def shadow_tickets(root: Path, folder: Path, session: date, records: Path, machi
             "kept": batch.kept, "replays": [t.ticket_id for t in batch.replays], "scores_digest": batch.digest}
 
 
-def record_state(records: Path, machine: str) -> tuple[list[str], list[str], list[str]]:
-    """What differs from the last commit under this machine's folder, as three lists of paths.
-
-    new: files in no commit, on disk exactly as they would be committed. They are what a run publishes.
-    changed: committed records that were edited, deleted or moved on disk, and the places they were moved to.
-    conflicts: files an earlier run staged whose copy on disk has since changed, so two versions of one record exist.
-
-    What decides is whether a path is in the last commit, not how git labels it: a file staged
-    by a run whose commit then failed is still new. A move is a change to the record that was
-    moved, and what it was moved to is not a new record.
-    """
-    git = lambda *a: subprocess.run(["git", "-C", str(records), *a], capture_output=True, text=True)
-    status = git("status", "--porcelain", "--untracked-files=all", "-z", "--", machine)
-    if status.returncode:
-        raise OSError(f"reading the state of the records: {status.stderr.strip() or status.returncode}")
-    committed = set(git("ls-tree", "-r", "--name-only", "-z", "HEAD", "--", machine).stdout.split("\0"))
-    new, changed, conflicts, tokens = [], [], [], iter(status.stdout.split("\0"))
-    for entry in tokens:
-        if not entry:
-            continue
-        code, path = entry[:2], entry[3:]
-        moved_from = next(tokens, None) if code[0] in "RC" or code[1] in "RC" else None  # a rename or copy is followed by the path it came from
-        if path.endswith(".lock"):  # a lock is a run's own, never a record
-            continue
-        if moved_from is not None:
-            changed += [moved_from, path]
-        elif path in committed:
-            changed.append(path)
-        elif code[0] == "A" and code[1] != " ":  # staged by an earlier run, and the file has changed since: which one is the record?
-            conflicts.append(path)
-        else:
-            new.append(path)
-    return new, changed, conflicts
-
-
-def publish_records(records: Path, machine: str, session: date, push: bool, tries: int, pause: float) -> dict:
+def publish_records(records: Path, machine: str, session: date, push: bool, tries: int, pause: float, log: str) -> dict:
     """Commit the files this machine added, and only those, then push. A later run pushes a commit whose push failed.
 
     Records are written once, so publishing only ever adds files. A record already committed
     that was changed or deleted on disk is never staged: it is reported, and the remote keeps
-    what it has. Every step's result is checked: a run is reported as pushed only when the new
-    files are committed and the remote has that commit.
+    what it has. When earlier records were changed, moved or doubled, nothing else found on disk
+    can be taken for what a run wrote, so only ``log``, this run's own log, is published.
+    Every step's result is checked: a run is reported as pushed only when the new files are
+    committed and the remote has that commit.
     """
     git = lambda *a: subprocess.run(["git", "-C", str(records), *a], capture_output=True, text=True)
     out = {"committed": False, "pushed": None}
@@ -137,6 +105,11 @@ def publish_records(records: Path, machine: str, session: date, push: bool, trie
     problems_found = [f"{len(changed)} committed records were changed, deleted or moved on disk and were not published, the first being {changed[0]}"] if changed else []
     if conflicts:  # neither version is published, and the staged one is left exactly as the earlier run staged it
         problems_found.append(f"{len(conflicts)} records staged by an earlier run have since changed on disk; neither version was published, the first being {conflicts[0]}")
+    if problems_found:
+        held_back = [path for path in new if path != log]
+        new = [path for path in new if path == log]
+        if held_back:
+            problems_found.append(f"{len(held_back)} other new files were not published while that stands, the first being {held_back[0]}")
     if new:
         staged = git("add", "--", *new)
         if staged.returncode:
@@ -220,7 +193,7 @@ def run(root: Path, records: Path, session: date | None, push: bool, fetcher, no
         entry = base / "runs" / str(session) / f"{datetime.now(timezone.utc):%Y%m%dT%H%M%S%fZ}.json"  # one file per run: a rerun adds a log, it never edits one
         entry.parent.mkdir(parents=True, exist_ok=True)
         entry.write_text(json.dumps(log, indent=1) + "\n", encoding="utf-8")
-        outcome = publish_records(records, machine, session, push, tries, pause)
+        outcome = publish_records(records, machine, session, push, tries, pause, entry.relative_to(records).as_posix())
     failed = {name: stage["failed"] for name, stage in log["stages"].items() if stage.get("failed")}
     if outcome.get("failed"):
         failed["records"] = outcome["failed"]
