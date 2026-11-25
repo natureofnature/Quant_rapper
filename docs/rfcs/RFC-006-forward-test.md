@@ -175,8 +175,8 @@ Part B is developed in parallel with Part A and does not delay it.
 | The FOMC schedule for 2027 | Not held |
 | First publication dates of the added series, and the FOMC schedule as it stood on each date | Pieces verified; daily panel integration pending. The 18 added series and the credit ratio are in the bindings catalogue, and a binding's `first_published` is enforced by every loader, every selection and the outcome-price lookup. The countdown in `quant_pit_data.schedule`, with the withdrawn meeting in `bindings/event_schedules.json`, is tested. No shared code yet builds the 33 inputs from the catalogue or feeds the countdown into the panel; a local check did both and matched the corrected inputs. Nine old series (rate indices, MOVE, the dollar index, three futures) have no established date and no floor |
 | A backup of the snapshots | A local copy in `run/backup/snapshots/` with checksums; same machine, not in the repository |
-| A scheduled job that runs the loop after each close | Nothing |
-| A check that reports a missed run the next morning | Nothing |
+| A scheduled job that runs the loop after each close | `apps/cli/daily_job.py` chains the snapshot, the rule's tickets, the shadow tickets and the commit and push of the records repository, and is safe to run again. Rehearsed once on live data for the 2026-11-24 session, into a scratch folder. Timer units are in `deploy/systemd/`; none is installed |
+| A check that reports a missed run the next morning | `apps/cli/missed_runs.py` lists every expected decision that has no live ticket, with the reason from the run log. Its timer unit is not installed |
 
 ## 7. Deliverables
 

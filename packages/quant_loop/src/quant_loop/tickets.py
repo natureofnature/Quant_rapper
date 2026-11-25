@@ -6,7 +6,8 @@
 Tickets follow the frozen rule baseline: neither fitted model met the registered promotion
 limits, so the rule produces the gate. A ticket is written once to
 artifacts/tickets/<subject>/<session>.json and is never rewritten. Its outcome goes to a
-separate file under outcomes/, and only when the full horizon is in the data.
+separate file under outcomes/, and only when the full horizon is in the data. The daily job
+passes another folder, in the records repository, so the forward record is kept in one place.
 """
 
 import argparse
@@ -102,7 +103,7 @@ def _load(root: Path, snapshot: Path, symbol: str):
     return registration, hashlib.sha256(registration_path.read_bytes()).hexdigest(), subject, b, calendars, equity, prices, hashes, bindings_dir
 
 
-def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime | None = None) -> BetaTicket:
+def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime | None = None, folder: Path | None = None) -> BetaTicket:
     """The ticket for one session, as of ``now`` (the clock, unless a test supplies it).
 
     It is refused before the session's decision time, and unless the snapshot already holds
@@ -110,7 +111,8 @@ def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime |
     session that has not happened. A ticket written before the next session opens is live;
     one written later is a replay and says so.
     """
-    now = now or datetime.now(timezone.utc)
+    clock = (lambda: now) if now is not None else (lambda: datetime.now(timezone.utc))
+    now = clock()
     registration, recipe_hash, subject, b, calendars, equity, prices, hashes, bindings_dir = _load(root, snapshot, symbol)
     factors, rules, series_calendars = [], [], {}
     for signal in registration["signals"]:
@@ -136,9 +138,8 @@ def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime |
         raise SystemExit(f"it is {now.isoformat()}, before the decision time {cutoff.time.isoformat()}: no ticket is written early")
     later = [s for s in equity.sessions if s > session]
     next_open = datetime.combine(later[0], b[subject["open"]].value_time, cutoff.time.tzinfo) if later else None
-    issuance = "live" if next_open is not None and now < next_open else "replay"
     values = {s.factor_id: s.value for s in states}
-    folder = root / "artifacts/tickets" / symbol
+    folder = folder or root / "artifacts/tickets" / symbol  # where this issuer's earlier tickets are: a held state is read from there
     subject_id = next(a for a in b[subject["close"]].anchors)
     if any(v is None for v in values.values()):  # the registered rule: hold the previous target, and say so
         earlier = sorted(p for p in folder.glob("*.json") if p.stem < str(session)) if folder.exists() else []
@@ -150,6 +151,8 @@ def emit(root: Path, snapshot: Path, symbol: str, session: date, now: datetime |
         stressed = tuple(f.factor_id for f, (test, cut) in zip(factors, rules) if test(values[f.factor_id], cut))
         gate, held = STATES[min(len(stressed), 2)], False
     exposure = registration["exposure"]["by_stressed_count"][STATES.index(gate)]
+    now = clock()  # read again with the work done: this is when the ticket exists, and it decides live or replay
+    issuance = "live" if next_open is not None and now < next_open else "replay"
     return BetaTicket(ticket_id=f"beta:{subject_id}:{session}", subject_id=subject_id, session=session, decision_time=cutoff.time,
                       issued_at=now, issuance=issuance, state=gate, target_exposure=exposure, held=held, stressed_rules=stressed, inputs=values, horizon_sessions=20,
                       source=f"frozen rule {registration['registration_id']}", recipe_sha256=recipe_hash, snapshot_sha256=hashes)

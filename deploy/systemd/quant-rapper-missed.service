@@ -1,0 +1,9 @@
+[Unit]
+Description=Quant_rapper: report decisions with no ticket written in time
+
+[Service]
+Type=oneshot
+EnvironmentFile=%h/.config/quant-rapper/job.env
+# Exits 1 when anything is reported, so the unit shows as failed: systemctl --user --failed
+# systemd expands variables in arguments only, not in the program's own path, so a shell changes directory and starts it.
+ExecStart=/bin/sh -c 'cd "$CODE_DIR" && exec .venv/bin/python apps/cli/missed_runs.py --records "$RECORDS_DIR"'

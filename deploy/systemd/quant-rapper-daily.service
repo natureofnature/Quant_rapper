@@ -1,0 +1,16 @@
+[Unit]
+Description=Quant_rapper daily job: snapshot, tickets, records
+Wants=network-online.target
+After=network-online.target
+# If a run fails it is tried again every 15 minutes, at most four times in three hours.
+StartLimitIntervalSec=3h
+StartLimitBurst=4
+
+[Service]
+Type=oneshot
+# CODE_DIR, RECORDS_DIR: set in ~/.config/quant-rapper/job.env
+EnvironmentFile=%h/.config/quant-rapper/job.env
+# systemd expands variables in arguments only, not in the program's own path, so a shell changes directory and starts it.
+ExecStart=/bin/sh -c 'cd "$CODE_DIR" && exec .venv/bin/python apps/cli/daily_job.py --records "$RECORDS_DIR"'
+Restart=on-failure
+RestartSec=15min

@@ -1,0 +1,11 @@
+[Unit]
+Description=Run the Quant_rapper daily job after each US session
+
+[Timer]
+# Two hours after the 17:00 decision cutoff, when every same-day input is published, and long before the next open.
+OnCalendar=Mon..Fri 19:00 America/New_York
+# A run missed because the computer was off is made at the next start. A ticket written after the next open is then a replay.
+Persistent=true
+
+[Install]
+WantedBy=timers.target
