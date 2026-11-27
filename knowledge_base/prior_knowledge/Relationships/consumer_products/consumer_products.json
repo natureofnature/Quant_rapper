@@ -4,7 +4,7 @@
   "sector_id": "consumer_products",
   "label": "Consumer Products",
   "compiled_on": "2026-11-27",
-  "content_revision": "2026-11-27.1",
+  "content_revision": "2026-11-27.2",
   "levels": {
     "L1": {
       "label": "Macro and policy",
@@ -353,10 +353,10 @@
       "mechanism_hypothesis": "Currency moves change the reported value of sales made abroad and the cost of imported inputs. The net effect depends on where a company sells and where it makes and buys.",
       "test_criteria": {
         "trigger": "A company reports a quarter in which the US dollar's average value against its main foreign currencies differs by 5% or more from the same quarter a year earlier.",
-        "observable": "The effect of currency on sales growth that the company itself states for that quarter, for the whole company. The gap between reported and organic growth is not used: it also holds acquisitions and disposals.",
+        "observable": "The effect of currency on sales growth that the company itself states for that quarter, for the whole company, read as a direction and a size. A stronger dollar is expected to lower reported sales growth and a weaker one to raise it. 'Minus two points' and 'a two-point headwind' are the same reading. The gap between reported and organic growth is not used: it also holds acquisitions and disposals.",
         "window": "That quarter's results release.",
-        "supports_if": "The stated currency effect has the sign the dollar's move implies and is at least one percentage point.",
-        "contradicts_if": "The stated currency effect is under half a percentage point or has the opposite sign. If the company does not disclose this figure for that scope, the assessment is inconclusive."
+        "supports_if": "The stated effect is in the expected direction and its size is one percentage point or more.",
+        "contradicts_if": "The stated effect is under half a percentage point in size in either direction, or is in the opposite direction with a size of half a point or more. An effect in the expected direction between half a point and one point is inconclusive, as is a company that does not state the effect."
       }
     },
     {
@@ -399,10 +399,10 @@
       "mechanism_hypothesis": "Households change where they shop as well as what they buy, moving toward discounters, larger packs and fewer trips when budgets tighten. A retailer positioned on low prices can gain shoppers in a downturn while others lose them.",
       "test_criteria": {
         "trigger": "Official real disposable personal income is lower than a year earlier for two consecutive quarters.",
-        "observable": "The transactions component of comparable sales at one retailer positioned on low prices, for its home market.",
+        "observable": "The change in one low-price retailer's share of its home market in everyday goods, as the retailer or a named published market measure states it, as a figure or as a plain statement that it gained or lost share. Its own transaction growth is context only: transactions can fall at a retailer that is gaining share in a shrinking market.",
         "window": "Those two quarters and the next.",
-        "supports_if": "Transactions are higher than a year earlier in at least two of the three quarters.",
-        "contradicts_if": "Transactions are lower than a year earlier in at least two of the three quarters. Any other outcome is inconclusive, as is a retailer that does not report transactions."
+        "supports_if": "The share is stated as higher than a year earlier in at least two of the three quarters.",
+        "contradicts_if": "The share is stated as lower than a year earlier in at least two of the three quarters. Any other outcome is inconclusive, as is a period with no stated share."
       }
     },
     {
@@ -437,10 +437,10 @@
       "mechanism_hypothesis": "Tariffs and quotas raise the cost of imported inputs and finished goods. Who bears it depends on whether the importer can change source, and on whether its customers accept a higher price.",
       "test_criteria": {
         "trigger": "A tariff on a named input or product category takes effect on a stated date.",
-        "observable": "What one company that states it imports the item says the tariff cost it, as an amount or as an effect on margin. Its total gross margin is not used: savings elsewhere can hide the cost.",
+        "observable": "What one company that states it imports the item says the tariff added to its costs, as an amount or as an effect on margin. This tests cost pressure only. A change of source or a price increase is recorded as context and sets no verdict. Total gross margin is not used: savings elsewhere can hide the cost.",
         "window": "The four fiscal quarters after the effective date.",
-        "supports_if": "The company states a cost from the tariff, or states that it changed source or raised a price because of it.",
-        "contradicts_if": "The company states that the tariff had no material effect on its costs. If it says neither, or does not say whether it imports the item, the assessment is inconclusive."
+        "supports_if": "The company states that the tariff added to its costs in at least one of the four quarters.",
+        "contradicts_if": "The company states that the tariff added no material cost in the window, whatever it did to avoid it. If it gives no statement on the cost, or does not say whether it imports the item, the assessment is inconclusive."
       }
     },
     {
@@ -460,10 +460,10 @@
       "mechanism_hypothesis": "A rise in ingredient prices reaches cost of goods with a delay set by hedges, supply contracts and inventory. Margins fall until prices are raised, and recover beyond their old level if those prices hold after the ingredient falls back.",
       "test_criteria": {
         "trigger": "The price of an ingredient a company names as material is 20% or more above its level a year earlier.",
-        "observable": "The effect of commodity or input costs on gross margin that the company itself states, for the whole company. Total gross margin is not used: pricing and savings move it too.",
+        "observable": "What the company states about that named ingredient's effect on its costs or gross margin. A company-wide input-cost figure does not settle this test: a fall in another input can offset the ingredient.",
         "window": "The four fiscal quarters after the price first meets the trigger.",
-        "supports_if": "The stated effect of input costs on gross margin is negative in at least one of the four quarters.",
-        "contradicts_if": "The stated effect of input costs on gross margin is zero or positive in all four quarters. If the company does not disclose this figure for that scope, the assessment is inconclusive."
+        "supports_if": "The company states that the named ingredient raised its costs or lowered its margin in at least one of the four quarters.",
+        "contradicts_if": "The company states that the named ingredient had no material effect on its costs in the window, for example because it was hedged throughout. If the company gives only a company-wide figure, or does not mention the ingredient, the assessment is inconclusive."
       }
     },
     {

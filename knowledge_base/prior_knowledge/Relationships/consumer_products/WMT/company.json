@@ -5,13 +5,13 @@
   "symbol": "WMT",
   "name": "Walmart",
   "compiled_on": "2026-11-27",
-  "content_revision": "2026-11-27.1",
+  "content_revision": "2026-11-27.2",
   "status": "exploratory_leads",
   "sector": {
     "id": "consumer_products",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-27.1",
-    "content_sha256": "7313988bcfcd8e615eaa40eb8168d15fc7ae634a5ece4da7c3e166ab509c7743"
+    "content_revision": "2026-11-27.2",
+    "content_sha256": "95602a30a51053c6f345f7a97f6339a44719f4b9cfdad52d401549b1288ea277"
   },
   "business_roles": [
     {
@@ -53,7 +53,7 @@
   "projection": {
     "excluded_edge_ids": [],
     "edge_conditions": {
-      "lead:consumer_products:household_demand:channel_shift:retailers": "For Walmart the hypothesis is the gaining side: test whether transactions rise and whether it reports more shoppers from higher income groups when real incomes fall. Falling transactions in such a period count against it."
+      "lead:consumer_products:household_demand:channel_shift:retailers": "For Walmart the hypothesis is the gaining side: test whether it states a gain in share of US grocery and everyday goods when real incomes fall. A stated loss of share in such a period counts against it. Its transactions and its comments on shoppers from higher income groups are context."
     }
   },
   "evidence": []
