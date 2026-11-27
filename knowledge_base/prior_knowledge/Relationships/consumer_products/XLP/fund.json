@@ -4,20 +4,19 @@
   "fund_id": "fund:xlp",
   "symbol": "XLP",
   "name": "Consumer Staples Select Sector SPDR Fund",
-  "compiled_on": "2026-11-26",
-  "content_revision": "2026-11-26.1",
+  "compiled_on": "2026-11-27",
+  "content_revision": "2026-11-27.1",
   "status": "exploratory_leads",
   "sector": {
     "id": "consumer_products",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-26.1",
-    "content_sha256": "02cc3b868bc92bf720bc45b4b51bf26348119040b782173c403b6260a8670f5b"
+    "content_revision": "2026-11-27.1",
+    "content_sha256": "7313988bcfcd8e615eaa40eb8168d15fc7ae634a5ece4da7c3e166ab509c7743"
   },
   "issuer_institution_id": "institution:state_street",
   "index_tracked": "Consumer Staples Select Sector Index",
   "business_roles": [],
   "listing": {
-    "exchange": "NYSE Arca",
     "security_type": "etf"
   },
   "observables_to_research": [

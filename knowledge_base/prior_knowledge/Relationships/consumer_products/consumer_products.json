@@ -3,8 +3,8 @@
   "kind": "industry_research_map",
   "sector_id": "consumer_products",
   "label": "Consumer Products",
-  "compiled_on": "2026-11-26",
-  "content_revision": "2026-11-26.1",
+  "compiled_on": "2026-11-27",
+  "content_revision": "2026-11-27.1",
   "levels": {
     "L1": {
       "label": "Macro and policy",
@@ -353,10 +353,10 @@
       "mechanism_hypothesis": "Currency moves change the reported value of sales made abroad and the cost of imported inputs. The net effect depends on where a company sells and where it makes and buys.",
       "test_criteria": {
         "trigger": "A company reports a quarter in which the US dollar's average value against its main foreign currencies differs by 5% or more from the same quarter a year earlier.",
-        "observable": "Reported sales growth against the constant-currency or organic growth the company discloses for that quarter.",
+        "observable": "The effect of currency on sales growth that the company itself states for that quarter, for the whole company. The gap between reported and organic growth is not used: it also holds acquisitions and disposals.",
         "window": "That quarter's results release.",
-        "supports_if": "The gap between reported and constant-currency growth has the sign the dollar's move implies and is at least one percentage point.",
-        "contradicts_if": "The gap is under half a percentage point or has the opposite sign."
+        "supports_if": "The stated currency effect has the sign the dollar's move implies and is at least one percentage point.",
+        "contradicts_if": "The stated currency effect is under half a percentage point or has the opposite sign. If the company does not disclose this figure for that scope, the assessment is inconclusive."
       }
     },
     {
@@ -368,10 +368,10 @@
       "mechanism_hypothesis": "When real income falls, households go on buying necessities but trade down to cheaper brands, smaller packs or store brands, and cut the categories they can do without first.",
       "test_criteria": {
         "trigger": "Official real disposable personal income is lower than a year earlier for two consecutive quarters.",
-        "observable": "A branded manufacturer's volume and its price and mix for those quarters, and a retailer's own-brand share where it reports one.",
+        "observable": "One branded manufacturer's volume, for the whole company, in those quarters and the next. A retailer's store-brand share is a different measure and belongs to the store-brand lead.",
         "window": "Those two quarters and the next.",
-        "supports_if": "The manufacturer's volume falls from a year earlier in at least one of the three quarters, or the retailer reports a higher own-brand share.",
-        "contradicts_if": "The manufacturer's volume and mix are both unchanged or higher in all three quarters. A company that does not split volume from price is a data gap."
+        "supports_if": "The manufacturer's volume is lower than a year earlier in at least one of the three quarters.",
+        "contradicts_if": "The manufacturer's volume is unchanged or higher than a year earlier in all three quarters. If the company does not disclose this figure for that scope, the assessment is inconclusive."
       }
     },
     {
@@ -399,10 +399,10 @@
       "mechanism_hypothesis": "Households change where they shop as well as what they buy, moving toward discounters, larger packs and fewer trips when budgets tighten. A retailer positioned on low prices can gain shoppers in a downturn while others lose them.",
       "test_criteria": {
         "trigger": "Official real disposable personal income is lower than a year earlier for two consecutive quarters.",
-        "observable": "A retailer's comparable sales split into transactions and average ticket, and its comments on which income groups it is gaining or losing.",
+        "observable": "The transactions component of comparable sales at one retailer positioned on low prices, for its home market.",
         "window": "Those two quarters and the next.",
-        "supports_if": "A retailer positioned on low prices reports rising transactions, or a higher-priced one reports falling transactions, and either attributes it to shoppers trading down.",
-        "contradicts_if": "Transactions move the other way at both kinds of retailer, with no such attribution."
+        "supports_if": "Transactions are higher than a year earlier in at least two of the three quarters.",
+        "contradicts_if": "Transactions are lower than a year earlier in at least two of the three quarters. Any other outcome is inconclusive, as is a retailer that does not report transactions."
       }
     },
     {
@@ -437,10 +437,10 @@
       "mechanism_hypothesis": "Tariffs and quotas raise the cost of imported inputs and finished goods. Who bears it depends on whether the importer can change source, and on whether its customers accept a higher price.",
       "test_criteria": {
         "trigger": "A tariff on a named input or product category takes effect on a stated date.",
-        "observable": "Statements by companies that import it on cost, sourcing changes and price increases, and their gross margin.",
+        "observable": "What one company that states it imports the item says the tariff cost it, as an amount or as an effect on margin. Its total gross margin is not used: savings elsewhere can hide the cost.",
         "window": "The four fiscal quarters after the effective date.",
-        "supports_if": "An importing company reports higher cost, a change of source or a price increase and names the tariff.",
-        "contradicts_if": "A company that states it imports the item reports gross margin and prices unchanged in all four quarters and no change of source. A company that does not say whether it imports the item is a data gap."
+        "supports_if": "The company states a cost from the tariff, or states that it changed source or raised a price because of it.",
+        "contradicts_if": "The company states that the tariff had no material effect on its costs. If it says neither, or does not say whether it imports the item, the assessment is inconclusive."
       }
     },
     {
@@ -460,10 +460,10 @@
       "mechanism_hypothesis": "A rise in ingredient prices reaches cost of goods with a delay set by hedges, supply contracts and inventory. Margins fall until prices are raised, and recover beyond their old level if those prices hold after the ingredient falls back.",
       "test_criteria": {
         "trigger": "The price of an ingredient a company names as material is 20% or more above its level a year earlier.",
-        "observable": "The company's gross margin, its stated cost drivers and any price increase it announces.",
+        "observable": "The effect of commodity or input costs on gross margin that the company itself states, for the whole company. Total gross margin is not used: pricing and savings move it too.",
         "window": "The four fiscal quarters after the price first meets the trigger.",
-        "supports_if": "Gross margin is lower than a year earlier in at least one of the four quarters and the company names the ingredient, or it announces a price increase and names the ingredient.",
-        "contradicts_if": "Gross margin is unchanged or higher in all four quarters and no price increase is attributed to the ingredient. A company that does not disclose its cost drivers is a data gap."
+        "supports_if": "The stated effect of input costs on gross margin is negative in at least one of the four quarters.",
+        "contradicts_if": "The stated effect of input costs on gross margin is zero or positive in all four quarters. If the company does not disclose this figure for that scope, the assessment is inconclusive."
       }
     },
     {
@@ -490,11 +490,11 @@
       "relation_kind": "mechanism_hypothesis",
       "mechanism_hypothesis": "A large retailer decides what is on the shelf, and can refuse a price increase, demand promotion money or remove a product. How far it can push depends on whether shoppers will go elsewhere for the brand.",
       "test_criteria": {
-        "trigger": "A branded manufacturer announces a list-price increase to its retail customers.",
-        "observable": "The price and mix the manufacturer then reports, and any public report of a retailer refusing the increase or removing its products.",
+        "trigger": "A branded manufacturer announces a list-price increase of a stated size for a segment.",
+        "observable": "The pricing component of sales growth the manufacturer then reports for that segment. One retailer refusing the increase is evidence about that account only and does not settle this test.",
         "window": "The two fiscal quarters after the increase takes effect.",
-        "supports_if": "A retailer publicly refuses the increase or removes the products, or the manufacturer reports price and mix below the increase it announced and attributes the shortfall to customers.",
-        "contradicts_if": "The manufacturer reports price and mix at or above the announced increase in both quarters. A manufacturer that reports no price and mix figure is a data gap."
+        "supports_if": "The reported pricing component is below the announced increase by a percentage point or more in both quarters, and the manufacturer attributes the shortfall to its retail customers.",
+        "contradicts_if": "The reported pricing component is at or above the announced increase in at least one of the two quarters. A shortfall the manufacturer does not attribute to customers is inconclusive, as is a manufacturer that reports no separate pricing component."
       }
     },
     {
@@ -505,11 +505,11 @@
       "relation_kind": "mechanism_hypothesis",
       "mechanism_hypothesis": "A price increase raises revenue per unit and loses some volume. How much is lost depends on how strongly shoppers want the brand and how close the substitutes are, so the same increase can pay for one product and not for another.",
       "test_criteria": {
-        "trigger": "A branded manufacturer reports price and mix five percentage points or more above a year earlier for a segment in a fiscal quarter.",
-        "observable": "That segment's volume in the same quarter and the next.",
+        "trigger": "A branded manufacturer reports a pricing component of sales growth five percentage points or more above a year earlier for a segment in a fiscal quarter. A combined price-and-mix figure does not qualify: it can rise because shoppers bought different products.",
+        "observable": "The volume component reported for the same segment in the same quarter and the next.",
         "window": "Those two fiscal quarters.",
-        "supports_if": "Volume is lower than a year earlier in at least one of the two quarters.",
-        "contradicts_if": "Volume is unchanged or higher than a year earlier in both quarters. A company that does not split volume from price is a data gap."
+        "supports_if": "Volume for that segment is lower than a year earlier in at least one of the two quarters.",
+        "contradicts_if": "Volume for that segment is unchanged or higher than a year earlier in both quarters. A company that reports price and mix together, or no volume for the segment, is inconclusive."
       }
     },
     {
@@ -529,10 +529,10 @@
       "mechanism_hypothesis": "A store brand gives households a cheaper substitute and gives the retailer a product it earns more on and controls. Share moves to store brands when the price gap widens or incomes fall, and part of it stays after the cause has passed.",
       "test_criteria": {
         "trigger": "A retailer reports a rise in own-brand share of sales of one percentage point or more from a year earlier.",
-        "observable": "The volume of branded manufacturers in the categories that retailer names, and the retailer's own-brand share in the following year.",
+        "observable": "The same retailer's own-brand share of sales, on the same definition, one year after that report. A manufacturer's volume is a different scope and does not settle this test: the retailer's share can rise while one supplier's volume is flat.",
         "window": "The four fiscal quarters after the report.",
-        "supports_if": "A manufacturer in a named category reports lower volume and cites store brands, or the retailer's own-brand share is still at least half a point above its starting level a year later.",
-        "contradicts_if": "The retailer's own-brand share is back at or below its starting level a year later and no manufacturer in the named categories cites store brands. A retailer that stops reporting the share is a data gap."
+        "supports_if": "A year later the share is still at least half a percentage point above its level before the rise.",
+        "contradicts_if": "A year later the share is at or below its level before the rise. A share between the two is inconclusive, as is a retailer that stops reporting it or changes the definition."
       }
     },
     {
@@ -544,10 +544,10 @@
       "mechanism_hypothesis": "A manufacturer records a sale when it ships to a retailer or distributor, so a channel that cuts its stock lowers reported sales below what households are buying, and restocking lifts them above it.",
       "test_criteria": {
         "trigger": "A manufacturer, or a retailer that is a large customer, reports that the retailer is reducing its inventory.",
-        "observable": "The manufacturer's shipment volume against the growth in sales to shoppers that it or the retailer reports for the same products.",
+        "observable": "For one manufacturer and one stated set of products, its shipment growth against the growth in sales to shoppers reported for the same products and the same quarters.",
         "window": "The fiscal quarter of the report and the next.",
         "supports_if": "Shipment growth is below the growth in sales to shoppers in at least one of the two quarters.",
-        "contradicts_if": "Shipment growth is at or above the growth in sales to shoppers in both quarters. Where sales to shoppers are not reported, it is a data gap."
+        "contradicts_if": "Shipment growth is at or above the growth in sales to shoppers in both quarters. Where the two are not reported for the same products, the assessment is inconclusive."
       }
     }
   ]
