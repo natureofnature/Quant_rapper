@@ -5,13 +5,13 @@
   "symbol": "WMT",
   "name": "Walmart",
   "compiled_on": "2026-11-27",
-  "content_revision": "2026-11-27.2",
+  "content_revision": "2026-11-27.3",
   "status": "exploratory_leads",
   "sector": {
     "id": "consumer_products",
     "schema_version": "2.0.0",
-    "content_revision": "2026-11-27.2",
-    "content_sha256": "95602a30a51053c6f345f7a97f6339a44719f4b9cfdad52d401549b1288ea277"
+    "content_revision": "2026-11-27.3",
+    "content_sha256": "2641609b35d84d17cb449aff66ee910e38fd85d3a4e172ef2539d8f4f0c6c35f"
   },
   "business_roles": [
     {

@@ -4,7 +4,7 @@
   "sector_id": "consumer_products",
   "label": "Consumer Products",
   "compiled_on": "2026-11-27",
-  "content_revision": "2026-11-27.2",
+  "content_revision": "2026-11-27.3",
   "levels": {
     "L1": {
       "label": "Macro and policy",
@@ -437,10 +437,10 @@
       "mechanism_hypothesis": "Tariffs and quotas raise the cost of imported inputs and finished goods. Who bears it depends on whether the importer can change source, and on whether its customers accept a higher price.",
       "test_criteria": {
         "trigger": "A tariff on a named input or product category takes effect on a stated date.",
-        "observable": "What one company that states it imports the item says the tariff added to its costs, as an amount or as an effect on margin. This tests cost pressure only. A change of source or a price increase is recorded as context and sets no verdict. Total gross margin is not used: savings elsewhere can hide the cost.",
+        "observable": "What one company that states it imports the item says, quarter by quarter, the tariff added to its costs. This tests cost pressure only. A change of source or a price increase is recorded as context and sets no verdict. Total gross margin is not used: savings elsewhere can hide the cost. A cost counts as material in a quarter when the company calls it material or significant, or lists it among the stated drivers of that quarter's change in gross margin.",
         "window": "The four fiscal quarters after the effective date.",
-        "supports_if": "The company states that the tariff added to its costs in at least one of the four quarters.",
-        "contradicts_if": "The company states that the tariff added no material cost in the window, whatever it did to avoid it. If it gives no statement on the cost, or does not say whether it imports the item, the assessment is inconclusive."
+        "supports_if": "The company attributes a material cost increase to the tariff in at least one of the four quarters.",
+        "contradicts_if": "The company states, for each of the four quarters, that the tariff's cost was immaterial or zero. Anything else is inconclusive: an annual or net figure alone, a stated amount the company neither calls material nor lists as a margin driver, quarters with no statement, or a company that does not say whether it imports the item."
       }
     },
     {
@@ -460,10 +460,10 @@
       "mechanism_hypothesis": "A rise in ingredient prices reaches cost of goods with a delay set by hedges, supply contracts and inventory. Margins fall until prices are raised, and recover beyond their old level if those prices hold after the ingredient falls back.",
       "test_criteria": {
         "trigger": "The price of an ingredient a company names as material is 20% or more above its level a year earlier.",
-        "observable": "What the company states about that named ingredient's effect on its costs or gross margin. A company-wide input-cost figure does not settle this test: a fall in another input can offset the ingredient.",
+        "observable": "What the company states, quarter by quarter, about that named ingredient's effect on its costs or gross margin. A company-wide input-cost figure does not settle this test: a fall in another input can offset the ingredient. A cost counts as material in a quarter when the company calls it material or significant, or lists it among the stated drivers of that quarter's change in gross margin.",
         "window": "The four fiscal quarters after the price first meets the trigger.",
-        "supports_if": "The company states that the named ingredient raised its costs or lowered its margin in at least one of the four quarters.",
-        "contradicts_if": "The company states that the named ingredient had no material effect on its costs in the window, for example because it was hedged throughout. If the company gives only a company-wide figure, or does not mention the ingredient, the assessment is inconclusive."
+        "supports_if": "The company attributes a material cost increase to the named ingredient in at least one of the four quarters.",
+        "contradicts_if": "The company states, for each of the four quarters, that the named ingredient's effect on its costs was immaterial or zero, for example because it was hedged throughout. Anything else is inconclusive: an annual or net figure alone, a company-wide figure, a stated amount the company neither calls material nor lists as a margin driver, or quarters in which the ingredient is not mentioned."
       }
     },
     {
