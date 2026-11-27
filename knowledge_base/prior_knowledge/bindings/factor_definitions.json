@@ -1,9 +1,9 @@
 {
   "schema_version": "2.0.0",
   "kind": "factor_definitions",
-  "content_revision": "2026-11-26.1",
+  "content_revision": "2026-11-27.1",
   "describe": "How each bound series is turned into a factor, and which concept of the prior it measures. The generator makes candidates only from these definitions, so adding a transform is a recorded, versioned change. A proxy is named as a proxy and is never reported as the concept itself.",
-  "prior_commit": "5b695353bb2c7f5cc699c545668738e03e1ef324",
+  "prior_commit": "7884d3ed954cf8197c9b5a778f13962700debc6a",
   "factors": [
     {
       "factor": {
