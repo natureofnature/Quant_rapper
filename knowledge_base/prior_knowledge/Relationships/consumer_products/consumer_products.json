@@ -1,0 +1,554 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "industry_research_map",
+  "sector_id": "consumer_products",
+  "label": "Consumer Products",
+  "compiled_on": "2026-11-26",
+  "content_revision": "2026-11-26.1",
+  "levels": {
+    "L1": {
+      "label": "Macro and policy",
+      "branch_ids": [
+        "economy",
+        "policy"
+      ]
+    },
+    "L2": {
+      "label": "Industry and value chain",
+      "branch_ids": [
+        "inputs",
+        "value_chain",
+        "demand"
+      ]
+    }
+  },
+  "usage": {
+    "describe": "A research grouping for packaged everyday goods: food, drink, household and personal care products, and the retailers that sell them. Durable goods, clothing and restaurants are outside it. All links are hypotheses to investigate.",
+    "status": "exploratory_leads",
+    "may_create_company_relationships_from_concept_links": false,
+    "edges_are_evidence": false,
+    "historical_use_before_version_is_available": {
+      "eligible_for_strict_point_in_time_selection": false,
+      "required_retrospective_label": "post_period_knowledge"
+    },
+    "sector_node": {
+      "id": "sector:consumer_products",
+      "describe": "Sector-wide links generate candidate exposures only; verify company applicability and materiality."
+    }
+  },
+  "benchmark_candidates": {
+    "sector": [
+      "XLP"
+    ],
+    "market": [
+      "SPY"
+    ]
+  },
+  "branches": [
+    {
+      "id": "economy",
+      "level": "L1",
+      "question": "Which macro conditions change what households can spend, what the group's foreign sales are worth, or how its steady earnings are valued?",
+      "concept_ids": [
+        "concept:consumer_products:household_income",
+        "concept:consumer_products:rates",
+        "concept:consumer_products:fx",
+        "concept:consumer_products:risk_appetite"
+      ]
+    },
+    {
+      "id": "policy",
+      "level": "L1",
+      "question": "Which rules change what a product costs to bring to the shelf, or whether it may be sold as it is?",
+      "concept_ids": [
+        "concept:consumer_products:trade_rules",
+        "concept:consumer_products:product_rules"
+      ]
+    },
+    {
+      "id": "inputs",
+      "level": "L2",
+      "question": "What moves the cost of making and selling the goods, and how long does a shock last?",
+      "concept_ids": [
+        "concept:consumer_products:harvest_and_herd_shocks",
+        "concept:consumer_products:agricultural_commodities",
+        "concept:consumer_products:energy_packaging_freight",
+        "concept:consumer_products:labour"
+      ]
+    },
+    {
+      "id": "value_chain",
+      "level": "L2",
+      "question": "Who sets the price on the shelf, and who keeps the margin when costs or demand change?",
+      "concept_ids": [
+        "concept:consumer_products:branded_manufacturers",
+        "concept:consumer_products:retailers",
+        "concept:consumer_products:private_label"
+      ]
+    },
+    {
+      "id": "demand",
+      "level": "L2",
+      "question": "Are households buying less, buying cheaper, buying elsewhere, or is the channel only changing its stock?",
+      "concept_ids": [
+        "concept:consumer_products:household_demand",
+        "concept:consumer_products:channel_inventory",
+        "concept:consumer_products:demographics_and_preferences"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "concept:consumer_products:household_income",
+      "label": "Household income",
+      "node_kind": "variable",
+      "description_lead": "What households have to spend after prices rise",
+      "observables_to_research": [
+        "real disposable personal income",
+        "employment and wage growth",
+        "household saving rate",
+        "food assistance benefit levels"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:consumer_products:rates",
+      "label": "Rates",
+      "node_kind": "variable",
+      "description_lead": "What steady dividends and cash flows are valued against",
+      "observables_to_research": [
+        "real yields",
+        "the group's dividend yield against the 10-year Treasury yield"
+      ],
+      "observability": "direct",
+      "related_concepts": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:macro_liquidity:real_yields",
+          "question": "Is the group repricing with real yields while its sales are unchanged?"
+        }
+      ]
+    },
+    {
+      "id": "concept:consumer_products:fx",
+      "label": "Currency",
+      "node_kind": "variable",
+      "description_lead": "Translates foreign sales and prices imported inputs",
+      "observables_to_research": [
+        "constant-currency growth against reported growth",
+        "currency sensitivity disclosures"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:consumer_products:risk_appetite",
+      "label": "Risk appetite",
+      "node_kind": "variable",
+      "description_lead": "Whether investors are seeking or shedding risk",
+      "observables_to_research": [
+        "VIX level and term structure",
+        "the group's return against the broad market over the same sessions"
+      ],
+      "observability": "proxy",
+      "observable_with": "Investor intent is not published. Implied-volatility term structure and the group's relative return stand in for it, on the assumption that a rush to steady earners shows up in both.",
+      "related_concepts": [
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:derivatives_flows:vol_term_structure",
+          "question": "Was the volatility term structure signalling market-wide stress when the group moved against the market?"
+        },
+        {
+          "sector_id": "market_structure",
+          "concept_id": "concept:systematic_positioning:cta_trend_flows",
+          "question": "Had the group's own trend broken, or only the market's?"
+        }
+      ]
+    },
+    {
+      "id": "concept:consumer_products:trade_rules",
+      "label": "Trade rules",
+      "node_kind": "variable",
+      "description_lead": "Tariffs, quotas and embargoes on inputs, finished goods and farm exports",
+      "observables_to_research": [
+        "tariff schedules and their effective dates",
+        "import quotas",
+        "retaliatory measures against farm exports"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:consumer_products:product_rules",
+      "label": "Product rules",
+      "node_kind": "variable",
+      "description_lead": "What may be sold, how it is labelled and taxed, and when it is recalled",
+      "observables_to_research": [
+        "ingredient and labelling rules with effective dates",
+        "taxes on specific products",
+        "recall notices"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:consumer_products:harvest_and_herd_shocks",
+      "label": "Harvest and herd shocks",
+      "node_kind": "variable",
+      "description_lead": "Weather and disease that cut a crop or a herd",
+      "observables_to_research": [
+        "official crop condition and yield reports",
+        "drought monitors",
+        "animal disease outbreak notices"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:consumer_products:agricultural_commodities",
+      "label": "Agricultural commodities",
+      "node_kind": "resource",
+      "description_lead": "Crops and livestock products bought as ingredients",
+      "observables_to_research": [
+        "prices of grains, sugar, coffee, cocoa, edible oils, dairy and meat",
+        "official supply and demand estimates",
+        "planted area and herd size"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:consumer_products:energy_packaging_freight",
+      "label": "Energy, packaging and freight",
+      "node_kind": "resource",
+      "description_lead": "What it costs to make, wrap and move the goods",
+      "observables_to_research": [
+        "energy prices",
+        "resin, pulp and aluminium prices",
+        "freight rates"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:consumer_products:labour",
+      "label": "Labour",
+      "node_kind": "resource",
+      "description_lead": "Wages in factories, warehouses and stores",
+      "observables_to_research": [
+        "average hourly earnings in retail and in food manufacturing",
+        "minimum-wage changes",
+        "company wage announcements"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:consumer_products:branded_manufacturers",
+      "label": "Branded manufacturers",
+      "node_kind": "business_role",
+      "description_lead": "Make packaged everyday goods and sell them under their own brands",
+      "observables_to_research": [
+        "organic sales growth split into volume, price and mix",
+        "gross margin and its stated drivers",
+        "advertising and promotion spending",
+        "market share commentary"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:consumer_products:retailers",
+      "label": "Retailers",
+      "node_kind": "business_role",
+      "description_lead": "Sell everyday goods to households and decide what is on the shelf",
+      "observables_to_research": [
+        "comparable sales split into transactions and average ticket",
+        "gross margin",
+        "inventory",
+        "own-brand share of sales"
+      ],
+      "observability": "direct"
+    },
+    {
+      "id": "concept:consumer_products:private_label",
+      "label": "Store brands",
+      "node_kind": "market_segment",
+      "description_lead": "Goods a retailer sells under its own name beside the brands",
+      "observables_to_research": [
+        "retailers' reported own-brand share of sales",
+        "the price gap between store brands and brands"
+      ],
+      "observability": "proxy",
+      "observable_with": "Share by category comes from scanner data sold to subscribers. In public, only what individual retailers and manufacturers choose to report is available, so a retailer's own figure stands in for the market's."
+    },
+    {
+      "id": "concept:consumer_products:household_demand",
+      "label": "Household demand",
+      "node_kind": "market_segment",
+      "description_lead": "How much households buy, of what quality, and where",
+      "observables_to_research": [
+        "company volumes by category",
+        "official retail sales of food and household goods",
+        "trading down, pack-size and channel commentary"
+      ],
+      "observability": "proxy",
+      "observable_with": "Official retail sales are in money, not units, and mix price with volume. Volumes are published only by companies for their own products, so both are partial readings."
+    },
+    {
+      "id": "concept:consumer_products:channel_inventory",
+      "label": "Channel inventory",
+      "node_kind": "variable",
+      "description_lead": "Stock held by retailers and distributors between factory and shopper",
+      "observables_to_research": [
+        "retailers' reported inventory",
+        "manufacturers' comments on customer stock levels",
+        "shipments against sales to shoppers where both are reported"
+      ],
+      "observability": "proxy",
+      "observable_with": "A manufacturer's stock sitting in its customers' warehouses is not published. Retailers' total inventory and each side's commentary stand in for it."
+    },
+    {
+      "id": "concept:consumer_products:demographics_and_preferences",
+      "label": "Population and preferences",
+      "node_kind": "variable",
+      "description_lead": "Slow changes in how many people buy a category and whether they want it",
+      "observables_to_research": [
+        "population growth and age structure",
+        "category volumes over several years",
+        "published dietary and health guidance"
+      ],
+      "observability": "direct"
+    }
+  ],
+  "concept_edges": [
+    {
+      "id": "lead:consumer_products:rates:valuation:sector",
+      "from": "concept:consumer_products:rates",
+      "to": "sector:consumer_products",
+      "type": "valuation",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Steady cash flows and dividends are valued against bond yields, so a rise in yields can lower the group's valuation with no change in its sales. In a market sell-off the move to safety can outweigh this.",
+      "test_criteria": {
+        "trigger": "The 10-year real yield moves by 25 basis points or more over 20 US sessions while VIX closes below VIX3M on every one of them.",
+        "observable": "The return of a broad consumer staples fund against SPY over the same 20 sessions.",
+        "window": "The same 20 sessions.",
+        "supports_if": "The fund lags SPY when the real yield rose, or leads it when the yield fell.",
+        "contradicts_if": "The fund leads SPY when the real yield rose, or lags it when the yield fell."
+      }
+    },
+    {
+      "id": "lead:consumer_products:risk_appetite:defensive_rotation:sector",
+      "from": "concept:consumer_products:risk_appetite",
+      "to": "sector:consumer_products",
+      "type": "defensive_rotation",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "When investors cut risk, money moves toward companies whose sales hold up, so the group tends to fall less than a falling market and rise less than a rising one.",
+      "test_criteria": {
+        "trigger": "VIX closes above VIX3M after at least 20 sessions below it.",
+        "observable": "The return of a broad consumer staples fund and of SPY over the following 20 US sessions.",
+        "window": "The 20 sessions after that close.",
+        "supports_if": "SPY falls over the window and the fund's return is higher than SPY's.",
+        "contradicts_if": "SPY falls over the window and the fund's return is lower than SPY's. A window in which SPY rises settles nothing."
+      }
+    },
+    {
+      "id": "lead:consumer_products:fx:translation:branded_manufacturers",
+      "from": "concept:consumer_products:fx",
+      "to": "concept:consumer_products:branded_manufacturers",
+      "type": "translation",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Currency moves change the reported value of sales made abroad and the cost of imported inputs. The net effect depends on where a company sells and where it makes and buys.",
+      "test_criteria": {
+        "trigger": "A company reports a quarter in which the US dollar's average value against its main foreign currencies differs by 5% or more from the same quarter a year earlier.",
+        "observable": "Reported sales growth against the constant-currency or organic growth the company discloses for that quarter.",
+        "window": "That quarter's results release.",
+        "supports_if": "The gap between reported and constant-currency growth has the sign the dollar's move implies and is at least one percentage point.",
+        "contradicts_if": "The gap is under half a percentage point or has the opposite sign."
+      }
+    },
+    {
+      "id": "lead:consumer_products:household_income:spending_power:household_demand",
+      "from": "concept:consumer_products:household_income",
+      "to": "concept:consumer_products:household_demand",
+      "type": "spending_power",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "When real income falls, households go on buying necessities but trade down to cheaper brands, smaller packs or store brands, and cut the categories they can do without first.",
+      "test_criteria": {
+        "trigger": "Official real disposable personal income is lower than a year earlier for two consecutive quarters.",
+        "observable": "A branded manufacturer's volume and its price and mix for those quarters, and a retailer's own-brand share where it reports one.",
+        "window": "Those two quarters and the next.",
+        "supports_if": "The manufacturer's volume falls from a year earlier in at least one of the three quarters, or the retailer reports a higher own-brand share.",
+        "contradicts_if": "The manufacturer's volume and mix are both unchanged or higher in all three quarters. A company that does not split volume from price is a data gap."
+      }
+    },
+    {
+      "id": "lead:consumer_products:demographics_and_preferences:category_shift:household_demand",
+      "from": "concept:consumer_products:demographics_and_preferences",
+      "to": "concept:consumer_products:household_demand",
+      "type": "category_shift",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Population growth, ageing and changing views on health move a category's volume slowly and for a long time. Price can cover a falling volume for a while, not indefinitely."
+    },
+    {
+      "id": "lead:consumer_products:household_demand:volume:branded_manufacturers",
+      "from": "concept:consumer_products:household_demand",
+      "to": "concept:consumer_products:branded_manufacturers",
+      "type": "volume",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Repeat purchase of necessities makes volumes far steadier than those of durable goods, so a manufacturer's sales change more through price, substitution and population than through the business cycle."
+    },
+    {
+      "id": "lead:consumer_products:household_demand:channel_shift:retailers",
+      "from": "concept:consumer_products:household_demand",
+      "to": "concept:consumer_products:retailers",
+      "type": "channel_shift",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Households change where they shop as well as what they buy, moving toward discounters, larger packs and fewer trips when budgets tighten. A retailer positioned on low prices can gain shoppers in a downturn while others lose them.",
+      "test_criteria": {
+        "trigger": "Official real disposable personal income is lower than a year earlier for two consecutive quarters.",
+        "observable": "A retailer's comparable sales split into transactions and average ticket, and its comments on which income groups it is gaining or losing.",
+        "window": "Those two quarters and the next.",
+        "supports_if": "A retailer positioned on low prices reports rising transactions, or a higher-priced one reports falling transactions, and either attributes it to shoppers trading down.",
+        "contradicts_if": "Transactions move the other way at both kinds of retailer, with no such attribution."
+      }
+    },
+    {
+      "id": "lead:consumer_products:harvest_and_herd_shocks:supply_shock:agricultural_commodities",
+      "from": "concept:consumer_products:harvest_and_herd_shocks",
+      "to": "concept:consumer_products:agricultural_commodities",
+      "type": "supply_shock",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Weather or disease cuts supply, and the price rises and stays high until a new crop or herd is grown, which takes from one season to several years depending on the product. A producer that itself lost output sells less at the higher price.",
+      "test_criteria": {
+        "trigger": "An official report cuts the estimated supply of a named crop or animal product by 5% or more because of weather or disease.",
+        "observable": "The price of that product, and the time until official supply estimates return to their level before the cut.",
+        "window": "From the report until supply estimates recover, or two years, whichever is sooner.",
+        "supports_if": "The price is higher three months after the report than before it and does not return to its earlier level before supply recovers.",
+        "contradicts_if": "The price is back at or below its earlier level within three months while official supply estimates are still reduced."
+      }
+    },
+    {
+      "id": "lead:consumer_products:trade_rules:export_market:agricultural_commodities",
+      "from": "concept:consumer_products:trade_rules",
+      "to": "concept:consumer_products:agricultural_commodities",
+      "type": "export_market",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "A tariff or embargo that closes an export market leaves more of a crop at home and lowers its domestic price, which helps the companies that buy it and hurts the farmers who grow it."
+    },
+    {
+      "id": "lead:consumer_products:trade_rules:landed_cost:branded_manufacturers",
+      "from": "concept:consumer_products:trade_rules",
+      "to": "concept:consumer_products:branded_manufacturers",
+      "type": "landed_cost",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Tariffs and quotas raise the cost of imported inputs and finished goods. Who bears it depends on whether the importer can change source, and on whether its customers accept a higher price.",
+      "test_criteria": {
+        "trigger": "A tariff on a named input or product category takes effect on a stated date.",
+        "observable": "Statements by companies that import it on cost, sourcing changes and price increases, and their gross margin.",
+        "window": "The four fiscal quarters after the effective date.",
+        "supports_if": "An importing company reports higher cost, a change of source or a price increase and names the tariff.",
+        "contradicts_if": "A company that states it imports the item reports gross margin and prices unchanged in all four quarters and no change of source. A company that does not say whether it imports the item is a data gap."
+      }
+    },
+    {
+      "id": "lead:consumer_products:product_rules:category_rules:branded_manufacturers",
+      "from": "concept:consumer_products:product_rules",
+      "to": "concept:consumer_products:branded_manufacturers",
+      "type": "category_rules",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "A rule on ingredients, labelling or sale, a tax on a specific product, or a recall can remove a product, raise its cost or move demand to a substitute. The effect belongs to the category, and a competitor without the affected product can gain."
+    },
+    {
+      "id": "lead:consumer_products:agricultural_commodities:input_cost:branded_manufacturers",
+      "from": "concept:consumer_products:agricultural_commodities",
+      "to": "concept:consumer_products:branded_manufacturers",
+      "type": "input_cost",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "A rise in ingredient prices reaches cost of goods with a delay set by hedges, supply contracts and inventory. Margins fall until prices are raised, and recover beyond their old level if those prices hold after the ingredient falls back.",
+      "test_criteria": {
+        "trigger": "The price of an ingredient a company names as material is 20% or more above its level a year earlier.",
+        "observable": "The company's gross margin, its stated cost drivers and any price increase it announces.",
+        "window": "The four fiscal quarters after the price first meets the trigger.",
+        "supports_if": "Gross margin is lower than a year earlier in at least one of the four quarters and the company names the ingredient, or it announces a price increase and names the ingredient.",
+        "contradicts_if": "Gross margin is unchanged or higher in all four quarters and no price increase is attributed to the ingredient. A company that does not disclose its cost drivers is a data gap."
+      }
+    },
+    {
+      "id": "lead:consumer_products:energy_packaging_freight:input_cost:branded_manufacturers",
+      "from": "concept:consumer_products:energy_packaging_freight",
+      "to": "concept:consumer_products:branded_manufacturers",
+      "type": "input_cost",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Energy, packaging materials and freight are costs every product carries, so they move margins across categories at once, with the same delay from contracts and hedges as ingredients."
+    },
+    {
+      "id": "lead:consumer_products:labour:operating_cost:retailers",
+      "from": "concept:consumer_products:labour",
+      "to": "concept:consumer_products:retailers",
+      "type": "operating_cost",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "Wages are the largest cost of running stores and warehouses that a retailer controls, so faster wage growth lowers its margin unless prices, productivity or sales per store rise with it."
+    },
+    {
+      "id": "lead:consumer_products:retailers:bargaining_power:branded_manufacturers",
+      "from": "concept:consumer_products:retailers",
+      "to": "concept:consumer_products:branded_manufacturers",
+      "type": "bargaining_power",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "A large retailer decides what is on the shelf, and can refuse a price increase, demand promotion money or remove a product. How far it can push depends on whether shoppers will go elsewhere for the brand.",
+      "test_criteria": {
+        "trigger": "A branded manufacturer announces a list-price increase to its retail customers.",
+        "observable": "The price and mix the manufacturer then reports, and any public report of a retailer refusing the increase or removing its products.",
+        "window": "The two fiscal quarters after the increase takes effect.",
+        "supports_if": "A retailer publicly refuses the increase or removes the products, or the manufacturer reports price and mix below the increase it announced and attributes the shortfall to customers.",
+        "contradicts_if": "The manufacturer reports price and mix at or above the announced increase in both quarters. A manufacturer that reports no price and mix figure is a data gap."
+      }
+    },
+    {
+      "id": "lead:consumer_products:branded_manufacturers:pricing:household_demand",
+      "from": "concept:consumer_products:branded_manufacturers",
+      "to": "concept:consumer_products:household_demand",
+      "type": "pricing",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "A price increase raises revenue per unit and loses some volume. How much is lost depends on how strongly shoppers want the brand and how close the substitutes are, so the same increase can pay for one product and not for another.",
+      "test_criteria": {
+        "trigger": "A branded manufacturer reports price and mix five percentage points or more above a year earlier for a segment in a fiscal quarter.",
+        "observable": "That segment's volume in the same quarter and the next.",
+        "window": "Those two fiscal quarters.",
+        "supports_if": "Volume is lower than a year earlier in at least one of the two quarters.",
+        "contradicts_if": "Volume is unchanged or higher than a year earlier in both quarters. A company that does not split volume from price is a data gap."
+      }
+    },
+    {
+      "id": "lead:consumer_products:retailers:own_brand:private_label",
+      "from": "concept:consumer_products:retailers",
+      "to": "concept:consumer_products:private_label",
+      "type": "own_brand",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "A retailer chooses how much shelf its own brand gets and how far below the brand it is priced. It earns more on its own brand and can use it to press a supplier, but it loses shoppers if they came for the brand."
+    },
+    {
+      "id": "lead:consumer_products:private_label:substitution:branded_manufacturers",
+      "from": "concept:consumer_products:private_label",
+      "to": "concept:consumer_products:branded_manufacturers",
+      "type": "substitution",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "A store brand gives households a cheaper substitute and gives the retailer a product it earns more on and controls. Share moves to store brands when the price gap widens or incomes fall, and part of it stays after the cause has passed.",
+      "test_criteria": {
+        "trigger": "A retailer reports a rise in own-brand share of sales of one percentage point or more from a year earlier.",
+        "observable": "The volume of branded manufacturers in the categories that retailer names, and the retailer's own-brand share in the following year.",
+        "window": "The four fiscal quarters after the report.",
+        "supports_if": "A manufacturer in a named category reports lower volume and cites store brands, or the retailer's own-brand share is still at least half a point above its starting level a year later.",
+        "contradicts_if": "The retailer's own-brand share is back at or below its starting level a year later and no manufacturer in the named categories cites store brands. A retailer that stops reporting the share is a data gap."
+      }
+    },
+    {
+      "id": "lead:consumer_products:channel_inventory:destocking:branded_manufacturers",
+      "from": "concept:consumer_products:channel_inventory",
+      "to": "concept:consumer_products:branded_manufacturers",
+      "type": "destocking",
+      "relation_kind": "mechanism_hypothesis",
+      "mechanism_hypothesis": "A manufacturer records a sale when it ships to a retailer or distributor, so a channel that cuts its stock lowers reported sales below what households are buying, and restocking lifts them above it.",
+      "test_criteria": {
+        "trigger": "A manufacturer, or a retailer that is a large customer, reports that the retailer is reducing its inventory.",
+        "observable": "The manufacturer's shipment volume against the growth in sales to shoppers that it or the retailer reports for the same products.",
+        "window": "The fiscal quarter of the report and the next.",
+        "supports_if": "Shipment growth is below the growth in sales to shoppers in at least one of the two quarters.",
+        "contradicts_if": "Shipment growth is at or above the growth in sales to shoppers in both quarters. Where sales to shoppers are not reported, it is a data gap."
+      }
+    }
+  ]
+}

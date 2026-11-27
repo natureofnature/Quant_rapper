@@ -1,0 +1,61 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "company_research_profile",
+  "company_id": "company:walmart",
+  "symbol": "WMT",
+  "name": "Walmart",
+  "compiled_on": "2026-11-26",
+  "content_revision": "2026-11-26.1",
+  "status": "exploratory_leads",
+  "sector": {
+    "id": "consumer_products",
+    "schema_version": "2.0.0",
+    "content_revision": "2026-11-26.1",
+    "content_sha256": "02cc3b868bc92bf720bc45b4b51bf26348119040b782173c403b6260a8670f5b"
+  },
+  "business_roles": [
+    {
+      "concept_id": "concept:consumer_products:retailers",
+      "scope_note": "A mass retailer positioned on low prices, with groceries as its largest category in the United States. Research the US stores, the international business and the warehouse clubs separately."
+    }
+  ],
+  "listing": {
+    "exchange": "NYSE",
+    "security_type": "common_stock"
+  },
+  "fiscal_calendar": "Fiscal year ends 31 January",
+  "observables_to_research": [
+    "comparable sales split into transactions and average ticket",
+    "the mix of grocery against general merchandise",
+    "inventory against sales growth",
+    "comments on which income groups are gaining or losing share of its shoppers",
+    "own-brand commentary",
+    "wage and price announcements"
+  ],
+  "source_leads": [
+    "https://stock.walmart.com/"
+  ],
+  "exposures": [
+    {
+      "id": "lead:company:walmart:trade_rules:direct_importer",
+      "concept": "concept:consumer_products:trade_rules",
+      "relation_kind": "mechanism_hypothesis",
+      "type": "direct_importer",
+      "mechanism_hypothesis": "It imports general merchandise itself as well as buying from suppliers, so a tariff reaches its cost of goods directly on those items and through suppliers' prices on the rest."
+    },
+    {
+      "id": "lead:company:walmart:fx:international_segment",
+      "concept": "concept:consumer_products:fx",
+      "relation_kind": "mechanism_hypothesis",
+      "type": "international_segment",
+      "mechanism_hypothesis": "Its international stores earn in local currencies, so the dollar's moves change the reported size of that business without changing its trade."
+    }
+  ],
+  "projection": {
+    "excluded_edge_ids": [],
+    "edge_conditions": {
+      "lead:consumer_products:household_demand:channel_shift:retailers": "For Walmart the hypothesis is the gaining side: test whether transactions rise and whether it reports more shoppers from higher income groups when real incomes fall. Falling transactions in such a period count against it."
+    }
+  },
+  "evidence": []
+}

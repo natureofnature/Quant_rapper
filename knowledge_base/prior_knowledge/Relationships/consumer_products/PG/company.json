@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0.0",
+  "kind": "company_research_profile",
+  "company_id": "company:procter_gamble",
+  "symbol": "PG",
+  "name": "Procter & Gamble",
+  "compiled_on": "2026-11-26",
+  "content_revision": "2026-11-26.1",
+  "status": "exploratory_leads",
+  "sector": {
+    "id": "consumer_products",
+    "schema_version": "2.0.0",
+    "content_revision": "2026-11-26.1",
+    "content_sha256": "02cc3b868bc92bf720bc45b4b51bf26348119040b782173c403b6260a8670f5b"
+  },
+  "business_roles": [
+    {
+      "concept_id": "concept:consumer_products:branded_manufacturers",
+      "scope_note": "Household and personal care products only; it sells no food or drink. Research each reporting segment separately, since their inputs, competitors and store-brand pressure differ."
+    }
+  ],
+  "listing": {
+    "exchange": "NYSE",
+    "security_type": "common_stock"
+  },
+  "fiscal_calendar": "Fiscal year ends 30 June",
+  "observables_to_research": [
+    "organic sales growth split into volume, price and mix, by segment",
+    "gross margin and the stated effect of commodity costs, pricing and productivity",
+    "the stated effect of currency on sales and earnings",
+    "market share commentary by category",
+    "advertising spending"
+  ],
+  "source_leads": [
+    "https://www.pginvestor.com/"
+  ],
+  "exposures": [
+    {
+      "id": "lead:company:procter_gamble:fx:reporting_currency",
+      "concept": "concept:consumer_products:fx",
+      "relation_kind": "mechanism_hypothesis",
+      "type": "reporting_currency",
+      "mechanism_hypothesis": "It reports in US dollars and makes a large part of its sales in other currencies, so a stronger dollar lowers reported sales and earnings even when volumes abroad are unchanged."
+    }
+  ],
+  "projection": {
+    "excluded_edge_ids": [],
+    "edge_conditions": {
+      "lead:consumer_products:agricultural_commodities:input_cost:branded_manufacturers": "Pursue this lead for Procter & Gamble only for an agricultural material it names as an input, such as a plant oil used in cleaning products. Food crops, and shocks to them, are context only: it makes no food."
+    }
+  },
+  "evidence": []
+}
